@@ -48,6 +48,27 @@ fun MessageCard(msg: Message) {
     }
 }
 
+@Preview
+@Composable
+fun FeedProfile() {
+    Row(modifier = Modifier.padding(all = 2.dp)) {
+        Image(
+            painter = painterResource(R.drawable.b3s),
+            contentDescription = "Contact profile picture",
+            modifier = Modifier
+                // Set image size to 40 dp
+                .size(20.dp)
+                // Clip image to be shaped as a circle
+                .clip(CircleShape)
+        )
+        Column(modifier = Modifier.padding(start = 3.dp)) {
+            Text(text = "name")
+            Text(text = "restaurant name")
+        }
+    }
+
+}
+
 /**
  * [ItemTimeLineBinding]
  */
