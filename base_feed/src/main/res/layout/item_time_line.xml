@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.sarang.base_feed.BaseFeedViewModel" />
+
+        <variable
+            name="feed"
+            type="com.example.torang_core.data.model.Feed" />
+
+        <variable
+            name="like"
+            type="com.example.torang_core.data.model.Like" />
+
+        <variable
+            name="favorite"
+            type="com.example.torang_core.data.model.Favorite" />
+    </data>
+
+    <!-- root element  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- profile area -->
+        <include
+            android:id="@+id/item_feed_top"
+            layout="@layout/item_feed_top"
+            app:feed="@{feed}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
+
+        <!-- review image area  -->
+        <FrameLayout
+            android:id="@+id/flMediaContents"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_feed_top">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                tools:background="@tools:sample/avatars" />
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+        <!-- bottom area -->
+        <include
+            android:id="@+id/include"
+            layout="@layout/item_feed_bottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:favorite="@{favorite}"
+            app:feed="@{feed}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flMediaContents"
+            app:like="@{like}"
+            app:viewModel="@{viewModel}" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:text="34분 전"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
