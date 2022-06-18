@@ -1,6 +1,5 @@
 package com.sarang.base_feed
 
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.*
@@ -15,14 +14,10 @@ import com.example.torang_core.dialog.NotLoggedInFeedDialogEventAdapter
 import com.example.torang_core.repository.FeedListRepository
 import com.example.torang_core.util.Event
 import com.example.torang_core.util.Logger
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : ViewModel(),
     FeedMyDialogEventAdapter, FeedDialogEventAdapter, NotLoggedInFeedDialogEventAdapter {
-
-    /** 피드를 갱신하는 플레그 */
-    private val _forceUpdate = MutableLiveData(false)
 
     /** 데이터 로딩중 여부 */
     private val _dataLoading = MutableLiveData<Boolean>()
@@ -116,6 +111,19 @@ open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : V
 
     val testImage = MutableLiveData<List<ReviewImage>>()
 
+    fun refreshFeed() {
+        _dataLoading.value = true
+        viewModelScope.launch {
+            try {
+                feedRepository.loadFeed()
+                _dataLoading.value = false
+            } catch (e: Exception) {
+                _errorMessage.postValue("오류가 발생했습니다:\n$e")
+                _dataLoading.value = false
+            }
+        }
+    }
+
     fun openTorangDetail(reviewId: Int) {
         Logger.d(reviewId)
         _openTorangDetail.value = Event(reviewId)
@@ -190,25 +198,11 @@ open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : V
     }
 
     /** 피드 라이브데이터 */
-    val feeds: LiveData<List<Feed>> = _forceUpdate.switchMap {
-        _dataLoading.value = true
-        viewModelScope.launch {
-            try {
-                feedRepository.loadFeed()
-                _dataLoading.value = false
-            } catch (e: Exception) {
-                _errorMessage.postValue("오류가 발생했습니다:\n$e")
-                _dataLoading.value = false
-            }
-        }
-        feedRepository.getFeed().distinctUntilChanged().switchMap {
-            filterTasks(it)
-        }
-    }
+    val feeds: LiveData<List<Feed>> = feedRepository.getFeed()
 
     fun filterTasks(result: List<Feed>): LiveData<List<Feed>> {
         val data = MutableLiveData<List<Feed>>()
-        data.postValue(result)
+        //data.postValue(result)
         return data
     }
 
@@ -246,14 +240,7 @@ open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : V
     fun isLike(reviewId: Int): LiveData<Like> {
         return feedRepository.getLike(reviewId)
     }
-
-    /**
-     * 피드 요청
-     */
-    fun refresh() {
-        _forceUpdate.value = true
-    }
-
+    
     fun isFavorite(reviewId: Int): LiveData<Favorite> {
         return feedRepository.getFavorite(reviewId)
     }
