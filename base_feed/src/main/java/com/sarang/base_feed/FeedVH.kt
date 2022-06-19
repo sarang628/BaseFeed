@@ -18,57 +18,6 @@ import com.example.torang_core.data.model.Feed
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sarang.base_feed.databinding.ItemTimeLineBinding
 
-
-/** Compose test */
-data class Message(val author: String, val body: String)
-
-@Composable
-fun MessageCard(msg: Message) {
-    // Add padding around our message
-    Row(modifier = Modifier.padding(all = 8.dp)) {
-        Image(
-            painter = painterResource(R.drawable.b3s),
-            contentDescription = "Contact profile picture",
-            modifier = Modifier
-                // Set image size to 40 dp
-                .size(40.dp)
-                // Clip image to be shaped as a circle
-                .clip(CircleShape)
-        )
-
-        // Add a horizontal space between the image and the column
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Column {
-            Text(text = msg.author)
-            // Add a vertical space between the author and message texts
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = msg.body)
-        }
-    }
-}
-
-@Preview
-@Composable
-fun FeedProfile() {
-    Row(modifier = Modifier.padding(all = 2.dp)) {
-        Image(
-            painter = painterResource(R.drawable.b3s),
-            contentDescription = "Contact profile picture",
-            modifier = Modifier
-                // Set image size to 40 dp
-                .size(20.dp)
-                // Clip image to be shaped as a circle
-                .clip(CircleShape)
-        )
-        Column(modifier = Modifier.padding(start = 3.dp)) {
-            Text(text = "name")
-            Text(text = "restaurant name")
-        }
-    }
-
-}
-
 /**
  * [ItemTimeLineBinding]
  */
@@ -83,10 +32,6 @@ class FeedVH(
         itemTimeLineBinding.lifecycleOwner = lifeCycleOwner
         val timeLinePictureRvAdt = FeedPictureVpAdt(viewModel)
         itemTimeLineBinding.viewpager.adapter = timeLinePictureRvAdt
-
-        itemTimeLineBinding.greeting.setContent{
-            //MessageCard(Message("Android", "Jetpack Compose"))
-        }
     }
 
     fun setFeed(feed: Feed) {
@@ -125,10 +70,4 @@ class FeedVH(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun PreViewMessageCard() {
-    MessageCard(Message("Android1", "Jetpack Compose"))
 }
