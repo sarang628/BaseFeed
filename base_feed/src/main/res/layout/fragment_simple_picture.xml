@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
     <data>
-
-        <variable
-            name="viewModel"
-            type="com.sarang.base_feed.BaseFeedViewModel" />
-
         <variable
             name="picture"
             type="com.example.torang_core.data.model.ReviewImage" />
@@ -23,7 +18,6 @@
             loadReviewImage="@{picture.picture_url}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{()->viewModel.openPicture(picture)}"
             android:scaleType="centerCrop" />
 
     </FrameLayout>

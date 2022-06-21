@@ -10,11 +10,6 @@
             type="com.example.torang_core.data.model.Feed" />
 
         <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="com.sarang.base_feed.BaseFeedViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +21,6 @@
             android:id="@+id/toolbar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:onClick="@{()->viewModel.showMenu(feed)}"
             android:padding="10dp"
             android:src="@drawable/ic_dot"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +32,6 @@
             loadCircleImage="@{feed.profile_pic_url}"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:onClick="@{()->viewModel.openProfile(feed.userId)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +41,6 @@
             android:id="@+id/textView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->viewModel.openProfile(feed.userId)}"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@{feed.userName}"
@@ -63,7 +55,6 @@
             android:id="@+id/tv_restaurant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->viewModel.openTorangDetail(feed.restaurantId)}"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@{feed.restaurantName}"

@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.sarang.base_feed.BaseFeedViewModel" />
-
-        <variable
             name="feed"
             type="com.example.torang_core.data.model.Feed" />
 
@@ -34,8 +30,7 @@
             app:feed="@{feed}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- review image area  -->
         <FrameLayout
@@ -72,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/flMediaContents"
             app:like="@{like}"
-            app:viewModel="@{viewModel}" />
+            />
 
         <TextView
             android:id="@+id/tv_time"

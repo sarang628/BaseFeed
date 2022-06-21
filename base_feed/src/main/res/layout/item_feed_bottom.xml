@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.sarang.base_feed.BaseFeedViewModel" />
-
-        <variable
             name="feed"
             type="com.example.torang_core.data.model.Feed" />
 
@@ -45,7 +41,6 @@
                 select="@{like != null}"
                 android:layout_width="38dp"
                 android:layout_height="45dp"
-                android:onClick="@{(v)->viewModel.clickLike(v, feed.review_id)}"
                 android:paddingStart="8dp"
                 android:paddingRight="5dp"
                 android:src="@drawable/selector_like"
@@ -56,7 +51,6 @@
                 android:id="@+id/button6"
                 android:layout_width="38dp"
                 android:layout_height="45dp"
-                android:onClick="@{()->viewModel.openFeedDetail(feed.review_id)}"
                 android:paddingStart="8dp"
                 android:paddingRight="5dp"
                 android:src="@drawable/chat"
@@ -68,7 +62,6 @@
                 android:id="@+id/button7"
                 android:layout_width="38dp"
                 android:layout_height="45dp"
-                android:onClick="@{()->viewModel.shareFeed(feed.review_id)}"
                 android:paddingStart="8dp"
                 android:paddingRight="5dp"
                 android:src="@drawable/message"
@@ -81,7 +74,6 @@
                 select="@{favorite != null}"
                 android:layout_width="35dp"
                 android:layout_height="45dp"
-                android:onClick="@{(v)->viewModel.clickFavorite(v, feed.review_id)}"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:src="@drawable/selector_favorite"

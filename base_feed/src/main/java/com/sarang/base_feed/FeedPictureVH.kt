@@ -9,13 +9,13 @@ import com.sarang.base_feed.databinding.FragmentSimplePictureBinding
  */
 class FeedPictureVH(
     private val binding: FragmentSimplePictureBinding,
-    val viewModel: BaseFeedViewModel
+    private val clickPicture : ((ReviewImage) -> Unit)? = null
 ) : RecyclerView.ViewHolder(binding.root) {
-    init {
-        binding.viewModel = viewModel
-    }
-
     fun setPicture(image: ReviewImage) {
         binding.picture = image
+
+        binding.ivPicture.setOnClickListener {
+            clickPicture?.invoke(image)
+        }
     }
 }

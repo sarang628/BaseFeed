@@ -12,7 +12,9 @@ import java.util.ArrayList
 /**
  * [FeedPictureVH]
  */
-class FeedPictureVpAdt(val viewModel: BaseFeedViewModel) :
+class FeedPictureVpAdt(
+    private val clickPicture : ((ReviewImage) -> Unit)? = null
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     enum class MEDIA_TYPE {
@@ -39,7 +41,7 @@ class FeedPictureVpAdt(val viewModel: BaseFeedViewModel) :
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    ), viewModel
+                    ), clickPicture
                 )
             else ->
                 FeedVideoVH(
@@ -47,7 +49,7 @@ class FeedPictureVpAdt(val viewModel: BaseFeedViewModel) :
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    ), viewModel
+                    )
                 )
         }
 

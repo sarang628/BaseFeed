@@ -2,11 +2,6 @@
 <layout>
 
     <data>
-
-        <variable
-            name="viewModel"
-            type="com.sarang.base_feed.BaseFeedViewModel" />
-
         <variable
             name="picture"
             type="com.example.torang_core.data.model.ReviewImage" />

@@ -6,12 +6,8 @@ import com.sarang.base_feed.databinding.FragmentSimplePictureBinding
 import com.sarang.base_feed.databinding.LayoutFeedVideoBinding
 
 class FeedVideoVH(
-    private val binding: LayoutFeedVideoBinding,
-    val viewModel: BaseFeedViewModel
+    private val binding: LayoutFeedVideoBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    init {
-        binding.viewModel = viewModel
-    }
 
     fun setPicture(image: ReviewImage) {
         binding.picture = image
