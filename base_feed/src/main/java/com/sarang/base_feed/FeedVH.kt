@@ -51,19 +51,7 @@ class FeedVH(
     }
 
     fun setFeed(feed: Feed) {
-
-
-        //TODO livedata merge 해서 uistateBottom 완성하기
-
-        itemTimeLineBinding.itemFeedTop.uiState = FeedTopUiState(
-            profileImageUrl = feed.profile_pic_url,
-            userName = feed.userName,
-            restaurantName = feed.restaurantName,
-            rating = feed.rating,
-            clickProfileImage = clickProfile,
-            clickUserName = clickProfile,
-            clickRestaurant = clickRestaurant
-        )
+        itemTimeLineBinding.feed = feed
 
         /** 리뷰 사진 설정 */
         getReviewImage?.invoke(feed.review_id)?.observe(lifeCycleOwner) {
@@ -74,6 +62,14 @@ class FeedVH(
             ) { _, _ ->
 
             }.attach()
+        }
+
+        getLike?.invoke(feed.review_id)?.observe(lifeCycleOwner) {
+            itemTimeLineBinding.like = it
+        }
+
+        getFavorite?.invoke(feed.review_id)?.observe(lifeCycleOwner) {
+            itemTimeLineBinding.favorite = it
         }
 
         itemTimeLineBinding.itemFeedTop.toolbar.setOnClickListener {

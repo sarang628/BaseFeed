@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="uiState"
-            type="com.sarang.base_feed.FeedTopUiState" />
+            name="feed"
+            type="com.example.torang_core.data.model.Feed" />
 
         <import type="android.view.View" />
     </data>
@@ -28,10 +29,9 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            loadCircleImage="@{uiState.profileImageUrl}"
+            loadCircleImage="@{feed.profile_pic_url}"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:onClick="@{()->uiState.clickProfileImage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,10 +41,9 @@
             android:id="@+id/textView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->uiState.clickUserName}"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="@{uiState.userName}"
+            android:text="@{feed.userName}"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/tv_restaurant"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -56,10 +55,9 @@
             android:id="@+id/tv_restaurant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->uiState.clickRestaurant}"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="@{uiState.restaurantName}"
+            android:text="@{feed.restaurantName}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/textView22"
             app:layout_constraintTop_toBottomOf="@+id/textView22"
@@ -71,8 +69,8 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:rating="@{uiState.rating}"
-            android:visibility="@{uiState.rating == null ? View.GONE : View.VISIBLE}"
+            android:rating="@{feed.rating}"
+            android:visibility="@{feed.rating == null ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/textView22"
             app:layout_constraintStart_toEndOf="@+id/textView22"
             app:layout_constraintTop_toTopOf="@+id/textView22" />
