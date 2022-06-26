@@ -6,16 +6,8 @@
     <data>
 
         <variable
-            name="feed"
-            type="com.example.torang_core.data.model.Feed" />
-
-        <variable
-            name="like"
-            type="com.example.torang_core.data.model.Like" />
-
-        <variable
-            name="favorite"
-            type="com.example.torang_core.data.model.Favorite" />
+            name="uiState"
+            type="com.sarang.base_feed.FeedBottomUiState" />
 
         <import type="android.view.View" />
 
@@ -38,7 +30,7 @@
 
             <ImageView
                 android:id="@+id/btn_like"
-                select="@{like != null}"
+                select="@{uiState.like != null}"
                 android:layout_width="38dp"
                 android:layout_height="45dp"
                 android:paddingStart="8dp"
@@ -71,7 +63,7 @@
 
             <ImageView
                 android:id="@+id/button8"
-                select="@{favorite != null}"
+                select="@{uiState.favorite != null}"
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 android:paddingLeft="5dp"
@@ -103,7 +95,7 @@
 
         <TextView
             android:id="@+id/textView31"
-            formatText='@{String.format(@string/feed_like, feed.like_amount)}'
+            formatText='@{String.format(@string/feed_like, uiState.likeAmount)}'
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/common_padding"
@@ -119,7 +111,7 @@
 
         <TextView
             android:id="@+id/textView30"
-            formatText='@{String.format(@string/feed_contents, feed.userName,feed.contents)}'
+            formatText='@{String.format(@string/feed_contents, uiState.userName,uiState.contents)}'
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -164,16 +156,16 @@
 
         <TextView
             android:id="@+id/textView"
+            formatText='@{String.format(@string/feed_comment, uiState.commentAmount)}'
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/common_padding"
             android:paddingEnd="@dimen/common_padding"
-            tools:text="댓글 6,313개 모두보기"
-            formatText='@{String.format(@string/feed_comment, feed.comment_amount)}'
-            android:visibility="@{feed.comment_amount > 0 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{uiState.commentAmount > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView30"
+            tools:text="댓글 6,313개 모두보기"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
