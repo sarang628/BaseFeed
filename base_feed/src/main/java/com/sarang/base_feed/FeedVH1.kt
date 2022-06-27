@@ -45,12 +45,12 @@ class FeedVH1(
     fun setFeed(
         feed: Feed,
         reviewId: Int,
-        userId: Int,
-        restaurantId: Int,
-        profilePicUrl: String,
-        userName: String,
-        restaurantName: String,
-        rating: Float,
+        userId: Int?,
+        restaurantId: Int?,
+        profilePicUrl: String?,
+        userName: String?,
+        restaurantName: String?,
+        rating: Float?,
         menuClickListener: CustomClick<Int>,
         profileClickListener: CustomClick<Int>,
         clickRestaurantListener: CustomClick<Int>
