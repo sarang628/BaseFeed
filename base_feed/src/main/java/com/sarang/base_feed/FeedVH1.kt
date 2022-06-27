@@ -89,22 +89,6 @@ class FeedVH1(
             itemTimeLineBinding.favorite = it
         }
 
-        itemTimeLineBinding.itemFeedTop.toolbar.setOnClickListener {
-            clickMenu?.invoke(feed)
-        }
-
-        itemTimeLineBinding.itemFeedTop.imageView2.setOnClickListener {
-            clickProfile?.invoke(feed.userId)
-        }
-
-        itemTimeLineBinding.itemFeedTop.textView22.setOnClickListener {
-            clickProfile?.invoke(feed.userId)
-        }
-
-        itemTimeLineBinding.itemFeedTop.tvRestaurant.setOnClickListener {
-            feed.restaurantId?.let { clickRestaurant?.invoke(it) }
-        }
-
         itemTimeLineBinding.include.btnLike.setOnClickListener {
             clickLike?.invoke(it, feed.review_id)
         }
