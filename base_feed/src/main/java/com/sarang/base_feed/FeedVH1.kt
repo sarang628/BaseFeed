@@ -11,9 +11,9 @@ import com.example.torang_core.data.model.Feed
 import com.example.torang_core.data.model.Like
 import com.example.torang_core.data.model.ReviewImage
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sarang.base_feed.databinding.ItemFeedTop1Binding
 import com.sarang.base_feed.databinding.ItemTimeLine1Binding
 import com.sarang.base_feed.databinding.ItemTimeLineBinding
-import com.sarang.base_feed.generated.callback.OnClickListener
 
 /**
  * [ItemTimeLineBinding]
@@ -43,31 +43,9 @@ class FeedVH1(
     }
 
     fun setFeed(
-        feed: Feed,
-        reviewId: Int,
-        userId: Int?,
-        restaurantId: Int?,
-        profilePicUrl: String?,
-        userName: String?,
-        restaurantName: String?,
-        rating: Float?,
-        menuClickListener: CustomClick<Int>,
-        profileClickListener: CustomClick<Int>,
-        clickRestaurantListener: CustomClick<Int>
+        feed: Feed
     ) {
         itemTimeLineBinding.feed = feed
-        itemTimeLineBinding.itemFeedTop.reviewId = reviewId
-        itemTimeLineBinding.itemFeedTop.userId = userId
-        itemTimeLineBinding.itemFeedTop.restaurantId = restaurantId
-        itemTimeLineBinding.itemFeedTop.profilePicUrl = profilePicUrl
-        itemTimeLineBinding.itemFeedTop.userName = userName
-        itemTimeLineBinding.itemFeedTop.restaurantName = restaurantName
-        itemTimeLineBinding.itemFeedTop.rating = rating
-
-        itemTimeLineBinding.itemFeedTop.menuClickListener = menuClickListener
-        itemTimeLineBinding.itemFeedTop.profileClickListener = profileClickListener
-        itemTimeLineBinding.itemFeedTop.clickRestaurantListener = clickRestaurantListener
-
         itemTimeLineBinding.itemFeedTop
 
         /** 리뷰 사진 설정 */
@@ -104,6 +82,19 @@ class FeedVH1(
         itemTimeLineBinding.include.button8.setOnClickListener {
             clickFavorite?.invoke(it, feed.review_id)
         }
+
+        itemTimeLineBinding.itemFeedTop.setData(
+            review_id = feed.review_id,
+            userId = feed.userId,
+            restaurantId = feed.restaurantId,
+            profile_pic_url = feed.profile_pic_url,
+            userName = feed.userName,
+            restaurantName = feed.restaurantName,
+            rating = feed.rating,
+            menuClickListener = CustomClick { clickMenu?.invoke(feed) },
+            profileClickListener = CustomClick { clickProfile?.invoke(it) },
+            clickRestaurantListener = CustomClick { clickRestaurant?.invoke(it) }
+        )
     }
 
     companion object {
@@ -141,4 +132,28 @@ class FeedVH1(
             )
         }
     }
+}
+
+fun ItemFeedTop1Binding.setData(
+    review_id: Int? = null,
+    userId: Int? = null,
+    restaurantId: Int? = null,
+    profile_pic_url: String? = null,
+    userName: String? = null,
+    restaurantName: String? = null,
+    rating: Float? = null,
+    menuClickListener: CustomClick<Int>,
+    profileClickListener: CustomClick<Int>,
+    clickRestaurantListener: CustomClick<Int>
+) {
+    this.reviewId = review_id
+    this.userId = userId
+    this.restaurantId = restaurantId
+    this.profilePicUrl = profile_pic_url
+    this.userName = userName
+    this.restaurantName = restaurantName
+    this.rating = rating
+    this.menuClickListener = menuClickListener
+    this.profileClickListener = profileClickListener
+    this.clickRestaurantListener = clickRestaurantListener
 }
