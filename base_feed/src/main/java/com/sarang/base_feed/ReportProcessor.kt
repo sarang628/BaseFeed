@@ -28,31 +28,7 @@ class ReportProcessor constructor(
 
     private fun subScribeUI(owner: LifecycleOwner) {
         Logger.d("신고 프로세스 subScribeUI")
-        baseFeedViewModel.menu.observe(owner,
-            EventObserver {
-                Logger.i("show Menu: $it")
-                menuBottomSheetNavigation.show(context, baseFeedViewModel, it)
-            })
 
-        baseFeedViewModel.myMenu.observe(owner,
-            EventObserver {
-                Logger.i("show MyMenu: $it")
-                myMenuBottomSheetNavigation.show(context, baseFeedViewModel, it)
-            })
-
-        baseFeedViewModel.notLoggedInMenu.observe(owner,
-            EventObserver {
-                Logger.i("show notLoggedInMenu: $it" )
-                notLoggedInMenuBottomSheetNavigation.show(context, baseFeedViewModel, it)
-            })
-
-        baseFeedViewModel.report.observe(owner, EventObserver {
-            Logger.d("observe report")
-            myMenuBottomSheetNavigation.dismiss()
-            menuBottomSheetNavigation.dismiss()
-            notLoggedInMenuBottomSheetNavigation.dismiss()
-            reportNavigation.goReport(context, it)
-        })
     }
 
 }

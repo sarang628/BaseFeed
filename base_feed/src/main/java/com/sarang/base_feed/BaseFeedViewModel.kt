@@ -139,20 +139,22 @@ open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : V
         _showDeleteFeed.value = Event(reviewId)
     }
 
-    fun showMenu(feed: Feed) {
+    fun showMenu(
+        feed: Feed,
+        menuBottomSheetNavigation : ((Feed) -> Unit),
+        myMenuBottomSheetNavigation : ((Feed) -> Unit),
+        notLoggedInMenuBottomSheetNavigation : ((Feed) -> Unit)
+        ) {
         Logger.d("$feed")
         viewModelScope.launch {
             if (feedRepository.user1() == null) {
-                Logger.d("_notLoggedInMenu")
-                _notLoggedInMenu.value = Event(feed)
+                notLoggedInMenuBottomSheetNavigation.invoke(feed)
             } else {
                 feedRepository.user1()?.let {
                     if (it.userId == feed.userId) {
-                        Logger.d("_myMenu")
-                        _myMenu.value = Event(feed)
+                        myMenuBottomSheetNavigation.invoke(feed)
                     } else {
-                        Logger.d("_menu")
-                        _menu.value = Event(feed)
+                        menuBottomSheetNavigation.invoke(feed)
                     }
                 }
             }
