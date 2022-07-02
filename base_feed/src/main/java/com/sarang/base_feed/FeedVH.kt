@@ -16,10 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.example.torang_core.data.model.Favorite
-import com.example.torang_core.data.model.Feed
-import com.example.torang_core.data.model.Like
-import com.example.torang_core.data.model.ReviewImage
+import com.example.torang_core.data.FeedUiState
+import com.example.torang_core.data.model.*
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sarang.base_feed.databinding.ItemTimeLineBinding
 
@@ -51,6 +49,18 @@ class FeedVH(
     }
 
     fun setFeed(feed: Feed) {
+        val feedUiState = FeedUiState(
+            profileImageUrl = feed.profile_pic_url!!,
+            userName = feed.userName!!,
+            rating = feed.rating!!,
+            restaurantName = feed.restaurantName!!
+        )
+
+        itemTimeLineBinding.itemFeedTop.profileImageUrl = feedUiState.profileImageUrl
+        itemTimeLineBinding.itemFeedTop.userName = feedUiState.userName
+        itemTimeLineBinding.itemFeedTop.rating = feedUiState.rating
+        itemTimeLineBinding.itemFeedTop.restaurantName = feedUiState.restaurantName
+
         itemTimeLineBinding.feed = feed
 
         /** 리뷰 사진 설정 */

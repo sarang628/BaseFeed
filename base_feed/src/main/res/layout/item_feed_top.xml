@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="feed"
-            type="com.example.torang_core.data.model.Feed" />
-
         <import type="android.view.View" />
+
+        <variable name="profileImageUrl" type="String" />
+        <variable name="userName" type="String" />
+        <variable name="restaurantName" type="String" />
+        <variable name="rating" type="Float" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            loadCircleImage="@{feed.profile_pic_url}"
+            loadCircleImage="@{profileImageUrl}"
             android:layout_width="30dp"
             android:layout_height="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="@{feed.userName}"
+            android:text="@{userName}"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/tv_restaurant"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="@{feed.restaurantName}"
+            android:text="@{restaurantName}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/textView22"
             app:layout_constraintTop_toBottomOf="@+id/textView22"
@@ -69,8 +69,8 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:rating="@{feed.rating}"
-            android:visibility="@{feed.rating == null ? View.GONE : View.VISIBLE}"
+            android:rating="@{rating}"
+            android:visibility="@{rating == 0 ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/textView22"
             app:layout_constraintStart_toEndOf="@+id/textView22"
             app:layout_constraintTop_toTopOf="@+id/textView22" />

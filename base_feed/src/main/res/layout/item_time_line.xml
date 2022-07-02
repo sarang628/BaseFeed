@@ -27,7 +27,6 @@
         <include
             android:id="@+id/item_feed_top"
             layout="@layout/item_feed_top"
-            app:feed="@{feed}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -17,6 +17,14 @@
             name="favorite"
             type="com.example.torang_core.data.model.Favorite" />
 
+        <variable
+            name="isLike"
+            type="Boolean" />
+
+        <variable
+            name="isFavorite"
+            type="Boolean" />
+
         <import type="android.view.View" />
 
     </data>
