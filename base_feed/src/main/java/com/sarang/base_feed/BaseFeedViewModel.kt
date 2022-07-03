@@ -3,17 +3,18 @@ package com.sarang.base_feed
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.*
+import com.example.torang_core.data.FeedUiState
+import com.example.torang_core.data.add
 import com.example.torang_core.data.data.ReviewAndImage
-import com.example.torang_core.data.model.Favorite
-import com.example.torang_core.data.model.Feed
-import com.example.torang_core.data.model.Like
-import com.example.torang_core.data.model.ReviewImage
+import com.example.torang_core.data.model.*
 import com.example.torang_core.dialog.FeedDialogEventAdapter
 import com.example.torang_core.dialog.FeedMyDialogEventAdapter
 import com.example.torang_core.dialog.NotLoggedInFeedDialogEventAdapter
 import com.example.torang_core.repository.FeedListRepository
 import com.example.torang_core.util.Event
 import com.example.torang_core.util.Logger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : ViewModel(),
@@ -111,6 +112,14 @@ open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : V
 
     val testImage = MutableLiveData<List<ReviewImage>>()
 
+    val feedUiStates: Flow<List<FeedUiState>> = feedRepository.getFeed2().map {
+        val list = ArrayList<FeedUiState>()
+        for(feed1Data in it){
+            list.add(feed1Data)
+        }
+        list
+    }
+
     fun refreshFeed() {
         _dataLoading.value = true
         viewModelScope.launch {
@@ -200,6 +209,9 @@ open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : V
     /** 피드 라이브데이터 */
     val feeds: LiveData<List<Feed>> = feedRepository.getFeed()
 
+    /** 피드 라이브데이터 */
+    val feeds1: LiveData<List<Feed1Data>> = feedRepository.getFeed1()
+
     fun filterTasks(result: List<Feed>): LiveData<List<Feed>> {
         val data = MutableLiveData<List<Feed>>()
         //data.postValue(result)
@@ -240,7 +252,7 @@ open class BaseFeedViewModel(private val feedRepository: FeedListRepository) : V
     fun isLike(reviewId: Int): LiveData<Like> {
         return feedRepository.getLike(reviewId)
     }
-    
+
     fun isFavorite(reviewId: Int): LiveData<Favorite> {
         return feedRepository.getFavorite(reviewId)
     }

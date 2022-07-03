@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.torang_core.data.FeedUiState
-import com.example.torang_core.data.model.*
+import com.example.torang_core.data.model.Feed
+import com.example.torang_core.data.model.ReviewImage
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sarang.base_feed.databinding.ItemTimeLineBinding
 
@@ -55,7 +55,13 @@ class FeedVH(
             restaurantName = restaurantName,
             likeAmount = likeAmount,
             contents = contents,
-            commentAmount = commentAnount
+            commentAmount = commentAnount,
+            isLike = false,
+            isFavorite = false,
+            reviewImages = ArrayList(),
+            userId = userId,
+            reviewId = reviewId,
+            restaurantId = restaurantId
         )
 
         itemTimeLineBinding.itemFeedTop.profileImageUrl = feedUiState.profileImageUrl
@@ -67,13 +73,13 @@ class FeedVH(
         itemTimeLineBinding.include.contents = feedUiState.contents
         itemTimeLineBinding.include.commentAmount = feedUiState.commentAmount
         itemTimeLineBinding.itemFeedTop.toolbar.setOnClickListener { clickMenu?.invoke(feed) }
-        itemTimeLineBinding.itemFeedTop.imageView2.setOnClickListener { clickProfile?.invoke(userId) }
-        itemTimeLineBinding.itemFeedTop.textView22.setOnClickListener { clickProfile?.invoke(userId) }
-        itemTimeLineBinding.itemFeedTop.tvRestaurant.setOnClickListener { clickRestaurant?.invoke(restaurantId) }
-        itemTimeLineBinding.include.btnLike.setOnClickListener { clickLike?.invoke(it, reviewId) }
-        itemTimeLineBinding.include.button6.setOnClickListener { clickComment?.invoke(reviewId) }
-        itemTimeLineBinding.include.button7.setOnClickListener { clickShare?.invoke(reviewId) }
-        itemTimeLineBinding.include.button8.setOnClickListener { clickFavorite?.invoke(it, reviewId) }
+        itemTimeLineBinding.itemFeedTop.imageView2.setOnClickListener { clickProfile?.invoke(feedUiState.userId) }
+        itemTimeLineBinding.itemFeedTop.textView22.setOnClickListener { clickProfile?.invoke(feedUiState.userId) }
+        itemTimeLineBinding.itemFeedTop.tvRestaurant.setOnClickListener { clickRestaurant?.invoke(feedUiState.restaurantId) }
+        itemTimeLineBinding.include.btnLike.setOnClickListener { clickLike?.invoke(it, feedUiState.reviewId) }
+        itemTimeLineBinding.include.button6.setOnClickListener { clickComment?.invoke(feedUiState.reviewId) }
+        itemTimeLineBinding.include.button7.setOnClickListener { clickShare?.invoke(feedUiState.reviewId) }
+        itemTimeLineBinding.include.button8.setOnClickListener { clickFavorite?.invoke(it, feedUiState.reviewId) }
     }
 
     fun setLike(isLike : Boolean){
