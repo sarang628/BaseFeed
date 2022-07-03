@@ -15,8 +15,6 @@ import com.sarang.base_feed.databinding.ItemTimeLineBinding
  */
 class FeedVH(
     val itemTimeLineBinding: ItemTimeLineBinding,
-    @Deprecated("뷰모델 의존성 제거 예정 아래 파라미터 사용 요청")
-    val viewModel: BaseFeedViewModel? = null,
     private val clickMenu: ((Feed) -> Unit)? = null,
     private val clickProfile: ((Int) -> Unit)? = null,
     private val clickRestaurant: ((Int) -> Unit)? = null,
@@ -90,13 +88,12 @@ class FeedVH(
     companion object {
         @Deprecated("뷰모델 의존성 제거 예정 아래 파라미터 사용 요청")
         fun create(
-            parent: ViewGroup,
-            baseFeedViewModel: BaseFeedViewModel
+            parent: ViewGroup
         ): FeedVH {
             return FeedVH(
                 itemTimeLineBinding = ItemTimeLineBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                ), baseFeedViewModel
+                )
             )
         }
 
