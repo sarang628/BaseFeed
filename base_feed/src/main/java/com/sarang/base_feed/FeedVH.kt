@@ -3,16 +3,6 @@ package com.sarang.base_feed
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -36,10 +26,7 @@ class FeedVH(
     private val clickComment: ((Int) -> Unit)? = null,
     private val clickShare: ((Int) -> Unit)? = null,
     private val clickFavorite: ((View, Int) -> Unit)? = null,
-    private val clickPicture: ((ReviewImage) -> Unit)? = null,
-    private val getReviewImage: ((Int) -> LiveData<List<ReviewImage>>)? = null,
-    private val getLike: ((Int) -> LiveData<Like>)? = null,
-    private val getFavorite: ((Int) -> LiveData<Favorite>)? = null
+    private val clickPicture: ((ReviewImage) -> Unit)? = null
 ) : RecyclerView.ViewHolder(itemTimeLineBinding.root) {
 
     init {
@@ -48,72 +35,60 @@ class FeedVH(
         itemTimeLineBinding.viewpager.adapter = timeLinePictureRvAdt
     }
 
-    fun setFeed(feed: Feed) {
+    fun setFeed(
+                reviewId : Int,
+                profilePicUrl : String,
+                userId : Int,
+                userName : String,
+                rating : Float,
+                restaurantName : String,
+                restaurantId : Int,
+                likeAmount : Int,
+                contents : String,
+                commentAnount : Int,
+                feed : Feed
+    ) {
         val feedUiState = FeedUiState(
-            profileImageUrl = feed.profile_pic_url!!,
-            userName = feed.userName!!,
-            rating = feed.rating!!,
-            restaurantName = feed.restaurantName!!
+            profileImageUrl = profilePicUrl,
+            userName = userName,
+            rating = rating,
+            restaurantName = restaurantName,
+            likeAmount = likeAmount,
+            contents = contents,
+            commentAmount = commentAnount
         )
 
         itemTimeLineBinding.itemFeedTop.profileImageUrl = feedUiState.profileImageUrl
         itemTimeLineBinding.itemFeedTop.userName = feedUiState.userName
         itemTimeLineBinding.itemFeedTop.rating = feedUiState.rating
         itemTimeLineBinding.itemFeedTop.restaurantName = feedUiState.restaurantName
-
-        itemTimeLineBinding.feed = feed
-
-        /** 리뷰 사진 설정 */
-        getReviewImage?.invoke(feed.review_id)?.observe(lifeCycleOwner) {
-            (itemTimeLineBinding.viewpager.adapter as FeedPictureVpAdt).setPictures(it)
-            TabLayoutMediator(
-                itemTimeLineBinding.include.tl,
-                itemTimeLineBinding.viewpager
-            ) { _, _ ->
-
-            }.attach()
-        }
-
-        getLike?.invoke(feed.review_id)?.observe(lifeCycleOwner) {
-            itemTimeLineBinding.like = it
-        }
-
-        getFavorite?.invoke(feed.review_id)?.observe(lifeCycleOwner) {
-            itemTimeLineBinding.favorite = it
-        }
-
-        itemTimeLineBinding.itemFeedTop.toolbar.setOnClickListener {
-            clickMenu?.invoke(feed)
-        }
-
-        itemTimeLineBinding.itemFeedTop.imageView2.setOnClickListener {
-            clickProfile?.invoke(feed.userId)
-        }
-
-        itemTimeLineBinding.itemFeedTop.textView22.setOnClickListener {
-            clickProfile?.invoke(feed.userId)
-        }
-
-        itemTimeLineBinding.itemFeedTop.tvRestaurant.setOnClickListener {
-            feed.restaurantId?.let { clickRestaurant?.invoke(it) }
-        }
-
-        itemTimeLineBinding.include.btnLike.setOnClickListener {
-            clickLike?.invoke(it, feed.review_id)
-        }
-
-        itemTimeLineBinding.include.button6.setOnClickListener {
-            clickComment?.invoke(feed.review_id)
-        }
-
-        itemTimeLineBinding.include.button7.setOnClickListener {
-            clickShare?.invoke(feed.review_id)
-        }
-
-        itemTimeLineBinding.include.button8.setOnClickListener {
-            clickFavorite?.invoke(it, feed.review_id)
-        }
+        itemTimeLineBinding.include.likeAmount = feedUiState.likeAmount
+        itemTimeLineBinding.include.userName = feedUiState.userName
+        itemTimeLineBinding.include.contents = feedUiState.contents
+        itemTimeLineBinding.include.commentAmount = feedUiState.commentAmount
+        itemTimeLineBinding.itemFeedTop.toolbar.setOnClickListener { clickMenu?.invoke(feed) }
+        itemTimeLineBinding.itemFeedTop.imageView2.setOnClickListener { clickProfile?.invoke(userId) }
+        itemTimeLineBinding.itemFeedTop.textView22.setOnClickListener { clickProfile?.invoke(userId) }
+        itemTimeLineBinding.itemFeedTop.tvRestaurant.setOnClickListener { clickRestaurant?.invoke(restaurantId) }
+        itemTimeLineBinding.include.btnLike.setOnClickListener { clickLike?.invoke(it, reviewId) }
+        itemTimeLineBinding.include.button6.setOnClickListener { clickComment?.invoke(reviewId) }
+        itemTimeLineBinding.include.button7.setOnClickListener { clickShare?.invoke(reviewId) }
+        itemTimeLineBinding.include.button8.setOnClickListener { clickFavorite?.invoke(it, reviewId) }
     }
+
+    fun setLike(isLike : Boolean){
+        itemTimeLineBinding.include.isLike = isLike
+    }
+
+    fun setFavorite(isFavorite: Boolean){
+        itemTimeLineBinding.include.isFavorite = isFavorite
+    }
+
+    fun setReviewImages(reviewImages : List<ReviewImage>){
+        (itemTimeLineBinding.viewpager.adapter as FeedPictureVpAdt).setPictures(reviewImages)
+        TabLayoutMediator(itemTimeLineBinding.include.tl, itemTimeLineBinding.viewpager) { _, _ -> }.attach()
+    }
+
 
     companion object {
         @Deprecated("뷰모델 의존성 제거 예정 아래 파라미터 사용 요청")
@@ -139,10 +114,7 @@ class FeedVH(
             clickComment: ((Int) -> Unit)? = null,
             clickShare: ((Int) -> Unit)? = null,
             clickFavorite: ((View, Int) -> Unit)? = null,
-            clickPicture: ((ReviewImage) -> Unit)? = null,
-            getReviewImage: ((Int) -> LiveData<List<ReviewImage>>)? = null,
-            getLike: ((Int) -> LiveData<Like>)? = null,
-            getFavorite: ((Int) -> LiveData<Favorite>)? = null
+            clickPicture: ((ReviewImage) -> Unit)? = null
         ): FeedVH {
             return FeedVH(
                 itemTimeLineBinding = ItemTimeLineBinding.inflate(
@@ -156,10 +128,7 @@ class FeedVH(
                 clickComment = clickComment,
                 clickShare = clickShare,
                 clickFavorite = clickFavorite,
-                clickPicture = clickPicture,
-                getReviewImage = getReviewImage,
-                getLike = getLike,
-                getFavorite = getFavorite
+                clickPicture = clickPicture
             )
         }
     }
