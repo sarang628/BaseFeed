@@ -45,8 +45,7 @@ class FeedVH(
                 restaurantId : Int,
                 likeAmount : Int,
                 contents : String,
-                commentAnount : Int,
-                feed : Feed
+                commentAnount : Int
     ) {
         val feedUiState = FeedUiState(
             profileImageUrl = profilePicUrl,
@@ -72,7 +71,7 @@ class FeedVH(
         itemTimeLineBinding.include.userName = feedUiState.userName
         itemTimeLineBinding.include.contents = feedUiState.contents
         itemTimeLineBinding.include.commentAmount = feedUiState.commentAmount
-        itemTimeLineBinding.itemFeedTop.toolbar.setOnClickListener { clickMenu?.invoke(feed) }
+        /*itemTimeLineBinding.itemFeedTop.toolbar.setOnClickListener { clickMenu?.invoke(feed) }*/
         itemTimeLineBinding.itemFeedTop.imageView2.setOnClickListener { clickProfile?.invoke(feedUiState.userId) }
         itemTimeLineBinding.itemFeedTop.textView22.setOnClickListener { clickProfile?.invoke(feedUiState.userId) }
         itemTimeLineBinding.itemFeedTop.tvRestaurant.setOnClickListener { clickRestaurant?.invoke(feedUiState.restaurantId) }
