@@ -3,7 +3,6 @@ package com.sarang.base_feed
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.torang_core.data.FeedUiState
 import com.example.torang_core.data.model.Feed
@@ -18,7 +17,6 @@ class FeedVH(
     val itemTimeLineBinding: ItemTimeLineBinding,
     @Deprecated("뷰모델 의존성 제거 예정 아래 파라미터 사용 요청")
     val viewModel: BaseFeedViewModel? = null,
-    private val lifeCycleOwner: LifecycleOwner,
     private val clickMenu: ((Feed) -> Unit)? = null,
     private val clickProfile: ((Int) -> Unit)? = null,
     private val clickRestaurant: ((Int) -> Unit)? = null,
@@ -30,7 +28,6 @@ class FeedVH(
 ) : RecyclerView.ViewHolder(itemTimeLineBinding.root) {
 
     init {
-        itemTimeLineBinding.lifecycleOwner = lifeCycleOwner
         val timeLinePictureRvAdt = FeedPictureVpAdt(clickPicture)
         itemTimeLineBinding.viewpager.adapter = timeLinePictureRvAdt
     }
@@ -45,7 +42,10 @@ class FeedVH(
                 restaurantId : Int,
                 likeAmount : Int,
                 contents : String,
-                commentAnount : Int
+                commentAnount : Int,
+                isLike: Boolean,
+                isFavorite: Boolean,
+                reviewImages: List<ReviewImage>
     ) {
         val feedUiState = FeedUiState(
             profileImageUrl = profilePicUrl,
@@ -79,17 +79,9 @@ class FeedVH(
         itemTimeLineBinding.include.button6.setOnClickListener { clickComment?.invoke(feedUiState.reviewId) }
         itemTimeLineBinding.include.button7.setOnClickListener { clickShare?.invoke(feedUiState.reviewId) }
         itemTimeLineBinding.include.button8.setOnClickListener { clickFavorite?.invoke(it, feedUiState.reviewId) }
-    }
 
-    fun setLike(isLike : Boolean){
         itemTimeLineBinding.include.isLike = isLike
-    }
-
-    fun setFavorite(isFavorite: Boolean){
         itemTimeLineBinding.include.isFavorite = isFavorite
-    }
-
-    fun setReviewImages(reviewImages : List<ReviewImage>){
         (itemTimeLineBinding.viewpager.adapter as FeedPictureVpAdt).setPictures(reviewImages)
         TabLayoutMediator(itemTimeLineBinding.include.tl, itemTimeLineBinding.viewpager) { _, _ -> }.attach()
     }
@@ -99,19 +91,17 @@ class FeedVH(
         @Deprecated("뷰모델 의존성 제거 예정 아래 파라미터 사용 요청")
         fun create(
             parent: ViewGroup,
-            baseFeedViewModel: BaseFeedViewModel,
-            lifeCycleOwner: LifecycleOwner
+            baseFeedViewModel: BaseFeedViewModel
         ): FeedVH {
             return FeedVH(
                 itemTimeLineBinding = ItemTimeLineBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                ), baseFeedViewModel, lifeCycleOwner
+                ), baseFeedViewModel
             )
         }
 
         fun create(
             parent: ViewGroup,
-            lifeCycleOwner: LifecycleOwner,
             clickMenu: ((Feed) -> Unit)? = null,
             clickProfile: ((Int) -> Unit)? = null,
             clickRestaurant: ((Int) -> Unit)? = null,
@@ -125,7 +115,6 @@ class FeedVH(
                 itemTimeLineBinding = ItemTimeLineBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 ),
-                lifeCycleOwner = lifeCycleOwner,
                 clickMenu = clickMenu,
                 clickProfile = clickProfile,
                 clickRestaurant = clickRestaurant,
