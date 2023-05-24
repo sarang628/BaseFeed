@@ -48,6 +48,7 @@ android {
 dependencies {
     /** hilt */
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation project(path: ':library')
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     /** compose */
