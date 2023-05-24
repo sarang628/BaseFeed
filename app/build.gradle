@@ -7,14 +7,13 @@ plugins {
 
 android {
     namespace 'com.example.basefeed'
-    compileSdk 33
+    compileSdk rootProject.compileSdk
 
     defaultConfig {
         applicationId "com.example.basefeed"
-        minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        minSdk rootProject.minSdk
+        targetSdk rootProject.targetSdk
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -19,4 +19,5 @@
     <color name="gray">#AEAEAE</color>
     <color name="light_gray">#EEEEEE</color>
     <color name="med_gray">#DEDEDE</color>
+    <color name="white">#FFFFFF</color>
 </resources>
