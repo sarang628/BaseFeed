@@ -1,25 +1,41 @@
-package com.example.screen_feed.ui
+package com.sarang.base_feed.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.basefeed.R
 import com.example.library.RatingBar
 import com.sarang.base_feed.uistate.FeedTopUIState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlin.math.nextTowards
+import kotlin.random.Random
 
 @Composable
 fun ItemFeedTop(
@@ -35,68 +51,152 @@ fun ItemFeedTop(
 
     Row(
         Modifier
-            .height(Dp(40f))
             .padding(start = Dp(15f))
-            .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
+            .height(IntrinsicSize.Min) // IntrinsicSize.Min 으로 설정
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        // 프로필 이미지
         AsyncImage(
             model = uiState.profilePictureUrl,
             contentDescription = "",
             modifier = Modifier
-                .size(Dp(30f))
+                .width(40.dp)
+                .height(40.dp)
                 .clickable {
-                    onName?.invoke(0)
+                    onProfile?.invoke(0)
                 }
         )
+
+        // 사용자명 + 평점 + 식당명
         Column(
             Modifier
                 .padding(start = Dp(8f))
-                .weight(1f)
+                .fillMaxHeight()
+            , verticalArrangement = Arrangement.SpaceAround
         ) {
+            // 사용자명 + 평점
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = uiState.name ?: "", modifier = Modifier.clickable {
-                    onProfile?.invoke(0)
-                })
-                Row(Modifier.padding(start = Dp(5f))) {
-                    RatingBar(uiState.rating ?: 0f)
+                uiState.name?.let {
+                    Text(text = it, modifier = Modifier.clickable {
+                        onName?.invoke(0)
+                    })
+                }
+
+                uiState.rating?.let {
+                    Row(Modifier.padding(start = Dp(5f))) {
+                        RatingBar(it)
+                    }
                 }
             }
-            Text(
-                text = uiState.restaurantName ?: "",
-                color = Color.DarkGray,
-                modifier = Modifier.clickable {
-                    onRestaurant?.invoke(0)
-                }
+
+            //식당명
+            uiState.restaurantName?.let {
+                Text(
+                    text = it,
+                    color = Color.DarkGray,
+                    modifier = Modifier.clickable {
+                        onRestaurant?.invoke(0)
+                    }
+                )
+            }
+        }
+
+        Divider(
+            Modifier
+                .weight(1f)
+                .height(0.dp)
+        )
+
+        // 메뉴
+        Column(
+            Modifier
+                .padding(end = Dp(10f))
+                .clickable {
+                    onMenu?.invoke(0)
+                }) {
+            Image(
+                painter = painterResource(id = R.drawable.dot),
+                contentDescription = "",
+                modifier = Modifier.size(Dp(29f))
             )
         }
-        Menu(onMenu)
     }
 }
 
-@Composable
-fun Menu(clickMenu: ((Int) -> Unit)? = null) {
-    Column(
-        Modifier
-            .padding(end = Dp(10f))
-            .clickable {
-                clickMenu?.invoke(0)
-            }) {
-        Image(
-            painter = painterResource(id = R.drawable.dot),
-            contentDescription = "",
-            modifier = Modifier.size(Dp(29f))
+val names = arrayListOf(
+    ".",
+    "홍길동",
+    "James",
+    "Luffy",
+    "가나다라",
+    "CCC"
+)
+val pictures =
+    arrayListOf(
+        //"http://sarang628.iptime.org:88/1.png",
+        R.drawable.a
+    )
+
+
+class DummyFeedTopUiState : PreviewParameterProvider<FeedTopUIState> {
+    override val values: Sequence<FeedTopUIState>
+        get() = sequenceOf(
+            FeedTopUIState(
+                name = "강아지",
+                //profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
+                profilePictureUrl = R.drawable.a,
+                restaurantName = "치킨카레",
+                rating = 2.5f
+            )
         )
-    }
 }
 
 @Preview
 @Composable
-fun Test() {
-    val feedTopUiState = FeedTopUIState(
-        name = "강아지",
-        profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
-        restaurantName = "치킨카레"
+fun PreviewFeedTop() {
+
+    val aa = remember {
+        MutableStateFlow(
+            FeedTopUIState(
+                name = "abc",
+                //profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
+//        profilePictureUrl = R.drawable.a,
+                profilePictureUrl = pictures.random(),
+                restaurantName = "맥도날드",
+                rating = 5f
+            )
+        )
+    }
+    val a by aa.collectAsState()
+
+    LaunchedEffect(key1 = "", block = {
+        while (true) {
+            delay(2000)
+            aa.emit(
+                aa.value.copy(
+                    name = names.random(),
+                    profilePictureUrl = pictures.random(),
+                    rating = Random(5).nextFloat()
+                )
+            )
+        }
+    })
+
+    ItemFeedTop(a)
+}
+
+@Preview
+@Composable
+fun PreviewFeedTop1() {
+
+    val data = FeedTopUIState(
+        name = "abc",
+        //profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
+        profilePictureUrl = R.drawable.a,
+        restaurantName = "555",
+        rating = 5f
     )
 
-    ItemFeedTop(feedTopUiState)
+    ItemFeedTop(data)
 }
