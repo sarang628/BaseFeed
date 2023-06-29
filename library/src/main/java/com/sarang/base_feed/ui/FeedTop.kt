@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +31,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.transform.CircleCropTransformation
 import com.example.basefeed.R
 import com.example.library.RatingBar
 import com.sarang.base_feed.uistate.FeedTopUIState
@@ -58,7 +61,7 @@ fun ItemFeedTop(
     ) {
         // 프로필 이미지
         AsyncImage(
-            model = uiState.profilePictureUrl,
+            model = uiState.profilePictureUrl ?: R.drawable.default_profile_icon,
             contentDescription = "",
             modifier = Modifier
                 .width(40.dp)
@@ -66,14 +69,14 @@ fun ItemFeedTop(
                 .clickable {
                     onProfile?.invoke(0)
                 }
+                .clip(RoundedCornerShape(20.dp)),
         )
 
         // 사용자명 + 평점 + 식당명
         Column(
             Modifier
                 .padding(start = Dp(8f))
-                .fillMaxHeight()
-            , verticalArrangement = Arrangement.SpaceAround
+                .fillMaxHeight(), verticalArrangement = Arrangement.SpaceAround
         ) {
             // 사용자명 + 평점
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -191,11 +194,11 @@ fun PreviewFeedTop() {
 fun PreviewFeedTop1() {
 
     val data = FeedTopUIState(
-        name = "abc",
-        //profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
-        profilePictureUrl = R.drawable.a,
-        restaurantName = "555",
-        rating = 5f
+        name = "Mr.Grack",
+//        profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
+//        profilePictureUrl = R.drawable.a,
+        restaurantName = "The Five Cousins",
+        rating = 4.5f
     )
 
     ItemFeedTop(data)

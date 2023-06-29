@@ -1,4 +1,4 @@
-package com.example.basefeed.ui.theme
+package com.sryang.basefeed.theme
 
 import android.app.Activity
 import android.os.Build

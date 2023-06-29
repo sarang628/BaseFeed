@@ -3,4 +3,6 @@
     <string name="feed_contents"><Data><![CDATA[<b>%s</b> %s]]></Data></string>
     <string name="feed_like">"좋아요 %s개"</string>
     <string name="feed_comment">"댓글 %s개 모두보기"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

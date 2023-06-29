@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.basefeed'
+    namespace 'com.sryang.basefeed'
     compileSdk rootProject.compileSdk
 
     defaultConfig {
-        applicationId "com.example.basefeed"
+        applicationId "com.sryang.basefeed"
         minSdk rootProject.minSdk
         targetSdk rootProject.targetSdk
 
@@ -48,6 +48,7 @@ dependencies {
     /** hilt */
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     implementation project(path: ':library')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     /** compose */
