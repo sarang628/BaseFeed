@@ -1,4 +1,4 @@
-package com.example.screen_feed.ui
+package com.sarang.base_feed.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -10,18 +10,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.basefeed.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -48,15 +55,29 @@ fun FeedPager(
         state = pagerState,
     ) { page ->
         // Our page content
-        AsyncImage(
-            model = img.get(page),
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(450.dp)
-                .padding(bottom = 10.dp)
-        )
+        Row(
+            modifier = Modifier.size(450.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(img[page])
+                    .crossfade(true)
+                    .build(),
+                error = painterResource(R.drawable.ic_connection_error),
+                onError = {
+
+                },
+                contentDescription = "",
+                placeholder = painterResource(R.drawable.loading_img),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+//                    .fillMaxWidth()
+//                .height(450.dp)
+                    .padding(bottom = 10.dp)
+            )
+        }
     }
 }
 
@@ -93,7 +114,27 @@ fun PagerIndicator(
 @Composable
 fun PreViewItemFeedMid() {
     Column {
-        ItemFeedMid(arrayListOf("", "", ""))
+        ItemFeedMid(
+            arrayListOf(
+                "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+                "http://sarang628.iptime.org:89/8.png",
+                "",
+                "",
+                ""
+            )
+        )
     }
 
+}
+
+@Preview
+@Composable
+fun TestAsyncImage() {
+    AsyncImage(
+        model =
+        //"http://sarang628.iptime.org:89/8.png",
+        "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+        contentDescription = "",
+        modifier = Modifier.width(100.dp)
+    )
 }
