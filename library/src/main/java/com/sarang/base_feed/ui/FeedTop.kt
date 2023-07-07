@@ -61,7 +61,7 @@ fun ItemFeedTop(
     ) {
         // 프로필 이미지
         AsyncImage(
-            model = uiState.profilePictureUrl ?: R.drawable.default_profile_icon,
+            model = uiState.profilePictureUrl ?: R.drawable.ic_baseline_person_24,
             contentDescription = "",
             modifier = Modifier
                 .width(40.dp)
