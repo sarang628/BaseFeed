@@ -65,7 +65,7 @@ fun FeedPager(
         val scope = rememberCoroutineScope()
         // Our page content
         Row(
-            modifier = Modifier.size(450.dp),
+            modifier = Modifier.size(450.dp).padding(bottom = 10.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
