@@ -1,5 +1,6 @@
 package com.sarang.base_feed.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,10 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,11 +29,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.basefeed.R
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,29 +61,45 @@ fun FeedPager(
         pageCount = img.size,
         state = pagerState,
     ) { page ->
+        val state: MutableState<Int> = remember { mutableStateOf(0) }
+        val scope = rememberCoroutineScope()
         // Our page content
         Row(
             modifier = Modifier.size(450.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(img[page])
-                    .crossfade(true)
-                    .build(),
-                error = painterResource(R.drawable.ic_connection_error),
-                onError = {
-
-                },
-                contentDescription = "",
-                placeholder = painterResource(R.drawable.loading_img),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-//                    .fillMaxWidth()
-//                .height(450.dp)
-                    .padding(bottom = 10.dp)
-            )
+            if (state.value == 0) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(img[page])
+                        .crossfade(true)
+                        .build(),
+                    error = painterResource(R.drawable.ic_connection_error),
+                    onError = {
+                        Log.d("sryang123", "image load error!")
+                        state.value = 1
+                    },
+                    contentDescription = "",
+                    placeholder = painterResource(R.drawable.loading_img),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            } else {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(R.drawable.ic_connection_error)
+                        .crossfade(true)
+                        .build(),
+                    error = painterResource(R.drawable.ic_connection_error),
+                    contentDescription = "",
+                    placeholder = painterResource(R.drawable.loading_img),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(40.dp)
+                )
+            }
         }
     }
 }
@@ -118,6 +141,7 @@ fun PreViewItemFeedMid() {
             arrayListOf(
                 "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
                 "http://sarang628.iptime.org:89/8.png",
+                "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
                 "",
                 "",
                 ""
@@ -133,7 +157,8 @@ fun TestAsyncImage() {
     AsyncImage(
         model =
         //"http://sarang628.iptime.org:89/8.png",
-        "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+//        "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+        "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
         contentDescription = "",
         modifier = Modifier.width(100.dp)
     )
