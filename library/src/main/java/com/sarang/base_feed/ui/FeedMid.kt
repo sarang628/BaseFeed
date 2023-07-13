@@ -1,5 +1,6 @@
 package com.sarang.base_feed.ui
 
+import TorangAsyncImage
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -65,41 +67,18 @@ fun FeedPager(
         val scope = rememberCoroutineScope()
         // Our page content
         Row(
-            modifier = Modifier.size(450.dp).padding(bottom = 10.dp),
+            modifier = Modifier
+                .size(450.dp)
+                .padding(bottom = 10.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (state.value == 0) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(img[page])
-                        .crossfade(true)
-                        .build(),
-                    error = painterResource(R.drawable.ic_connection_error),
-                    onError = {
-                        Log.d("sryang123", "image load error!")
-                        state.value = 1
-                    },
-                    contentDescription = "",
-                    placeholder = painterResource(R.drawable.loading_img),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            } else {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(R.drawable.ic_connection_error)
-                        .crossfade(true)
-                        .build(),
-                    error = painterResource(R.drawable.ic_connection_error),
-                    contentDescription = "",
-                    placeholder = painterResource(R.drawable.loading_img),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(40.dp)
-                )
-            }
+            //이미지가 정상적으로 로드 되었을때는 크롭하여 화면에 꽉차게 하고싶고
+            TorangAsyncImage(
+                url = img[page],
+                modifier = Modifier.fillMaxWidth().fillMaxHeight()
+            )
+            // 그렇지 않을때는 작은 이미지로 오류를 처리하고 싶어서 아래와 같이 구현
         }
     }
 }
@@ -139,10 +118,10 @@ fun PreViewItemFeedMid() {
     Column {
         ItemFeedMid(
             arrayListOf(
+                "https://www.naver.com",
                 "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
                 "http://sarang628.iptime.org:89/8.png",
                 "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
-                "",
                 "",
                 ""
             )
