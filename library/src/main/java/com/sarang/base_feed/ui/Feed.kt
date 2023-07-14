@@ -1,4 +1,4 @@
-package com.example.screen_feed.ui
+package com.sarang.base_feed.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,8 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sarang.base_feed.ui.ItemFeedMid
-import com.sarang.base_feed.ui.ItemFeedTop
+import com.example.screen_feed.ui.FeedBottom
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sarang.base_feed.uistate.getFeedsByFile
 
@@ -37,7 +36,12 @@ fun Feed(
             onRestaurant = onRestaurant
         )
         Spacer(modifier = Modifier.height(4.dp))
-        ItemFeedMid(uiState.reviewImages, onImage = onImage)
+        ItemFeedMid(
+            uiState.reviewImages,
+            onImage = onImage,
+            progressSize = 30.dp,
+            errorIconSize = 30.dp
+        )
         FeedBottom(
             uiState = uiState.itemFeedBottomUiState,
             onLike = onLike,

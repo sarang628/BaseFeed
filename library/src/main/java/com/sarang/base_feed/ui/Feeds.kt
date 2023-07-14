@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.library.JsonToObjectGenerator
 import com.example.screen_feed.data.Feed
+import com.sarang.base_feed.ui.Feed
 import com.sarang.base_feed.uistate.FeedUiState
 
 @OptIn(ExperimentalMaterialApi::class)
