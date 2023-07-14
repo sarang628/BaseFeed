@@ -23,4 +23,5 @@ ext {
     themeVersion = '7c191eb4e6'
     navigationModuleVersion = 'd98f57435d'
     commonWidgetVersion = '0806afba55'
+    commonImageLoaderVersion = '7e1f115211'
 }

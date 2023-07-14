@@ -41,12 +41,22 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ItemFeedMid(img: List<String>?, onImage: ((Int) -> Unit)? = null) {
+fun ItemFeedMid(
+    img: List<String>?,
+    onImage: ((Int) -> Unit)? = null,
+    progressSize: Dp = 50.dp,
+    errorIconSize: Dp = 50.dp
+) {
     val pagerState = rememberPagerState(0)
     if (img == null)
         return
     Column(modifier = Modifier.height(460.dp)) {
-        FeedPager(pagerState = pagerState, img = img)
+        FeedPager(
+            pagerState = pagerState,
+            img = img,
+            progressSize = progressSize,
+            errorIconSize = errorIconSize
+        )
         PagerIndicator(pagerState = pagerState, img = img)
     }
 }
@@ -54,7 +64,10 @@ fun ItemFeedMid(img: List<String>?, onImage: ((Int) -> Unit)? = null) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FeedPager(
-    pagerState: PagerState, img: List<String>?
+    pagerState: PagerState,
+    img: List<String>?,
+    progressSize: Dp = 50.dp,
+    errorIconSize: Dp = 50.dp
 ) {
     if (img == null)
         return
@@ -76,7 +89,11 @@ fun FeedPager(
             //이미지가 정상적으로 로드 되었을때는 크롭하여 화면에 꽉차게 하고싶고
             TorangAsyncImage(
                 url = img[page],
-                modifier = Modifier.fillMaxWidth().fillMaxHeight()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                progressSize = progressSize,
+                errorIconSize = errorIconSize
             )
             // 그렇지 않을때는 작은 이미지로 오류를 처리하고 싶어서 아래와 같이 구현
         }
@@ -124,7 +141,9 @@ fun PreViewItemFeedMid() {
                 "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
                 "",
                 ""
-            )
+            ),
+            progressSize = 30.dp,
+            errorIconSize = 30.dp
         )
     }
 
