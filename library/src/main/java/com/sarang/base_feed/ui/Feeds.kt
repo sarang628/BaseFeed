@@ -1,5 +1,6 @@
 package com.example.screen_feed.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import com.example.library.JsonToObjectGenerator
 import com.sarang.base_feed.data.Feed
 import com.sarang.base_feed.ui.itemfeed.ItemFeed
 import com.sarang.base_feed.uistate.FeedUiState
+import com.sryang.library.BottomDetectingLazyColumn
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -33,7 +35,8 @@ fun Feeds(
     onLike: ((Int) -> Unit)? = null,
     onComment: ((Int) -> Unit)? = null,
     onShare: ((Int) -> Unit)? = null,
-    onFavorite: ((Int) -> Unit)? = null
+    onFavorite: ((Int) -> Unit)? = null,
+    onBottom: ((Void?) -> Unit)? = null,
 ) {
 
     val pullRefreshState = rememberPullRefreshState(isRefreshing ?: false, onRefresh ?: { })
@@ -48,10 +51,11 @@ fun Feeds(
     Box(
         modifier = if (feeds == null) mod1 else mod2
     ) {
-
-        if (feeds != null)
-            LazyColumn {
-                items(feeds.size) {
+        if (feeds != null) {
+            BottomDetectingLazyColumn(
+                items = feeds.size,
+                onBottom = onBottom,
+                composable = {
                     ItemFeed(
                         feeds[it].FeedUiState(),
                         onProfile = onProfile,
@@ -65,7 +69,8 @@ fun Feeds(
                         onImage = onImage
                     )
                 }
-            }
+            )
+        }
 
         PullRefreshIndicator(
             refreshing = isRefreshing ?: false,
