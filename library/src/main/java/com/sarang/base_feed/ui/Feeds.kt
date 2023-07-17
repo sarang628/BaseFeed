@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.library.JsonToObjectGenerator
-import com.example.screen_feed.data.Feed
-import com.sarang.base_feed.ui.Feed
+import com.sarang.base_feed.data.Feed
+import com.sarang.base_feed.ui.itemfeed.ItemFeed
 import com.sarang.base_feed.uistate.FeedUiState
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -52,7 +52,7 @@ fun Feeds(
         if (feeds != null)
             LazyColumn {
                 items(feeds.size) {
-                    Feed(
+                    ItemFeed(
                         feeds[it].FeedUiState(),
                         onProfile = onProfile,
                         onLike = onLike,

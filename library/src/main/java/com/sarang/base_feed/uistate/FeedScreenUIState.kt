@@ -3,7 +3,7 @@ package com.sarang.base_feed.uistate
 import android.content.Context
 import android.view.View
 import com.example.library.JsonToObjectGenerator
-import com.example.screen_feed.data.Feed
+import com.sarang.base_feed.data.Feed
 
 
 /*피드 프레그먼트 UIState*/

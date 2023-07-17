@@ -1,4 +1,4 @@
-package com.sarang.base_feed.ui
+package com.sarang.base_feed.ui.itemfeed
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,12 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.screen_feed.ui.FeedBottom
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sarang.base_feed.uistate.getFeedsByFile
 
 @Composable
-fun Feed(
+fun ItemFeed(
     uiState: FeedUiState,
     onProfile: ((Int) -> Unit)? = null,
     onLike: ((Int) -> Unit)? = null,
@@ -57,5 +56,5 @@ fun Feed(
 @Composable
 fun PreViewItemFeed() {
     val list = getFeedsByFile(LocalContext.current)
-    Feed(uiState = list[0].FeedUiState())
+    ItemFeed(uiState = list[0].FeedUiState())
 }

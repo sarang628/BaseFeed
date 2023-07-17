@@ -1,4 +1,4 @@
-package com.example.screen_feed.ui
+package com.sarang.base_feed.ui.itemfeed
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.screen_feed.ui.FeedReaction
 import com.example.screen_feed.uistate.FeedBottomUIState
 
 @Composable
@@ -102,7 +103,21 @@ fun FeedComments(
 @Composable
 fun PreViewItemFeedBottom() {
     Column {
-        FeedReaction()
-        FeedComments()
+        FeedReaction(
+            isLike = true,
+            isFavorite = true,
+            onFavorite = {},
+            onLike = {},
+            onComment = {},
+            onShare = {}
+        )
+        FeedComments(
+            author = "사용자1",
+            author1 = "사용자2",
+            author2 = "사용자2",
+            comment = "코멘트",
+            comment1 = "코멘트1",
+            comment2 = "코멘트2"
+        )
     }
 }

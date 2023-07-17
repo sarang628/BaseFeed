@@ -1,7 +1,6 @@
-package com.sarang.base_feed.ui
+package com.sarang.base_feed.ui.itemfeed
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,13 +30,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.transform.CircleCropTransformation
 import com.example.basefeed.R
 import com.example.library.RatingBar
 import com.sarang.base_feed.uistate.FeedTopUIState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlin.math.nextTowards
 import kotlin.random.Random
 
 @Composable
