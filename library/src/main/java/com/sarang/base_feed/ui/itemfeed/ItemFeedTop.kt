@@ -1,5 +1,6 @@
 package com.sarang.base_feed.ui.itemfeed
 
+import TorangAsyncImage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -57,9 +58,8 @@ fun ItemFeedTop(
         verticalAlignment = Alignment.CenterVertically
     ) {
         // 프로필 이미지
-        AsyncImage(
+        TorangAsyncImage(
             model = uiState.profilePictureUrl ?: R.drawable.ic_baseline_person_24,
-            contentDescription = "",
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
@@ -67,6 +67,8 @@ fun ItemFeedTop(
                     onProfile?.invoke(0)
                 }
                 .clip(RoundedCornerShape(20.dp)),
+            progressSize = 20.dp,
+            errorIconSize = 20.dp
         )
 
         // 사용자명 + 평점 + 식당명

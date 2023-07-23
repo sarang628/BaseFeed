@@ -88,5 +88,7 @@ fun PreviewFeeds() {
         "feeds.json",
         Feed::class.java
     )
-    Feeds(feeds = list)
+    Feeds(feeds = list, onBottom = {
+        Log.d("sryang123", "onBottom")
+    })
 }

@@ -78,16 +78,14 @@ fun FeedPager(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            //이미지가 정상적으로 로드 되었을때는 크롭하여 화면에 꽉차게 하고싶고
             TorangAsyncImage(
-                url = img[page],
+                model = img[page],
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
                 progressSize = progressSize,
                 errorIconSize = errorIconSize
             )
-            // 그렇지 않을때는 작은 이미지로 오류를 처리하고 싶어서 아래와 같이 구현
         }
     }
 }
