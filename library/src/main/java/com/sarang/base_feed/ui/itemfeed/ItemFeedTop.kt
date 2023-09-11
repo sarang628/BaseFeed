@@ -44,7 +44,8 @@ fun ItemFeedTop(
     onProfile: ((Int) -> Unit)? = null,
     onMenu: ((Int) -> Unit)? = null,
     onName: ((Int) -> Unit)? = null,
-    onRestaurant: ((Int) -> Unit)? = null
+    onRestaurant: ((Int) -> Unit)? = null,
+    profileImageServerUrl : String = ""
 ) {
     if (uiState == null) {
         return
@@ -57,9 +58,10 @@ fun ItemFeedTop(
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val model = if(uiState.profilePictureUrl != null) profileImageServerUrl+uiState.profilePictureUrl else R.drawable.ic_baseline_person_24
         // 프로필 이미지
         TorangAsyncImage(
-            model = uiState.profilePictureUrl ?: R.drawable.ic_baseline_person_24,
+            model = model,
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)

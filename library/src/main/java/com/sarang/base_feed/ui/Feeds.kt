@@ -37,7 +37,8 @@ fun Feeds(
     onShare: ((Int) -> Unit)? = null,
     onFavorite: ((Int) -> Unit)? = null,
     onBottom: ((Void?) -> Unit)? = null,
-    imageServerUrl : String = ""
+    imageServerUrl: String = "",
+    profileImageServerUrl: String = ""
 ) {
 
     val pullRefreshState = rememberPullRefreshState(isRefreshing ?: false, onRefresh ?: { })
@@ -68,7 +69,8 @@ fun Feeds(
                         onName = onName,
                         onRestaurant = onRestaurant,
                         onImage = onImage,
-                        imageServerUrl = imageServerUrl
+                        imageServerUrl = imageServerUrl,
+                        profileImageServerUrl = profileImageServerUrl
                     )
                 }
             )

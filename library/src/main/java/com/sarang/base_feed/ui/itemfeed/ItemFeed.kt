@@ -24,7 +24,8 @@ fun ItemFeed(
     onName: ((Int) -> Unit)? = null,
     onRestaurant: ((Int) -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
-    imageServerUrl : String = ""
+    imageServerUrl: String = "",
+    profileImageServerUrl: String = ""
 ) {
     val scope = rememberCoroutineScope()
     Column {
@@ -33,7 +34,8 @@ fun ItemFeed(
             onProfile = onProfile,
             onMenu = onMenu,
             onName = onName,
-            onRestaurant = onRestaurant
+            onRestaurant = onRestaurant,
+            profileImageServerUrl = profileImageServerUrl
         )
         Spacer(modifier = Modifier.height(4.dp))
         ItemFeedMid(
