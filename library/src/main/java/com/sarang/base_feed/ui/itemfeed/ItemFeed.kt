@@ -24,6 +24,7 @@ fun ItemFeed(
     onName: ((Int) -> Unit)? = null,
     onRestaurant: ((Int) -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
+    imageServerUrl : String = ""
 ) {
     val scope = rememberCoroutineScope()
     Column {
@@ -39,7 +40,8 @@ fun ItemFeed(
             uiState.reviewImages,
             onImage = onImage,
             progressSize = 30.dp,
-            errorIconSize = 30.dp
+            errorIconSize = 30.dp,
+            imageServerUrl = imageServerUrl
         )
         FeedBottom(
             uiState = uiState.itemFeedBottomUiState,

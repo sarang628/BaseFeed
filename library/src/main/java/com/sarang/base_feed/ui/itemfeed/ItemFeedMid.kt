@@ -37,7 +37,8 @@ fun ItemFeedMid(
     img: List<String>?,
     onImage: ((Int) -> Unit)? = null,
     progressSize: Dp = 50.dp,
-    errorIconSize: Dp = 50.dp
+    errorIconSize: Dp = 50.dp,
+    imageServerUrl: String = ""
 ) {
     val pagerState = rememberPagerState(0)
     if (img == null)
@@ -47,7 +48,8 @@ fun ItemFeedMid(
             pagerState = pagerState,
             img = img,
             progressSize = progressSize,
-            errorIconSize = errorIconSize
+            errorIconSize = errorIconSize,
+            imageServerUrl = imageServerUrl
         )
         PagerIndicator(pagerState = pagerState, img = img)
     }
@@ -59,7 +61,8 @@ fun FeedPager(
     pagerState: PagerState,
     img: List<String>?,
     progressSize: Dp = 50.dp,
-    errorIconSize: Dp = 50.dp
+    errorIconSize: Dp = 50.dp,
+    imageServerUrl: String = ""
 ) {
     if (img == null)
         return
@@ -79,7 +82,7 @@ fun FeedPager(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TorangAsyncImage(
-                model = img[page],
+                model = imageServerUrl + img[page],
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
