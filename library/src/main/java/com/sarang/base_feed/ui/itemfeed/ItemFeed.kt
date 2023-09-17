@@ -15,7 +15,7 @@ import com.sarang.base_feed.uistate.getFeedsByFile
 @Composable
 fun ItemFeed(
     uiState: FeedUiState,
-    onProfile: (() -> Unit)? = null,
+    onProfile: ((Int) -> Unit)? = null,
     onLike: ((Int) -> Unit)? = null,
     onComment: ((Int) -> Unit)? = null,
     onShare: ((Int) -> Unit)? = null,

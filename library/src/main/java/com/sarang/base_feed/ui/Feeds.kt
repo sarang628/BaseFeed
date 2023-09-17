@@ -27,7 +27,7 @@ fun Feeds(
     feeds: List<Feed>?,
     isRefreshing: Boolean? = null,
     onRefresh: (() -> Unit)? = null,
-    onProfile: (() -> Unit)? = null,
+    onProfile: ((Int) -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
     onMenu: (() -> Unit)? = null,
     onName: (() -> Unit)? = null,
