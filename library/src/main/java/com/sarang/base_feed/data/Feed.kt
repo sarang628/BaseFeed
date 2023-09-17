@@ -1,7 +1,8 @@
 package com.sarang.base_feed.data
 
 data class Feed(
-    val reviewId: Int? = null,              /* 리뷰I D*/
+    val reviewId: Int? = null,              /* 리뷰ID*/
+    val userId: Int? = null,                /* 사용자ID */
     val name: String? = null,               /* 이름 */
     val restaurantName: String? = null,     /* 식당명 */
     val rating: Float? = null,              /* 평점 */

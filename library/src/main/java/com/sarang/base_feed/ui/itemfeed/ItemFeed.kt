@@ -15,14 +15,14 @@ import com.sarang.base_feed.uistate.getFeedsByFile
 @Composable
 fun ItemFeed(
     uiState: FeedUiState,
-    onProfile: ((Int) -> Unit)? = null,
+    onProfile: (() -> Unit)? = null,
     onLike: ((Int) -> Unit)? = null,
     onComment: ((Int) -> Unit)? = null,
     onShare: ((Int) -> Unit)? = null,
     onFavorite: ((Int) -> Unit)? = null,
-    onMenu: ((Int) -> Unit)? = null,
-    onName: ((Int) -> Unit)? = null,
-    onRestaurant: ((Int) -> Unit)? = null,
+    onMenu: (() -> Unit)? = null,
+    onName: (() -> Unit)? = null,
+    onRestaurant: (() -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
     imageServerUrl: String = "",
     profileImageServerUrl: String = ""

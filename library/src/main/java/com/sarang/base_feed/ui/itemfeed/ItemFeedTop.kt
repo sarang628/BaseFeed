@@ -41,11 +41,11 @@ import kotlin.random.Random
 @Composable
 fun ItemFeedTop(
     uiState: FeedTopUIState? = null,
-    onProfile: ((Int) -> Unit)? = null,
-    onMenu: ((Int) -> Unit)? = null,
-    onName: ((Int) -> Unit)? = null,
-    onRestaurant: ((Int) -> Unit)? = null,
-    profileImageServerUrl : String = ""
+    onProfile: (() -> Unit)? = null,
+    onMenu: (() -> Unit)? = null,
+    onName: (() -> Unit)? = null,
+    onRestaurant: (() -> Unit)? = null,
+    profileImageServerUrl: String = ""
 ) {
     if (uiState == null) {
         return
@@ -58,7 +58,10 @@ fun ItemFeedTop(
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val model = if(uiState.profilePictureUrl != null) profileImageServerUrl+uiState.profilePictureUrl else R.drawable.ic_baseline_person_24
+        val model =
+            if (uiState.profilePictureUrl != null) {
+                profileImageServerUrl + uiState.profilePictureUrl
+            } else R.drawable.ic_baseline_person_24
         // 프로필 이미지
         TorangAsyncImage(
             model = model,
@@ -66,7 +69,7 @@ fun ItemFeedTop(
                 .width(40.dp)
                 .height(40.dp)
                 .clickable {
-                    onProfile?.invoke(0)
+                    onProfile?.invoke()
                 }
                 .clip(RoundedCornerShape(20.dp)),
             progressSize = 20.dp,
@@ -83,7 +86,7 @@ fun ItemFeedTop(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 uiState.name?.let {
                     Text(text = it, modifier = Modifier.clickable {
-                        onName?.invoke(0)
+                        onName?.invoke()
                     })
                 }
 
@@ -100,7 +103,7 @@ fun ItemFeedTop(
                     text = it,
                     color = Color.DarkGray,
                     modifier = Modifier.clickable {
-                        onRestaurant?.invoke(0)
+                        onRestaurant?.invoke()
                     }
                 )
             }
@@ -117,7 +120,7 @@ fun ItemFeedTop(
             Modifier
                 .padding(end = Dp(10f))
                 .clickable {
-                    onMenu?.invoke(0)
+                    onMenu?.invoke()
                 }) {
             Image(
                 painter = painterResource(id = R.drawable.dot),
