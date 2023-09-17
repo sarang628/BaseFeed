@@ -41,7 +41,7 @@ import kotlin.random.Random
 @Composable
 fun ItemFeedTop(
     uiState: FeedTopUIState? = null,
-    onProfile: (() -> Unit)? = null,
+    onProfile: ((Int) -> Unit)? = null,
     onMenu: (() -> Unit)? = null,
     onName: (() -> Unit)? = null,
     onRestaurant: (() -> Unit)? = null,
@@ -69,7 +69,9 @@ fun ItemFeedTop(
                 .width(40.dp)
                 .height(40.dp)
                 .clickable {
-                    onProfile?.invoke()
+                    uiState.userId?.let {
+                        onProfile?.invoke(it)
+                    }
                 }
                 .clip(RoundedCornerShape(20.dp)),
             progressSize = 20.dp,
