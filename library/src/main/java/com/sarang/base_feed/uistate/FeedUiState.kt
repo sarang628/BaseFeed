@@ -1,7 +1,6 @@
 package com.sarang.base_feed.uistate
 
-import com.sarang.base_feed.data.Feed
-import com.example.screen_feed.uistate.FeedBottomUIState
+import com.sryang.library.entity.Feed
 
 /*피드 UIState*/
 data class FeedUiState(

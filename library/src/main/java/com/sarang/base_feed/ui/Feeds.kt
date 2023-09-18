@@ -1,9 +1,7 @@
 package com.example.screen_feed.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -16,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.library.JsonToObjectGenerator
-import com.sarang.base_feed.data.Feed
 import com.sarang.base_feed.ui.itemfeed.ItemFeed
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sryang.library.BottomDetectingLazyColumn
+import com.sryang.library.entity.Feed
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

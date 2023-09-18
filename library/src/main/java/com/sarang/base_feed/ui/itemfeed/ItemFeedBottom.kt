@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.screen_feed.ui.FeedReaction
-import com.example.screen_feed.uistate.FeedBottomUIState
+import com.sarang.base_feed.uistate.FeedBottomUIState
 
 @Composable
 fun FeedBottom(

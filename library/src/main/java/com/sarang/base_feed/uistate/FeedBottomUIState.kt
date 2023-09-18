@@ -1,6 +1,6 @@
-package com.example.screen_feed.uistate
+package com.sarang.base_feed.uistate
 
-import com.sarang.base_feed.data.Feed
+import com.sryang.library.entity.Feed
 
 /*피드 하단 UIState*/
 data class FeedBottomUIState(
@@ -25,12 +25,12 @@ fun Feed.FeedBottomUIState(): FeedBottomUIState {
         reviewId = this.reviewId,
         likeAmount = this.likeAmount,
         commentAmount = this.commentAmount,
-        author = this.author,
-        author1 = this.author1,
-        author2 = this.author2,
-        comment = this.comment,
-        comment1 = this.comment1,
-        comment2 = this.comment2,
+        author = "",
+        author1 = "",
+        author2 = "",
+        comment = "",
+        comment1 = "",
+        comment2 = "",
         isLike = this.isLike,
         isFavorite = this.isFavorite,
         contents = this.contents
