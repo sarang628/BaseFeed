@@ -4,7 +4,7 @@ import com.sarang.base_feed.data.Feed
 
 /*피드 하단 UIState*/
 data class FeedBottomUIState(
-    val reviewId: Int? = 0,
+    val reviewId: Int,
     val likeAmount: Int? = 0,
     val commentAmount: Int? = 0,
     val author: String? = "",

@@ -16,14 +16,14 @@ import com.sarang.base_feed.uistate.getFeedsByFile
 fun ItemFeed(
     uiState: FeedUiState,
     onProfile: ((Int) -> Unit)? = null,
-    onLike: ((Int) -> Unit)? = null,
-    onComment: ((Int) -> Unit)? = null,
-    onShare: ((Int) -> Unit)? = null,
-    onFavorite: ((Int) -> Unit)? = null,
-    onMenu: (() -> Unit)? = null,
-    onName: (() -> Unit)? = null,
-    onRestaurant: (() -> Unit)? = null,
-    onImage: ((Int) -> Unit)? = null,
+    onLike: ((Int) -> Unit),
+    onComment: ((Int) -> Unit),
+    onShare: ((Int) -> Unit),
+    onFavorite: ((Int) -> Unit),
+    onMenu: (() -> Unit),
+    onName: (() -> Unit),
+    onRestaurant: (() -> Unit),
+    onImage: ((Int) -> Unit),
     imageServerUrl: String = "",
     profileImageServerUrl: String = ""
 ) {
@@ -59,6 +59,6 @@ fun ItemFeed(
 @Preview
 @Composable
 fun PreViewItemFeed() {
-    val list = getFeedsByFile(LocalContext.current)
-    ItemFeed(uiState = list[0].FeedUiState())
+    //val list = getFeedsByFile(LocalContext.current)
+    //ItemFeed(uiState = list[0].FeedUiState())
 }

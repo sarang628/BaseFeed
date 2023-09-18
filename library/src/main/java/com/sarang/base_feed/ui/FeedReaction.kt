@@ -15,49 +15,60 @@ import com.example.basefeed.R
 
 @Composable
 fun FeedReaction(
-    id : Int? = null,
-    onLike: ((Int) -> Unit)? = null,
-    onComment: ((Int) -> Unit)? = null,
-    onShare: ((Int) -> Unit)? = null,
-    onFavorite: ((Int) -> Unit)? = null,
-    isLike : Boolean? = null,
-    isFavorite : Boolean? = null
+    id: Int,
+    onLike: ((Int) -> Unit),
+    onComment: ((Int) -> Unit),
+    onShare: ((Int) -> Unit),
+    onFavorite: ((Int) -> Unit),
+    isLike: Boolean? = null,
+    isFavorite: Boolean? = null
 ) {
     Row {
         Spacer(modifier = Modifier.padding(start = 8.dp))
         Image(
-            painter = if(isLike != null && isLike) painterResource(id = R.drawable.selected_heart) else painterResource(id = R.drawable.b3s),
+            painter = if (isLike != null && isLike) painterResource(id = R.drawable.selected_heart) else painterResource(
+                id = R.drawable.b3s
+            ),
             contentDescription = "",
-            modifier = Modifier.size(25.dp).clickable {
-                id?.let { onLike?.invoke(it) }
-            }
+            modifier = Modifier
+                .size(25.dp)
+                .clickable {
+                    onLike.invoke(id)
+                }
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
         Image(
             painter = painterResource(id = R.drawable.chat),
             contentDescription = "",
-            modifier = Modifier.size(25.dp)
+            modifier = Modifier
+                .size(25.dp)
                 .clickable {
-                    onComment?.invoke(0)
+                    onComment.invoke(0)
                 }
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
         Image(
             painter = painterResource(id = R.drawable.message),
             contentDescription = "",
-            modifier = Modifier.size(25.dp).clickable {
-                onShare?.invoke(0)
-            }
+            modifier = Modifier
+                .size(25.dp)
+                .clickable {
+                    onShare.invoke(0)
+                }
         )
 
         Text(text = "", modifier = Modifier.weight(1f))
 
         Image(
-            painter = if(isFavorite != null && isFavorite) painterResource(id = R.drawable.selected_star) else painterResource(id = R.drawable.star),
+            painter = if (isFavorite != null && isFavorite) painterResource(id = R.drawable.selected_star) else painterResource(
+                id = R.drawable.star
+            ),
             contentDescription = "",
-            modifier = Modifier.size(25.dp).clickable {
-                id?.let { onFavorite?.invoke(it) }
-            }
+            modifier = Modifier
+                .size(25.dp)
+                .clickable {
+                    onFavorite.invoke(id)
+                }
         )
         Spacer(modifier = Modifier.padding(start = 4.dp))
     }

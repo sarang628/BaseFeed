@@ -26,16 +26,16 @@ import com.sryang.library.BottomDetectingLazyColumn
 fun Feeds(
     feeds: List<Feed>?,
     isRefreshing: Boolean? = null,
-    onRefresh: (() -> Unit)? = null,
-    onProfile: ((Int) -> Unit)? = null,
-    onImage: ((Int) -> Unit)? = null,
-    onMenu: (() -> Unit)? = null,
-    onName: (() -> Unit)? = null,
-    onRestaurant: (() -> Unit)? = null,
-    onLike: ((Int) -> Unit)? = null,
-    onComment: ((Int) -> Unit)? = null,
-    onShare: ((Int) -> Unit)? = null,
-    onFavorite: ((Int) -> Unit)? = null,
+    onRefresh: () -> Unit,
+    onProfile: (Int) -> Unit,
+    onImage: (Int) -> Unit,
+    onMenu: () -> Unit,
+    onName: () -> Unit,
+    onRestaurant: () -> Unit,
+    onLike: (Int) -> Unit,
+    onComment: (Int) -> Unit,
+    onShare: (Int) -> Unit,
+    onFavorite: (Int) -> Unit,
     onBottom: ((Void?) -> Unit)? = null,
     imageServerUrl: String = "",
     profileImageServerUrl: String = ""
@@ -92,7 +92,5 @@ fun PreviewFeeds() {
         "feeds.json",
         Feed::class.java
     )
-    Feeds(feeds = list, onBottom = {
-        Log.d("sryang123", "onBottom")
-    })
+    //Feeds(feeds = list, onBottom = {})
 }

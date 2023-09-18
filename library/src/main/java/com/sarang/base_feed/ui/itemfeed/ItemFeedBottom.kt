@@ -17,33 +17,33 @@ import com.example.screen_feed.uistate.FeedBottomUIState
 
 @Composable
 fun FeedBottom(
-    uiState: FeedBottomUIState?,
-    onLike: ((Int) -> Unit)? = null,
-    onComment: ((Int) -> Unit)? = null,
-    onShare: ((Int) -> Unit)? = null,
-    onFavorite: ((Int) -> Unit)? = null,
+    uiState: FeedBottomUIState,
+    onLike: ((Int) -> Unit),
+    onComment: ((Int) -> Unit),
+    onShare: ((Int) -> Unit),
+    onFavorite: ((Int) -> Unit),
 ) {
     Column(Modifier.padding()) {
         FeedReaction(
-            id = uiState?.reviewId,
+            id = uiState.reviewId,
             onFavorite = onFavorite,
             onComment = onComment,
             onLike = onLike,
             onShare = onShare,
-            isLike = uiState?.isLike,
-            isFavorite = uiState?.isFavorite
+            isLike = uiState.isLike,
+            isFavorite = uiState.isFavorite
         )
         Spacer(modifier = Modifier.height(8.dp))
         FeedComments(
-            contents = uiState?.contents,
-            likeAmount = uiState?.likeAmount,
-            author = uiState?.author,
-            comment = uiState?.comment,
-            commentAmount = uiState?.commentAmount,
-            author1 = uiState?.author1,
-            author2 = uiState?.author2,
-            comment1 = uiState?.comment1,
-            comment2 = uiState?.comment2
+            contents = uiState.contents,
+            likeAmount = uiState.likeAmount,
+            author = uiState.author,
+            comment = uiState.comment,
+            commentAmount = uiState.commentAmount,
+            author1 = uiState.author1,
+            author2 = uiState.author2,
+            comment1 = uiState.comment1,
+            comment2 = uiState.comment2
         )
         Spacer(modifier = Modifier.height(12.dp))
     }
@@ -104,6 +104,7 @@ fun FeedComments(
 fun PreViewItemFeedBottom() {
     Column {
         FeedReaction(
+            id = 0,
             isLike = true,
             isFavorite = true,
             onFavorite = {},
