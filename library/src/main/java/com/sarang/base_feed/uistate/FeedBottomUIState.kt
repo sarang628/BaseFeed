@@ -1,6 +1,6 @@
 package com.sarang.base_feed.uistate
 
-import com.sryang.library.entity.Feed
+
 
 /*피드 하단 UIState*/
 data class FeedBottomUIState(
@@ -19,20 +19,3 @@ data class FeedBottomUIState(
     val visibleComment: Boolean? = false,
     val contents: String? = ""
 )
-
-fun Feed.FeedBottomUIState(): FeedBottomUIState {
-    return FeedBottomUIState(
-        reviewId = this.reviewId,
-        likeAmount = this.likeAmount,
-        commentAmount = this.commentAmount,
-        author = "",
-        author1 = "",
-        author2 = "",
-        comment = "",
-        comment1 = "",
-        comment2 = "",
-        isLike = this.isLike,
-        isFavorite = this.isFavorite,
-        contents = this.contents
-    )
-}

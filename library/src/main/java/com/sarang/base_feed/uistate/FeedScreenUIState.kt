@@ -3,7 +3,6 @@ package com.sarang.base_feed.uistate
 import android.content.Context
 import android.view.View
 import com.example.library.JsonToObjectGenerator
-import com.sryang.library.entity.Feed
 
 
 /*피드 프레그먼트 UIState*/
@@ -14,7 +13,7 @@ data class FeedsScreenUiState(
     val isFailedConnection: Boolean = false, // 네트워크 접속에 실패했을 경우
     val isLogin: Boolean = false, // 로그인 여부
     val reLoad: View.OnClickListener? = null, // 갱신 아답터
-    val feeds: ArrayList<Feed>? = null, //피드 리스트
+    val feeds: ArrayList<FeedUiState>? = null, //피드 리스트
     val snackBar: String? = null // 스낵바 표시
 )
 
@@ -75,13 +74,13 @@ fun getTestFeedList(
     return FeedsScreenUiState(feeds = list)
 }
 
-fun getFeedsByFile(context: Context): ArrayList<Feed> {
-    var list = JsonToObjectGenerator<Feed>().getListByFile(
+fun getFeedsByFile(context: Context): ArrayList<FeedUiState> {
+    var list = JsonToObjectGenerator<FeedUiState>().getListByFile(
         context = context,
         fileName = "feeds.json",
-        rawType = Feed::class.java
+        rawType = FeedUiState::class.java
     )
-    return ArrayList<Feed>().apply {
+    return ArrayList<FeedUiState>().apply {
         addAll(list)
     }
 }

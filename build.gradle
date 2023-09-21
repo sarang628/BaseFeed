@@ -23,6 +23,5 @@ ext {
     commonWidgetVersion = '0806afba55'
     commonImageLoaderVersion = 'a8a2733a44'
     bottomDetectLazyColunmVersion = '3d35b14843'
-    designVersion = 'a7236c358c'
     jsonToObjectGeneratorVersion = 'ab416a13e2'
 }

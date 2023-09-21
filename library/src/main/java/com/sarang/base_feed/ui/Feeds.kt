@@ -17,12 +17,11 @@ import com.example.library.JsonToObjectGenerator
 import com.sarang.base_feed.ui.itemfeed.ItemFeed
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sryang.library.BottomDetectingLazyColumn
-import com.sryang.library.entity.Feed
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Feeds(
-    feeds: List<Feed>?,
+    feeds: List<FeedUiState>,
     isRefreshing: Boolean? = null,
     onRefresh: () -> Unit,
     onProfile: (Int) -> Unit,
@@ -49,30 +48,28 @@ fun Feeds(
         .pullRefresh(pullRefreshState)
 
     Box(
-        modifier = if (feeds == null) mod1 else mod2
+        modifier = mod2
     ) {
-        if (feeds != null) {
-            BottomDetectingLazyColumn(
-                items = feeds.size,
-                onBottom = onBottom,
-                composable = {
-                    ItemFeed(
-                        feeds[it].FeedUiState(),
-                        onProfile = onProfile,
-                        onLike = onLike,
-                        onComment = onComment,
-                        onShare = onShare,
-                        onFavorite = onFavorite,
-                        onMenu = onMenu,
-                        onName = onName,
-                        onRestaurant = onRestaurant,
-                        onImage = onImage,
-                        imageServerUrl = imageServerUrl,
-                        profileImageServerUrl = profileImageServerUrl
-                    )
-                }
-            )
-        }
+        BottomDetectingLazyColumn(
+            items = feeds.size,
+            onBottom = onBottom,
+            composable = {
+                ItemFeed(
+                    feeds[it],
+                    onProfile = onProfile,
+                    onLike = onLike,
+                    onComment = onComment,
+                    onShare = onShare,
+                    onFavorite = onFavorite,
+                    onMenu = onMenu,
+                    onName = onName,
+                    onRestaurant = onRestaurant,
+                    onImage = onImage,
+                    imageServerUrl = imageServerUrl,
+                    profileImageServerUrl = profileImageServerUrl
+                )
+            }
+        )
 
         PullRefreshIndicator(
             refreshing = isRefreshing ?: false,
@@ -85,10 +82,10 @@ fun Feeds(
 @Preview
 @Composable
 fun PreviewFeeds() {
-    val list = JsonToObjectGenerator<Feed>().getListByFile(
+    val list = JsonToObjectGenerator<FeedUiState>().getListByFile(
         LocalContext.current,
         "feeds.json",
-        Feed::class.java
+        FeedUiState::class.java
     )
-    //Feeds(feeds = list, onBottom = {})
+//    Feeds(feeds = list, onBottom = {})
 }
