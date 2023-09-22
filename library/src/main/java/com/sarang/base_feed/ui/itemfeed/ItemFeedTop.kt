@@ -156,7 +156,9 @@ class DummyFeedTopUiState : PreviewParameterProvider<FeedTopUIState> {
                 //profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
                 profilePictureUrl = R.drawable.a,
                 restaurantName = "치킨카레",
-                rating = 2.5f
+                rating = 2.5f,
+                reviewId = 0,
+                userId = 0
             )
         )
 }
@@ -173,7 +175,9 @@ fun PreviewFeedTop() {
 //        profilePictureUrl = R.drawable.a,
                 profilePictureUrl = pictures.random(),
                 restaurantName = "맥도날드",
-                rating = 5f
+                rating = 5f,
+                reviewId = 0,
+                userId = 0
             )
         )
     }
@@ -204,7 +208,10 @@ fun PreviewFeedTop1() {
 //        profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
 //        profilePictureUrl = R.drawable.a,
         restaurantName = "The Five Cousins",
-        rating = 4.5f
+        rating = 4.5f,
+        reviewId = 0,
+        userId = 0,
+        profilePictureUrl = ""
     )
 
     ItemFeedTop(data)
