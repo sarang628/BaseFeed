@@ -38,13 +38,15 @@ fun ItemFeed(
             profileImageServerUrl = profileImageServerUrl
         )
         Spacer(modifier = Modifier.height(4.dp))
-        ItemFeedMid(
-            uiState.reviewImages,
-            onImage = onImage,
-            progressSize = 30.dp,
-            errorIconSize = 30.dp,
-            imageServerUrl = imageServerUrl
-        )
+        if (uiState.reviewImages.isNotEmpty()) {
+            ItemFeedMid(
+                uiState.reviewImages,
+                onImage = onImage,
+                progressSize = 30.dp,
+                errorIconSize = 30.dp,
+                imageServerUrl = imageServerUrl
+            )
+        }
         FeedBottom(
             uiState = uiState.itemFeedBottomUiState,
             onLike = onLike,

@@ -34,15 +34,13 @@ import coil.compose.AsyncImage
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ItemFeedMid(
-    img: List<String>?,
+    img: List<String>,
     onImage: ((Int) -> Unit)? = null,
     progressSize: Dp = 50.dp,
     errorIconSize: Dp = 50.dp,
     imageServerUrl: String = ""
 ) {
     val pagerState = rememberPagerState(0)
-    if (img == null)
-        return
     Column(modifier = Modifier.height(460.dp)) {
         FeedPager(
             pagerState = pagerState,
@@ -59,21 +57,17 @@ fun ItemFeedMid(
 @Composable
 fun FeedPager(
     pagerState: PagerState,
-    img: List<String>?,
+    img: List<String>,
     progressSize: Dp = 50.dp,
     errorIconSize: Dp = 50.dp,
     imageServerUrl: String = ""
 ) {
-    if (img == null)
-        return
-
     HorizontalPager(
         pageCount = img.size,
         state = pagerState,
     ) { page ->
         val state: MutableState<Int> = remember { mutableStateOf(0) }
         val scope = rememberCoroutineScope()
-        // Our page content
         Row(
             modifier = Modifier
                 .size(450.dp)
@@ -128,29 +122,15 @@ fun PreViewItemFeedMid() {
     Column {
         ItemFeedMid(
             arrayListOf(
-                "https://www.naver.com",
-                "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
-                "http://sarang628.iptime.org:89/8.png",
-                "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
-                "",
-                ""
+//                "https://www.naver.com",
+//                "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+//                "http://sarang628.iptime.org:89/8.png",
+//                "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
+//                "",
+//                ""
             ),
             progressSize = 30.dp,
             errorIconSize = 30.dp
         )
     }
-
-}
-
-@Preview
-@Composable
-fun TestAsyncImage() {
-    AsyncImage(
-        model =
-        //"http://sarang628.iptime.org:89/8.png",
-//        "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
-        "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
-        contentDescription = "",
-        modifier = Modifier.width(100.dp)
-    )
 }
