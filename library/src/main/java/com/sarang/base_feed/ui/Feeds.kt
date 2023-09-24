@@ -1,9 +1,8 @@
-package com.example.screen_feed.ui
+package com.sarang.base_feed.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -14,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.library.JsonToObjectGenerator
+import com.google.gson.Gson
 import com.sarang.base_feed.ui.itemfeed.ItemFeed
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sryang.library.BottomDetectingLazyColumn
@@ -22,7 +22,7 @@ import com.sryang.library.BottomDetectingLazyColumn
 @Composable
 fun Feeds(
     feeds: List<FeedUiState>,
-    isRefreshing: Boolean? = null,
+    isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onProfile: (Int) -> Unit,
     onImage: (Int) -> Unit,
@@ -33,16 +33,12 @@ fun Feeds(
     onComment: (Int) -> Unit,
     onShare: (Int) -> Unit,
     onFavorite: (Int) -> Unit,
-    onBottom: ((Void?) -> Unit)? = null,
+    onBottom: ((Void?) -> Unit),
     imageServerUrl: String = "",
     profileImageServerUrl: String = ""
 ) {
 
-    val pullRefreshState = rememberPullRefreshState(isRefreshing ?: false, onRefresh ?: { })
-    val mod1 = Modifier
-        .fillMaxSize()
-        .pullRefresh(pullRefreshState)
-        .verticalScroll(rememberScrollState())
+    val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
     val mod2 = Modifier
         .fillMaxSize()
         .pullRefresh(pullRefreshState)
@@ -72,7 +68,7 @@ fun Feeds(
         )
 
         PullRefreshIndicator(
-            refreshing = isRefreshing ?: false,
+            refreshing = isRefreshing,
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter)
         )
@@ -87,5 +83,22 @@ fun PreviewFeeds() {
         "feeds.json",
         FeedUiState::class.java
     )
-//    Feeds(feeds = list, onBottom = {})
+    val json = Gson().newBuilder().setPrettyPrinting().create().toJson(list)
+    Log.d("PreviewFeeds", list.toString())
+
+
+    Feeds(feeds = list,
+        onBottom = {},
+        onFavorite = {},
+        onName = {},
+        onLike = {},
+        onImage = {},
+        onRestaurant = {},
+        onRefresh = {},
+        onProfile = {},
+        onShare = {},
+        onComment = {},
+        onMenu = {},
+        isRefreshing = false
+    )
 }
