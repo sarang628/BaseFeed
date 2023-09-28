@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Feeds(
-                        listFlow = MutableStateFlow(ArrayList<FeedUiState>().apply {
+                        list = (ArrayList<FeedUiState>().apply {
                             add(testFeedUiState())
                             add(testFeedUiState())
                             add(testFeedUiState())
