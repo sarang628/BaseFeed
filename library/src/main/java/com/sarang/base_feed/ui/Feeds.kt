@@ -50,7 +50,7 @@ fun RefreshAndBottomDetectionLazyColunm(
 
 @Composable
 fun Feeds(
-    listFlow: Flow<ArrayList<FeedUiState>>,
+    list: ArrayList<FeedUiState>,
     onProfile: ((Int) -> Unit),
     onLike: ((Int) -> Unit),
     onComment: ((Int) -> Unit),
@@ -63,8 +63,6 @@ fun Feeds(
     imageServerUrl: String = "",
     profileImageServerUrl: String = ""
 ) {
-    val list by listFlow.collectAsState(ArrayList())
-
     RefreshAndBottomDetectionLazyColunm(
         count = list.size,
         onBottom = {},
