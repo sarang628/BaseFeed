@@ -1,6 +1,5 @@
 package com.sarang.base_feed.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -8,34 +7,23 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.library.JsonToObjectGenerator
-import com.google.gson.Gson
 import com.sarang.base_feed.ui.itemfeed.ItemFeed
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sryang.library.BottomDetectingLazyColumn
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Feeds(
-    feeds: List<FeedUiState>,
+fun RefreshAndBottomDetectionLazyColunm(
+    count: Int,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    onProfile: (Int) -> Unit,
-    onImage: (Int) -> Unit,
-    onMenu: () -> Unit,
-    onName: () -> Unit,
-    onRestaurant: () -> Unit,
-    onLike: (Int) -> Unit,
-    onComment: (Int) -> Unit,
-    onShare: (Int) -> Unit,
-    onFavorite: (Int) -> Unit,
     onBottom: ((Void?) -> Unit),
-    imageServerUrl: String = "",
-    profileImageServerUrl: String = ""
+    itemCompose: @Composable (Int) -> Unit
 ) {
 
     val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
@@ -47,24 +35,9 @@ fun Feeds(
         modifier = mod2
     ) {
         BottomDetectingLazyColumn(
-            items = feeds.size,
+            items = count,
             onBottom = onBottom,
-            composable = {
-                ItemFeed(
-                    feeds[it],
-                    onProfile = onProfile,
-                    onLike = onLike,
-                    onComment = onComment,
-                    onShare = onShare,
-                    onFavorite = onFavorite,
-                    onMenu = onMenu,
-                    onName = onName,
-                    onRestaurant = onRestaurant,
-                    onImage = onImage,
-                    imageServerUrl = imageServerUrl,
-                    profileImageServerUrl = profileImageServerUrl
-                )
-            }
+            composable = { itemCompose.invoke(it) }
         )
 
         PullRefreshIndicator(
@@ -75,30 +48,43 @@ fun Feeds(
     }
 }
 
-@Preview
 @Composable
-fun PreviewFeeds() {
-    val list = JsonToObjectGenerator<FeedUiState>().getListByFile(
-        LocalContext.current,
-        "feeds.json",
-        FeedUiState::class.java
-    )
-    val json = Gson().newBuilder().setPrettyPrinting().create().toJson(list)
-    Log.d("PreviewFeeds", list.toString())
+fun Feeds(
+    listFlow: Flow<ArrayList<FeedUiState>>,
+    onProfile: ((Int) -> Unit),
+    onLike: ((Int) -> Unit),
+    onComment: ((Int) -> Unit),
+    onShare: ((Int) -> Unit),
+    onFavorite: ((Int) -> Unit),
+    onMenu: (() -> Unit),
+    onName: (() -> Unit),
+    onRestaurant: (() -> Unit),
+    onImage: ((Int) -> Unit),
+    imageServerUrl: String = "",
+    profileImageServerUrl: String = ""
+) {
+    val list by listFlow.collectAsState(ArrayList())
 
-
-    Feeds(feeds = list,
+    RefreshAndBottomDetectionLazyColunm(
+        count = list.size,
         onBottom = {},
-        onFavorite = {},
-        onName = {},
-        onLike = {},
-        onImage = {},
-        onRestaurant = {},
+        itemCompose = {
+            ItemFeed(
+                list[it],
+                onProfile = onProfile,
+                onLike = onLike,
+                onComment = onComment,
+                onShare = onShare,
+                onFavorite = onFavorite,
+                onMenu = onMenu,
+                onName = onName,
+                onRestaurant = onRestaurant,
+                onImage = onImage,
+                imageServerUrl = imageServerUrl,
+                profileImageServerUrl = profileImageServerUrl
+            )
+        },
         onRefresh = {},
-        onProfile = {},
-        onShare = {},
-        onComment = {},
-        onMenu = {},
         isRefreshing = false
     )
 }
