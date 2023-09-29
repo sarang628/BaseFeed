@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.screen_feed.ui.FeedReaction
+import com.sarang.base_feed.ui.FeedReaction
 import com.sarang.base_feed.uistate.FeedBottomUIState
 
 @Composable
@@ -62,7 +62,7 @@ fun FeedComments(
     comment2: String? = ""
 ) {
     Column(Modifier.padding(start = 8.dp)) {
-        if (contents != null)
+        if (!contents.isNullOrEmpty())
             Text(text = contents)
 
         if (likeAmount != null) {
@@ -70,7 +70,7 @@ fun FeedComments(
                 Text(text = "좋아요 $likeAmount 개", color = Color.DarkGray)
         }
 
-        if (author != null)
+        if (!author.isNullOrEmpty())
             Row {
                 Text(text = author, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.padding(start = 3.dp))
@@ -82,14 +82,14 @@ fun FeedComments(
                 Text(text = "댓글 $commentAmount 개 모두보기", color = Color.DarkGray)
         }
 
-        if (author1 != null)
+        if (!author1.isNullOrEmpty())
             Row {
                 Text(text = author1, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.padding(start = 3.dp))
                 Text(text = comment1 ?: "")
             }
 
-        if (author2 != null)
+        if (!author2.isNullOrEmpty())
             Row {
                 Text(text = author2, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.padding(start = 3.dp))

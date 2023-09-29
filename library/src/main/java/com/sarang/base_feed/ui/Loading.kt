@@ -1,4 +1,4 @@
-package com.example.screen_feed.ui
+package com.sarang.base_feed.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

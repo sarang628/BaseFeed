@@ -9,10 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.basefeed.ui.theme.BaseFeedTheme
 import com.sarang.base_feed.ui.Feeds
-import com.sarang.base_feed.uistate.FeedBottomUIState
-import com.sarang.base_feed.uistate.FeedTopUIState
 import com.sarang.base_feed.uistate.FeedUiState
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.sarang.base_feed.uistate.testFeedUiState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,49 +42,12 @@ class MainActivity : ComponentActivity() {
                         onRestaurant = { },
                         onImage = { },
                         isRefreshing = false,
-                        onRefresh = {}
+                        onRefresh = {},
+                        profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
+                        imageServerUrl = "http://sarang628.iptime.org:89/review_images/"
                     )
                 }
             }
         }
-    }
-
-    private fun testFeedUiState(): FeedUiState {
-        return FeedUiState(
-            reviewId = 0,
-            itemFeedBottomUiState = testFeedBottomUIState(),
-            itemFeedTopUiState = testFeedTopUIState()
-        )
-    }
-
-    fun testFeedBottomUIState(
-    ): FeedBottomUIState {
-        return FeedBottomUIState(
-            reviewId = 0,
-            likeAmount = 0,
-            commentAmount = 0,
-            author = "",
-            author1 = "",
-            author2 = "",
-            comment = "",
-            comment1 = "",
-            comment2 = "",
-            isLike = false,
-            isFavorite = false,
-            visibleLike = true,
-            visibleComment = false,
-            contents = ""
-        )
-    }
-
-    fun testFeedTopUIState(): FeedTopUIState {
-        return FeedTopUIState(
-            reviewId = 0,
-            userId = 0,
-            name = "",
-            restaurantName = "",
-            rating = 0f,
-            profilePictureUrl = ""
-        )
     }
 }
