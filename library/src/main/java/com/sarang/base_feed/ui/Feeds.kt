@@ -60,6 +60,8 @@ fun Feeds(
     onName: (() -> Unit),
     onRestaurant: (() -> Unit),
     onImage: ((Int) -> Unit),
+    onRefresh: (() -> Unit),
+    isRefreshing: Boolean,
     imageServerUrl: String = "",
     profileImageServerUrl: String = ""
 ) {
@@ -82,7 +84,7 @@ fun Feeds(
                 profileImageServerUrl = profileImageServerUrl
             )
         },
-        onRefresh = {},
-        isRefreshing = false
+        onRefresh = onRefresh,
+        isRefreshing = isRefreshing
     )
 }

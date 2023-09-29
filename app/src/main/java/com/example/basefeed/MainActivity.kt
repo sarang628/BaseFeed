@@ -43,6 +43,8 @@ class MainActivity : ComponentActivity() {
                         onName = { },
                         onRestaurant = { },
                         onImage = { },
+                        isRefreshing = false,
+                        onRefresh = {}
                     )
                 }
             }
