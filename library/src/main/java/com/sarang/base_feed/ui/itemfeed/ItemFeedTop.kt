@@ -17,40 +17,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.example.basefeed.R
 import com.example.library.RatingBar
 import com.sarang.base_feed.uistate.FeedTopUIState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlin.random.Random
 
 @Composable
 fun ItemFeedTop(
-    uiState: FeedTopUIState? = null,
+    uiState: FeedTopUIState,
     onProfile: ((Int) -> Unit)? = null,
     onMenu: (() -> Unit)? = null,
     onName: (() -> Unit)? = null,
-    onRestaurant: (() -> Unit)? = null,
+    onRestaurant: ((Int) -> Unit),
     profileImageServerUrl: String = ""
 ) {
-    if (uiState == null) {
-        return
-    }
-
     Row(
         Modifier
             .padding(start = Dp(15f))
@@ -59,9 +45,7 @@ fun ItemFeedTop(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val model =
-            if (uiState.profilePictureUrl != null) {
-                profileImageServerUrl + uiState.profilePictureUrl
-            } else R.drawable.ic_baseline_person_24
+            profileImageServerUrl + uiState.profilePictureUrl
         // 프로필 이미지
         TorangAsyncImage(
             model = model,
@@ -69,9 +53,7 @@ fun ItemFeedTop(
                 .width(40.dp)
                 .height(40.dp)
                 .clickable {
-                    uiState.userId?.let {
-                        onProfile?.invoke(it)
-                    }
+                    onProfile?.invoke(uiState.userId)
                 }
                 .clip(RoundedCornerShape(20.dp)),
             progressSize = 20.dp,
@@ -86,29 +68,23 @@ fun ItemFeedTop(
         ) {
             // 사용자명 + 평점
             Row(verticalAlignment = Alignment.CenterVertically) {
-                uiState.name?.let {
-                    Text(text = it, modifier = Modifier.clickable {
-                        onName?.invoke()
-                    })
-                }
+                Text(text = uiState.name, modifier = Modifier.clickable {
+                    onName?.invoke()
+                })
 
-                uiState.rating?.let {
-                    Row(Modifier.padding(start = Dp(5f))) {
-                        RatingBar(it)
-                    }
+                Row(Modifier.padding(start = Dp(5f))) {
+                    RatingBar(uiState.rating)
                 }
             }
 
             //식당명
-            uiState.restaurantName?.let {
-                Text(
-                    text = it,
-                    color = Color.DarkGray,
-                    modifier = Modifier.clickable {
-                        onRestaurant?.invoke()
-                    }
-                )
-            }
+            Text(
+                text = uiState.restaurantName,
+                color = Color.DarkGray,
+                modifier = Modifier.clickable {
+                    onRestaurant.invoke(uiState.restaurantId)
+                }
+            )
         }
 
         Divider(
@@ -131,88 +107,4 @@ fun ItemFeedTop(
             )
         }
     }
-}
-
-val names = arrayListOf(
-    ".",
-    "홍길동",
-    "James",
-    "Luffy",
-    "가나다라",
-    "CCC"
-)
-val pictures =
-    arrayListOf(
-        //"http://sarang628.iptime.org:88/1.png",
-        R.drawable.a
-    )
-
-
-class DummyFeedTopUiState : PreviewParameterProvider<FeedTopUIState> {
-    override val values: Sequence<FeedTopUIState>
-        get() = sequenceOf(
-            FeedTopUIState(
-                name = "강아지",
-                //profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
-                profilePictureUrl = R.drawable.a,
-                restaurantName = "치킨카레",
-                rating = 2.5f,
-                reviewId = 0,
-                userId = 0
-            )
-        )
-}
-
-@Preview
-@Composable
-fun PreviewFeedTop() {
-
-    val aa = remember {
-        MutableStateFlow(
-            FeedTopUIState(
-                name = "abc",
-                //profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
-//        profilePictureUrl = R.drawable.a,
-                profilePictureUrl = pictures.random(),
-                restaurantName = "맥도날드",
-                rating = 5f,
-                reviewId = 0,
-                userId = 0
-            )
-        )
-    }
-    val a by aa.collectAsState()
-
-    LaunchedEffect(key1 = "", block = {
-        while (true) {
-            delay(2000)
-            aa.emit(
-                aa.value.copy(
-                    name = names.random(),
-                    profilePictureUrl = pictures.random(),
-                    rating = Random(5).nextFloat()
-                )
-            )
-        }
-    })
-
-    ItemFeedTop(a)
-}
-
-@Preview
-@Composable
-fun PreviewFeedTop1() {
-
-    val data = FeedTopUIState(
-        name = "Mr.Grack",
-//        profilePictureUrl = "http://sarang628.iptime.org:88/1.png",
-//        profilePictureUrl = R.drawable.a,
-        restaurantName = "The Five Cousins",
-        rating = 4.5f,
-        reviewId = 0,
-        userId = 0,
-        profilePictureUrl = ""
-    )
-
-    ItemFeedTop(data)
 }

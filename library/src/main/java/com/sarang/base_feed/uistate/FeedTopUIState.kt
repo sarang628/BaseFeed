@@ -4,6 +4,7 @@ package com.sarang.base_feed.uistate
 /*피드 상단 UIState*/
 data class FeedTopUIState(
     val reviewId: Int,
+    val restaurantId: Int,
     val userId: Int,
     val name: String,
     val restaurantName: String,
@@ -18,6 +19,7 @@ fun testTopUiState(): FeedTopUIState {
         name = "name",
         restaurantName = "restaurantName",
         rating = 4.5f,
-        profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg"
+        profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
+        restaurantId = 0
     )
 }

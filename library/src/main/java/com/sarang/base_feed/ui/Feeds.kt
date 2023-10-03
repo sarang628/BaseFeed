@@ -14,7 +14,7 @@ fun Feeds(
     onFavorite: ((Int) -> Unit),
     onMenu: (() -> Unit),
     onName: (() -> Unit),
-    onRestaurant: (() -> Unit),
+    onRestaurant: ((Int) -> Unit),
     onImage: ((Int) -> Unit),
     onRefresh: (() -> Unit),
     isRefreshing: Boolean,

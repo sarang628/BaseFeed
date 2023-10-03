@@ -22,7 +22,7 @@ fun ItemFeed(
     onFavorite: ((Int) -> Unit),
     onMenu: (() -> Unit),
     onName: (() -> Unit),
-    onRestaurant: (() -> Unit),
+    onRestaurant: ((Int) -> Unit),
     onImage: ((Int) -> Unit),
     imageServerUrl: String = "",
     profileImageServerUrl: String = ""
