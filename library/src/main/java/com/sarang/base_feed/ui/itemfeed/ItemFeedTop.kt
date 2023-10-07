@@ -3,6 +3,7 @@ package com.sarang.base_feed.ui.itemfeed
 import TorangAsyncImage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -17,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +39,8 @@ fun ItemFeedTop(
     onRestaurant: ((Int) -> Unit),
     profileImageServerUrl: String = ""
 ) {
+    // 클릭 시 리플 애니메이션을 없애기 위한 변수
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         Modifier
             .padding(start = Dp(15f))
@@ -52,7 +56,10 @@ fun ItemFeedTop(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onProfile?.invoke(uiState.userId)
                 }
                 .clip(RoundedCornerShape(20.dp)),
@@ -68,7 +75,10 @@ fun ItemFeedTop(
         ) {
             // 사용자명 + 평점
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = uiState.name, modifier = Modifier.clickable {
+                Text(text = uiState.name, modifier = Modifier.clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onName?.invoke()
                 })
 
@@ -81,7 +91,10 @@ fun ItemFeedTop(
             Text(
                 text = uiState.restaurantName,
                 color = Color.DarkGray,
-                modifier = Modifier.clickable {
+                modifier = Modifier.clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onRestaurant.invoke(uiState.restaurantId)
                 }
             )
@@ -97,7 +110,10 @@ fun ItemFeedTop(
         Column(
             Modifier
                 .padding(end = Dp(10f))
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onMenu?.invoke()
                 }) {
             Image(

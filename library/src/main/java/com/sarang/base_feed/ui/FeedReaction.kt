@@ -2,12 +2,14 @@ package com.sarang.base_feed.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,8 @@ fun FeedReaction(
     isLike: Boolean? = null,
     isFavorite: Boolean? = null
 ) {
+    // 클릭 시 리플 애니메이션을 없애기 위한 변수
+    val interactionSource = remember { MutableInteractionSource() }
     Row {
         Spacer(modifier = Modifier.padding(start = 8.dp))
         Image(
@@ -32,7 +36,11 @@ fun FeedReaction(
             contentDescription = "",
             modifier = Modifier
                 .size(25.dp)
-                .clickable {
+                .clickable(
+                    // 클릭 시 리플 애니메이션을 없애기 위한 변수
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onLike.invoke(id)
                 }
         )
@@ -42,7 +50,10 @@ fun FeedReaction(
             contentDescription = "",
             modifier = Modifier
                 .size(25.dp)
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onComment.invoke(0)
                 }
         )
@@ -52,7 +63,10 @@ fun FeedReaction(
             contentDescription = "",
             modifier = Modifier
                 .size(25.dp)
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onShare.invoke(0)
                 }
         )
@@ -66,7 +80,10 @@ fun FeedReaction(
             contentDescription = "",
             modifier = Modifier
                 .size(25.dp)
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     onFavorite.invoke(id)
                 }
         )
