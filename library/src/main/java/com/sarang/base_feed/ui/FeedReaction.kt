@@ -54,7 +54,7 @@ fun FeedReaction(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    onComment.invoke(0)
+                    onComment.invoke(id)
                 }
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
@@ -67,7 +67,7 @@ fun FeedReaction(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    onShare.invoke(0)
+                    onShare.invoke(id)
                 }
         )
 
