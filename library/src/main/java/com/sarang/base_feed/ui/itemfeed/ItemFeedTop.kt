@@ -27,7 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.basefeed.R
-import com.example.library.RatingBar
 import com.sarang.base_feed.uistate.FeedTopUIState
 
 @Composable
@@ -37,7 +36,8 @@ fun ItemFeedTop(
     onMenu: (() -> Unit)? = null,
     onName: (() -> Unit)? = null,
     onRestaurant: ((Int) -> Unit),
-    profileImageServerUrl: String = ""
+    profileImageServerUrl: String = "",
+    ratingBar: @Composable (Float) -> Unit
 ) {
     // 클릭 시 리플 애니메이션을 없애기 위한 변수
     val interactionSource = remember { MutableInteractionSource() }
@@ -83,7 +83,7 @@ fun ItemFeedTop(
                 })
 
                 Row(Modifier.padding(start = Dp(5f))) {
-                    RatingBar(uiState.rating)
+                    ratingBar.invoke(uiState.rating)
                 }
             }
 

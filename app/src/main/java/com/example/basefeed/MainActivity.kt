@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.basefeed.ui.theme.BaseFeedTheme
+import com.example.library.RatingBar
 import com.sarang.base_feed.ui.Feeds
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sarang.base_feed.uistate.testFeedUiState
@@ -44,7 +45,10 @@ class MainActivity : ComponentActivity() {
                         isRefreshing = false,
                         onRefresh = {},
                         profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
-                        imageServerUrl = "http://sarang628.iptime.org:89/review_images/"
+                        imageServerUrl = "http://sarang628.iptime.org:89/review_images/",
+                        ratingBar = {
+                            RatingBar(rating = it)
+                        }
                     )
                 }
             }

@@ -19,7 +19,8 @@ fun Feeds(
     onRefresh: (() -> Unit),
     isRefreshing: Boolean,
     imageServerUrl: String = "",
-    profileImageServerUrl: String = ""
+    profileImageServerUrl: String = "",
+    ratingBar: @Composable (Float) -> Unit
 ) {
     RefreshAndBottomDetectionLazyColunm(
         count = list.size,
@@ -37,7 +38,8 @@ fun Feeds(
                 onRestaurant = onRestaurant,
                 onImage = onImage,
                 imageServerUrl = imageServerUrl,
-                profileImageServerUrl = profileImageServerUrl
+                profileImageServerUrl = profileImageServerUrl,
+                ratingBar = ratingBar
             )
         },
         onRefresh = onRefresh,

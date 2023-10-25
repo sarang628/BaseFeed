@@ -23,7 +23,8 @@ fun ItemFeed(
     onRestaurant: ((Int) -> Unit),
     onImage: ((Int) -> Unit),
     imageServerUrl: String = "",
-    profileImageServerUrl: String = ""
+    profileImageServerUrl: String = "",
+    ratingBar: @Composable (Float) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     Column {
@@ -33,7 +34,8 @@ fun ItemFeed(
             onMenu = onMenu,
             onName = onName,
             onRestaurant = onRestaurant,
-            profileImageServerUrl = profileImageServerUrl
+            profileImageServerUrl = profileImageServerUrl,
+            ratingBar = ratingBar
         )
         Spacer(modifier = Modifier.height(4.dp))
         if (uiState.reviewImages.isNotEmpty()) {

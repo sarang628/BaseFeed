@@ -67,4 +67,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
     // Optional - Integration with activities
     implementation 'androidx.activity:activity-compose:1.7.1'
+
+    implementation "com.github.sarang628:CommonWidgets:$commonWidgetVersion"
 }
