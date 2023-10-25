@@ -2,7 +2,7 @@ package com.sarang.base_feed.uistate
 
 import android.content.Context
 import android.view.View
-import com.example.library.JsonToObjectGenerator
+//import com.example.library.JsonToObjectGenerator
 
 
 /*피드 프레그먼트 UIState*/
@@ -67,13 +67,14 @@ fun getTestEmptyFeedFragmentUIstate(): FeedsScreenUiState {
     )
 }
 
-fun getTestFeedList(
+/*fun getTestFeedList(
     context: Context
 ): FeedsScreenUiState {
     val list = getFeedsByFile(context = context)
     return FeedsScreenUiState(feeds = list)
-}
+}*/
 
+/*
 fun getFeedsByFile(context: Context): ArrayList<FeedUiState> {
     var list = JsonToObjectGenerator<FeedUiState>().getListByFile(
         context = context,
@@ -83,4 +84,4 @@ fun getFeedsByFile(context: Context): ArrayList<FeedUiState> {
     return ArrayList<FeedUiState>().apply {
         addAll(list)
     }
-}
+}*/
