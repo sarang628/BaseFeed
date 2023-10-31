@@ -40,7 +40,7 @@ fun ItemFeedMid(
     errorIconSize: Dp = 50.dp,
     imageServerUrl: String = ""
 ) {
-    val pagerState = rememberPagerState(0)
+    val pagerState = rememberPagerState(pageCount = { img.size })
     Column(modifier = Modifier.height(460.dp)) {
         FeedPager(
             pagerState = pagerState,
@@ -63,7 +63,6 @@ fun FeedPager(
     imageServerUrl: String = ""
 ) {
     HorizontalPager(
-        pageCount = img.size,
         state = pagerState,
     ) { page ->
         val state: MutableState<Int> = remember { mutableStateOf(0) }
