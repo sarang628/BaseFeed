@@ -70,7 +70,6 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
-    implementation "com.github.sarang628:Theme:$themeVersion"
     implementation "com.github.sarang628:Navigation:$navigationModuleVersion"
     implementation "com.github.sarang628:CommonImageLoader:$commonImageLoaderVersion"
     implementation "com.github.sarang628:BottomDetectLazyColunm:$bottomDetectLazyColunmVersion"
