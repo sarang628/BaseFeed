@@ -63,5 +63,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-compose"
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
+    implementation "com.github.sarang628:Theme:$themeVersion"
+
     implementation "com.github.sarang628:CommonWidgets:$commonWidgetVersion"
 }

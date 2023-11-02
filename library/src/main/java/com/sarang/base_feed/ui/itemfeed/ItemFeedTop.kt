@@ -24,10 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.basefeed.R
 import com.sarang.base_feed.uistate.FeedTopUIState
+import com.sarang.base_feed.uistate.testTopUiState
 
 @Composable
 fun ItemFeedTop(
@@ -122,5 +124,13 @@ fun ItemFeedTop(
                 modifier = Modifier.size(Dp(29f))
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewItemFeedTop() {
+    ItemFeedTop(uiState = testTopUiState(), onRestaurant = {}) {
+
     }
 }

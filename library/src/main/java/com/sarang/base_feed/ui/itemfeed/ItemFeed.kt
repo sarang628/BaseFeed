@@ -26,7 +26,6 @@ fun ItemFeed(
     profileImageServerUrl: String = "",
     ratingBar: @Composable (Float) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     Column {
         ItemFeedTop(
             uiState = uiState.itemFeedTopUiState,
