@@ -17,14 +17,15 @@ fun Feeds(
     onRestaurant: ((Int) -> Unit),
     onImage: ((Int) -> Unit),
     onRefresh: (() -> Unit),
+    onBottom: () -> Unit,
     isRefreshing: Boolean,
     imageServerUrl: String = "",
     profileImageServerUrl: String = "",
     ratingBar: @Composable (Float) -> Unit
 ) {
-    RefreshAndBottomDetectionLazyColunm(
+    RefreshAndBottomDetectionLazyColunm( // pull to refresh와 하단 감지 적용 LazyColunm
         count = list.size,
-        onBottom = {},
+        onBottom = onBottom,
         itemCompose = {
             ItemFeed(
                 list[it],

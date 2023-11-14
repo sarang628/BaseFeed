@@ -17,11 +17,11 @@ import com.sarang.base_feed.uistate.FeedBottomUIState
 
 @Composable
 fun FeedBottom(
-    uiState: FeedBottomUIState,
-    onLike: ((Int) -> Unit),
-    onComment: ((Int) -> Unit),
-    onShare: ((Int) -> Unit),
-    onFavorite: ((Int) -> Unit),
+    uiState: FeedBottomUIState,     // 하단 UI 상태 값
+    onLike: ((Int) -> Unit),        // 좋아요 클릭
+    onComment: ((Int) -> Unit),     // 코멘트 클릭
+    onShare: ((Int) -> Unit),       // 공유 클릭
+    onFavorite: ((Int) -> Unit),    // 즐겨찾기 클릭
 ) {
     Column(Modifier.padding()) {
         FeedReaction(

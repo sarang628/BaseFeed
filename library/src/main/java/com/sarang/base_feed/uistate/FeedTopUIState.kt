@@ -19,7 +19,7 @@ fun testTopUiState(): FeedTopUIState {
         name = "name",
         restaurantName = "restaurantName",
         rating = 4.5f,
-        profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
+        profilePictureUrl = "1/2023-10-14/08_48_11_972.jpg",
         restaurantId = 0
     )
 }

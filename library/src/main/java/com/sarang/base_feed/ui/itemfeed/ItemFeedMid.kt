@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -29,16 +28,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ItemFeedMid(
-    img: List<String>,
-    onImage: ((Int) -> Unit)? = null,
-    progressSize: Dp = 50.dp,
-    errorIconSize: Dp = 50.dp,
-    imageServerUrl: String = ""
+    img: List<String>,                  // 이미지 리스트
+    onImage: ((Int) -> Unit)? = null,   // 이미지 클릭 이벤트
+    progressSize: Dp = 50.dp,           // 이미지 로드 프로그래스 크기
+    errorIconSize: Dp = 50.dp,          // 이미지 로드 에러 아이콘 크기
+    imageServerUrl: String = ""         // 이미지 서버 url 주소
 ) {
     val pagerState = rememberPagerState(pageCount = { img.size })
     Column(modifier = Modifier.height(460.dp)) {
@@ -122,9 +120,9 @@ fun PreViewItemFeedMid() {
         ItemFeedMid(
             arrayListOf(
 //                "https://www.naver.com",
-//                "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
-//                "http://sarang628.iptime.org:89/8.png",
-//                "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
+                "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+                "http://sarang628.iptime.org:89/8.png",
+                "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
 //                "",
 //                ""
             ),

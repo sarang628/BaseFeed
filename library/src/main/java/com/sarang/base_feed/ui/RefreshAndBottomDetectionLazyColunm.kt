@@ -17,7 +17,7 @@ fun RefreshAndBottomDetectionLazyColunm(
     count: Int,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    onBottom: ((Void?) -> Unit),
+    onBottom: () -> Unit,
     itemCompose: @Composable (Int) -> Unit
 ) {
 
@@ -31,7 +31,7 @@ fun RefreshAndBottomDetectionLazyColunm(
     ) {
         BottomDetectingLazyColumn(
             items = count,
-            onBottom = onBottom,
+            onBottom = { onBottom.invoke() },
             composable = { itemCompose.invoke(it) }
         )
 

@@ -9,22 +9,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sarang.base_feed.uistate.FeedUiState
+import com.sarang.base_feed.uistate.testFeedUiState
 
 @Composable
 fun ItemFeed(
-    uiState: FeedUiState,
-    onProfile: ((Int) -> Unit)? = null,
-    onLike: ((Int) -> Unit),
-    onComment: ((Int) -> Unit),
-    onShare: ((Int) -> Unit),
-    onFavorite: ((Int) -> Unit),
-    onMenu: (() -> Unit),
-    onName: (() -> Unit),
-    onRestaurant: ((Int) -> Unit),
-    onImage: ((Int) -> Unit),
-    imageServerUrl: String = "",
-    profileImageServerUrl: String = "",
-    ratingBar: @Composable (Float) -> Unit
+    uiState: FeedUiState,                   // 피드 상단,중앙,하단을 합친 ui 상태 값
+    onProfile: ((Int) -> Unit)? = null,     // 프로필 클릭
+    onLike: ((Int) -> Unit),                // 좋아요 클릭
+    onComment: ((Int) -> Unit),             // 코멘트 클릭
+    onShare: ((Int) -> Unit),               // 공유 클릭
+    onFavorite: ((Int) -> Unit),            // 즐겨찾기 클릭
+    onMenu: (() -> Unit),                   // 메뉴 클릭
+    onName: (() -> Unit),                   // 이름 클릭
+    onRestaurant: ((Int) -> Unit),          // 음식점 클릭
+    onImage: ((Int) -> Unit),               // 이미지 클릭
+    imageServerUrl: String = "",            // 이미지 서버
+    profileImageServerUrl: String = "",     // 프로필 서버
+    ratingBar: @Composable (Float) -> Unit  // 평점 바
 ) {
     Column {
         ItemFeedTop(
@@ -60,6 +61,19 @@ fun ItemFeed(
 @Preview
 @Composable
 fun PreViewItemFeed() {
-    //val list = getFeedsByFile(LocalContext.current)
-    //ItemFeed(uiState = list[0].FeedUiState())
+    ItemFeed(
+        uiState = testFeedUiState(),
+        onLike = {},
+        onComment = {},
+        onShare = {},
+        onFavorite = {},
+        onMenu = { /*TODO*/ },
+        onName = { /*TODO*/ },
+        onRestaurant = {},
+        onImage = {},
+        profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
+        imageServerUrl = "http://sarang628.iptime.org:89/review_images/",
+    ) {
+
+    }
 }
