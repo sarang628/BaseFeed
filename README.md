@@ -1,7 +1,7 @@
 # BaseFeed
 메인화면, 프로필화면 등 다양한화면에서 피드를 사용하여 공통 컴포넌트 모듈로 제공
 
-## convention 적용
+## convention
 ### package
 - compose로 구현한 UI는 compose 패키지에 저장
 - uistate는 uistate 패키지에 저장
