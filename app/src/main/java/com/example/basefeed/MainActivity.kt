@@ -13,8 +13,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.library.RatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sryang.base.feed.compose.feed.Feeds
-import com.sryang.base.feed.uistate.FeedUiState
-import com.sryang.base.feed.uistate.testFeedUiState
+import com.sryang.base.feed.data.Review
+import com.sryang.base.feed.data.testReviewData
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,14 +28,14 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.colors.background)
                 ) {
                     Feeds(
-                        list = (ArrayList<FeedUiState>().apply {
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
+                        list = (ArrayList<Review>().apply {
+                            add(testReviewData())
+                            add(testReviewData())
+                            add(testReviewData())
+                            add(testReviewData())
+                            add(testReviewData())
+                            add(testReviewData())
+                            add(testReviewData())
                         }),
                         onProfile = { },
                         onLike = { },

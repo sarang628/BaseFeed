@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ItemFeedMid(
+internal fun FeedMid(
     imgs: List<String>,                  // 이미지 리스트
     onImage: (Int) -> Unit,                // 이미지 클릭 이벤트
     progressSize: Dp = 50.dp,           // 이미지 로드 프로그래스 크기
@@ -100,7 +100,8 @@ fun FeedPager(
                         interactionSource = interactionSource
                     ) {
                         onImage.invoke(page)
-                    }.pointerInput(Unit) {
+                    }
+                    .pointerInput(Unit) {
                         awaitEachGesture {
                             awaitFirstDown()
                             do {
@@ -132,8 +133,7 @@ fun FeedPager(
                         scaleY = maxOf(maxScale.value, minOf(minScale.value, scale.value))
                         translationX = offsetX.value
                         translationY = offsetY.value
-                    }
-                ,
+                    },
                 progressSize = progressSize,
                 errorIconSize = errorIconSize
             )
@@ -174,7 +174,7 @@ fun PagerIndicator(
 @Composable
 fun PreViewItemFeedMid() {
     Column {
-        ItemFeedMid(
+        FeedMid(
             arrayListOf(
 //                "https://www.naver.com",
                 "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",

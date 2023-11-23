@@ -29,12 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sryang.base.feed.R
-import com.sryang.base.feed.uistate.FeedTopUIState
-import com.sryang.base.feed.uistate.testTopUiState
 
 @Composable
-fun ItemFeedTop(
-    uiState: FeedTopUIState,                // ui 상태
+internal fun FeedTop(
+    name: String,
+    restaurantName: String,
+    rating: Float,
+    profilePictureUrl: String,
     onProfile: () -> Unit,                  // 프로필 이미지 클릭
     onMenu: () -> Unit,                     // 메뉴 클릭
     onName: () -> Unit,                     // 이름 클릭
@@ -58,7 +59,7 @@ fun ItemFeedTop(
                 indication = null
             ) { onProfile.invoke() }
             .clip(RoundedCornerShape(20.dp)),
-            model = profileImageServerUrl + uiState.profilePictureUrl,
+            model = profileImageServerUrl + profilePictureUrl,
             progressSize = 20.dp,
             errorIconSize = 20.dp
         )
@@ -77,15 +78,15 @@ fun ItemFeedTop(
                         interactionSource = interactionSource,
                         indication = null
                     ) { onName.invoke() },
-                    text = uiState.name
+                    text = name
                 )
                 Spacer(modifier = Modifier.width(5.dp))
-                ratingBar.invoke(uiState.rating)
+                ratingBar.invoke(rating)
             }
 
             //식당명
             Text(
-                text = uiState.restaurantName,
+                text = restaurantName,
                 color = Color.DarkGray,
                 modifier = Modifier.clickable(
                     interactionSource = interactionSource,
@@ -121,13 +122,16 @@ fun ItemFeedTop(
 @Preview
 @Composable
 fun PreviewItemFeedTop() {
-    ItemFeedTop(
-        uiState = testTopUiState(),
+    FeedTop(
+        name = "name",
+        restaurantName = "restaurantName",
+        profilePictureUrl = "",
+        rating = 3.5f,
+        ratingBar = {},
         onRestaurant = {},
         profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
         onProfile = {},
         onName = {},
         onMenu = {}
-    ) {
-    }
+    )
 }

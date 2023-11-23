@@ -12,24 +12,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sryang.base.feed.data.Comment
 
 @Composable
 fun FeedComments(
-    contents: String? = "",
+    comments: List<Comment>? = null,
+    contents: String,
     likeAmount: Int? = 0,
-    author: String? = "",
-    comment: String? = "",
     commentAmount: Int? = 0,
-    author1: String? = "",
-    comment1: String? = "",
-    author2: String? = "",
-    comment2: String? = ""
 ) {
     Column(
         Modifier
             .padding(start = 8.dp)
-            .fillMaxWidth()) {
-        if (!contents.isNullOrEmpty())
+            .fillMaxWidth()
+    ) {
+        if (contents.isNotEmpty())
             Text(text = contents)
 
         if (likeAmount != null) {
@@ -37,33 +34,25 @@ fun FeedComments(
                 Text(text = "좋아요 $likeAmount 개", color = Color.DarkGray)
         }
 
-        if (!author.isNullOrEmpty())
-            Row {
-                Text(text = author, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.padding(start = 3.dp))
-                Text(text = comment ?: "")
-            }
+        comments?.forEach {
+            Comment(it)
+        }
 
         if (commentAmount != null) {
             if (commentAmount > 0)
                 Text(text = "댓글 $commentAmount 개 모두보기", color = Color.DarkGray)
         }
-
-        if (!author1.isNullOrEmpty())
-            Row {
-                Text(text = author1, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.padding(start = 3.dp))
-                Text(text = comment1 ?: "")
-            }
-
-        if (!author2.isNullOrEmpty())
-            Row {
-                Text(text = author2, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.padding(start = 3.dp))
-                Text(text = comment2 ?: "")
-            }
     }
 
+}
+
+@Composable
+fun Comment(comment: Comment) {
+    Row {
+        Text(text = comment.author, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.padding(start = 3.dp))
+        Text(text = comment.comment)
+    }
 }
 
 @Preview
@@ -72,12 +61,6 @@ fun PreviewFeedComments() {
     FeedComments(
         contents = "contents",
         likeAmount = 10,
-        author1 = "author1",
-        author2 = "author2",
-        author = "author",
         commentAmount = 10,
-        comment = "comment",
-        comment1 = "comment1",
-        comment2 = "comment2",
     )
 }

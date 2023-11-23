@@ -3,12 +3,12 @@ package com.sryang.base.feed.compose.feed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.sryang.base.feed.compose.RefreshAndBottomDetectionLazyColunm
-import com.sryang.base.feed.uistate.FeedUiState
-import com.sryang.base.feed.uistate.testFeedUiState
+import com.sryang.base.feed.data.Review
+import com.sryang.base.feed.data.testReviewData
 
 @Composable
 fun Feeds(
-    list: ArrayList<FeedUiState>,
+    list: List<Review>,
     onProfile: ((Int) -> Unit),
     onLike: ((Int) -> Unit),
     onComment: ((Int) -> Unit),
@@ -30,16 +30,16 @@ fun Feeds(
         count = list.size,
         onBottom = onBottom,
         itemCompose = {
-            ItemFeed(
-                list[it],
-                onProfile = { onProfile.invoke(list[it].userId) },
+            Feed(
+                review = list[it],
+                onProfile = { onProfile.invoke(list[it].user.userId) },
                 onLike = { onLike.invoke(list[it].reviewId) },
                 onComment = { onComment.invoke(list[it].reviewId) },
                 onShare = { onShare.invoke(list[it].reviewId) },
                 onFavorite = { onFavorite.invoke(list[it].reviewId) },
                 onMenu = onMenu,
                 onName = onName,
-                onRestaurant = { onRestaurant.invoke(list[it].restaurantId) },
+                onRestaurant = { onRestaurant.invoke(list[it].restaurant.restaurantId) },
                 onImage = onImage,
                 imageServerUrl = imageServerUrl,
                 profileImageServerUrl = profileImageServerUrl,
@@ -58,10 +58,10 @@ fun Feeds(
 @Composable
 fun PreviewFeeds() {
     Feeds(
-        list = ArrayList<FeedUiState>().apply {
-            add(testFeedUiState())
-            add(testFeedUiState())
-            add(testFeedUiState())
+        list = ArrayList<Review>().apply {
+            add(testReviewData())
+            add(testReviewData())
+            add(testReviewData())
         },
         onProfile = {},
         onLike = {},

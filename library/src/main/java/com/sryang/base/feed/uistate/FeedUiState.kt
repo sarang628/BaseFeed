@@ -1,34 +1,15 @@
 package com.sryang.base.feed.uistate
 
+import com.sryang.base.feed.data.Review
+import com.sryang.base.feed.data.testReviewData
+
 /*피드 UIState*/
 data class FeedUiState(
-    val reviewId: Int,
-    val restaurantId: Int,
-    val userId: Int,
-    val itemFeedTopUiState: FeedTopUIState,
-    val itemFeedBottomUiState: FeedBottomUIState,
-    val reviewImages: List<String> = ArrayList(),
+    val review: Review,
 )
 
 fun testFeedUiState(): FeedUiState {
     return FeedUiState(
-        reviewId = 0,
-        itemFeedTopUiState = testTopUiState(),
-        itemFeedBottomUiState = testFeedBottomUiState(),
-        reviewImages = ArrayList<String>().apply {
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-        },
-        userId = 0,
-        restaurantId = 1
+        review = testReviewData()
     )
 }
