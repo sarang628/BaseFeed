@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.library.RatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
-import com.sryang.base.feed.ui.Feeds
+import com.sryang.base.feed.compose.feed.Feeds
 import com.sryang.base.feed.uistate.FeedUiState
 
 class MainActivity : ComponentActivity() {
