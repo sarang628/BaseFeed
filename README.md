@@ -8,9 +8,9 @@
 <img src="./screenshot/package.png" alt="image" width="300" height="auto">
 
 
-## architecture 적용
-### Ui layer
-UiState 구현
+## Architecture
+### UI layer
+UiState
 ```
 /*피드 UIState*/
 data class FeedUiState(
@@ -35,7 +35,7 @@ fun testFeedUiState(): FeedUiState {
 ```
 
 
-## Unit test 구현
+## Unit test
 - 최초 로딩 중일 때 리스트가 나오면 안된다.
 - 최초 로딩이 되었고 리스트가 비어있다면 리스트가 비어있음을 표시한다.
 - 최초 로딩이 되었고 리스트가 있다면 리스트를 표시한다.
