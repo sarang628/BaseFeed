@@ -18,7 +18,8 @@ fun RefreshAndBottomDetectionLazyColunm(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onBottom: () -> Unit,
-    itemCompose: @Composable (Int) -> Unit
+    itemCompose: @Composable (Int) -> Unit,
+    contents: @Composable (() -> Unit)? = null
 ) {
 
     val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
@@ -40,5 +41,7 @@ fun RefreshAndBottomDetectionLazyColunm(
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter)
         )
+
+        contents?.invoke()
     }
 }

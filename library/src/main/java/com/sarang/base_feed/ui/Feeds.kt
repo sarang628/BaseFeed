@@ -19,6 +19,7 @@ fun Feeds(
     onRefresh: (() -> Unit),
     onBottom: () -> Unit,
     isRefreshing: Boolean,
+    isLoaded: Boolean,
     imageServerUrl: String,
     profileImageServerUrl: String,
     ratingBar: @Composable (Float) -> Unit
@@ -44,6 +45,9 @@ fun Feeds(
             )
         },
         onRefresh = onRefresh,
-        isRefreshing = isRefreshing
-    )
+        isRefreshing = isRefreshing || !isLoaded
+    ) {
+        if (isLoaded && list.isEmpty())
+            EmptyFeed()
+    }
 }

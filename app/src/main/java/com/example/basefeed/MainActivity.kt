@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.library.RatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.base_feed.ui.Feeds
-import com.sarang.base_feed.ui.itemfeed.PreviewItemFeedTop
 import com.sarang.base_feed.uistate.FeedUiState
 import com.sarang.base_feed.uistate.testFeedUiState
 
@@ -30,13 +29,13 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Feeds(
                         list = (ArrayList<FeedUiState>().apply {
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
-                            add(testFeedUiState())
+//                            add(testFeedUiState())
+//                            add(testFeedUiState())
+//                            add(testFeedUiState())
+//                            add(testFeedUiState())
+//                            add(testFeedUiState())
+//                            add(testFeedUiState())
+//                            add(testFeedUiState())
                         }),
                         onProfile = { },
                         onLike = { },
@@ -56,7 +55,8 @@ class MainActivity : ComponentActivity() {
                         imageServerUrl = "http://sarang628.iptime.org:89/review_images/",
                         ratingBar = {
                             RatingBar(rating = it)
-                        }
+                        },
+                        isLoaded = true
                     )
                 }
             }

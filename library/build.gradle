@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace 'com.example.basefeed'
     compileSdk rootProject.compileSdk
     defaultConfig {
         minSdk rootProject.minSdk
@@ -13,33 +14,18 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    buildFeatures {
-        dataBinding true
-        viewBinding true
-        // Enables Jetpack Compose for this module
-        compose true
-    }
-
+    buildFeatures { compose true }
     compileOptions {
         targetCompatibility JavaVersion.VERSION_17
         sourceCompatibility JavaVersion.VERSION_17
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
-    }
-
-    namespace 'com.example.basefeed'
+    composeOptions { kotlinCompilerExtensionVersion = "1.4.6" }
 }
 
 dependencies {
@@ -60,11 +46,8 @@ dependencies {
     implementation "androidx.compose.material3:material3-window-size-class"
     implementation "androidx.lifecycle:lifecycle-runtime-compose"
     implementation "androidx.navigation:navigation-compose:$nav_version"
-    
-    // collectAsState
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
-
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.2" // collectAsState
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
 
     implementation 'com.google.code.gson:gson:2.10.1'
 
