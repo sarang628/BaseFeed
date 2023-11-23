@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.sryang.base.feed.compose.RefreshAndBottomDetectionLazyColunm
 import com.sryang.base.feed.data.Review
 import com.sryang.base.feed.data.testReviewData
+import dagger.Binds
 
 @Composable
 fun Feeds(
@@ -23,6 +24,8 @@ fun Feeds(
     isRefreshing: Boolean,
     isLoaded: Boolean,
     imageServerUrl: String,
+    isVisibleList: Boolean,
+    isEmpty: Boolean,
     profileImageServerUrl: String,
     ratingBar: @Composable (Float) -> Unit
 ) {
@@ -47,9 +50,10 @@ fun Feeds(
             )
         },
         onRefresh = onRefresh,
-        isRefreshing = isRefreshing || !isLoaded
+        isRefreshing = isRefreshing || !isLoaded,
+        visibleList = isVisibleList
     ) {
-        if (isLoaded && list.isEmpty())
+        if (isEmpty)
             EmptyFeed()
     }
 }
@@ -78,6 +82,8 @@ fun PreviewFeeds() {
         isLoaded = false,
         imageServerUrl = "",
         profileImageServerUrl = "",
-        ratingBar = {}
+        ratingBar = {},
+        isEmpty = true,
+        isVisibleList = true
     )
 }

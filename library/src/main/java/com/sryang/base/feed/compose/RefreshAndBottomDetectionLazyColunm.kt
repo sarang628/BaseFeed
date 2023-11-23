@@ -18,6 +18,7 @@ fun RefreshAndBottomDetectionLazyColunm(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onBottom: () -> Unit,
+    visibleList: Boolean,
     itemCompose: @Composable (Int) -> Unit,
     contents: @Composable (() -> Unit)? = null
 ) {
@@ -30,11 +31,13 @@ fun RefreshAndBottomDetectionLazyColunm(
     Box(
         modifier = mod2
     ) {
-        BottomDetectingLazyColumn(
-            items = count,
-            onBottom = { onBottom.invoke() },
-            composable = { itemCompose.invoke(it) }
-        )
+        if (visibleList) {
+            BottomDetectingLazyColumn(
+                items = count,
+                onBottom = { onBottom.invoke() },
+                composable = { itemCompose.invoke(it) }
+            )
+        }
 
         PullRefreshIndicator(
             refreshing = isRefreshing,

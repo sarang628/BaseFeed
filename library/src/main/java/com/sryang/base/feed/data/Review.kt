@@ -51,3 +51,15 @@ fun testReviewData(): Review {
         likeAmount = 100
     )
 }
+
+fun testReviewList(): List<Review> {
+    return ArrayList<Review>().apply {
+        add(testReviewData())
+        add(testReviewData())
+        add(testReviewData())
+        add(testReviewData())
+        add(testReviewData())
+        add(testReviewData())
+        add(testReviewData())
+    }
+}
