@@ -3,6 +3,8 @@ package com.sarang.base_feed.uistate
 /*피드 UIState*/
 data class FeedUiState(
     val reviewId: Int,
+    val restaurantId: Int,
+    val userId: Int,
     val itemFeedTopUiState: FeedTopUIState,
     val itemFeedBottomUiState: FeedBottomUIState,
     val reviewImages: List<String> = ArrayList(),
@@ -25,6 +27,8 @@ fun testFeedUiState(): FeedUiState {
             add("333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
-        }
+        },
+        userId = 0,
+        restaurantId = 1
     )
 }

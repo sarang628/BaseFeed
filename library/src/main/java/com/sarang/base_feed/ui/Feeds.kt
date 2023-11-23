@@ -19,8 +19,8 @@ fun Feeds(
     onRefresh: (() -> Unit),
     onBottom: () -> Unit,
     isRefreshing: Boolean,
-    imageServerUrl: String = "",
-    profileImageServerUrl: String = "",
+    imageServerUrl: String,
+    profileImageServerUrl: String,
     ratingBar: @Composable (Float) -> Unit
 ) {
     RefreshAndBottomDetectionLazyColunm( // pull to refresh와 하단 감지 적용 LazyColunm
@@ -29,14 +29,14 @@ fun Feeds(
         itemCompose = {
             ItemFeed(
                 list[it],
-                onProfile = onProfile,
-                onLike = onLike,
-                onComment = onComment,
-                onShare = onShare,
-                onFavorite = onFavorite,
+                onProfile = { onProfile.invoke(list[it].userId) },
+                onLike = { onLike.invoke(list[it].reviewId) },
+                onComment = { onComment.invoke(list[it].reviewId) },
+                onShare = { onShare.invoke(list[it].reviewId) },
+                onFavorite = { onFavorite.invoke(list[it].reviewId) },
                 onMenu = onMenu,
                 onName = onName,
-                onRestaurant = onRestaurant,
+                onRestaurant = { onRestaurant.invoke(list[it].restaurantId) },
                 onImage = onImage,
                 imageServerUrl = imageServerUrl,
                 profileImageServerUrl = profileImageServerUrl,

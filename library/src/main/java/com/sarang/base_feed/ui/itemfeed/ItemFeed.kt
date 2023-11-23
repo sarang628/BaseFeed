@@ -14,17 +14,17 @@ import com.sarang.base_feed.uistate.testFeedUiState
 @Composable
 fun ItemFeed(
     uiState: FeedUiState,                   // 피드 상단,중앙,하단을 합친 ui 상태 값
-    onProfile: ((Int) -> Unit)? = null,     // 프로필 클릭
-    onLike: ((Int) -> Unit),                // 좋아요 클릭
-    onComment: ((Int) -> Unit),             // 코멘트 클릭
-    onShare: ((Int) -> Unit),               // 공유 클릭
-    onFavorite: ((Int) -> Unit),            // 즐겨찾기 클릭
+    onProfile: () -> Unit,                  // 프로필 클릭
+    onLike: () -> Unit,                // 좋아요 클릭
+    onComment: () -> Unit,             // 코멘트 클릭
+    onShare: () -> Unit,               // 공유 클릭
+    onFavorite: () -> Unit,            // 즐겨찾기 클릭
     onMenu: (() -> Unit),                   // 메뉴 클릭
     onName: (() -> Unit),                   // 이름 클릭
-    onRestaurant: ((Int) -> Unit),          // 음식점 클릭
-    onImage: ((Int) -> Unit),               // 이미지 클릭
-    imageServerUrl: String = "",            // 이미지 서버
-    profileImageServerUrl: String = "",     // 프로필 서버
+    onRestaurant: (() -> Unit),             // 음식점 클릭
+    onImage: (Int) -> Unit,               // 이미지 클릭
+    imageServerUrl: String,                 // 이미지 서버
+    profileImageServerUrl: String,          // 프로필 서버
     ratingBar: @Composable (Float) -> Unit  // 평점 바
 ) {
     Column {
@@ -73,6 +73,7 @@ fun PreViewItemFeed() {
         onImage = {},
         profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
         imageServerUrl = "http://sarang628.iptime.org:89/review_images/",
+        onProfile = {}
     ) {
 
     }

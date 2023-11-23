@@ -1,4 +1,4 @@
-package com.sarang.base_feed.ui
+package com.sarang.base_feed.ui.itemfeed
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -12,25 +12,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.basefeed.R
 
 @Composable
 fun FeedReaction(
-    id: Int,
-    onLike: ((Int) -> Unit),
-    onComment: ((Int) -> Unit),
-    onShare: ((Int) -> Unit),
-    onFavorite: ((Int) -> Unit),
-    isLike: Boolean? = null,
-    isFavorite: Boolean? = null
+    onLike: () -> Unit,
+    onComment: () -> Unit,
+    onShare: () -> Unit,
+    onFavorite: () -> Unit,
+    isLike: Boolean,
+    isFavorite: Boolean
 ) {
     // 클릭 시 리플 애니메이션을 없애기 위한 변수
     val interactionSource = remember { MutableInteractionSource() }
     Row {
         Spacer(modifier = Modifier.padding(start = 8.dp))
         Image(
-            painter = if (isLike != null && isLike) painterResource(id = R.drawable.selected_heart) else painterResource(
+            painter = if (isLike) painterResource(id = R.drawable.selected_heart) else painterResource(
                 id = R.drawable.b3s
             ),
             contentDescription = "",
@@ -41,7 +41,7 @@ fun FeedReaction(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    onLike.invoke(id)
+                    onLike.invoke()
                 }
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
@@ -54,7 +54,7 @@ fun FeedReaction(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    onComment.invoke(id)
+                    onComment.invoke()
                 }
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
@@ -67,14 +67,14 @@ fun FeedReaction(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    onShare.invoke(id)
+                    onShare.invoke()
                 }
         )
 
         Text(text = "", modifier = Modifier.weight(1f))
 
         Image(
-            painter = if (isFavorite != null && isFavorite) painterResource(id = R.drawable.selected_star) else painterResource(
+            painter = if (isFavorite) painterResource(id = R.drawable.selected_star) else painterResource(
                 id = R.drawable.star
             ),
             contentDescription = "",
@@ -84,9 +84,23 @@ fun FeedReaction(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    onFavorite.invoke(id)
+                    onFavorite.invoke()
                 }
         )
         Spacer(modifier = Modifier.padding(start = 4.dp))
     }
+}
+
+
+@Preview
+@Composable
+fun PreViewFeedReaction() {
+    FeedReaction(
+        onLike = { /*TODO*/ },
+        onComment = { /*TODO*/ },
+        onShare = { /*TODO*/ },
+        onFavorite = { /*TODO*/ },
+        isLike = true,
+        isFavorite = true
+    )
 }

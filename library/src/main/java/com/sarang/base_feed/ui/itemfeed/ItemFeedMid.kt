@@ -3,6 +3,8 @@ package com.sarang.base_feed.ui.itemfeed
 import TorangAsyncImage
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,10 +19,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,22 +31,23 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ItemFeedMid(
-    img: List<String>,                  // 이미지 리스트
-    onImage: ((Int) -> Unit)? = null,   // 이미지 클릭 이벤트
+    imgs: List<String>,                  // 이미지 리스트
+    onImage: (Int) -> Unit,                // 이미지 클릭 이벤트
     progressSize: Dp = 50.dp,           // 이미지 로드 프로그래스 크기
     errorIconSize: Dp = 50.dp,          // 이미지 로드 에러 아이콘 크기
-    imageServerUrl: String = ""         // 이미지 서버 url 주소
+    imageServerUrl: String              // 이미지 서버 url 주소
 ) {
-    val pagerState = rememberPagerState(pageCount = { img.size })
+    val pagerState = rememberPagerState(pageCount = { imgs.size })
     Column(modifier = Modifier.height(460.dp)) {
         FeedPager(
             pagerState = pagerState,
-            img = img,
+            imgs = imgs,
             progressSize = progressSize,
             errorIconSize = errorIconSize,
-            imageServerUrl = imageServerUrl
+            imageServerUrl = imageServerUrl,
+            onImage = onImage
         )
-        PagerIndicator(pagerState = pagerState, img = img)
+        PagerIndicator(pagerState = pagerState, img = imgs)
     }
 }
 
@@ -55,16 +55,16 @@ fun ItemFeedMid(
 @Composable
 fun FeedPager(
     pagerState: PagerState,
-    img: List<String>,
+    imgs: List<String>,
     progressSize: Dp = 50.dp,
     errorIconSize: Dp = 50.dp,
-    imageServerUrl: String = ""
+    imageServerUrl: String,
+    onImage: ((Int) -> Unit),
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     HorizontalPager(
         state = pagerState,
     ) { page ->
-        val state: MutableState<Int> = remember { mutableStateOf(0) }
-        val scope = rememberCoroutineScope()
         Row(
             modifier = Modifier
                 .size(450.dp)
@@ -73,10 +73,16 @@ fun FeedPager(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TorangAsyncImage(
-                model = imageServerUrl + img[page],
+                model = imageServerUrl + imgs[page],
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .clickable(
+                        indication = null,
+                        interactionSource = interactionSource
+                    ) {
+                        onImage.invoke(page)
+                    },
                 progressSize = progressSize,
                 errorIconSize = errorIconSize
             )
@@ -127,7 +133,9 @@ fun PreViewItemFeedMid() {
 //                ""
             ),
             progressSize = 30.dp,
-            errorIconSize = 30.dp
+            errorIconSize = 30.dp,
+            onImage = {},
+            imageServerUrl = ""
         )
     }
 }

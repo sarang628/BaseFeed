@@ -35,33 +35,30 @@ import com.sarang.base_feed.uistate.testTopUiState
 @Composable
 fun ItemFeedTop(
     uiState: FeedTopUIState,                // ui 상태
-    onProfile: ((Int) -> Unit)? = null,     // 프로필 이미지 클릭
-    onMenu: (() -> Unit)? = null,           // 메뉴 클릭
-    onName: (() -> Unit)? = null,           // 이름 클릭
-    onRestaurant: ((Int) -> Unit),          // 음식점 클릭
-    profileImageServerUrl: String = "",     // 프로필 이미지 서버 url
+    onProfile: () -> Unit,                  // 프로필 이미지 클릭
+    onMenu: () -> Unit,                     // 메뉴 클릭
+    onName: () -> Unit,                     // 이름 클릭
+    onRestaurant: () -> Unit,               // 음식점 클릭
+    profileImageServerUrl: String,          // 프로필 이미지 서버 url
     ratingBar: @Composable (Float) -> Unit  // 평점 바 compose
 ) {
-    // 클릭 시 리플 애니메이션을 없애기 위한 변수
-    val interactionSource = remember { MutableInteractionSource() }
-    // IntrinsicSize.Min 으로 설정
+    val interactionSource = remember { MutableInteractionSource() } // 클릭 시 리플 애니메이션을 없애기 위한 변수
     Row(
         Modifier
             .padding(start = Dp(15f))
-            .height(IntrinsicSize.Min)
+            .height(IntrinsicSize.Min) // IntrinsicSize.Min 으로 설정
             .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     )
     {
-        val model = profileImageServerUrl + uiState.profilePictureUrl
         // 프로필 이미지
         TorangAsyncImage(modifier = Modifier
             .size(40.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null
-            ) { onProfile?.invoke(uiState.userId) }
+            ) { onProfile.invoke() }
             .clip(RoundedCornerShape(20.dp)),
-            model = model,
+            model = profileImageServerUrl + uiState.profilePictureUrl,
             progressSize = 20.dp,
             errorIconSize = 20.dp
         )
@@ -79,7 +76,7 @@ fun ItemFeedTop(
                     modifier = Modifier.clickable(
                         interactionSource = interactionSource,
                         indication = null
-                    ) { onName?.invoke() },
+                    ) { onName.invoke() },
                     text = uiState.name
                 )
                 Spacer(modifier = Modifier.width(5.dp))
@@ -94,11 +91,15 @@ fun ItemFeedTop(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    onRestaurant.invoke(uiState.restaurantId)
+                    onRestaurant.invoke()
                 }
             )
         }
-        Divider(Modifier.weight(1f).height(0.dp))
+        Divider(
+            Modifier
+                .weight(1f)
+                .height(0.dp)
+        )
 
         // 메뉴
         Column(
@@ -107,7 +108,7 @@ fun ItemFeedTop(
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null
-                ) { onMenu?.invoke() }) {
+                ) { onMenu.invoke() }) {
             Image(
                 painter = painterResource(id = R.drawable.dot),
                 contentDescription = "",
@@ -123,7 +124,10 @@ fun PreviewItemFeedTop() {
     ItemFeedTop(
         uiState = testTopUiState(),
         onRestaurant = {},
-        profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/"
+        profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
+        onProfile = {},
+        onName = {},
+        onMenu = {}
     ) {
     }
 }

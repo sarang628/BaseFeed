@@ -12,20 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sarang.base_feed.ui.FeedReaction
 import com.sarang.base_feed.uistate.FeedBottomUIState
+import com.sarang.base_feed.uistate.testFeedBottomUiState
 
 @Composable
 fun FeedBottom(
     uiState: FeedBottomUIState,     // 하단 UI 상태 값
-    onLike: ((Int) -> Unit),        // 좋아요 클릭
-    onComment: ((Int) -> Unit),     // 코멘트 클릭
-    onShare: ((Int) -> Unit),       // 공유 클릭
-    onFavorite: ((Int) -> Unit),    // 즐겨찾기 클릭
+    onLike: () -> Unit,        // 좋아요 클릭
+    onComment: () -> Unit,     // 코멘트 클릭
+    onShare: () -> Unit,       // 공유 클릭
+    onFavorite: () -> Unit,    // 즐겨찾기 클릭
 ) {
     Column(Modifier.padding()) {
         FeedReaction(
-            id = uiState.reviewId,
             onFavorite = onFavorite,
             onComment = onComment,
             onLike = onLike,
@@ -103,22 +102,11 @@ fun FeedComments(
 @Composable
 fun PreViewItemFeedBottom() {
     Column {
-        FeedReaction(
-            id = 0,
-            isLike = true,
-            isFavorite = true,
-            onFavorite = {},
-            onLike = {},
-            onComment = {},
-            onShare = {}
-        )
-        FeedComments(
-            author = "사용자1",
-            author1 = "사용자2",
-            author2 = "사용자2",
-            comment = "코멘트",
-            comment1 = "코멘트1",
-            comment2 = "코멘트2"
-        )
+        FeedBottom(
+            uiState = testFeedBottomUiState(),
+            onLike = { /*TODO*/ },
+            onComment = { /*TODO*/ },
+            onShare = { /*TODO*/ },
+            onFavorite = {})
     }
 }

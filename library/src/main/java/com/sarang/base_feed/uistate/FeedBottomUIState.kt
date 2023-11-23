@@ -3,7 +3,6 @@ package com.sarang.base_feed.uistate
 
 /*피드 하단 UIState*/
 data class FeedBottomUIState(
-    val reviewId: Int,
     val likeAmount: Int,
     val commentAmount: Int,
     val author: String,
@@ -14,15 +13,12 @@ data class FeedBottomUIState(
     val comment2: String,
     val isLike: Boolean,
     val isFavorite: Boolean,
-    val visibleLike: Boolean,
-    val visibleComment: Boolean,
     val contents: String
 )
 
 
 fun testFeedBottomUiState(): FeedBottomUIState {
     return FeedBottomUIState(
-        reviewId = 0,
         likeAmount = 0,
         commentAmount = 0,
         author = "author",
@@ -33,8 +29,6 @@ fun testFeedBottomUiState(): FeedBottomUIState {
         comment2 = "comment2",
         isLike = false,
         isFavorite = false,
-        visibleLike = false,
-        visibleComment = false,
         contents = "contents"
     )
 }
