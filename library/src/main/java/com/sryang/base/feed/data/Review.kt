@@ -34,7 +34,7 @@ fun testReviewData(): Review {
         user = User(
             userId = 0,
             name = "name",
-            profilePictureUrl = "profilePictureUrl"
+            profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg"
         ),
         restaurant = Restaurant(
             restaurantId = 1,
