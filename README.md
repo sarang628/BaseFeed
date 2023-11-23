@@ -35,5 +35,10 @@ fun testFeedUiState(): FeedUiState {
 ```
 
 
+## Unit test 구현
+- 최초 로딩 중일 때 리스트가 나오면 안된다.
+- 최초 로딩이 되었고 리스트가 비어있다면 리스트가 비어있음을 표시한다.
+- 최초 로딩이 되었고 리스트가 있다면 리스트를 표시한다.
+
 ## 화면
 <img src="./screenshot/demonstrate.gif" alt="image" width="300" height="auto">
