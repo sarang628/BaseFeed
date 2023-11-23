@@ -14,6 +14,7 @@ import com.example.library.RatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sryang.base.feed.compose.feed.Feeds
 import com.sryang.base.feed.uistate.FeedUiState
+import com.sryang.base.feed.uistate.testFeedUiState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,13 +29,13 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Feeds(
                         list = (ArrayList<FeedUiState>().apply {
-//                            add(testFeedUiState())
-//                            add(testFeedUiState())
-//                            add(testFeedUiState())
-//                            add(testFeedUiState())
-//                            add(testFeedUiState())
-//                            add(testFeedUiState())
-//                            add(testFeedUiState())
+                            add(testFeedUiState())
+                            add(testFeedUiState())
+                            add(testFeedUiState())
+                            add(testFeedUiState())
+                            add(testFeedUiState())
+                            add(testFeedUiState())
+                            add(testFeedUiState())
                         }),
                         onProfile = { },
                         onLike = { },

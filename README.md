@@ -9,3 +9,7 @@
 
 
 ## architecture 적용
+
+
+## 화면
+<img src="./screenshot/demonstrate.gif" alt="image" width="300" height="auto">
