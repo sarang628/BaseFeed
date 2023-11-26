@@ -15,8 +15,8 @@ fun Feeds(
     onComment: ((Int) -> Unit),
     onShare: ((Int) -> Unit),
     onFavorite: ((Int) -> Unit),
-    onMenu: (() -> Unit),
-    onName: (() -> Unit),
+    onMenu: ((Int) -> Unit),
+    onName: ((Int) -> Unit),
     onRestaurant: ((Int) -> Unit),
     onImage: ((Int) -> Unit),
     onRefresh: (() -> Unit),
@@ -28,20 +28,20 @@ fun Feeds(
     isEmpty: Boolean,
     profileImageServerUrl: String,
     ratingBar: @Composable (Float) -> Unit
-) {
+)
+{
     RefreshAndBottomDetectionLazyColunm( // pull to refresh와 하단 감지 적용 LazyColunm
         count = list.size,
         onBottom = onBottom,
         itemCompose = {
-            Feed(
-                review = list[it],
+            Feed(review = list[it],
                 onProfile = { onProfile.invoke(list[it].user.userId) },
                 onLike = { onLike.invoke(list[it].reviewId) },
                 onComment = { onComment.invoke(list[it].reviewId) },
                 onShare = { onShare.invoke(list[it].reviewId) },
                 onFavorite = { onFavorite.invoke(list[it].reviewId) },
-                onMenu = onMenu,
-                onName = onName,
+                onMenu = { onMenu.invoke(list[it].reviewId) },
+                onName = { onName.invoke(list[it].user.userId) },
                 onRestaurant = { onRestaurant.invoke(list[it].restaurant.restaurantId) },
                 onImage = onImage,
                 imageServerUrl = imageServerUrl,
@@ -53,14 +53,14 @@ fun Feeds(
         isRefreshing = isRefreshing || !isLoaded,
         visibleList = isVisibleList
     ) {
-        if (isEmpty)
-            EmptyFeed()
+        if (isEmpty) EmptyFeed()
     }
 }
 
 @Preview
 @Composable
-fun PreviewFeeds() {
+fun PreviewFeeds()
+{
     Feeds(
         list = ArrayList<Review>().apply {
             add(testReviewData())
