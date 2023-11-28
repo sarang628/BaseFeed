@@ -1,5 +1,6 @@
 package com.sryang.base.feed.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -9,6 +10,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.sryang.library.BottomDetectingLazyColumn
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -18,26 +20,22 @@ fun RefreshAndBottomDetectionLazyColunm(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onBottom: () -> Unit,
-    visibleList: Boolean,
     itemCompose: @Composable (Int) -> Unit,
     contents: @Composable (() -> Unit)? = null
 ) {
 
     val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
-    val mod2 = Modifier
-        .fillMaxSize()
-        .pullRefresh(pullRefreshState)
 
     Box(
-        modifier = mod2
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
     ) {
-        if (visibleList) {
-            BottomDetectingLazyColumn(
-                items = count,
-                onBottom = { onBottom.invoke() },
-                composable = { itemCompose.invoke(it) }
-            )
-        }
+        BottomDetectingLazyColumn(
+            items = count,
+            onBottom = { onBottom.invoke() },
+            composable = { itemCompose.invoke(it) }
+        )
 
         PullRefreshIndicator(
             refreshing = isRefreshing,

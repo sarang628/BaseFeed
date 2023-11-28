@@ -1,6 +1,9 @@
 package com.sryang.base.feed.compose.feed
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sryang.base.feed.compose.RefreshAndBottomDetectionLazyColunm
 import com.sryang.base.feed.data.Review
@@ -23,12 +26,12 @@ fun Feeds(
     onBottom: () -> Unit,
     isRefreshing: Boolean,
     imageServerUrl: String,
-    isVisibleList: Boolean,
     isEmpty: Boolean,
     profileImageServerUrl: String,
     ratingBar: @Composable (Float) -> Unit
 ) {
-    RefreshAndBottomDetectionLazyColunm( // pull to refresh와 하단 감지 적용 LazyColunm
+    RefreshAndBottomDetectionLazyColunm(
+        // pull to refresh와 하단 감지 적용 LazyColunm
         count = list.size,
         onBottom = onBottom,
         itemCompose = {
@@ -50,7 +53,6 @@ fun Feeds(
         },
         onRefresh = onRefresh,
         isRefreshing = isRefreshing,
-        visibleList = isVisibleList
     ) {
         if (isEmpty) EmptyFeed()
     }
@@ -80,7 +82,6 @@ fun PreviewFeeds() {
         imageServerUrl = "",
         profileImageServerUrl = "",
         ratingBar = {},
-        isEmpty = true,
-        isVisibleList = true
+        isEmpty = true
     )
 }
