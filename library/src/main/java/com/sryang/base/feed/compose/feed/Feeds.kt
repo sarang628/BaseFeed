@@ -22,19 +22,18 @@ fun Feeds(
     onRefresh: (() -> Unit),
     onBottom: () -> Unit,
     isRefreshing: Boolean,
-    isLoaded: Boolean,
     imageServerUrl: String,
     isVisibleList: Boolean,
     isEmpty: Boolean,
     profileImageServerUrl: String,
     ratingBar: @Composable (Float) -> Unit
-)
-{
+) {
     RefreshAndBottomDetectionLazyColunm( // pull to refresh와 하단 감지 적용 LazyColunm
         count = list.size,
         onBottom = onBottom,
         itemCompose = {
-            Feed(review = list[it],
+            Feed(
+                review = list[it],
                 onProfile = { onProfile.invoke(list[it].user.userId) },
                 onLike = { onLike.invoke(list[it].reviewId) },
                 onComment = { onComment.invoke(list[it].reviewId) },
@@ -50,7 +49,7 @@ fun Feeds(
             )
         },
         onRefresh = onRefresh,
-        isRefreshing = isRefreshing || !isLoaded,
+        isRefreshing = isRefreshing,
         visibleList = isVisibleList
     ) {
         if (isEmpty) EmptyFeed()
@@ -59,8 +58,7 @@ fun Feeds(
 
 @Preview
 @Composable
-fun PreviewFeeds()
-{
+fun PreviewFeeds() {
     Feeds(
         list = ArrayList<Review>().apply {
             add(testReviewData())
@@ -79,7 +77,6 @@ fun PreviewFeeds()
         onRefresh = { /*TODO*/ },
         onBottom = { /*TODO*/ },
         isRefreshing = false,
-        isLoaded = false,
         imageServerUrl = "",
         profileImageServerUrl = "",
         ratingBar = {},
