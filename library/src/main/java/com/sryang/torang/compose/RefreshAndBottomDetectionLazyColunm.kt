@@ -1,5 +1,6 @@
 package com.sryang.torang.compose
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.sryang.library.BottomDetectingLazyColumn
@@ -29,7 +30,7 @@ fun RefreshAndBottomDetectionLazyColunm(
     })
 
     PullToRefreshLayout(
-        pullRefreshLayoutState = rememberPullToRefreshState(),
+        pullRefreshLayoutState = state,
         refreshThreshold = 80,
         onRefresh = onRefresh
     ) {
