@@ -1,4 +1,4 @@
-# BaseFeed
+# BaseFeed Module
 메인 화면, 프로필 화면 등 다양한 화면에서 피드를 사용하여 공통 컴포넌트 모듈로 제공
 
 ## convention
