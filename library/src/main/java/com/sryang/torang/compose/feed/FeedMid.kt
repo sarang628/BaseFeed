@@ -1,4 +1,4 @@
-package com.sryang.base.feed.compose.feed
+package com.sryang.torang.compose.feed
 
 import TorangAsyncImage
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -45,7 +45,6 @@ internal fun FeedMid(
     onImage: (Int) -> Unit,                // 이미지 클릭 이벤트
     progressSize: Dp = 50.dp,           // 이미지 로드 프로그래스 크기
     errorIconSize: Dp = 50.dp,          // 이미지 로드 에러 아이콘 크기
-    imageServerUrl: String              // 이미지 서버 url 주소
 ) {
     val pagerState = rememberPagerState(pageCount = { imgs.size })
     Column(modifier = Modifier.height(460.dp)) {
@@ -54,7 +53,6 @@ internal fun FeedMid(
             imgs = imgs,
             progressSize = progressSize,
             errorIconSize = errorIconSize,
-            imageServerUrl = imageServerUrl,
             onImage = onImage
         )
         PagerIndicator(pagerState = pagerState, img = imgs)
@@ -68,7 +66,6 @@ fun FeedPager(
     imgs: List<String>,
     progressSize: Dp = 50.dp,
     errorIconSize: Dp = 50.dp,
-    imageServerUrl: String,
     onImage: ((Int) -> Unit),
 ) {
     val scale = remember { mutableStateOf(1f) }
@@ -91,7 +88,7 @@ fun FeedPager(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TorangAsyncImage(
-                model = imageServerUrl + imgs[page],
+                model = imgs[page],
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
@@ -186,7 +183,6 @@ fun PreViewItemFeedMid() {
             progressSize = 30.dp,
             errorIconSize = 30.dp,
             onImage = {},
-            imageServerUrl = ""
         )
     }
 }

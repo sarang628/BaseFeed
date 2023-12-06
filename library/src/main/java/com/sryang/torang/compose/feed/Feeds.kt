@@ -1,14 +1,10 @@
-package com.sryang.base.feed.compose.feed
+package com.sryang.torang.compose.feed
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.sryang.base.feed.compose.RefreshAndBottomDetectionLazyColunm
-import com.sryang.base.feed.data.Review
-import com.sryang.base.feed.data.testReviewData
-import dagger.Binds
+import com.sryang.torang.compose.RefreshAndBottomDetectionLazyColunm
+import com.sryang.torang.data.basefeed.Review
+import com.sryang.torang.data.basefeed.testReviewData
 
 @Composable
 fun Feeds(
@@ -25,9 +21,7 @@ fun Feeds(
     onRefresh: (() -> Unit),
     onBottom: () -> Unit,
     isRefreshing: Boolean,
-    imageServerUrl: String,
     isEmpty: Boolean,
-    profileImageServerUrl: String,
     ratingBar: @Composable (Float) -> Unit
 ) {
     RefreshAndBottomDetectionLazyColunm(
@@ -46,8 +40,6 @@ fun Feeds(
                 onName = { onName.invoke(list[it].user.userId) },
                 onRestaurant = { onRestaurant.invoke(list[it].restaurant.restaurantId) },
                 onImage = onImage,
-                imageServerUrl = imageServerUrl,
-                profileImageServerUrl = profileImageServerUrl,
                 ratingBar = ratingBar
             )
         },
@@ -79,8 +71,6 @@ fun PreviewFeeds() {
         onRefresh = { /*TODO*/ },
         onBottom = { /*TODO*/ },
         isRefreshing = false,
-        imageServerUrl = "",
-        profileImageServerUrl = "",
         ratingBar = {},
         isEmpty = true
     )

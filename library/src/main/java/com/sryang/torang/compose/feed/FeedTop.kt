@@ -1,4 +1,4 @@
-package com.sryang.base.feed.compose.feed
+package com.sryang.torang.compose.feed
 
 import TorangAsyncImage
 import androidx.compose.foundation.Image
@@ -28,7 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.sryang.base.feed.R
+import com.sryang.torang.R
 
 @Composable
 internal fun FeedTop(
@@ -40,7 +40,6 @@ internal fun FeedTop(
     onMenu: () -> Unit,                     // 메뉴 클릭
     onName: () -> Unit,                     // 이름 클릭
     onRestaurant: () -> Unit,               // 음식점 클릭
-    profileImageServerUrl: String,          // 프로필 이미지 서버 url
     ratingBar: @Composable (Float) -> Unit  // 평점 바 compose
 ) {
     val interactionSource = remember { MutableInteractionSource() } // 클릭 시 리플 애니메이션을 없애기 위한 변수
@@ -59,7 +58,7 @@ internal fun FeedTop(
                 indication = null
             ) { onProfile.invoke() }
             .clip(RoundedCornerShape(20.dp)),
-            model = profileImageServerUrl + profilePictureUrl,
+            model = profilePictureUrl,
             progressSize = 20.dp,
             errorIconSize = 20.dp
         )
@@ -129,7 +128,6 @@ fun PreviewItemFeedTop() {
         rating = 3.5f,
         ratingBar = {},
         onRestaurant = {},
-        profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
         onProfile = {},
         onName = {},
         onMenu = {}

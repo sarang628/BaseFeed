@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'com.sryang.base.feed'
+    namespace 'com.sryang.torang'
     compileSdk rootProject.compileSdk
     defaultConfig {
         minSdk rootProject.minSdk

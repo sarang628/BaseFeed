@@ -1,4 +1,4 @@
-package com.sryang.base.feed.compose.feed
+package com.sryang.torang.compose.feed
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sryang.base.feed.R
+import com.sryang.torang.R
 
 @Composable
 fun FeedReaction(

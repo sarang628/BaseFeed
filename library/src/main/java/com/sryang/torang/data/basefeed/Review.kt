@@ -1,4 +1,4 @@
-package com.sryang.base.feed.data
+package com.sryang.torang.data.basefeed
 
 data class Review(
     val user: User,

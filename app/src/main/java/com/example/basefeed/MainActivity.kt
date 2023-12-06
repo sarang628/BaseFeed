@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.library.RatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
-import com.sryang.base.feed.compose.feed.Feeds
+import com.sryang.torang.compose.feed.Feeds
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,8 +26,6 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.colorScheme.background)
                 ) {
                     Feeds(
-                        profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
-                        imageServerUrl = "http://sarang628.iptime.org:89/review_images/",
                         list = listOf(),
                         isRefreshing = false,
                         isEmpty = true,

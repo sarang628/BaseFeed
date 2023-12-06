@@ -1,4 +1,4 @@
-package com.sryang.base.feed.compose.feed
+package com.sryang.torang.compose.feed
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sryang.base.feed.data.Review
-import com.sryang.base.feed.data.testReviewData
+import com.sryang.torang.data.basefeed.Review
+import com.sryang.torang.data.basefeed.testReviewData
 
 @Composable
 fun Feed(
@@ -22,8 +22,6 @@ fun Feed(
     onName: (() -> Unit),                   // 이름 클릭
     onRestaurant: (() -> Unit),             // 음식점 클릭
     onImage: (Int) -> Unit,                 // 이미지 클릭
-    imageServerUrl: String,                 // 이미지 서버
-    profileImageServerUrl: String,          // 프로필 서버
     ratingBar: @Composable (Float) -> Unit  // 평점 바
 ) {
     Column {
@@ -33,7 +31,6 @@ fun Feed(
             onMenu = onMenu,
             onName = onName,
             onRestaurant = onRestaurant,
-            profileImageServerUrl = profileImageServerUrl,
             ratingBar = ratingBar,
             profilePictureUrl = review.user.profilePictureUrl,
             rating = review.rating,
@@ -46,7 +43,6 @@ fun Feed(
                 onImage = onImage,
                 progressSize = 30.dp,
                 errorIconSize = 30.dp,
-                imageServerUrl = imageServerUrl
             )
         }
         FeedBottom(
@@ -74,8 +70,6 @@ fun PreViewItemFeed() {
         onName = { /*TODO*/ },
         onRestaurant = {},
         onImage = {},
-        profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/",
-        imageServerUrl = "http://sarang628.iptime.org:89/review_images/",
         onProfile = {},
         review = testReviewData()
     ) {

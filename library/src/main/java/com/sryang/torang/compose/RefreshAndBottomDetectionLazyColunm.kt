@@ -1,8 +1,7 @@
-package com.sryang.base.feed.compose
+package com.sryang.torang.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.unit.dp
 import com.sryang.library.BottomDetectingLazyColumn
 import com.sryang.library.pullrefresh.PullToRefreshLayout
 import com.sryang.library.pullrefresh.RefreshIndicatorState
