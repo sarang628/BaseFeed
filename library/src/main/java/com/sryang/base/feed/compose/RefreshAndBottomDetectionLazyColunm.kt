@@ -1,19 +1,13 @@
 package com.sryang.base.feed.compose
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.dp
 import com.sryang.library.BottomDetectingLazyColumn
+import com.sryang.library.pullrefresh.PullToRefreshLayout
+import com.sryang.library.pullrefresh.RefreshIndicatorState
+import com.sryang.library.pullrefresh.rememberPullToRefreshState
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RefreshAndBottomDetectionLazyColunm(
     count: Int,
@@ -24,25 +18,27 @@ fun RefreshAndBottomDetectionLazyColunm(
     contents: @Composable (() -> Unit)? = null
 ) {
 
-    val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
+    //val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(pullRefreshState)
+    val state = rememberPullToRefreshState()
+    LaunchedEffect(key1 = isRefreshing, block = {
+        if (isRefreshing) {
+            state.updateState(RefreshIndicatorState.Refreshing)
+        } else {
+            state.updateState(RefreshIndicatorState.Default)
+        }
+    })
+
+    PullToRefreshLayout(
+        pullRefreshLayoutState = rememberPullToRefreshState(),
+        refreshThreshold = 80,
+        onRefresh = onRefresh
     ) {
         BottomDetectingLazyColumn(
             items = count,
             onBottom = { onBottom.invoke() },
             composable = { itemCompose.invoke(it) }
         )
-
-        PullRefreshIndicator(
-            refreshing = isRefreshing,
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
-
         contents?.invoke()
     }
 }
