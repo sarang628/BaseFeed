@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sryang.torang.data.basefeed.Comment
+import com.sryang.torang.data.basefeed.testReviewData
 
 @Composable
 internal fun FeedBottom(
@@ -53,7 +54,7 @@ fun PreViewItemFeedBottom() {
             likeAmount = 0,
             isFavorite = false,
             isLike = false,
-            contents = "",
+            contents = testReviewData().contents,
             onLike = { /*TODO*/ },
             onComment = { /*TODO*/ },
             onShare = { /*TODO*/ },
