@@ -19,7 +19,7 @@ fun testReviewData(): Review {
     return Review(
         reviewId = 0,
         reviewImages = ArrayList<String>().apply {
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
+            add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")

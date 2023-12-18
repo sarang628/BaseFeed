@@ -22,31 +22,36 @@ fun Feeds(
     onBottom: () -> Unit,
     isRefreshing: Boolean,
     isEmpty: Boolean,
-    ratingBar: @Composable (Float) -> Unit
+    ratingBar: @Composable (Float) -> Unit,
+    isLoading: Boolean
 ) {
-    RefreshAndBottomDetectionLazyColunm(
-        // pull to refresh와 하단 감지 적용 LazyColunm
-        count = list.size,
-        onBottom = onBottom,
-        itemCompose = {
-            Feed(
-                review = list[it],
-                onProfile = { onProfile.invoke(list[it].user.userId) },
-                onLike = { onLike.invoke(list[it].reviewId) },
-                onComment = { onComment.invoke(list[it].reviewId) },
-                onShare = { onShare.invoke(list[it].reviewId) },
-                onFavorite = { onFavorite.invoke(list[it].reviewId) },
-                onMenu = { onMenu.invoke(list[it].reviewId) },
-                onName = { onName.invoke(list[it].user.userId) },
-                onRestaurant = { onRestaurant.invoke(list[it].restaurant.restaurantId) },
-                onImage = onImage,
-                ratingBar = ratingBar
-            )
-        },
-        onRefresh = onRefresh,
-        isRefreshing = isRefreshing,
-    ) {
-        if (isEmpty) EmptyFeed()
+    if (!isLoading) {
+        RefreshAndBottomDetectionLazyColunm(
+            // pull to refresh와 하단 감지 적용 LazyColunm
+            count = list.size,
+            onBottom = onBottom,
+            itemCompose = {
+                Feed(
+                    review = list[it],
+                    onProfile = { onProfile.invoke(list[it].user.userId) },
+                    onLike = { onLike.invoke(list[it].reviewId) },
+                    onComment = { onComment.invoke(list[it].reviewId) },
+                    onShare = { onShare.invoke(list[it].reviewId) },
+                    onFavorite = { onFavorite.invoke(list[it].reviewId) },
+                    onMenu = { onMenu.invoke(list[it].reviewId) },
+                    onName = { onName.invoke(list[it].user.userId) },
+                    onRestaurant = { onRestaurant.invoke(list[it].restaurant.restaurantId) },
+                    onImage = onImage,
+                    ratingBar = ratingBar
+                )
+            },
+            onRefresh = onRefresh,
+            isRefreshing = isRefreshing,
+        ) {
+            if (isEmpty) EmptyFeed()
+        }
+    } else {
+        FeedShimmer()
     }
 }
 
@@ -72,6 +77,7 @@ fun PreviewFeeds() {
         onBottom = { /*TODO*/ },
         isRefreshing = false,
         ratingBar = {},
-        isEmpty = true
+        isEmpty = false,
+        isLoading = true
     )
 }
