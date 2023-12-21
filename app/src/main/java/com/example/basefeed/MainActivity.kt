@@ -49,14 +49,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             var isRefreshing by remember { mutableStateOf(false) }
             val coroutine = rememberCoroutineScope()
-            var shimmer by remember { mutableStateOf(true) }
-
-            LaunchedEffect(key1 = shimmer, block = {
-                while (true) {
-                    delay(2000)
-                    shimmer = !shimmer
-                }
-            })
 
             TorangTheme {
                 val context = LocalContext.current
@@ -84,12 +76,6 @@ class MainActivity : ComponentActivity() {
                                 onImage = { },
                                 onRefresh = {
                                     isRefreshing = true
-                                    coroutine.launch {
-                                        delay(1000)
-                                        isRefreshing = false
-                                        Log.d("_MainActivity", "isRefreshing ${isRefreshing}")
-                                    }
-
                                 },
                                 onBottom = {
                                     Toast.makeText(context, "onBottom", Toast.LENGTH_SHORT).show()
@@ -97,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                 ratingBar = {
                                     RatingBar(rating = it)
                                 },
-                                isLoading = shimmer
+                                isLoading = false
                             )
                         }
                         FeedRepositoryTest(feedRepository = feedRepository)

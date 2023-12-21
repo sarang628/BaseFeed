@@ -24,7 +24,8 @@ fun Feed(
     onName: (() -> Unit),                   // 이름 클릭
     onRestaurant: (() -> Unit),             // 음식점 클릭
     onImage: (Int) -> Unit,                 // 이미지 클릭
-    ratingBar: @Composable (Float) -> Unit  // 평점 바
+    ratingBar: @Composable (Float) -> Unit,  // 평점 바
+    isZooming: ((Boolean) -> Unit)? = null
 ) {
     Column {
         FeedTop(
@@ -45,6 +46,7 @@ fun Feed(
                 onImage = onImage,
                 progressSize = 30.dp,
                 errorIconSize = 30.dp,
+                isZooming = isZooming
             )
         }
         FeedBottom(

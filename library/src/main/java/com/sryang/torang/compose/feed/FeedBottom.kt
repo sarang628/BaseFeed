@@ -35,6 +35,7 @@ internal fun FeedBottom(
         )
         Spacer(modifier = Modifier.height(8.dp))
         FeedComments(
+            comments = comments,
             contents = contents,
             likeAmount = likeAmount,
             commentAmount = commentAmount,

@@ -2,17 +2,20 @@ package com.sryang.torang.compose.feed
 
 import TorangAsyncImage
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.calculatePan
 import androidx.compose.foundation.gestures.calculateZoom
+import androidx.compose.foundation.gestures.stopScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,9 +26,12 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,22 +47,22 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun FeedMid(
-    imgs: List<String>,                  // 이미지 리스트
-    onImage: (Int) -> Unit,                // 이미지 클릭 이벤트
+    imgs: List<String>,                 // 이미지 리스트
+    onImage: (Int) -> Unit,             // 이미지 클릭 이벤트
     progressSize: Dp = 50.dp,           // 이미지 로드 프로그래스 크기
     errorIconSize: Dp = 50.dp,          // 이미지 로드 에러 아이콘 크기
+    isZooming: ((Boolean) -> Unit)? = null
 ) {
     val pagerState = rememberPagerState(pageCount = { imgs.size })
-    Column(modifier = Modifier.height(460.dp)) {
-        FeedPager(
-            pagerState = pagerState,
-            imgs = imgs,
-            progressSize = progressSize,
-            errorIconSize = errorIconSize,
-            onImage = onImage
-        )
-        PagerIndicator(pagerState = pagerState, img = imgs)
-    }
+    FeedPager(
+        pagerState = pagerState,
+        imgs = imgs,
+        progressSize = progressSize,
+        errorIconSize = errorIconSize,
+        onImage = onImage,
+        isZooming = isZooming
+    )
+    PagerIndicator(pagerState = pagerState, img = imgs)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -67,18 +73,20 @@ fun FeedPager(
     progressSize: Dp = 50.dp,
     errorIconSize: Dp = 50.dp,
     onImage: ((Int) -> Unit),
+    isZooming: ((Boolean) -> Unit)? = null
 ) {
-    val scale = remember { mutableStateOf(1f) }
-    val offsetX = remember { mutableStateOf(1f) }
-    val offsetY = remember { mutableStateOf(1f) }
-    val plantImageZIndex = remember { mutableStateOf(1f) }
-    val maxScale = remember { mutableStateOf(1f) }
-    val minScale = remember { mutableStateOf(3f) }
-    val coroutineScope = rememberCoroutineScope()
+    val scale = remember { mutableFloatStateOf(1f) }
+    val offsetX = remember { mutableFloatStateOf(1f) }
+    val offsetY = remember { mutableFloatStateOf(1f) }
+    val plantImageZIndex = remember { mutableFloatStateOf(1f) }
+    val maxScale = remember { mutableFloatStateOf(1f) }
+    val minScale = remember { mutableFloatStateOf(3f) }
+    var scrollEnable by remember { mutableStateOf(true) }
 
     val interactionSource = remember { MutableInteractionSource() }
     HorizontalPager(
         state = pagerState,
+        userScrollEnabled = scrollEnable
     ) { page ->
         Row(
             modifier = Modifier
@@ -105,16 +113,15 @@ fun FeedPager(
                                 val event = awaitPointerEvent()
                                 scale.value *= event.calculateZoom()
                                 if (scale.value > 1) {
-                                    coroutineScope.launch {
-                                        //scrollState.setScrolling(false)
-                                    }
+                                    scrollEnable = false
+                                    isZooming?.invoke(false)
                                     plantImageZIndex.value = 5f
                                     val offset = event.calculatePan()
                                     offsetX.value += offset.x
                                     offsetY.value += offset.y
-                                    coroutineScope.launch {
-                                        //scrollState.setScrolling(true)
-                                    }
+                                } else {
+                                    scrollEnable = true
+                                    isZooming?.invoke(true)
                                 }
                             } while (event.changes.any { it.pressed })
                             if (currentEvent.type == PointerEventType.Release) {

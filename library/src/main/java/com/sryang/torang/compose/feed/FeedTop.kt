@@ -1,10 +1,10 @@
 package com.sryang.torang.compose.feed
 
 import TorangAsyncImage
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -24,11 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.sryang.torang.R
 
 @Composable
 internal fun FeedTop(
@@ -66,7 +67,7 @@ internal fun FeedTop(
         // 사용자명 + 평점 + 식당명
         Column(
             Modifier
-                .padding(start = Dp(8f))
+                .padding(start = 8.dp)
                 .fillMaxHeight(), verticalArrangement = Arrangement.SpaceAround
         )
         {
@@ -95,25 +96,18 @@ internal fun FeedTop(
                 }
             )
         }
-        Divider(
-            Modifier
-                .weight(1f)
-                .height(0.dp)
-        )
 
         // 메뉴
-        Column(
+        Box(
             Modifier
-                .padding(end = Dp(10f))
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) { onMenu.invoke() }) {
-            Image(
-                painter = painterResource(id = R.drawable.dot),
-                contentDescription = "",
-                modifier = Modifier.size(Dp(29f))
-            )
+                .fillMaxWidth()
+        ) {
+            IconButton(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                onClick = { onMenu.invoke() }
+            ) {
+                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "")
+            }
         }
     }
 }
