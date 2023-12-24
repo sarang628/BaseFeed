@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.basefeed.di.basefeed.review
 import com.example.basefeed.di.basefeed.toFeedData
-import com.example.library.RatingBar
+import com.example.commonwidgets.torangcomposepack.AndroidViewRatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sryang.torang.compose.feed.Feeds
 import com.sryang.torang_repository.repository.FeedRepository
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                                     Toast.makeText(context, "onBottom", Toast.LENGTH_SHORT).show()
                                 },
                                 ratingBar = {
-                                    RatingBar(rating = it)
+                                    AndroidViewRatingBar(rating = it, isSmall = true, changable = false)
                                 },
                                 isLoading = false
                             )

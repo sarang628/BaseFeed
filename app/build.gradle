@@ -106,6 +106,5 @@ dependencies {
 
     implementation "com.github.sarang628:Theme:$themeVersion"
 
-    implementation "com.github.sarang628:CommonWidgets:$commonWidgetVersion"
     implementation 'com.github.sarang628:TorangRepository:ba032f80ca'
 }
