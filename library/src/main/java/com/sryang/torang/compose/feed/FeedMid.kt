@@ -28,6 +28,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +59,7 @@ internal fun FeedMid(
     val pagerState = rememberPagerState(pageCount = { imgs.size })
     var scrollEnable by remember { mutableStateOf(true) }
     HorizontalPager(
+        modifier = Modifier.fillMaxSize(),
         state = pagerState,
         userScrollEnabled = scrollEnable
     ) { page ->
@@ -80,72 +82,7 @@ internal fun FeedMid(
     PagerIndicator(pagerState = pagerState, img = imgs)
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-internal fun FeedMid1(
-    imgs: List<String>,                 // 이미지 리스트
-    onImage: (Int) -> Unit,             // 이미지 클릭 이벤트
-    progressSize: Dp = 50.dp,           // 이미지 로드 프로그래스 크기
-    errorIconSize: Dp = 50.dp,          // 이미지 로드 에러 아이콘 크기
-    isZooming: ((Boolean) -> Unit)? = null
-) {
-    val pagerState = rememberPagerState(pageCount = { imgs.size })
-    var scrollEnable by remember { mutableStateOf(true) }
-    val scale = remember { mutableFloatStateOf(1f) }
-    val offsetX = remember { mutableFloatStateOf(1f) }
-    val offsetY = remember { mutableFloatStateOf(1f) }
-    val plantImageZIndex = remember { mutableFloatStateOf(1f) }
-    val maxScale = remember { mutableFloatStateOf(1f) }
-    val minScale = remember { mutableFloatStateOf(3f) }
-    HorizontalPager(
-        state = pagerState,
-        userScrollEnabled = scrollEnable
-    ) { page ->
-        TorangAsyncImage(
-            model = imgs[page],
-            modifier = Modifier
-                .size(450.dp)
-                .padding(bottom = 10.dp)
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .clickable1(onClick = { onImage.invoke(page) })
-                .pointerInput(Unit) {
-                    awaitEachGesture {
-                        awaitFirstDown()
-                        do {
-                            Log.d("pinchZoom", "pinchZoom")
-                            val event = awaitPointerEvent()
-                            scale.value *= event.calculateZoom()
-                            if (scale.value > 1) {
-                                plantImageZIndex.value = 5f
-                                val offset = event.calculatePan()
-                                offsetX.value += offset.x
-                                offsetY.value += offset.y
-                            } else {
-
-                            }
-                        } while (event.changes.any { it.pressed })
-                        if (currentEvent.type == PointerEventType.Release) {
-                            scale.value = 1f
-                            offsetX.value = 1f
-                            offsetY.value = 1f
-                            plantImageZIndex.value = 1f
-                        }
-                    }
-                }
-                .graphicsLayer {
-                    scaleX = maxOf(maxScale.value, minOf(minScale.value, scale.value))
-                    scaleY = maxOf(maxScale.value, minOf(minScale.value, scale.value))
-                    translationX = offsetX.value
-                    translationY = offsetY.value
-                },
-            progressSize = progressSize,
-            errorIconSize = errorIconSize
-        )
-    }
-    PagerIndicator(pagerState = pagerState, img = imgs)
-}
-
+@Stable
 @Composable
 fun Modifier.pinchZoom(onPinchZoom: (Boolean) -> Unit): Modifier {
     val scale = remember { mutableFloatStateOf(1f) }
@@ -154,7 +91,7 @@ fun Modifier.pinchZoom(onPinchZoom: (Boolean) -> Unit): Modifier {
     val plantImageZIndex = remember { mutableFloatStateOf(1f) }
     val maxScale = remember { mutableFloatStateOf(1f) }
     val minScale = remember { mutableFloatStateOf(3f) }
-    this
+    return this
         .pointerInput(Unit) {
             awaitEachGesture {
                 awaitFirstDown()
@@ -186,7 +123,6 @@ fun Modifier.pinchZoom(onPinchZoom: (Boolean) -> Unit): Modifier {
             translationX = offsetX.value
             translationY = offsetY.value
         }
-    return this
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -221,8 +157,12 @@ fun PagerIndicator(
 @Preview
 @Composable
 fun PreViewItemFeedMid() {
-    Column(Modifier.fillMaxSize().background(Color.Gray)) {
-        FeedMid1(
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Gray)
+    ) {
+        FeedMid(
             arrayListOf(
 //                "https://www.naver.com",
                 "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
