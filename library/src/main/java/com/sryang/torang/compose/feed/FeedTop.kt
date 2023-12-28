@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,18 +19,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 
 @Composable
 internal fun FeedTop(
@@ -41,75 +48,94 @@ internal fun FeedTop(
     onMenu: () -> Unit,                     // 메뉴 클릭
     onName: () -> Unit,                     // 이름 클릭
     onRestaurant: () -> Unit,               // 음식점 클릭
-    ratingBar: @Composable (Float) -> Unit  // 평점 바 compose
+    ratingBar: @Composable (Modifier, Float) -> Unit  // 평점 바 compose
 ) {
-    val interactionSource = remember { MutableInteractionSource() } // 클릭 시 리플 애니메이션을 없애기 위한 변수
-    Row(
-        Modifier
-            .padding(start = Dp(15f))
-            .height(IntrinsicSize.Min) // IntrinsicSize.Min 으로 설정
-            .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-    )
-    {
+    ConstraintLayout(
+        modifier = Modifier.fillMaxWidth(),
+        constraintSet = decoupledConstraints()
+    ) {
         // 프로필 이미지
-        TorangAsyncImage(modifier = Modifier
-            .size(40.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null
-            ) { onProfile.invoke() }
-            .clip(RoundedCornerShape(20.dp)),
+        TorangAsyncImage(
+            modifier = Modifier
+                .layoutId("refProfile")
+                .size(40.dp)
+                .clickable1(onProfile::invoke)
+                .clip(RoundedCornerShape(20.dp)),
             model = profilePictureUrl,
             progressSize = 20.dp,
             errorIconSize = 20.dp
         )
-
-        // 사용자명 + 평점 + 식당명
-        Column(
-            Modifier
-                .padding(start = 8.dp)
-                .fillMaxHeight(), verticalArrangement = Arrangement.SpaceAround
+        // 사용자명
+        Text(
+            modifier = Modifier
+                .layoutId("refName")
+                .clickable1(onName::invoke),
+            text = name,
         )
-        {
-            // 사용자명 + 평점
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    modifier = Modifier.clickable(
-                        interactionSource = interactionSource,
-                        indication = null
-                    ) { onName.invoke() },
-                    text = name
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                ratingBar.invoke(rating)
-            }
-
-            //식당명
-            Text(
-                text = restaurantName,
-                color = Color.DarkGray,
-                modifier = Modifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) {
-                    onRestaurant.invoke()
-                }
-            )
-        }
-
+        // 평점
+        ratingBar.invoke(Modifier.layoutId("refRatingBar"), rating)
+        // 음식점명
+        Text(
+            modifier = Modifier
+                .layoutId("refRestaurantName")
+                .clickable1(onRestaurant::invoke),
+            text = restaurantName
+        )
         // 메뉴
-        Box(
-            Modifier
-                .fillMaxWidth()
+        IconButton(
+            modifier = Modifier.layoutId("refMenu"),
+            onClick = onMenu::invoke
         ) {
-            IconButton(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = { onMenu.invoke() }
-            ) {
-                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "")
-            }
+            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
         }
     }
+}
+
+private fun decoupledConstraints(): ConstraintSet {
+    return ConstraintSet {
+        val refProfile = createRefFor("refProfile")
+        val refName = createRefFor("refName")
+        val refRestaurantName = createRefFor("refRestaurantName")
+        val refMenu = createRefFor("refMenu")
+        val refRatingBar = createRefFor("refRatingBar")
+
+        constrain(refProfile) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            start.linkTo(parent.start, margin = 12.dp)
+        }
+        constrain(refName) {
+            top.linkTo(refProfile.top)
+            bottom.linkTo(refRestaurantName.top)
+            start.linkTo(refProfile.end, margin = 8.dp)
+        }
+        constrain(refRestaurantName) {
+            top.linkTo(refName.bottom)
+            bottom.linkTo(refProfile.bottom)
+            start.linkTo(refProfile.end, margin = 8.dp)
+        }
+        constrain(refMenu) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            end.linkTo(parent.end)
+        }
+        constrain(refRatingBar) {
+            start.linkTo(refName.end, margin = 3.dp)
+            top.linkTo(refName.top)
+            bottom.linkTo(refName.bottom)
+        }
+    }
+}
+
+@Composable
+fun Modifier.clickable1(onClick: () -> Unit): Modifier {
+    val interactionSource = remember { MutableInteractionSource() } // 클릭 시 리플 애니메이션을 없애기 위한 변수
+    this.clickable(
+        interactionSource = interactionSource,
+        indication = null,
+        onClick = onClick
+    )
+    return this
 }
 
 @Preview
@@ -120,7 +146,7 @@ fun PreviewItemFeedTop() {
         restaurantName = "restaurantName",
         profilePictureUrl = "",
         rating = 3.5f,
-        ratingBar = {},
+        ratingBar = { modifier, fl -> },
         onRestaurant = {},
         onProfile = {},
         onName = {},

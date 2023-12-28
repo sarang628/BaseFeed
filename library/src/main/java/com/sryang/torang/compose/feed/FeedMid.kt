@@ -1,6 +1,7 @@
 package com.sryang.torang.compose.feed
 
 import TorangAsyncImage
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.background
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -54,95 +56,137 @@ internal fun FeedMid(
     isZooming: ((Boolean) -> Unit)? = null
 ) {
     val pagerState = rememberPagerState(pageCount = { imgs.size })
-    FeedPager(
-        pagerState = pagerState,
-        imgs = imgs,
-        progressSize = progressSize,
-        errorIconSize = errorIconSize,
-        onImage = onImage,
-        isZooming = isZooming
-    )
+    var scrollEnable by remember { mutableStateOf(true) }
+    HorizontalPager(
+        state = pagerState,
+        userScrollEnabled = scrollEnable
+    ) { page ->
+        TorangAsyncImage(
+            model = imgs[page],
+            modifier = Modifier
+                .size(450.dp)
+                .padding(bottom = 10.dp)
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .clickable1(onClick = { onImage.invoke(page) })
+                .pinchZoom {
+                    scrollEnable = !it
+                    isZooming?.invoke(it)
+                },
+            progressSize = progressSize,
+            errorIconSize = errorIconSize
+        )
+    }
     PagerIndicator(pagerState = pagerState, img = imgs)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FeedPager(
-    pagerState: PagerState,
-    imgs: List<String>,
-    progressSize: Dp = 50.dp,
-    errorIconSize: Dp = 50.dp,
-    onImage: ((Int) -> Unit),
+internal fun FeedMid1(
+    imgs: List<String>,                 // 이미지 리스트
+    onImage: (Int) -> Unit,             // 이미지 클릭 이벤트
+    progressSize: Dp = 50.dp,           // 이미지 로드 프로그래스 크기
+    errorIconSize: Dp = 50.dp,          // 이미지 로드 에러 아이콘 크기
     isZooming: ((Boolean) -> Unit)? = null
 ) {
+    val pagerState = rememberPagerState(pageCount = { imgs.size })
+    var scrollEnable by remember { mutableStateOf(true) }
     val scale = remember { mutableFloatStateOf(1f) }
     val offsetX = remember { mutableFloatStateOf(1f) }
     val offsetY = remember { mutableFloatStateOf(1f) }
     val plantImageZIndex = remember { mutableFloatStateOf(1f) }
     val maxScale = remember { mutableFloatStateOf(1f) }
     val minScale = remember { mutableFloatStateOf(3f) }
-    var scrollEnable by remember { mutableStateOf(true) }
-
-    val interactionSource = remember { MutableInteractionSource() }
     HorizontalPager(
         state = pagerState,
         userScrollEnabled = scrollEnable
     ) { page ->
-        Row(
+        TorangAsyncImage(
+            model = imgs[page],
             modifier = Modifier
                 .size(450.dp)
-                .padding(bottom = 10.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TorangAsyncImage(
-                model = imgs[page],
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .clickable(
-                        indication = null,
-                        interactionSource = interactionSource
-                    ) {
-                        onImage.invoke(page)
-                    }
-                    .pointerInput(Unit) {
-                        awaitEachGesture {
-                            awaitFirstDown()
-                            do {
-                                val event = awaitPointerEvent()
-                                scale.value *= event.calculateZoom()
-                                if (scale.value > 1) {
-                                    scrollEnable = false
-                                    isZooming?.invoke(false)
-                                    plantImageZIndex.value = 5f
-                                    val offset = event.calculatePan()
-                                    offsetX.value += offset.x
-                                    offsetY.value += offset.y
-                                } else {
-                                    scrollEnable = true
-                                    isZooming?.invoke(true)
-                                }
-                            } while (event.changes.any { it.pressed })
-                            if (currentEvent.type == PointerEventType.Release) {
-                                scale.value = 1f
-                                offsetX.value = 1f
-                                offsetY.value = 1f
-                                plantImageZIndex.value = 1f
+                .padding(bottom = 10.dp)
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .clickable1(onClick = { onImage.invoke(page) })
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        awaitFirstDown()
+                        do {
+                            Log.d("pinchZoom", "pinchZoom")
+                            val event = awaitPointerEvent()
+                            scale.value *= event.calculateZoom()
+                            if (scale.value > 1) {
+                                plantImageZIndex.value = 5f
+                                val offset = event.calculatePan()
+                                offsetX.value += offset.x
+                                offsetY.value += offset.y
+                            } else {
+
                             }
+                        } while (event.changes.any { it.pressed })
+                        if (currentEvent.type == PointerEventType.Release) {
+                            scale.value = 1f
+                            offsetX.value = 1f
+                            offsetY.value = 1f
+                            plantImageZIndex.value = 1f
                         }
                     }
-                    .graphicsLayer {
-                        scaleX = maxOf(maxScale.value, minOf(minScale.value, scale.value))
-                        scaleY = maxOf(maxScale.value, minOf(minScale.value, scale.value))
-                        translationX = offsetX.value
-                        translationY = offsetY.value
-                    },
-                progressSize = progressSize,
-                errorIconSize = errorIconSize
-            )
-        }
+                }
+                .graphicsLayer {
+                    scaleX = maxOf(maxScale.value, minOf(minScale.value, scale.value))
+                    scaleY = maxOf(maxScale.value, minOf(minScale.value, scale.value))
+                    translationX = offsetX.value
+                    translationY = offsetY.value
+                },
+            progressSize = progressSize,
+            errorIconSize = errorIconSize
+        )
     }
+    PagerIndicator(pagerState = pagerState, img = imgs)
+}
+
+@Composable
+fun Modifier.pinchZoom(onPinchZoom: (Boolean) -> Unit): Modifier {
+    val scale = remember { mutableFloatStateOf(1f) }
+    val offsetX = remember { mutableFloatStateOf(1f) }
+    val offsetY = remember { mutableFloatStateOf(1f) }
+    val plantImageZIndex = remember { mutableFloatStateOf(1f) }
+    val maxScale = remember { mutableFloatStateOf(1f) }
+    val minScale = remember { mutableFloatStateOf(3f) }
+    this
+        .pointerInput(Unit) {
+            awaitEachGesture {
+                awaitFirstDown()
+                do {
+                    Log.d("pinchZoom", "pinchZoom")
+                    val event = awaitPointerEvent()
+                    scale.value *= event.calculateZoom()
+                    if (scale.value > 1) {
+                        onPinchZoom.invoke(true)
+                        plantImageZIndex.value = 5f
+                        val offset = event.calculatePan()
+                        offsetX.value += offset.x
+                        offsetY.value += offset.y
+                    } else {
+                        onPinchZoom.invoke(false)
+                    }
+                } while (event.changes.any { it.pressed })
+                if (currentEvent.type == PointerEventType.Release) {
+                    scale.value = 1f
+                    offsetX.value = 1f
+                    offsetY.value = 1f
+                    plantImageZIndex.value = 1f
+                }
+            }
+        }
+        .graphicsLayer {
+            scaleX = maxOf(maxScale.value, minOf(minScale.value, scale.value))
+            scaleY = maxOf(maxScale.value, minOf(minScale.value, scale.value))
+            translationX = offsetX.value
+            translationY = offsetY.value
+        }
+    return this
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -177,8 +221,8 @@ fun PagerIndicator(
 @Preview
 @Composable
 fun PreViewItemFeedMid() {
-    Column {
-        FeedMid(
+    Column(Modifier.fillMaxSize().background(Color.Gray)) {
+        FeedMid1(
             arrayListOf(
 //                "https://www.naver.com",
                 "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",

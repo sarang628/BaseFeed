@@ -24,7 +24,7 @@ fun Feed(
     onName: (() -> Unit),                   // 이름 클릭
     onRestaurant: (() -> Unit),             // 음식점 클릭
     onImage: (Int) -> Unit,                 // 이미지 클릭
-    ratingBar: @Composable (Float) -> Unit,  // 평점 바
+    ratingBar: @Composable (Modifier, Float) -> Unit,  // 평점 바
     isZooming: ((Boolean) -> Unit)? = null
 ) {
     Column {
@@ -77,7 +77,7 @@ fun PreViewItemFeed() {
             onImage = {},
             onProfile = {},
             review = testReviewData(),
-            ratingBar = {}
+            ratingBar = { modifier, fl -> }
         )
     }
 }

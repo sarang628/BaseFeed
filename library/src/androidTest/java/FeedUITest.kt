@@ -70,7 +70,7 @@ class FeedUITest {
                 onName = { /*TODO*/ },
                 onRestaurant = { /*TODO*/ },
                 onImage = {},
-                ratingBar = {}
+                ratingBar = {modifier, fl ->  }
             )
         }
     }

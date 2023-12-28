@@ -1,7 +1,6 @@
 package com.example.basefeed
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,12 +13,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -33,8 +30,6 @@ import com.sryang.torang.compose.feed.Feeds
 import com.sryang.torang_repository.repository.FeedRepository
 import com.sryang.torang_repository.repository.FeedRepositoryTest
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,7 +43,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var isRefreshing by remember { mutableStateOf(false) }
-            val coroutine = rememberCoroutineScope()
 
             TorangTheme {
                 val context = LocalContext.current
@@ -80,8 +74,13 @@ class MainActivity : ComponentActivity() {
                                 onBottom = {
                                     Toast.makeText(context, "onBottom", Toast.LENGTH_SHORT).show()
                                 },
-                                ratingBar = {
-                                    AndroidViewRatingBar(rating = it, isSmall = true, changable = false)
+                                ratingBar = { modifier, rating ->
+                                    AndroidViewRatingBar(
+                                        modifier = modifier,
+                                        rating = rating,
+                                        isSmall = true,
+                                        changable = false
+                                    )
                                 },
                                 isLoading = false
                             )

@@ -1,6 +1,7 @@
 package com.sryang.torang.compose.feed
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sryang.torang.compose.RefreshAndBottomDetectionLazyColunm
 import com.sryang.torang.data.basefeed.Review
@@ -22,7 +23,7 @@ fun Feeds(
     onBottom: () -> Unit,
     isRefreshing: Boolean,
     isEmpty: Boolean,
-    ratingBar: @Composable (Float) -> Unit,
+    ratingBar: @Composable (Modifier, Float) -> Unit,
     isLoading: Boolean
 ) {
     if (!isLoading) {
@@ -76,7 +77,7 @@ fun PreviewFeeds() {
         onRefresh = { /*TODO*/ },
         onBottom = { /*TODO*/ },
         isRefreshing = false,
-        ratingBar = {},
+        ratingBar = { modifier, fl ->  },
         isEmpty = false,
         isLoading = true
     )
