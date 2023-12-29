@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sryang.torang.compose.feed.internal.EmptyFeed
 import com.sryang.torang.compose.feed.internal.FeedShimmer
-import com.sryang.torang.compose.feed.internal.RefreshAndBottomDetectionLazyColunm
+import com.sryang.torang.compose.feed.internal.components.RefreshAndBottomDetectionLazyColunm
 import com.sryang.torang.data.basefeed.Review
 import com.sryang.torang.data.basefeed.testReviewData
 

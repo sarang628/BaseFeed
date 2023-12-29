@@ -1,6 +1,5 @@
-package com.sryang.torang.compose.feed.internal
+package com.sryang.torang.compose.feed.internal.components
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.sryang.library.BottomDetectingLazyColumn

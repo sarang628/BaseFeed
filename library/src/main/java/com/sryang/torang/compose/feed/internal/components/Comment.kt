@@ -1,4 +1,4 @@
-package com.sryang.torang.compose.feed.internal
+package com.sryang.torang.compose.feed.internal.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

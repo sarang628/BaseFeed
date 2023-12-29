@@ -1,4 +1,4 @@
-package com.sryang.torang.compose.feed.internal
+package com.sryang.torang.compose.feed.internal.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.text.ClickableText
