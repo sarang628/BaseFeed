@@ -44,9 +44,8 @@ internal fun FeedBottom(
 
     ) {
         Image(
-            painter = if (isLike) painterResource(id = R.drawable.selected_heart) else painterResource(
-                id = R.drawable.b3s
-            ),
+            painter = if (isLike) painterResource(id = R.drawable.selected_heart)
+            else painterResource(id = R.drawable.b3s),
             contentDescription = "",
             modifier = Modifier
                 .size(25.dp)
@@ -79,9 +78,8 @@ internal fun FeedBottom(
         )
 
         Image(
-            painter = if (isFavorite) painterResource(id = R.drawable.selected_star) else painterResource(
-                id = R.drawable.star
-            ),
+            painter = if (isFavorite) painterResource(id = R.drawable.selected_star)
+            else painterResource(id = R.drawable.star),
             contentDescription = "",
             modifier = Modifier
                 .layoutId("favorite")
@@ -160,22 +158,6 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
         constrain(commentCount) {
             top.linkTo(comments.bottom)
-        }
-    }
-}
-
-@Composable
-fun Comment(
-    modifier: Modifier = Modifier,
-    comments: List<Comment>? = null,
-) {
-    Column(modifier = modifier) {
-        comments?.forEach {
-            Row(modifier = modifier) {
-                Text(text = it.author, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.padding(start = 3.dp))
-                Text(text = it.comment)
-            }
         }
     }
 }
