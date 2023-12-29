@@ -1,4 +1,4 @@
-package com.sryang.torang.compose
+package com.sryang.torang.compose.feed.internal
 
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -9,11 +9,12 @@ import com.sryang.library.pullrefresh.RefreshIndicatorState
 import com.sryang.library.pullrefresh.rememberPullToRefreshState
 
 @Composable
-fun RefreshAndBottomDetectionLazyColunm(
+internal fun RefreshAndBottomDetectionLazyColunm(
     count: Int,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onBottom: () -> Unit,
+    userScrollEnabled: Boolean = true,
     itemCompose: @Composable (Int) -> Unit,
     contents: @Composable (() -> Unit)? = null
 ) {
@@ -37,7 +38,8 @@ fun RefreshAndBottomDetectionLazyColunm(
         BottomDetectingLazyColumn(
             items = count,
             onBottom = { onBottom.invoke() },
-            composable = { itemCompose.invoke(it) }
+            composable = { itemCompose.invoke(it) },
+            userScrollEnabled = userScrollEnabled
         )
         contents?.invoke()
     }

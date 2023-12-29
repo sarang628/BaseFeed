@@ -23,6 +23,6 @@ ext {
     navigationModuleVersion = 'd98f57435d'
     commonWidgetVersion = '0806afba55'
     commonImageLoaderVersion = 'a8a2733a44'
-    bottomDetectLazyColunmVersion = '3d35b14843'
+    bottomDetectLazyColunmVersion = 'd9c5f79c19'
     MUI3ScrollToRefreshVersion = 'dd57844809'
 }

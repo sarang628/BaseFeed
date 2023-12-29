@@ -1,9 +1,15 @@
 package com.sryang.torang.compose.feed
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.sryang.torang.compose.RefreshAndBottomDetectionLazyColunm
+import com.sryang.torang.compose.feed.internal.EmptyFeed
+import com.sryang.torang.compose.feed.internal.FeedShimmer
+import com.sryang.torang.compose.feed.internal.RefreshAndBottomDetectionLazyColunm
 import com.sryang.torang.data.basefeed.Review
 import com.sryang.torang.data.basefeed.testReviewData
 
@@ -26,6 +32,7 @@ fun Feeds(
     ratingBar: @Composable (Modifier, Float) -> Unit,
     isLoading: Boolean
 ) {
+    var scrollEnabled by remember { mutableStateOf(false) }
     if (!isLoading) {
         RefreshAndBottomDetectionLazyColunm(
             // pull to refresh와 하단 감지 적용 LazyColunm
@@ -43,11 +50,15 @@ fun Feeds(
                     onName = { onName.invoke(list[it].user.userId) },
                     onRestaurant = { onRestaurant.invoke(list[it].restaurant.restaurantId) },
                     onImage = onImage,
-                    ratingBar = ratingBar
+                    ratingBar = ratingBar,
+                    isZooming = {
+                        scrollEnabled = !it
+                    }
                 )
             },
             onRefresh = onRefresh,
             isRefreshing = isRefreshing,
+            userScrollEnabled = scrollEnabled
         ) {
             if (isEmpty) EmptyFeed()
         }
@@ -77,8 +88,8 @@ fun PreviewFeeds() {
         onRefresh = { /*TODO*/ },
         onBottom = { /*TODO*/ },
         isRefreshing = false,
-        ratingBar = { modifier, fl ->  },
+        ratingBar = { modifier, fl -> },
         isEmpty = false,
-        isLoading = true
+        isLoading = false
     )
 }

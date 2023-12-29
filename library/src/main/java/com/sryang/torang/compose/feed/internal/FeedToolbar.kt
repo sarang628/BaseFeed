@@ -1,4 +1,4 @@
-package com.sryang.torang.compose.feed
+package com.sryang.torang.compose.feed.internal
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -19,7 +19,7 @@ import com.sryang.torang.R
 
 @Preview
 @Composable
-fun TorangToolbar(
+internal fun TorangToolbar(
     clickAddReview: ((Void?) -> Unit)? = null
 ) {
     Row(

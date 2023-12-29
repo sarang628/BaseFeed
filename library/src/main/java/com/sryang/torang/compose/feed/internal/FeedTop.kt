@@ -1,4 +1,4 @@
-package com.sryang.torang.compose.feed
+package com.sryang.torang.compose.feed.internal
 
 import TorangAsyncImage
 import androidx.compose.foundation.clickable

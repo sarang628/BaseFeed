@@ -1,14 +1,8 @@
-package com.sryang.torang.compose.feed
+package com.sryang.torang.compose.feed.internal
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,73 +12,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sryang.torang.data.basefeed.Comment
-import com.sryang.torang.data.basefeed.testReviewData
 import java.util.regex.Pattern
-
-@Composable
-fun FeedComments(
-    comments: List<Comment>? = null,
-    contents: String,
-    likeAmount: Int? = 0,
-    commentAmount: Int? = 0,
-) {
-    Column(
-        Modifier
-            .padding(start = 8.dp)
-            .fillMaxWidth()
-    ) {
-        if (contents.isNotEmpty()) {
-            //Text(text = contents)
-            ExpandableText(text = contents)
-        }
-
-        if (likeAmount != null) {
-            if (likeAmount > 0)
-                Text(text = "좋아요 $likeAmount 개", color = Color.DarkGray)
-        }
-
-        comments?.forEach {
-            Comment(it)
-        }
-
-        if (commentAmount != null) {
-            if (commentAmount > 0)
-                Text(text = "댓글 $commentAmount 개 모두보기", color = Color.DarkGray)
-        }
-    }
-
-}
-
-@Composable
-fun Comment(comment: Comment) {
-    Row {
-        Text(text = comment.author, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.padding(start = 3.dp))
-        Text(text = comment.comment)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewFeedComments() {
-    FeedComments(
-        contents = testReviewData().contents,
-        likeAmount = 10,
-        commentAmount = 10,
-    )
-}
 
 @Composable
 fun ExpandableText(
@@ -200,7 +135,7 @@ fun ExpandableText(
     val uriHandler = LocalUriHandler.current
 
     //Composable container
-    SelectionContainer {
+    SelectionContainer(modifier = modifier) {
         ClickableText(
             text = textWithMoreLess,
             style = TextStyle(color = Color.DarkGray, fontSize = 15.sp),

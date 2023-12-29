@@ -1,4 +1,4 @@
-package com.sryang.torang.compose
+package com.sryang.torang.compose.feed.internal
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-fun NetworkError() {
+internal fun NetworkError() {
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

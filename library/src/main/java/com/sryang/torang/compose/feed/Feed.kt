@@ -9,6 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sryang.torang.compose.feed.internal.FeedBottom
+import com.sryang.torang.compose.feed.internal.FeedMid
+import com.sryang.torang.compose.feed.internal.FeedTop
 import com.sryang.torang.data.basefeed.Review
 import com.sryang.torang.data.basefeed.testReviewData
 

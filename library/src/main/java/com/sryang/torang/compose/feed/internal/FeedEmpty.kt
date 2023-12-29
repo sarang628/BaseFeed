@@ -1,4 +1,4 @@
-package com.sryang.torang.compose.feed
+package com.sryang.torang.compose.feed.internal
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-fun EmptyFeed() {
+internal fun EmptyFeed() {
     Box(Modifier.fillMaxSize())
     {
         Text(text = "피드가 없습니다.", Modifier.align(Alignment.Center))

@@ -1,4 +1,4 @@
-package com.sryang.torang.compose.feed
+package com.sryang.torang.compose.feed.internal
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun FeedShimmer() {
+internal fun FeedShimmer() {
     val showShimmer by remember { mutableStateOf(true) }
     Column {
         Box(
