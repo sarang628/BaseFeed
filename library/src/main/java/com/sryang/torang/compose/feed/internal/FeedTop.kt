@@ -40,7 +40,7 @@ internal fun FeedTop(
         // 프로필 이미지
         TorangAsyncImage(
             modifier = Modifier
-                .layoutId("refProfile")
+                .layoutId("profileImage")
                 .size(40.dp)
                 .clickable1(onProfile::invoke)
                 .clip(RoundedCornerShape(20.dp)),
@@ -51,22 +51,22 @@ internal fun FeedTop(
         // 사용자명
         Text(
             modifier = Modifier
-                .layoutId("refName")
+                .layoutId("userName")
                 .clickable1(onName::invoke),
             text = name,
         )
         // 평점
-        ratingBar.invoke(Modifier.layoutId("refRatingBar"), rating)
+        ratingBar.invoke(Modifier.layoutId("ratingBar"), rating)
         // 음식점명
         Text(
             modifier = Modifier
-                .layoutId("refRestaurantName")
+                .layoutId("restaurantName")
                 .clickable1(onRestaurant::invoke),
             text = restaurantName
         )
         // 메뉴
         IconButton(
-            modifier = Modifier.layoutId("refMenu"),
+            modifier = Modifier.layoutId("menuButton"),
             onClick = onMenu::invoke
         ) {
             Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
@@ -76,36 +76,36 @@ internal fun FeedTop(
 
 private fun decoupledConstraints(): ConstraintSet {
     return ConstraintSet {
-        val refProfile = createRefFor("refProfile")
-        val refName = createRefFor("refName")
-        val refRestaurantName = createRefFor("refRestaurantName")
-        val refMenu = createRefFor("refMenu")
-        val refRatingBar = createRefFor("refRatingBar")
+        val profileImage = createRefFor("profileImage")
+        val userName = createRefFor("userName")
+        val restaurantName = createRefFor("restaurantName")
+        val menuButton = createRefFor("menuButton")
+        val ratingBar = createRefFor("ratingBar")
 
-        constrain(refProfile) {
+        constrain(profileImage) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
             start.linkTo(parent.start, margin = 12.dp)
         }
-        constrain(refName) {
-            top.linkTo(refProfile.top)
-            bottom.linkTo(refRestaurantName.top)
-            start.linkTo(refProfile.end, margin = 8.dp)
+        constrain(userName) {
+            top.linkTo(profileImage.top)
+            bottom.linkTo(restaurantName.top)
+            start.linkTo(profileImage.end, margin = 8.dp)
         }
-        constrain(refRestaurantName) {
-            top.linkTo(refName.bottom)
-            bottom.linkTo(refProfile.bottom)
-            start.linkTo(refProfile.end, margin = 8.dp)
+        constrain(restaurantName) {
+            top.linkTo(userName.bottom)
+            bottom.linkTo(profileImage.bottom)
+            start.linkTo(profileImage.end, margin = 8.dp)
         }
-        constrain(refMenu) {
+        constrain(menuButton) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
             end.linkTo(parent.end)
         }
-        constrain(refRatingBar) {
-            start.linkTo(refName.end, margin = 3.dp)
-            top.linkTo(refName.top)
-            bottom.linkTo(refName.bottom)
+        constrain(ratingBar) {
+            start.linkTo(userName.end, margin = 3.dp)
+            top.linkTo(userName.top)
+            bottom.linkTo(userName.bottom)
         }
     }
 }
