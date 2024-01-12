@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import com.sryang.torang.compose.feed.internal.components.Comment
 import com.sryang.torang.compose.feed.internal.components.CommentImage
 import com.sryang.torang.compose.feed.internal.components.ExpandableText
@@ -204,8 +205,9 @@ fun feedCommentsConstraint(): ConstraintSet {
 
         constrain(contents) {
             top.linkTo(heart.bottom, margin = 8.dp)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
+            start.linkTo(heart.start)
+            end.linkTo(favorite.end)
+            width = Dimension.fillToConstraints
         }
         constrain(likeCount) {
             top.linkTo(contents.bottom)
