@@ -6,7 +6,9 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -65,8 +67,13 @@ fun Feed(
             TorangAsyncImage(
                 modifier = Modifier
                     .layoutId("refProfile")
-                    .size(40.dp)
+                    .size(32.dp)
                     .clickable1(review.onProfile::invoke)
+                    .border(
+                        width = 1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(20.dp)
+                    )
                     .clip(RoundedCornerShape(20.dp)),
                 model = review.user.profilePictureUrl,
                 progressSize = 20.dp,
@@ -183,10 +190,12 @@ fun feedCommentsConstraint(): ConstraintSet {
         val refMenu = createRefFor("refMenu")
         val refRatingBar = createRefFor("refRatingBar")
         val indicator = createRefFor("indicator")
+        val guide = createGuidelineFromTop(45.dp)
 
         constrain(refProfile) {
             top.linkTo(parent.top)
             start.linkTo(parent.start, margin = 12.dp)
+            bottom.linkTo(guide)
         }
         constrain(refName) {
             top.linkTo(refProfile.top)
