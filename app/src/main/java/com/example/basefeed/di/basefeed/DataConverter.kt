@@ -25,7 +25,16 @@ fun Feed.review(): Review {
         comments = null,
         isLike = this.isLike,
         isFavorite = this.isFavorite,
-        contents = this.contents
+        contents = this.contents,
+        onShare = {},
+        onRestaurant = {},
+        onProfile = {},
+        onName = {},
+        onMenu = {},
+        onLike = {},
+        onImage = {},
+        onFavorite = {},
+        onComment = {}
     )
 }
 

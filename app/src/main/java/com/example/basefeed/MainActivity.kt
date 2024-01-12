@@ -27,6 +27,7 @@ import com.example.basefeed.di.basefeed.toFeedData
 import com.example.commonwidgets.torangcomposepack.AndroidViewRatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sryang.torang.compose.feed.Feeds
+import com.sryang.torang.uistate.FeedsUiState
 import com.sryang.torang_repository.repository.FeedRepository
 import com.sryang.torang_repository.repository.FeedRepositoryTest
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,18 +57,7 @@ class MainActivity : ComponentActivity() {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Box(modifier = Modifier.height(height.dp - 30.dp)) {
                             Feeds(
-                                list = list.map { it.toFeedData().review() },
                                 isRefreshing = isRefreshing,
-                                isEmpty = list.isEmpty(),
-                                onProfile = { },
-                                onLike = { },
-                                onComment = { },
-                                onShare = { },
-                                onFavorite = { },
-                                onMenu = { },
-                                onName = { },
-                                onRestaurant = { },
-                                onImage = { },
                                 onRefresh = {
                                     isRefreshing = true
                                 },
@@ -82,7 +72,9 @@ class MainActivity : ComponentActivity() {
                                         changable = false
                                     )
                                 },
-                                isLoading = false
+                                feedsUiState = FeedsUiState.Success(
+                                    list.map { it.toFeedData().review() }
+                                )
                             )
                         }
                         FeedRepositoryTest(feedRepository = feedRepository)

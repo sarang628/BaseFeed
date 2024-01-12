@@ -36,15 +36,6 @@ import com.sryang.torang.data.basefeed.testReviewData
 @Composable
 fun Feed(
     review: Review,                         // 피드 상단,중앙,하단을 합친 ui 상태 값
-    onProfile: () -> Unit,                  // 프로필 클릭
-    onLike: () -> Unit,                     // 좋아요 클릭
-    onComment: () -> Unit,                  // 코멘트 클릭
-    onShare: () -> Unit,                    // 공유 클릭
-    onFavorite: () -> Unit,                 // 즐겨찾기 클릭
-    onMenu: (() -> Unit),                   // 메뉴 클릭
-    onName: (() -> Unit),                   // 이름 클릭
-    onRestaurant: (() -> Unit),             // 음식점 클릭
-    onImage: (Int) -> Unit,                 // 이미지 클릭
     ratingBar: @Composable (Modifier, Float) -> Unit,  // 평점 바
     isZooming: ((Boolean) -> Unit)? = null
 ) {
@@ -61,7 +52,7 @@ fun Feed(
                 modifier = Modifier
                     .layoutId("refProfile")
                     .size(40.dp)
-                    .clickable1(onProfile::invoke)
+                    .clickable1(review.onProfile::invoke)
                     .clip(RoundedCornerShape(20.dp)),
                 model = review.user.profilePictureUrl,
                 progressSize = 20.dp,
@@ -71,7 +62,7 @@ fun Feed(
             Text(
                 modifier = Modifier
                     .layoutId("refName")
-                    .clickable1(onName::invoke),
+                    .clickable1(review.onName::invoke),
                 text = review.user.name,
             )
             // 평점
@@ -80,39 +71,48 @@ fun Feed(
             Text(
                 modifier = Modifier
                     .layoutId("refRestaurantName")
-                    .clickable1(onRestaurant::invoke),
+                    .clickable1(review.onRestaurant::invoke),
                 text = review.restaurant.restaurantName
             )
             // 메뉴
             IconButton(
                 modifier = Modifier.layoutId("refMenu"),
-                onClick = onMenu::invoke
+                onClick = review.onMenu::invoke
             ) {
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
             }
-
+            // 이미지 페이저
             if (review.reviewImages.isNotEmpty()) {
                 ImagePagerWithIndicator(
                     modifier = Modifier.layoutId("reviewImages"),
                     images = review.reviewImages,
-                    onImage = onImage,
+                    onImage = review.onImage,
                     isZooming = isZooming
                 )
             }
-            LikeImage(modifier = Modifier.layoutId("heart"), isLike = review.isLike, onLike = onLike)
-            CommentImage(modifier = Modifier.layoutId("comment"), onComment = onComment)
-            ShareImage(modifier = Modifier.layoutId("share"), onShare = onShare)
+            // 좋아요 아이콘
+            LikeImage(
+                modifier = Modifier.layoutId("heart"),
+                isLike = review.isLike,
+                onLike = review.onLike
+            )
+            // 코멘트 아이콘
+            CommentImage(modifier = Modifier.layoutId("comment"), onComment = review.onComment)
+            // 공유 아이콘
+            ShareImage(modifier = Modifier.layoutId("share"), onShare = review.onShare)
+            // 즐겨찾기 아이콘
             FavoriteImage(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
-                onFavorite = onFavorite
+                onFavorite = review.onFavorite
             )
-
+            // 리뷰 내용
             if (review.contents.isNotEmpty()) {
                 ExpandableText(modifier = Modifier.layoutId("contents"), text = review.contents)
             }
 
-            if (review.likeAmount != null && review.likeAmount > 0) {
+            // 좋아요 갯수
+            if (review.likeAmount > 0) {
                 Text(
                     modifier = Modifier.layoutId("likeCount"),
                     text = "좋아요 ${review.likeAmount} 개",
@@ -120,9 +120,11 @@ fun Feed(
                 )
             }
 
+            // 코멘트
             Comment(Modifier.layoutId("comments"), review.comments)
 
-            if (review.commentAmount != null && review.commentAmount > 0) {
+            // 코멘트 갯수
+            if (review.commentAmount > 0) {
                 Text(
                     modifier = Modifier.layoutId("commentCount"),
                     text = "댓글 ${review.commentAmount} 개 모두보기",
@@ -175,7 +177,7 @@ fun feedCommentsConstraint(): ConstraintSet {
             bottom.linkTo(refName.bottom)
         }
 
-        constrain(reviewImages){
+        constrain(reviewImages) {
             top.linkTo(refProfile.bottom, margin = 8.dp)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
@@ -224,15 +226,6 @@ fun feedCommentsConstraint(): ConstraintSet {
 fun PreViewItemFeed() {
     Column(Modifier.verticalScroll(rememberScrollState())) {
         Feed(
-            onLike = {},
-            onComment = {},
-            onShare = {},
-            onFavorite = {},
-            onMenu = { /*TODO*/ },
-            onName = { /*TODO*/ },
-            onRestaurant = {},
-            onImage = {},
-            onProfile = {},
             review = testReviewData(),
             ratingBar = { modifier, fl -> }
         )

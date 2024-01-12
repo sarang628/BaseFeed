@@ -59,18 +59,18 @@ class FeedUITest {
                     commentAmount = 0,
                     isLike = false,
                     isFavorite = false,
-                    likeAmount = 100
+                    likeAmount = 100,
+                    onComment = {},
+                    onFavorite = {},
+                    onImage = {},
+                    onLike = {},
+                    onMenu = {},
+                    onName = {},
+                    onProfile = {},
+                    onRestaurant = {},
+                    onShare = {}
                 ),
-                onProfile = { /*TODO*/ },
-                onLike = { /*TODO*/ },
-                onComment = { /*TODO*/ },
-                onShare = { /*TODO*/ },
-                onFavorite = { /*TODO*/ },
-                onMenu = { /*TODO*/ },
-                onName = { /*TODO*/ },
-                onRestaurant = { /*TODO*/ },
-                onImage = {},
-                ratingBar = {modifier, fl ->  }
+                ratingBar = { modifier, fl -> }
             )
         }
     }

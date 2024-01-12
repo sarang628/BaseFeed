@@ -12,6 +12,15 @@ data class Review(
     val commentAmount: Int,
     val isLike: Boolean,
     val isFavorite: Boolean,
+    val onProfile: (() -> Unit),
+    val onLike: (() -> Unit),
+    val onComment: (() -> Unit),
+    val onShare: (() -> Unit),
+    val onFavorite: (() -> Unit),
+    val onMenu: (() -> Unit),
+    val onName: (() -> Unit),
+    val onRestaurant: (() -> Unit),
+    val onImage: ((Int) -> Unit),
 )
 
 
@@ -54,10 +63,19 @@ fun testReviewData(): Review {
             add(Comment("author", "comment"))
             add(Comment("author", "comment"))
         },
-        commentAmount = 0,
+        commentAmount = 10,
         isLike = false,
         isFavorite = false,
-        likeAmount = 100
+        likeAmount = 100,
+        onComment = {},
+        onFavorite = {},
+        onImage = {},
+        onLike = {},
+        onMenu = {},
+        onName = {},
+        onProfile = {},
+        onRestaurant = {},
+        onShare = {}
     )
 }
 
