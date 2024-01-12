@@ -1,7 +1,9 @@
 package com.sryang.torang.compose.feed.internal.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.dp
 import com.sryang.library.BottomDetectingLazyColumn
 import com.sryang.library.pullrefresh.PullToRefreshLayout
 import com.sryang.library.pullrefresh.RefreshIndicatorState
@@ -38,7 +40,8 @@ internal fun RefreshAndBottomDetectionLazyColunm(
             items = count,
             onBottom = { onBottom.invoke() },
             composable = { itemCompose.invoke(it) },
-            userScrollEnabled = userScrollEnabled
+            userScrollEnabled = userScrollEnabled,
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         )
         contents?.invoke()
     }

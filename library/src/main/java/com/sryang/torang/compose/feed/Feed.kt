@@ -42,7 +42,6 @@ fun Feed(
     Column {
         ConstraintLayout(
             modifier = Modifier
-                .padding(bottom = 8.dp)
                 .fillMaxWidth(),
             constraintSet = feedCommentsConstraint()
 
