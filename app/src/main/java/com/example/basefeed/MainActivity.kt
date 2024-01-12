@@ -13,10 +13,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -31,6 +33,8 @@ import com.sryang.torang.uistate.FeedsUiState
 import com.sryang.torang_repository.repository.FeedRepository
 import com.sryang.torang_repository.repository.FeedRepositoryTest
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,6 +48,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var isRefreshing by remember { mutableStateOf(false) }
+            val coroutine = rememberCoroutineScope()
+            var feedsUiState: FeedsUiState by remember { mutableStateOf(FeedsUiState.Loading) }
+            val list by feedRepository.feeds.collectAsState(initial = arrayListOf())
+
+            LaunchedEffect(key1 = "", block = {
+                delay(2000)
+                feedsUiState = FeedsUiState.Success(list.map { it.toFeedData().review() })
+            })
 
             TorangTheme {
                 val context = LocalContext.current
@@ -53,13 +65,16 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    val list by feedRepository.feeds.collectAsState(initial = arrayListOf())
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Box(modifier = Modifier.height(height.dp - 30.dp)) {
                             Feeds(
                                 isRefreshing = isRefreshing,
                                 onRefresh = {
-                                    isRefreshing = true
+                                    coroutine.launch {
+                                        isRefreshing = true
+                                        delay(1000)
+                                        isRefreshing = false
+                                    }
                                 },
                                 onBottom = {
                                     Toast.makeText(context, "onBottom", Toast.LENGTH_SHORT).show()
@@ -72,9 +87,7 @@ class MainActivity : ComponentActivity() {
                                         changable = false
                                     )
                                 },
-                                feedsUiState = FeedsUiState.Success(
-                                    list.map { it.toFeedData().review() }
-                                )
+                                feedsUiState = feedsUiState
                             )
                         }
                         FeedRepositoryTest(feedRepository = feedRepository)

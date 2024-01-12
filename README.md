@@ -41,19 +41,12 @@
 ### UI layer
 UiState
 ```
-data class Review(
-    val user: User,
-    val restaurant: Restaurant,
-    val reviewId: Int,
-    val rating: Float,
-    val reviewImages: List<String> = ArrayList(),
-    val contents: String,
-    val comments: List<Comment>?,
-    val likeAmount: Int,
-    val commentAmount: Int,
-    val isLike: Boolean,
-    val isFavorite: Boolean,
-)
+sealed interface FeedsUiState {
+    object Loading : FeedsUiState
+    object Empty : FeedsUiState
+    data class Success(val reviews: List<Review>) : FeedsUiState
+    data class Error(val message: String) : FeedsUiState
+}
 ```
 
 

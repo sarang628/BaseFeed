@@ -1,10 +1,18 @@
 package com.sryang.torang.compose.feed
 
 import TorangAsyncImage
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StyleSpan
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -18,6 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -29,17 +40,20 @@ import com.sryang.torang.compose.feed.internal.components.ExpandableText
 import com.sryang.torang.compose.feed.internal.components.FavoriteImage
 import com.sryang.torang.compose.feed.internal.components.ImagePagerWithIndicator
 import com.sryang.torang.compose.feed.internal.components.LikeImage
+import com.sryang.torang.compose.feed.internal.components.PagerIndicator
 import com.sryang.torang.compose.feed.internal.components.ShareImage
 import com.sryang.torang.compose.feed.internal.util.clickable1
 import com.sryang.torang.data.basefeed.Review
 import com.sryang.torang.data.basefeed.testReviewData
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Feed(
     review: Review,                         // 피드 상단,중앙,하단을 합친 ui 상태 값
     ratingBar: @Composable (Modifier, Float) -> Unit,  // 평점 바
     isZooming: ((Boolean) -> Unit)? = null
 ) {
+    var pagerState: PagerState = rememberPagerState { review.reviewImages.size }
     Column {
         ConstraintLayout(
             modifier = Modifier
@@ -87,9 +101,17 @@ fun Feed(
                     modifier = Modifier.layoutId("reviewImages"),
                     images = review.reviewImages,
                     onImage = review.onImage,
-                    isZooming = isZooming
+                    isZooming = isZooming,
+                    pagerState = pagerState
                 )
             }
+
+            PagerIndicator(
+                modifier = Modifier.layoutId("indicator"),
+                pagerState = pagerState,
+                count = review.reviewImages.size
+            )
+
             // 좋아요 아이콘
             LikeImage(
                 modifier = Modifier.layoutId("heart"),
@@ -108,7 +130,16 @@ fun Feed(
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
-                ExpandableText(modifier = Modifier.layoutId("contents"), text = review.contents)
+                val annotatedString = buildAnnotatedString {
+                    append("I have read")
+                    withStyle(style = SpanStyle(Color.Blue)) {
+                        append(" Terms and Condition")
+                    }
+                }
+                ExpandableText(
+                    modifier = Modifier.layoutId("contents"),
+                    text = "${review.contents}"
+                )
             }
 
             // 좋아요 갯수
@@ -151,6 +182,7 @@ fun feedCommentsConstraint(): ConstraintSet {
         val refRestaurantName = createRefFor("refRestaurantName")
         val refMenu = createRefFor("refMenu")
         val refRatingBar = createRefFor("refRatingBar")
+        val indicator = createRefFor("indicator")
 
         constrain(refProfile) {
             top.linkTo(parent.top)
@@ -184,22 +216,22 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
 
         constrain(heart) {
-            top.linkTo(reviewImages.bottom)
+            top.linkTo(reviewImages.bottom, margin = 8.dp)
             start.linkTo(parent.start, margin = 8.dp)
         }
 
         constrain(comment) {
-            top.linkTo(reviewImages.bottom)
+            top.linkTo(heart.top)
             start.linkTo(heart.end, margin = 8.dp)
         }
 
         constrain(share) {
-            top.linkTo(reviewImages.bottom)
+            top.linkTo(heart.top)
             start.linkTo(comment.end, margin = 8.dp)
         }
 
         constrain(favorite) {
-            top.linkTo(reviewImages.bottom)
+            top.linkTo(heart.top)
             end.linkTo(parent.end, margin = 8.dp)
         }
 
@@ -217,6 +249,12 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
         constrain(commentCount) {
             top.linkTo(comments.bottom)
+        }
+        constrain(indicator) {
+            top.linkTo(heart.top)
+            bottom.linkTo(heart.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
         }
     }
 }

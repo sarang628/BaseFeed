@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -35,13 +36,14 @@ import com.sryang.torang.compose.feed.internal.util.pinchZoom
 @Composable
 internal fun ImagePagerWithIndicator(
     modifier: Modifier = Modifier,
+    pagerState: PagerState = rememberPagerState { images.size },
     images: List<String>,                 // 이미지 리스트
     onImage: (Int) -> Unit,             // 이미지 클릭 이벤트
     progressSize: Dp = 30.dp,           // 이미지 로드 프로그래스 크기
     errorIconSize: Dp = 30.dp,          // 이미지 로드 에러 아이콘 크기
-    isZooming: ((Boolean) -> Unit)? = null
+    isZooming: ((Boolean) -> Unit)? = null,
+    showIndicator: Boolean = false
 ) {
-    val pagerState = rememberPagerState(pageCount = { images.size })
     var scrollEnable by remember { mutableStateOf(true) }
     Column(modifier = modifier) {
         HorizontalPager(
@@ -53,7 +55,6 @@ internal fun ImagePagerWithIndicator(
                 model = images[page],
                 modifier = modifier
                     .size(450.dp)
-                    .padding(bottom = 10.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clickable1(onClick = { onImage.invoke(page) })
@@ -65,7 +66,12 @@ internal fun ImagePagerWithIndicator(
                 errorIconSize = errorIconSize
             )
         }
-        PagerIndicator(pagerState = pagerState, img = images)
+        if (showIndicator)
+            PagerIndicator(
+                modifier = Modifier.fillMaxSize(),
+                pagerState = pagerState,
+                count = images.size
+            )
     }
 }
 
@@ -73,32 +79,31 @@ internal fun ImagePagerWithIndicator(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PagerIndicator(
-    img: List<String>?, pagerState: PagerState
+    modifier: Modifier = Modifier,
+    count: Int,
+    pagerState: PagerState
 ) {
-    if (img == null)
-        return
+    if (count > 0)
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            repeat(count) { iteration ->
+                val color =
+                    if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+                Box(
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(5.dp)
 
-    Row(
-        Modifier
-            .height(10.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        repeat(img.size) { iteration ->
-            val color =
-                if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
-            Box(
-                modifier = Modifier
-                    .padding(2.dp)
-                    .clip(CircleShape)
-                    .background(color)
-                    .size(5.dp)
-
-            )
+                )
+            }
         }
-    }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun PreViewItemFeedMid() {
