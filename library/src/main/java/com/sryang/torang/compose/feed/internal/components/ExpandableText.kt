@@ -1,5 +1,6 @@
 package com.sryang.torang.compose.feed.internal.components
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -19,8 +20,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import java.util.regex.Pattern
+
+const val TAG = "_ExpandableText"
 
 @Composable
 fun ExpandableText(
@@ -121,7 +125,7 @@ fun ExpandableText(
                 textWithMoreLess = buildAnnotatedString {
                     append(adjustedText)
                     pushStringAnnotation(tag = "show_more_tag", annotation = "")
-                    append(" more")
+                    append("...more")
                     pop()
                 }
 
@@ -141,6 +145,7 @@ fun ExpandableText(
             text = textWithMoreLess,
             style = TextStyle(color = Color.DarkGray, fontSize = 15.sp),
             onClick = { offset ->
+                Log.d(TAG, "offset : ${offset}")
                 textWithMoreLess.getStringAnnotations(
                     tag = "link_tag",
                     start = offset,
@@ -164,4 +169,31 @@ fun ExpandableText(
                 .animateContentSize()
         )
     }
+}
+
+
+@Preview
+@Composable
+fun PreviewExpandableText(){
+    ExpandableText(text = "aaaaaaaaaaaaaaaaaaaaaaaaaa" +
+            "bbbbbbbbbbbbbbbbbbbbbbb" +
+            "cccccccccccccccccccccc" +
+            "dddddddddddddddddddd" +
+            "eeeeeeeeeeeeeeeeeeeeee" +
+            "ffffffffffffffffffffff" +
+            "ggggggggggggggggggggggg" +
+            "hhhhhhhhhhhhhhhhhhhhhhh" +
+            "jjjjjjjjjjjjjjjjjjjjjjjjjj" +
+            "kkkkkkkkkkkkkkkkkkkkkkkkkk" +
+            "llllllllllllllllllllllllll" +
+            "mmmmmmmmmmmmmmmmmmmmmmmmmmm" +
+            "nnnnnnnnnnnnnnnnnnnnnnnnnnn" +
+            "ooooooooooooooooooooooooooo" +
+            "ppppppppppppppppppppppppppp" +
+            "qqqqqqqqqqqqqqqqqqqqqqqqqqq" +
+            "rrrrrrrrrrrrrrrrrrrrrrrrrrr" +
+            "sssssssssssssssssssssssssss" +
+            "ttttttttttttttttttttttttttt" +
+            "uuuuuuuuuuuuuuuuuuuuuuuuuuu" +
+            "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
 }
