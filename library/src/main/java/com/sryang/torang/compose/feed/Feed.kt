@@ -1,17 +1,10 @@
 package com.sryang.torang.compose.feed
 
 import TorangAsyncImage
-import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.StyleSpan
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -68,7 +61,7 @@ fun Feed(
                 modifier = Modifier
                     .layoutId("refProfile")
                     .size(32.dp)
-                    .clickable1(review.onProfile::invoke)
+                    .clickable1 { review.onProfile?.invoke() }
                     .border(
                         width = 1.dp,
                         color = Color.LightGray,
@@ -83,7 +76,7 @@ fun Feed(
             Text(
                 modifier = Modifier
                     .layoutId("refName")
-                    .clickable1(review.onName::invoke),
+                    .clickable1 { review.onName?.invoke() },
                 text = review.user.name,
             )
             // 평점
@@ -92,13 +85,13 @@ fun Feed(
             Text(
                 modifier = Modifier
                     .layoutId("refRestaurantName")
-                    .clickable1(review.onRestaurant::invoke),
+                    .clickable1 { review.onRestaurant?.invoke() },
                 text = review.restaurant.restaurantName
             )
             // 메뉴
             IconButton(
                 modifier = Modifier.layoutId("refMenu"),
-                onClick = review.onMenu::invoke
+                onClick = { review.onMenu?.invoke() }
             ) {
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
             }
@@ -107,7 +100,7 @@ fun Feed(
                 ImagePagerWithIndicator(
                     modifier = Modifier.layoutId("reviewImages"),
                     images = review.reviewImages,
-                    onImage = review.onImage,
+                    onImage = { review.onImage?.invoke(it) },
                     isZooming = isZooming,
                     pagerState = pagerState
                 )
@@ -123,17 +116,17 @@ fun Feed(
             LikeImage(
                 modifier = Modifier.layoutId("heart"),
                 isLike = review.isLike,
-                onLike = review.onLike
+                onLike = { review.onLike?.invoke() }
             )
             // 코멘트 아이콘
-            CommentImage(modifier = Modifier.layoutId("comment"), onComment = review.onComment)
+            CommentImage(modifier = Modifier.layoutId("comment"), onComment = {review.onComment?.invoke()})
             // 공유 아이콘
-            ShareImage(modifier = Modifier.layoutId("share"), onShare = review.onShare)
+            ShareImage(modifier = Modifier.layoutId("share"), onShare = {review.onShare?.invoke()})
             // 즐겨찾기 아이콘
             FavoriteImage(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
-                onFavorite = { review.onFavorite.invoke() }
+                onFavorite = { review.onFavorite?.invoke() }
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
