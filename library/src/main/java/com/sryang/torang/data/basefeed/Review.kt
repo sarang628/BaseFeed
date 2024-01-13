@@ -1,5 +1,9 @@
 package com.sryang.torang.data.basefeed
 
+import android.util.Log
+
+const val TAG = "_Review"
+
 data class Review(
     val user: User,
     val restaurant: Restaurant,
@@ -68,7 +72,7 @@ fun testReviewData(): Review {
         isFavorite = false,
         likeAmount = 100,
         onComment = {},
-        onFavorite = {},
+        onFavorite = { Log.d(TAG, "onFavorite") },
         onImage = {},
         onLike = {},
         onMenu = {},

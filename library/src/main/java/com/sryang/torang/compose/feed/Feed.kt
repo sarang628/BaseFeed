@@ -133,7 +133,7 @@ fun Feed(
             FavoriteImage(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
-                onFavorite = review.onFavorite
+                onFavorite = { review.onFavorite.invoke() }
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
