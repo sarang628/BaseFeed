@@ -1,7 +1,7 @@
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sryang.torang.compose.feed.Feed
+import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.Restaurant
 import com.sarang.torang.data.basefeed.Review

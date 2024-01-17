@@ -29,7 +29,7 @@
 
 ## Architecture
 ### UI element
-[aa](./library/src/main/java/com/)
+[Feed.kt](./library/src/main/java/com/sarang/torang/compose/feed/Feed.kt)
 ### UI layer
 UiState
 ```
