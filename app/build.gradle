@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.basefeed'
+    namespace 'com.sarang.torang'
     compileSdk rootProject.compileSdk
 
     defaultConfig {
-        applicationId "com.example.basefeed"
+        applicationId "com.sarang.torang"
         minSdk rootProject.minSdk
         targetSdk rootProject.targetSdk
 

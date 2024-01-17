@@ -2,11 +2,11 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sryang.torang.compose.feed.Feed
-import com.sryang.torang.data.basefeed.Comment
-import com.sryang.torang.data.basefeed.Restaurant
-import com.sryang.torang.data.basefeed.Review
-import com.sryang.torang.data.basefeed.User
-import com.sryang.torang.data.basefeed.testReviewData
+import com.sarang.torang.data.basefeed.Comment
+import com.sarang.torang.data.basefeed.Restaurant
+import com.sarang.torang.data.basefeed.Review
+import com.sarang.torang.data.basefeed.User
+import com.sarang.torang.data.basefeed.testReviewData
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
