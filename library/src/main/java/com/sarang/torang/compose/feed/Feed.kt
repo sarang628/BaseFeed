@@ -44,11 +44,11 @@ import com.sarang.torang.data.basefeed.testReviewData
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Feed(
-    review: Review,                         // 피드 상단,중앙,하단을 합친 ui 상태 값
-    ratingBar: @Composable (Modifier, Float) -> Unit,  // 평점 바
+    review: Review, // 피드 상단,중앙,하단을 합친 ui 상태 값
+    ratingBar: @Composable (Modifier, Float) -> Unit, // 평점 바
     isZooming: ((Boolean) -> Unit)? = null
 ) {
-    var pagerState: PagerState = rememberPagerState { review.reviewImages.size }
+    val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
     Column {
         ConstraintLayout(
             modifier = Modifier
@@ -63,7 +63,7 @@ fun Feed(
                     .size(32.dp)
                     .clickable1 { review.onProfile?.invoke() }
                     .border(
-                        width = 1.dp,
+                        width = 0.5.dp,
                         color = Color.LightGray,
                         shape = RoundedCornerShape(20.dp)
                     )
@@ -242,18 +242,23 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
 
         constrain(contents) {
-            top.linkTo(heart.bottom, margin = 8.dp)
+            top.linkTo(likeCount.bottom)
             start.linkTo(heart.start)
             end.linkTo(favorite.end)
             width = Dimension.fillToConstraints
         }
         constrain(likeCount) {
-            top.linkTo(contents.bottom)
+            top.linkTo(heart.bottom, margin = 8.dp)
+            start.linkTo(heart.start)
         }
         constrain(comments) {
-            top.linkTo(likeCount.bottom)
+            top.linkTo(contents.bottom)
+            start.linkTo(heart.start)
+            end.linkTo(favorite.end)
+            width = Dimension.fillToConstraints
         }
         constrain(commentCount) {
+            start.linkTo(heart.start)
             top.linkTo(comments.bottom)
         }
         constrain(indicator) {
@@ -268,10 +273,19 @@ fun feedCommentsConstraint(): ConstraintSet {
 
 @Preview
 @Composable
-fun PreViewItemFeed() {
+fun PreViewFeed() {
+    val data = testReviewData()
     Column(Modifier.verticalScroll(rememberScrollState())) {
         Feed(/* Preview */
-            review = testReviewData(),
+            review = data.copy(user =
+            data.user.copy(
+                name = "jenny",
+                profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"),
+                restaurant = data.restaurant.copy(restaurantName = "mcdonalds"),
+                likeAmount = 10,
+                isLike = true,
+                isFavorite = true,
+            ),
             ratingBar = { modifier, fl -> }
         )
     }
