@@ -70,7 +70,7 @@ fun Feeds(
 @Preview
 @Composable
 fun PreviewFeeds() {
-    Feeds(
+    Feeds(/* Preview */
         onRefresh = { /*TODO*/ },
         onBottom = { /*TODO*/ },
         isRefreshing = false,

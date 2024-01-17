@@ -25,4 +25,5 @@ ext {
     commonImageLoaderVersion = 'a8a2733a44'
     bottomDetectLazyColunmVersion = 'a0b883f789'
     MUI3ScrollToRefreshVersion = 'dd57844809'
+    torangRepositoryVersion = 'ba032f80ca'
 }

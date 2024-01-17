@@ -119,9 +119,13 @@ fun Feed(
                 onLike = { review.onLike?.invoke() }
             )
             // 코멘트 아이콘
-            CommentImage(modifier = Modifier.layoutId("comment"), onComment = {review.onComment?.invoke()})
+            CommentImage(
+                modifier = Modifier.layoutId("comment"),
+                onComment = { review.onComment?.invoke() })
             // 공유 아이콘
-            ShareImage(modifier = Modifier.layoutId("share"), onShare = {review.onShare?.invoke()})
+            ShareImage(
+                modifier = Modifier.layoutId("share"),
+                onShare = { review.onShare?.invoke() })
             // 즐겨찾기 아이콘
             FavoriteImage(
                 modifier = Modifier.layoutId("favorite"),
@@ -266,7 +270,7 @@ fun feedCommentsConstraint(): ConstraintSet {
 @Composable
 fun PreViewItemFeed() {
     Column(Modifier.verticalScroll(rememberScrollState())) {
-        Feed(
+        Feed(/* Preview */
             review = testReviewData(),
             ratingBar = { modifier, fl -> }
         )
