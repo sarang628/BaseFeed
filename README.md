@@ -2,6 +2,17 @@
 
 메인 화면, 프로필 화면 등 다양한 화면에서 사용할 수 있는 공통 컴포넌트 모듈로 제공
 
+## Feature
+
+- App Architecture
+    - Layered architecture
+    - Dependency injection with Hilt
+- Mordern Android
+    - Compose
+        - ConstraintLayout
+- Localization
+- ExpandableText
+
 ## Requirement
 
 ### functional
@@ -17,15 +28,6 @@
 
 - 게시물 관리:
     - 사용자는 자신의 게시물을 삭제/수정, 다른 게시물을 신고 할 수 있다.
-
-## Architecture, Libraries
-
-- App Architecture
-    - Layered architecture
-    - Dependency injection with Hilt
-- Mordern Android
-    - Compose
-        - ConstraintLayout
 
 ## convention
 
