@@ -30,6 +30,7 @@ fun testReviewData(): Review {
     return Review(
         reviewId = 0,
         reviewImages = ArrayList<String>().apply {
+            add("https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/phoenix/Kai_03_e0cec566-c290-4b68-8e7d-50ecda61055e.jpg")
             add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
@@ -52,18 +53,15 @@ fun testReviewData(): Review {
             restaurantName = "restaurantName",
         ),
         rating = 3.5f,
-        contents = "" +
-                "contentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontents" +
-                "contentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontents" +
-                "",
+        contents = "contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents ",
         comments = ArrayList<Comment>().apply {
-            add(Comment("author", "comment"))
-            add(Comment("author", "comment"))
-            add(Comment("author", "comment"))
-            add(Comment("author", "comment"))
-            add(Comment("author", "comment"))
-            add(Comment("author", "comment"))
-            add(Comment("author", "comment"))
+//            add(Comment("author", "comment"))
+//            add(Comment("author", "comment"))
+//            add(Comment("author", "comment"))
+//            add(Comment("author", "comment"))
+//            add(Comment("author", "comment"))
+//            add(Comment("author", "comment"))
+//            add(Comment("author", "comment"))
         },
         commentAmount = 10,
         isLike = false,

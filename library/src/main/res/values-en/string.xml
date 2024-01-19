@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="like">%s likes</string>
+    <string name="comments">View all %s comments</string>
+</resources>

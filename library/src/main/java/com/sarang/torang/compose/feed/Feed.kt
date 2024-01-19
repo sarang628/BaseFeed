@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.PlatformParagraphStyle
@@ -30,9 +31,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentImage
 import com.sarang.torang.compose.feed.internal.components.ExpandableText
@@ -51,8 +54,8 @@ import com.sarang.torang.data.basefeed.testReviewData
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Feed(
-    review: Review, // 피드 상단,중앙,하단을 합친 ui 상태 값
-    ratingBar: @Composable (Modifier, Float) -> Unit, // 평점 바
+    review: Review,
+    ratingBar: @Composable (Modifier, Float) -> Unit,
     isZooming: ((Boolean) -> Unit)? = null
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -161,8 +164,9 @@ fun Feed(
             if (review.likeAmount > 0) {
                 Text(
                     modifier = Modifier.layoutId("likeCount"),
-                    text = "좋아요 ${review.likeAmount} 개",
-                    color = Color.DarkGray
+                    text = stringResource(id = R.string.like, review.likeAmount),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -173,10 +177,18 @@ fun Feed(
             if (review.commentAmount > 0) {
                 Text(
                     modifier = Modifier.layoutId("commentCount"),
-                    text = "댓글 ${review.commentAmount} 개 모두보기",
-                    color = Color.DarkGray
+                    text = stringResource(id = R.string.comments, review.commentAmount),
+                    color = Color.Gray,
+                    fontSize = 16.sp
                 )
             }
+
+            Text(
+                modifier = Modifier.layoutId("date"),
+                text = "July 29, 2023",
+                color = Color.Gray,
+                fontSize = 13.sp
+            )
         }
     }
 }
@@ -198,6 +210,7 @@ fun feedCommentsConstraint(): ConstraintSet {
         val refMenu = createRefFor("refMenu")
         val refRatingBar = createRefFor("refRatingBar")
         val indicator = createRefFor("indicator")
+        val date = createRefFor("date")
         val guide = createGuidelineFromTop(45.dp)
 
         constrain(refProfile) {
@@ -263,10 +276,14 @@ fun feedCommentsConstraint(): ConstraintSet {
             start.linkTo(heart.start)
         }
         constrain(comments) {
-            top.linkTo(contents.bottom)
+            top.linkTo(contents.bottom, 3.dp)
             start.linkTo(heart.start)
             end.linkTo(favorite.end)
             width = Dimension.fillToConstraints
+        }
+        constrain(date) {
+            top.linkTo(commentCount.bottom)
+            start.linkTo(heart.start)
         }
         constrain(commentCount) {
             start.linkTo(heart.start)
@@ -291,12 +308,12 @@ fun PreViewFeed() {
             review = data.copy(
                 user =
                 data.user.copy(
-                    name = "jenny",
+                    name = "Gemini",
                     profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
                 ),
-                restaurant = data.restaurant.copy(restaurantName = "mcdonalds"),
+                restaurant = data.restaurant.copy(restaurantName = "YourFineDining"),
                 likeAmount = 10,
-                isLike = true,
+                isLike = false,
                 isFavorite = false,
             ),
             ratingBar = { modifier, fl -> }

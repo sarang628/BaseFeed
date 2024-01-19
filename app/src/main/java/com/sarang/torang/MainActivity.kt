@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import com.example.commonwidgets.torangcomposepack.AndroidViewRatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feeds
@@ -48,13 +49,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Displaying edge-to-edge
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             var isRefreshing by remember { mutableStateOf(false) }
             val coroutine = rememberCoroutineScope()
             var feedsUiState: FeedsUiState by remember { mutableStateOf(FeedsUiState.Loading) }
             val list by feedRepository.feeds.collectAsState(initial = arrayListOf()) // repository로 부터 feed 리스트 가져옴
 
-            LaunchedEffect(key1 = "", block = {
+            LaunchedEffect(key1 = list, block = {
+                feedsUiState = FeedsUiState.Loading
                 delay(2000)
                 feedsUiState = FeedsUiState.Success(
                     list.map // repository로부터 받은 리스트를 basefeed에서 제공한 데이터로 변환
