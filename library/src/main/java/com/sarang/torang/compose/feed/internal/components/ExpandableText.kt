@@ -18,6 +18,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +30,7 @@ const val TAG = "_ExpandableText"
 @Composable
 fun ExpandableText(
     modifier: Modifier = Modifier,
+    nickName: String? = null,
     text: String
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -47,7 +49,7 @@ fun ExpandableText(
         var matchEnd = 0
         var previousMatchStart = 0
 
-        while (matcher.find()) {
+        /*while (matcher.find()) {
             matchStart = matcher.start(1)
             matchEnd = matcher.end()
             val beforeMatch = text.substring(
@@ -88,7 +90,7 @@ fun ExpandableText(
             }
             pop() //don't forget to add this line after a pushStringAnnotation
             previousMatchStart = matchEnd
-        }
+        }*/
         //append the rest of the string
         if (text.length > matchEnd) {
             append(
@@ -107,9 +109,16 @@ fun ExpandableText(
         when {
             isExpanded -> {
                 textWithMoreLess = buildAnnotatedString {
+                    withStyle(SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold))
+                    {
+                        append(nickName)
+                    }
+                    append(" ")
                     append(textWithLinks)
                     pushStringAnnotation(tag = "show_more_tag", annotation = "")
-                    append(" See less")
+                    withStyle(SpanStyle(color = Color.Gray)) {
+                        append(" See less")
+                    }
                     pop()
                 }
             }
@@ -123,9 +132,17 @@ fun ExpandableText(
                     .dropLastWhile { it == ' ' || it == '.' }
 
                 textWithMoreLess = buildAnnotatedString {
+                    withStyle(SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold))
+                    {
+                        append(nickName)
+                    }
+                    append(" ")
                     append(adjustedText)
+                    append("...")
                     pushStringAnnotation(tag = "show_more_tag", annotation = "")
-                    append("...more")
+                    withStyle(SpanStyle(color = Color.Gray)) {
+                        append("more")
+                    }
                     pop()
                 }
 
@@ -174,26 +191,28 @@ fun ExpandableText(
 
 @Preview
 @Composable
-fun PreviewExpandableText(){
-    ExpandableText(text = "aaaaaaaaaaaaaaaaaaaaaaaaaa" +
-            "bbbbbbbbbbbbbbbbbbbbbbb" +
-            "cccccccccccccccccccccc" +
-            "dddddddddddddddddddd" +
-            "eeeeeeeeeeeeeeeeeeeeee" +
-            "ffffffffffffffffffffff" +
-            "ggggggggggggggggggggggg" +
-            "hhhhhhhhhhhhhhhhhhhhhhh" +
-            "jjjjjjjjjjjjjjjjjjjjjjjjjj" +
-            "kkkkkkkkkkkkkkkkkkkkkkkkkk" +
-            "llllllllllllllllllllllllll" +
-            "mmmmmmmmmmmmmmmmmmmmmmmmmmm" +
-            "nnnnnnnnnnnnnnnnnnnnnnnnnnn" +
-            "ooooooooooooooooooooooooooo" +
-            "ppppppppppppppppppppppppppp" +
-            "qqqqqqqqqqqqqqqqqqqqqqqqqqq" +
-            "rrrrrrrrrrrrrrrrrrrrrrrrrrr" +
-            "sssssssssssssssssssssssssss" +
-            "ttttttttttttttttttttttttttt" +
-            "uuuuuuuuuuuuuuuuuuuuuuuuuuu" +
-            "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
+fun PreviewExpandableText() {
+    ExpandableText(
+        text = "aaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                "bbbbbbbbbbbbbbbbbbbbbbb" +
+                "cccccccccccccccccccccc" +
+                "dddddddddddddddddddd" +
+                "eeeeeeeeeeeeeeeeeeeeee" +
+                "ffffffffffffffffffffff" +
+                "ggggggggggggggggggggggg" +
+                "hhhhhhhhhhhhhhhhhhhhhhh" +
+                "jjjjjjjjjjjjjjjjjjjjjjjjjj" +
+                "kkkkkkkkkkkkkkkkkkkkkkkkkk" +
+                "llllllllllllllllllllllllll" +
+                "mmmmmmmmmmmmmmmmmmmmmmmmmmm" +
+                "nnnnnnnnnnnnnnnnnnnnnnnnnnn" +
+                "ooooooooooooooooooooooooooo" +
+                "ppppppppppppppppppppppppppp" +
+                "qqqqqqqqqqqqqqqqqqqqqqqqqqq" +
+                "rrrrrrrrrrrrrrrrrrrrrrrrrrr" +
+                "sssssssssssssssssssssssssss" +
+                "ttttttttttttttttttttttttttt" +
+                "uuuuuuuuuuuuuuuuuuuuuuuuuuu" +
+                "vvvvvvvvvvvvvvvvvvvvvvvvvvv"
+    )
 }
