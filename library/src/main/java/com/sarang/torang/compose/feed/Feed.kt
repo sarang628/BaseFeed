@@ -21,8 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.PlatformParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -143,10 +147,14 @@ fun Feed(
                         append(" Terms and Condition")
                     }
                 }
-                ExpandableText(
+                Column(
                     modifier = Modifier.layoutId("contents"),
-                    text = "${review.contents}"
-                )
+                ) {
+                    ExpandableText(
+                        nickName = review.user.name,
+                        text = "${review.contents}"
+                    )
+                }
             }
 
             // 좋아요 갯수
@@ -280,10 +288,12 @@ fun PreViewFeed() {
     val data = testReviewData()
     Column(Modifier.verticalScroll(rememberScrollState())) {
         Feed(/* Preview */
-            review = data.copy(user =
-            data.user.copy(
-                name = "jenny",
-                profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"),
+            review = data.copy(
+                user =
+                data.user.copy(
+                    name = "jenny",
+                    profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
+                ),
                 restaurant = data.restaurant.copy(restaurantName = "mcdonalds"),
                 likeAmount = 10,
                 isLike = true,
