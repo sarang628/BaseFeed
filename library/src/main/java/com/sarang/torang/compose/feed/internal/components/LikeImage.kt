@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
-import com.sarang.torang.compose.feed.internal.util.clickable1
+import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
 fun LikeImage(
@@ -16,12 +16,12 @@ fun LikeImage(
     onLike: () -> Unit
 ) {
     Image(
-        painter = if (isLike) painterResource(id = R.drawable.selected_heart)
-        else painterResource(id = R.drawable.b3s),
+        painter = if (isLike) painterResource(id = R.drawable.heart_fill)
+        else painterResource(id = R.drawable.heart),
         contentDescription = "",
         modifier = modifier
             .size(25.dp)
-            .clickable1 {
+            .nonEffectclickable {
                 onLike.invoke()
             }
     )

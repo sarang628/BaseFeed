@@ -8,16 +8,16 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
-import com.sarang.torang.compose.feed.internal.util.clickable1
+import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
 fun ShareImage(modifier: Modifier, onShare: () -> Unit) {
-    Image(painter = painterResource(id = R.drawable.message),
+    Image(painter = painterResource(id = R.drawable.share),
         contentDescription = "",
         modifier = modifier
             .layoutId("share")
             .size(25.dp)
-            .clickable1 {
+            .nonEffectclickable {
                 onShare.invoke()
             })
 }

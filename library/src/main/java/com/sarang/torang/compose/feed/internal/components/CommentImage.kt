@@ -8,16 +8,16 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
-import com.sarang.torang.compose.feed.internal.util.clickable1
+import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
 fun CommentImage(modifier: Modifier, onComment: () -> Unit) {
-    Image(painter = painterResource(id = R.drawable.chat),
+    Image(painter = painterResource(id = R.drawable.comment),
         contentDescription = "",
         modifier = modifier
             .size(25.dp)
             .layoutId("comment")
-            .clickable1 {
+            .nonEffectclickable {
                 onComment.invoke()
             })
 }

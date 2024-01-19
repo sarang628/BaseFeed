@@ -1,14 +1,13 @@
 package com.sarang.torang.compose.feed.internal.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
-import com.sarang.torang.compose.feed.internal.util.clickable1
+import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
 fun FavoriteImage(modifier: Modifier, isFavorite: Boolean, onFavorite: () -> Unit) {
@@ -16,8 +15,8 @@ fun FavoriteImage(modifier: Modifier, isFavorite: Boolean, onFavorite: () -> Uni
     else painterResource(id = R.drawable.star),
         contentDescription = "",
         modifier = modifier
-            .size(25.dp)
-            .clickable1 {
+            .size(22.dp)
+            .nonEffectclickable {
                 onFavorite.invoke()
             })
 }

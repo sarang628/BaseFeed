@@ -37,10 +37,13 @@ import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicato
 import com.sarang.torang.compose.feed.internal.components.LikeImage
 import com.sarang.torang.compose.feed.internal.components.PagerIndicator
 import com.sarang.torang.compose.feed.internal.components.ShareImage
-import com.sarang.torang.compose.feed.internal.util.clickable1
+import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.testReviewData
 
+/**
+ * Feed 항목
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Feed(
@@ -61,7 +64,7 @@ fun Feed(
                 modifier = Modifier
                     .layoutId("refProfile")
                     .size(32.dp)
-                    .clickable1 { review.onProfile?.invoke() }
+                    .nonEffectclickable { review.onProfile?.invoke() }
                     .border(
                         width = 0.5.dp,
                         color = Color.LightGray,
@@ -76,7 +79,7 @@ fun Feed(
             Text(
                 modifier = Modifier
                     .layoutId("refName")
-                    .clickable1 { review.onName?.invoke() },
+                    .nonEffectclickable { review.onName?.invoke() },
                 text = review.user.name,
             )
             // 평점
@@ -85,7 +88,7 @@ fun Feed(
             Text(
                 modifier = Modifier
                     .layoutId("refRestaurantName")
-                    .clickable1 { review.onRestaurant?.invoke() },
+                    .nonEffectclickable { review.onRestaurant?.invoke() },
                 text = review.restaurant.restaurantName
             )
             // 메뉴
@@ -222,18 +225,18 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
 
         constrain(heart) {
-            top.linkTo(reviewImages.bottom, margin = 8.dp)
+            top.linkTo(reviewImages.bottom, margin = 12.dp)
             start.linkTo(parent.start, margin = 8.dp)
         }
 
         constrain(comment) {
             top.linkTo(heart.top)
-            start.linkTo(heart.end, margin = 8.dp)
+            start.linkTo(heart.end, margin = 16.dp)
         }
 
         constrain(share) {
             top.linkTo(heart.top)
-            start.linkTo(comment.end, margin = 8.dp)
+            start.linkTo(comment.end, margin = 16.dp)
         }
 
         constrain(favorite) {
@@ -284,7 +287,7 @@ fun PreViewFeed() {
                 restaurant = data.restaurant.copy(restaurantName = "mcdonalds"),
                 likeAmount = 10,
                 isLike = true,
-                isFavorite = true,
+                isFavorite = false,
             ),
             ratingBar = { modifier, fl -> }
         )

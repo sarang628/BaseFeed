@@ -26,12 +26,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sarang.torang.di.basefeed.review
-import com.sarang.torang.di.basefeed.toFeedData
 import com.example.commonwidgets.torangcomposepack.AndroidViewRatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feeds
 import com.sarang.torang.compose.feed.PreViewFeed
+import com.sarang.torang.di.basefeed.review
 import com.sarang.torang.uistate.FeedsUiState
 import com.sryang.torang_repository.repository.FeedRepository
 import com.sryang.torang_repository.repository.FeedRepositoryTest
@@ -53,11 +52,14 @@ class MainActivity : ComponentActivity() {
             var isRefreshing by remember { mutableStateOf(false) }
             val coroutine = rememberCoroutineScope()
             var feedsUiState: FeedsUiState by remember { mutableStateOf(FeedsUiState.Loading) }
-            val list by feedRepository.feeds.collectAsState(initial = arrayListOf())
+            val list by feedRepository.feeds.collectAsState(initial = arrayListOf()) // repository로 부터 feed 리스트 가져옴
 
             LaunchedEffect(key1 = "", block = {
                 delay(2000)
-                feedsUiState = FeedsUiState.Success(list.map { it.toFeedData().review() })
+                feedsUiState = FeedsUiState.Success(
+                    list.map // repository로부터 받은 리스트를 basefeed에서 제공한 데이터로 변환
+                    { it.review() }
+                )
             })
 
             TorangTheme {

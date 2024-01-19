@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Modifier.clickable1(onClick: () -> Unit): Modifier {
+fun Modifier.nonEffectclickable(onClick: () -> Unit): Modifier {
     val interactionSource = remember { MutableInteractionSource() } // 클릭 시 리플 애니메이션을 없애기 위한 변수
     return this.clickable(
         interactionSource = interactionSource,
