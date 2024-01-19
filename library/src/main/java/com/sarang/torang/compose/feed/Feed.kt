@@ -226,7 +226,7 @@ fun feedCommentsConstraint(): ConstraintSet {
 
         constrain(heart) {
             top.linkTo(reviewImages.bottom, margin = 12.dp)
-            start.linkTo(parent.start, margin = 8.dp)
+            start.linkTo(parent.start, margin = 12.dp)
         }
 
         constrain(comment) {
@@ -241,7 +241,7 @@ fun feedCommentsConstraint(): ConstraintSet {
 
         constrain(favorite) {
             top.linkTo(heart.top)
-            end.linkTo(parent.end, margin = 8.dp)
+            end.linkTo(parent.end, margin = 12.dp)
         }
 
         constrain(contents) {
