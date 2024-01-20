@@ -13,7 +13,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 fun FavoriteImage(modifier: Modifier, isFavorite: Boolean, onFavorite: () -> Unit) {
     Image(painter = if (isFavorite) painterResource(id = R.drawable.selected_star)
     else painterResource(id = R.drawable.star),
-        contentDescription = "",
+        contentDescription = "favorite",
         modifier = modifier
             .size(22.dp)
             .nonEffectclickable {

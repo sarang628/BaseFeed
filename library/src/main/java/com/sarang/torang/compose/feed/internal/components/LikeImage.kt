@@ -18,7 +18,7 @@ fun LikeImage(
     Image(
         painter = if (isLike) painterResource(id = R.drawable.heart_fill)
         else painterResource(id = R.drawable.heart),
-        contentDescription = "",
+        contentDescription = "like",
         modifier = modifier
             .size(25.dp)
             .nonEffectclickable {

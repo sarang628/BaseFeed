@@ -2,23 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="PreViewFeed">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="$USER_HOME$/.android/avd/Pixel_7_Pro_API_34.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-19T09:16:47.482679Z" />
-        </State>
-      </entry>
-      <entry key="PreViewItemFeed">
+      <entry key="FeedUITest">
         <State />
       </entry>
       <entry key="app">
@@ -37,21 +21,17 @@
           <timeTargetWasSelectedWithDropDown value="2024-01-19T09:32:24.416496Z" />
         </State>
       </entry>
-      <entry key="test">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="$USER_HOME$/.android/avd/Pixel_7_Pro_API_34.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-19T09:05:14.924777Z" />
-        </State>
+      <entry key="checkContents()">
+        <State />
+      </entry>
+      <entry key="checkLike()">
+        <State />
+      </entry>
+      <entry key="checkMenu()">
+        <State />
+      </entry>
+      <entry key="checkRestaurantName()">
+        <State />
       </entry>
     </value>
   </component>

@@ -13,7 +13,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 @Composable
 fun CommentImage(modifier: Modifier, onComment: () -> Unit) {
     Image(painter = painterResource(id = R.drawable.comment),
-        contentDescription = "",
+        contentDescription = "comment",
         modifier = modifier
             .size(25.dp)
             .layoutId("comment")

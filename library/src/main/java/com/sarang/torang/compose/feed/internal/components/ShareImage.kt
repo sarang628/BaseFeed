@@ -13,7 +13,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 @Composable
 fun ShareImage(modifier: Modifier, onShare: () -> Unit) {
     Image(painter = painterResource(id = R.drawable.share),
-        contentDescription = "",
+        contentDescription = "share",
         modifier = modifier
             .layoutId("share")
             .size(25.dp)

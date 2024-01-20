@@ -22,9 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ParagraphStyle
-import androidx.compose.ui.text.PlatformParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +53,7 @@ import com.sarang.torang.data.basefeed.testReviewData
 @Composable
 fun Feed(
     review: Review,
-    ratingBar: @Composable (Modifier, Float) -> Unit,
+    ratingBar: @Composable ((Modifier, Float) -> Unit)? = null,
     isZooming: ((Boolean) -> Unit)? = null
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -91,7 +88,7 @@ fun Feed(
                 text = review.user.name,
             )
             // 평점
-            ratingBar.invoke(Modifier.layoutId("refRatingBar"), review.rating)
+            ratingBar?.invoke(Modifier.layoutId("refRatingBar"), review.rating)
             // 음식점명
             Text(
                 modifier = Modifier
@@ -101,10 +98,10 @@ fun Feed(
             )
             // 메뉴
             IconButton(
-                modifier = Modifier.layoutId("refMenu"),
+                modifier = Modifier.layoutId("menu"),
                 onClick = { review.onMenu?.invoke() }
             ) {
-                Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu")
             }
             // 이미지 페이저
             if (review.reviewImages.isNotEmpty()) {
@@ -208,7 +205,7 @@ fun feedCommentsConstraint(): ConstraintSet {
         val refProfile = createRefFor("refProfile")
         val refName = createRefFor("refName")
         val refRestaurantName = createRefFor("refRestaurantName")
-        val refMenu = createRefFor("refMenu")
+        val menu = createRefFor("menu")
         val refRatingBar = createRefFor("refRatingBar")
         val indicator = createRefFor("indicator")
         val date = createRefFor("date")
@@ -229,7 +226,7 @@ fun feedCommentsConstraint(): ConstraintSet {
             bottom.linkTo(refProfile.bottom)
             start.linkTo(refProfile.end, margin = 8.dp)
         }
-        constrain(refMenu) {
+        constrain(menu) {
             top.linkTo(refProfile.top)
             bottom.linkTo(refProfile.bottom)
             end.linkTo(parent.end)
