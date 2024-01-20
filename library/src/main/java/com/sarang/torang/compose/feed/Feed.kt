@@ -316,6 +316,7 @@ fun PreViewFeed() {
                 likeAmount = 10,
                 isLike = false,
                 isFavorite = false,
+                createDate = "2022-10-10 10:10:10"
             ),
             ratingBar = { modifier, fl -> }
         )
