@@ -6,7 +6,17 @@ import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.User
 import com.sryang.torang_repository.data.entity.ReviewAndImageEntity
 
-fun ReviewAndImageEntity.review(): Review {
+fun ReviewAndImageEntity.review(
+    onProfile: (() -> Unit)? = null,
+    onLike: (() -> Unit)? = null,
+    onComment: (() -> Unit)? = null,
+    onShare: (() -> Unit)? = null,
+    onFavorite: (() -> Unit)? = null,
+    onMenu: (() -> Unit)? = null,
+    onName: (() -> Unit)? = null,
+    onRestaurant: (() -> Unit)? = null,
+    onImage: ((Int) -> Unit)? = null,
+): Review {
     return Review(
         reviewId = this.review.reviewId,
         reviewImages = this.images.map { BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl },
@@ -26,15 +36,15 @@ fun ReviewAndImageEntity.review(): Review {
         isLike = this.like != null,
         isFavorite = this.favorite != null,
         contents = this.review.contents,
-        onShare = {},
-        onRestaurant = {},
-        onProfile = {},
-        onName = {},
-        onMenu = {},
-        onLike = {},
-        onImage = {},
-        onFavorite = {},
-        onComment = {},
+        onShare = onShare,
+        onRestaurant = onRestaurant,
+        onProfile = onProfile,
+        onName = onName,
+        onMenu = onMenu,
+        onLike = onLike,
+        onImage = onImage,
+        onFavorite = onFavorite,
+        onComment = onComment,
         createDate = this.review.createDate
     )
 }

@@ -40,80 +40,22 @@ fun ExpandableText(
 
     //first we match the html tags and enable the links
     val textWithLinks = buildAnnotatedString {
-        val htmlTagPattern = Pattern.compile(
-            "(?i)<a([^>]+)>(.+?)</a>",
-            Pattern.CASE_INSENSITIVE or Pattern.MULTILINE or Pattern.DOTALL
-        )
-        val matcher = htmlTagPattern.matcher(text)
-        var matchStart: Int
-        var matchEnd = 0
-        var previousMatchStart = 0
-
-        /*while (matcher.find()) {
-            matchStart = matcher.start(1)
-            matchEnd = matcher.end()
-            val beforeMatch = text.substring(
-                startIndex = previousMatchStart,
-                endIndex = matchStart - 2
-            )
-            val tagMatch = text.substring(
-                startIndex = text.indexOf(
-                    char = '>',
-                    startIndex = matchStart
-                ) + 1,
-                endIndex = text.indexOf(
-                    char = '<',
-                    startIndex = matchStart + 1
-                ),
-            )
-            append(
-                beforeMatch
-            )
-            // attach a string annotation that stores a URL to the text
-            val annotation = text.substring(
-                startIndex = matchStart + 7,//omit <a hreh =
-                endIndex = text.indexOf(
-                    char = '"',
-                    startIndex = matchStart + 7,
-                )
-            )
-            pushStringAnnotation(tag = "link_tag", annotation = annotation)
-            withStyle(
-                SpanStyle(
-                    //color = LinkColor,
-                    textDecoration = TextDecoration.Underline
-                )
-            ) {
-                append(
-                    tagMatch
-                )
-            }
-            pop() //don't forget to add this line after a pushStringAnnotation
-            previousMatchStart = matchEnd
-        }*/
-        //append the rest of the string
-        if (text.length > matchEnd) {
-            append(
-                text.substring(
-                    startIndex = matchEnd,
-                    endIndex = text.length
-                )
-            )
+        withStyle(SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold))
+        {
+            append(nickName)
         }
+        append(" ")
+        append(text)
     }
     //then we create the Show more/less animation effect
     var textWithMoreLess by remember { mutableStateOf(textWithLinks) }
+
     LaunchedEffect(textLayoutResult) {
         if (textLayoutResult == null) return@LaunchedEffect
 
         when {
             isExpanded -> {
                 textWithMoreLess = buildAnnotatedString {
-                    withStyle(SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold))
-                    {
-                        append(nickName)
-                    }
-                    append(" ")
                     append(textWithLinks)
                     pushStringAnnotation(tag = "show_more_tag", annotation = "")
                     withStyle(SpanStyle(color = Color.Gray)) {
@@ -132,12 +74,12 @@ fun ExpandableText(
                     .dropLastWhile { it == ' ' || it == '.' }
 
                 textWithMoreLess = buildAnnotatedString {
-                    withStyle(SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold))
-                    {
-                        append(nickName)
+                    withStyle(SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold)) {
+                        append(
+                            adjustedText.substring(0, nickName?.length ?: 0)
+                        )
                     }
-                    append(" ")
-                    append(adjustedText)
+                    append(adjustedText.substring(nickName?.length ?: 0, adjustedText.length))
                     append("...")
                     pushStringAnnotation(tag = "show_more_tag", annotation = "")
                     withStyle(SpanStyle(color = Color.Gray)) {

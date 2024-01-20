@@ -57,13 +57,44 @@ class MainActivity : ComponentActivity() {
             val coroutine = rememberCoroutineScope()
             var feedsUiState: FeedsUiState by remember { mutableStateOf(FeedsUiState.Loading) }
             val list by feedRepository.feeds.collectAsState(initial = arrayListOf()) // repository로 부터 feed 리스트 가져옴
+            val context = LocalContext.current
 
             LaunchedEffect(key1 = list, block = {
                 feedsUiState = FeedsUiState.Loading
                 delay(2000)
                 feedsUiState = FeedsUiState.Success(
                     list.map // repository로부터 받은 리스트를 basefeed에서 제공한 데이터로 변환
-                    { it.review() }
+                    {
+                        it.review(
+                            onComment = {
+                                Toast.makeText(context, "onComment", Toast.LENGTH_SHORT).show()
+                            },
+                            onShare = {
+                                Toast.makeText(context, "onShare", Toast.LENGTH_SHORT).show()
+                            },
+                            onMenu = {
+                                Toast.makeText(context, "onMenu", Toast.LENGTH_SHORT).show()
+                            },
+                            onName = {
+                                Toast.makeText(context, "onName", Toast.LENGTH_SHORT).show()
+                            },
+                            onRestaurant = {
+                                Toast.makeText(context, "onRestaurant", Toast.LENGTH_SHORT).show()
+                            },
+                            onImage = {
+                                Toast.makeText(context, "onImage", Toast.LENGTH_SHORT).show()
+                            },
+                            onProfile = {
+                                Toast.makeText(context, "onProfile", Toast.LENGTH_SHORT).show()
+                            },
+                            onFavorite = {
+                                Toast.makeText(context, "onFavorite", Toast.LENGTH_SHORT).show()
+                            },
+                            onLike = {
+                                Toast.makeText(context, "onLike", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    }
                 )
             })
 
