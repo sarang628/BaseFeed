@@ -4,18 +4,13 @@
 
 ## Feature
 
-- App Architecture
-    - Layered architecture
-    - Dependency injection with Hilt
-- Mordern Android
-    - Compose
-        - ConstraintLayout
+- Layered architecture
+- Dependency injection with Hilt
+- Compose ConstraintLayout
 - Localization
 - ExpandableText
 
-## Requirement
-
-### functional
+## functional Requirement
 
 - 공통 콘텐츠 항목
     - 사용자가 업로드 한 feed(review) 를 list item 으로 보여 준다.
