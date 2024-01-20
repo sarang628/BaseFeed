@@ -22,7 +22,7 @@ ext {
     themeVersion = '28a1702347'
     navigationModuleVersion = 'd98f57435d'
     commonWidgetVersion = '0806afba55'
-    commonImageLoaderVersion = 'a8a2733a44'
+    commonImageLoaderVersion = 'eec41c7609'
     bottomDetectLazyColunmVersion = 'a0b883f789'
     MUI3ScrollToRefreshVersion = 'dd57844809'
     torangRepositoryVersion = 'ba032f80ca'
