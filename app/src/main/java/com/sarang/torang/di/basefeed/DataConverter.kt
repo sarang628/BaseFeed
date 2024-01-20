@@ -34,6 +34,7 @@ fun ReviewAndImageEntity.review(): Review {
         onLike = {},
         onImage = {},
         onFavorite = {},
-        onComment = {}
+        onComment = {},
+        createDate = this.review.createDate
     )
 }

@@ -1,6 +1,7 @@
 package com.sarang.torang.data.basefeed
 
 import android.util.Log
+import java.text.SimpleDateFormat
 
 data class Review(
     val user: User,
@@ -14,6 +15,7 @@ data class Review(
     val commentAmount: Int,
     val isLike: Boolean,
     val isFavorite: Boolean,
+    val createDate: String,
     val onProfile: (() -> Unit)? = null,
     val onLike: (() -> Unit)? = null,
     val onComment: (() -> Unit)? = null,
@@ -24,6 +26,19 @@ data class Review(
     val onRestaurant: (() -> Unit)? = null,
     val onImage: ((Int) -> Unit)? = null,
 )
+
+val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+val sdf1 = SimpleDateFormat("MMM dd, YYYY")
+fun Review.formatedDate(): String {
+    var result = ""
+    try {
+        result = sdf1.format(sdf.parse(createDate))
+    } catch (e: Exception) {
+        Log.e("_Review", e.toString())
+    } finally {
+        return result
+    }
+}
 
 
 fun testReviewData(): Review {
@@ -75,7 +90,8 @@ fun testReviewData(): Review {
         onName = {},
         onProfile = {},
         onRestaurant = {},
-        onShare = {}
+        onShare = {},
+        createDate = ""
     )
 }
 

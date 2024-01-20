@@ -46,6 +46,7 @@ import com.sarang.torang.compose.feed.internal.components.PagerIndicator
 import com.sarang.torang.compose.feed.internal.components.ShareImage
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Review
+import com.sarang.torang.data.basefeed.formatedDate
 import com.sarang.torang.data.basefeed.testReviewData
 
 /**
@@ -185,7 +186,7 @@ fun Feed(
 
             Text(
                 modifier = Modifier.layoutId("date"),
-                text = "July 29, 2023",
+                text = review.formatedDate(),
                 color = Color.Gray,
                 fontSize = 13.sp
             )
