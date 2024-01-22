@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.feed
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +44,7 @@ fun Feeds(
         }
 
         is FeedsUiState.Success -> {
+            Log.d("_Feeds","render")
             RefreshAndBottomDetectionLazyColunm(
                 // pull to refresh와 하단 감지 적용 LazyColunm
                 count = feedsUiState.reviews.size,

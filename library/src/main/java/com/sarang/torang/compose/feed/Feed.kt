@@ -5,11 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -30,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -134,21 +131,21 @@ fun Feed(
                 isLike = review.isLike,
                 onLike = { review.onLike?.invoke() },
                 size = 42.dp,
-                padding = 8.dp
+                padding = 9.dp
             )
             // 코멘트 아이콘
             CommentImage(
                 modifier = Modifier.layoutId("comment"),
                 onComment = { review.onComment?.invoke() },
                 size = 42.dp,
-                padding = 8.dp
+                padding = 9.dp
             )
             // 공유 아이콘
             ShareImage(
                 modifier = Modifier.layoutId("share"),
                 onShare = { review.onShare?.invoke() },
                 size = 42.dp,
-                padding = 8.dp
+                padding = 9.dp
             )
             // 즐겨찾기 아이콘
             FavoriteImage(
@@ -156,7 +153,7 @@ fun Feed(
                 isFavorite = review.isFavorite,
                 onFavorite = { review.onFavorite?.invoke() },
                 size = 42.dp,
-                padding = 9.dp
+                padding = 12.dp
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
@@ -196,7 +193,8 @@ fun Feed(
                     modifier = Modifier.layoutId("commentCount"),
                     text = stringResource(id = R.string.comments, review.commentAmount),
                     color = Color.Gray,
-                    fontSize = 16.sp
+                    fontWeight = W500,
+                    fontSize = 14.sp
                 )
             }
 
@@ -204,7 +202,8 @@ fun Feed(
                 modifier = Modifier.layoutId("date"),
                 text = review.formatedDate(),
                 color = Color.Gray,
-                fontSize = 13.sp
+                fontWeight = W500,
+                fontSize = 12.sp
             )
         }
     }
