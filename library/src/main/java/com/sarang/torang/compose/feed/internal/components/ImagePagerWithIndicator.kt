@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -45,16 +46,14 @@ internal fun ImagePagerWithIndicator(
     var scrollEnable by remember { mutableStateOf(true) }
     Column(modifier = modifier) {
         HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.size(400.dp),
             state = pagerState,
             userScrollEnabled = scrollEnable
         ) { page ->
             TorangAsyncImage(
                 model = images[page],
                 modifier = modifier
-                    .size(450.dp)
-                    .fillMaxWidth()
-                    .fillMaxHeight()
+                    .size(400.dp)
                     .nonEffectclickable(onClick = { onImage.invoke(page) })
                     .pinchZoom {
                         scrollEnable = !it
@@ -84,7 +83,8 @@ fun PagerIndicator(
     if (count > 0)
         Row(
             modifier = modifier,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             repeat(count) { iteration ->
                 val color =
@@ -110,6 +110,7 @@ fun PreViewItemFeedMid() {
             .fillMaxSize()
     ) {
         ImagePagerWithIndicator(
+            /*Preview*/
             images = arrayListOf(
 //                "https://www.naver.com",
                 "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",

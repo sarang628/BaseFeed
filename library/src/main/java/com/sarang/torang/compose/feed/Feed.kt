@@ -2,9 +2,14 @@ package com.sarang.torang.compose.feed
 
 import TorangAsyncImage
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -101,7 +106,10 @@ fun Feed(
                 modifier = Modifier.layoutId("menu"),
                 onClick = { review.onMenu?.invoke() }
             ) {
-                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu")
+                Icon(
+                    imageVector = Icons.Default.MoreVert, contentDescription = "menu",
+                    modifier = Modifier.background(Color.Transparent)
+                )
             }
             // 이미지 페이저
             if (review.reviewImages.isNotEmpty()) {
@@ -124,21 +132,31 @@ fun Feed(
             LikeImage(
                 modifier = Modifier.layoutId("heart"),
                 isLike = review.isLike,
-                onLike = { review.onLike?.invoke() }
+                onLike = { review.onLike?.invoke() },
+                size = 42.dp,
+                padding = 8.dp
             )
             // 코멘트 아이콘
             CommentImage(
                 modifier = Modifier.layoutId("comment"),
-                onComment = { review.onComment?.invoke() })
+                onComment = { review.onComment?.invoke() },
+                size = 42.dp,
+                padding = 8.dp
+            )
             // 공유 아이콘
             ShareImage(
                 modifier = Modifier.layoutId("share"),
-                onShare = { review.onShare?.invoke() })
+                onShare = { review.onShare?.invoke() },
+                size = 42.dp,
+                padding = 8.dp
+            )
             // 즐겨찾기 아이콘
             FavoriteImage(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
-                onFavorite = { review.onFavorite?.invoke() }
+                onFavorite = { review.onFavorite?.invoke() },
+                size = 42.dp,
+                padding = 9.dp
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
@@ -167,6 +185,7 @@ fun Feed(
                     fontWeight = FontWeight.Bold
                 )
             }
+
 
             // 코멘트
             Comment(Modifier.layoutId("comments"), review.comments)
@@ -244,23 +263,23 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
 
         constrain(heart) {
-            top.linkTo(reviewImages.bottom, margin = 12.dp)
-            start.linkTo(parent.start, margin = 12.dp)
+            top.linkTo(reviewImages.bottom)
+            start.linkTo(parent.start, margin = 6.dp)
         }
 
         constrain(comment) {
             top.linkTo(heart.top)
-            start.linkTo(heart.end, margin = 16.dp)
+            start.linkTo(heart.end)
         }
 
         constrain(share) {
             top.linkTo(heart.top)
-            start.linkTo(comment.end, margin = 16.dp)
+            start.linkTo(comment.end)
         }
 
         constrain(favorite) {
             top.linkTo(heart.top)
-            end.linkTo(parent.end, margin = 12.dp)
+            end.linkTo(parent.end)
         }
 
         constrain(contents) {
@@ -270,7 +289,7 @@ fun feedCommentsConstraint(): ConstraintSet {
             width = Dimension.fillToConstraints
         }
         constrain(likeCount) {
-            top.linkTo(heart.bottom, margin = 8.dp)
+            top.linkTo(heart.bottom)
             start.linkTo(heart.start)
         }
         constrain(comments) {
@@ -292,6 +311,7 @@ fun feedCommentsConstraint(): ConstraintSet {
             bottom.linkTo(heart.bottom)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
+            height = Dimension.fillToConstraints
         }
     }
 }
