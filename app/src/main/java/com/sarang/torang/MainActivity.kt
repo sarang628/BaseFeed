@@ -120,14 +120,6 @@ class MainActivity : ComponentActivity() {
                                 onBottom = {
                                     Toast.makeText(context, "onBottom", Toast.LENGTH_SHORT).show()
                                 },
-                                ratingBar = { modifier, rating ->
-                                    AndroidViewRatingBar(
-                                        modifier = modifier,
-                                        rating = rating,
-                                        isSmall = true,
-                                        changable = false
-                                    )
-                                },
                                 feedsUiState = feedsUiState
                             )
                         }

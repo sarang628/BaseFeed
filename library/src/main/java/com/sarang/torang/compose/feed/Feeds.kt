@@ -19,7 +19,6 @@ fun Feeds(
     onRefresh: (() -> Unit),
     onBottom: () -> Unit,
     isRefreshing: Boolean,
-    ratingBar: @Composable (Modifier, Float) -> Unit,
     feedsUiState: FeedsUiState
 ) {
     var scrollEnabled by remember { mutableStateOf(false) }
@@ -51,7 +50,6 @@ fun Feeds(
                 itemCompose = {
                     Feed(
                         review = feedsUiState.reviews[it],
-                        ratingBar = ratingBar,
                         isZooming = {
                             scrollEnabled = !it
                         }
@@ -74,7 +72,6 @@ fun PreviewFeeds() {
         onRefresh = { /*TODO*/ },
         onBottom = { /*TODO*/ },
         isRefreshing = false,
-        ratingBar = { modifier, fl -> },
         //feedsUiState = FeedsUiState.Loading
         feedsUiState = FeedsUiState.Success(ArrayList<Review>().apply {
             add(testReviewData())

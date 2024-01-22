@@ -20,7 +20,6 @@ class FeedsUiTest {
                 onRefresh = { /*TODO*/ },
                 onBottom = { /*TODO*/ },
                 isRefreshing = false,
-                ratingBar = { _, _ -> {} },
                 feedsUiState = FeedsUiState.Loading
             )
         }

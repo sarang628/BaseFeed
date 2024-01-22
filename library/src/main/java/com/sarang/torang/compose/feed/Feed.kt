@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.example.commonwidgets.torangcomposepack.AndroidViewRatingBar
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentImage
@@ -53,7 +54,6 @@ import com.sarang.torang.data.basefeed.testReviewData
 @Composable
 fun Feed(
     review: Review,
-    ratingBar: @Composable ((Modifier, Float) -> Unit)? = null,
     isZooming: ((Boolean) -> Unit)? = null
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -88,7 +88,7 @@ fun Feed(
                 text = review.user.name,
             )
             // 평점
-            ratingBar?.invoke(Modifier.layoutId("refRatingBar"), review.rating)
+            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true)
             // 음식점명
             Text(
                 modifier = Modifier
@@ -206,7 +206,7 @@ fun feedCommentsConstraint(): ConstraintSet {
         val refName = createRefFor("refName")
         val refRestaurantName = createRefFor("refRestaurantName")
         val menu = createRefFor("menu")
-        val refRatingBar = createRefFor("refRatingBar")
+        val ratingBar = createRefFor("ratingBar")
         val indicator = createRefFor("indicator")
         val date = createRefFor("date")
         val guide = createGuidelineFromTop(45.dp)
@@ -231,7 +231,7 @@ fun feedCommentsConstraint(): ConstraintSet {
             bottom.linkTo(refProfile.bottom)
             end.linkTo(parent.end)
         }
-        constrain(refRatingBar) {
+        constrain(ratingBar) {
             start.linkTo(refName.end, margin = 3.dp)
             top.linkTo(refName.top)
             bottom.linkTo(refName.bottom)
@@ -314,8 +314,7 @@ fun PreViewFeed() {
                 isLike = false,
                 isFavorite = false,
                 createDate = "2022-10-10 10:10:10"
-            ),
-            ratingBar = { modifier, fl -> }
+            )
         )
     }
 }
