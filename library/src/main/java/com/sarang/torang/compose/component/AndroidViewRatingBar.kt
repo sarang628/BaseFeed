@@ -1,4 +1,4 @@
-package com.example.commonwidgets.torangcomposepack
+package com.sarang.torang.compose.component
 
 import android.widget.RatingBar
 import androidx.compose.runtime.Composable

@@ -26,8 +26,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
-import com.example.commonwidgets.torangcomposepack.AndroidViewRatingBar
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feeds
 import com.sarang.torang.compose.feed.PreViewFeed

@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.example.commonwidgets.torangcomposepack.AndroidViewRatingBar
+import com.sarang.torang.compose.component.AndroidViewRatingBar
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentImage
