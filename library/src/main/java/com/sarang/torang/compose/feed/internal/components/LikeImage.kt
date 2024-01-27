@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +21,7 @@ fun LikeImage(
     padding: Dp
 ) {
     Icon(
-        imageVector = if (isLike) Icons.Outlined.Favorite else Icons.Filled.Favorite,
+        imageVector = if (isLike) Icons.Outlined.FavoriteBorder else Icons.Filled.Favorite,
         contentDescription = "like",
         modifier = modifier
             .size(size)
