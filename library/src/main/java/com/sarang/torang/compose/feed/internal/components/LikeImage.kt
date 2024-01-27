@@ -20,7 +20,7 @@ fun LikeImage(
     padding: Dp
 ) {
     Icon(
-        imageVector = if (isLike) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+        imageVector = if (isLike) Icons.Outlined.Favorite else Icons.Filled.Favorite,
         contentDescription = "like",
         modifier = modifier
             .size(size)
