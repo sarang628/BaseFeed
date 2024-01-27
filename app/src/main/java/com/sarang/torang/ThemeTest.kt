@@ -12,9 +12,20 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.samples.apps.sunflower.ui.TorangTheme
+import com.sarang.torang.compose.feed.PreViewFeed
 import com.sarang.torang.compose.feed.internal.components.PreviewExpandableText
 import com.sarang.torang.ui.theme.ThemePreviews
 
+
+@ThemePreviews
+@Composable
+fun PreviewFeed() {
+    TorangTheme {
+        Surface {
+            PreViewFeed()
+        }
+    }
+}
 
 @ThemePreviews
 @Composable

@@ -4,6 +4,7 @@ import TorangAsyncImage
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -130,7 +131,7 @@ fun Feed(
                 modifier = Modifier.layoutId("heart"),
                 isLike = review.isLike,
                 onLike = { review.onLike?.invoke() },
-                size = 42.dp,
+                size = 27.dp,
                 padding = 9.dp
             )
             // 코멘트 아이콘
@@ -178,7 +179,7 @@ fun Feed(
                 Text(
                     modifier = Modifier.layoutId("likeCount"),
                     text = stringResource(id = R.string.like, review.likeAmount),
-                    color = Color.Black,
+                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                     fontWeight = FontWeight.Bold
                 )
             }

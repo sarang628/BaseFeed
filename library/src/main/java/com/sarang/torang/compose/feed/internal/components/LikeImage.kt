@@ -3,6 +3,10 @@ package com.sarang.torang.compose.feed.internal.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -16,10 +20,20 @@ fun LikeImage(
     modifier: Modifier,
     isLike: Boolean,
     onLike: () -> Unit,
-    size : Dp,
-    padding : Dp
+    size: Dp,
+    padding: Dp
 ) {
-    Image(
+    Icon(
+        modifier = modifier
+            .nonEffectclickable {
+                onLike.invoke()
+            }
+            .padding(padding)
+            .size(size),
+        imageVector = if (isLike) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+        contentDescription = ""
+    )
+    /*Image(
         painter = if (isLike) painterResource(id = R.drawable.heart_fill)
         else painterResource(id = R.drawable.heart),
         contentDescription = "like",
@@ -29,5 +43,5 @@ fun LikeImage(
             .nonEffectclickable {
                 onLike.invoke()
             }
-    )
+    )*/
 }
