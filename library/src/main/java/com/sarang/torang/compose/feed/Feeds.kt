@@ -23,7 +23,7 @@ fun Feeds(
     isRefreshing: Boolean,
     feedsUiState: FeedsUiState
 ) {
-    var scrollEnabled by remember { mutableStateOf(false) }
+    var scrollEnabled by remember { mutableStateOf(true) }
 
     when (feedsUiState) {
         is FeedsUiState.Loading -> {
