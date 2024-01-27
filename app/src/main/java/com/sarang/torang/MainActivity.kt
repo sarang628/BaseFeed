@@ -24,12 +24,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feeds
 import com.sarang.torang.compose.feed.PreViewFeed
 import com.sarang.torang.di.basefeed.review
+import com.sarang.torang.ui.theme.ThemePreviews
 import com.sarang.torang.uistate.FeedsUiState
 import com.sryang.torang_repository.repository.FeedRepository
 import com.sryang.torang_repository.repository.FeedRepositoryTest
@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@ThemePreviews
 @Composable
 fun test() {
     TorangTheme {

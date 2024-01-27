@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.feed
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -67,7 +68,6 @@ fun Feeds(
     }
 }
 
-@Preview
 @Composable
 fun PreviewFeeds() {
     Feeds(/* Preview */
