@@ -3,6 +3,10 @@ package com.sarang.torang.compose.feed.internal.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.MailOutline
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
@@ -16,7 +20,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 fun CommentImage(modifier: Modifier, onComment: () -> Unit, size : Dp,
                  padding : Dp
 ) {
-    Image(painter = painterResource(id = R.drawable.comment),
+    Icon(imageVector = Icons.Outlined.MailOutline,
         contentDescription = "comment",
         modifier = modifier
             .size(size)

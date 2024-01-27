@@ -88,8 +88,10 @@ fun ExpandableText(
                             adjustedText.substring(0, nickName?.length ?: 0)
                         )
                     }
-                    append(adjustedText.substring(nickName?.length ?: 0, adjustedText.length))
-                    append("...")
+                    withStyle(SpanStyle(color = expandableTextColor)) {
+                        append(adjustedText.substring(nickName?.length ?: 0, adjustedText.length))
+                        append("...")
+                    }
                     pushStringAnnotation(tag = "show_more_tag", annotation = "")
                     withStyle(SpanStyle(color = seeMoreandLessColor)) {
                         append("more")

@@ -1,18 +1,14 @@
 package com.sarang.torang.compose.feed.internal.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
@@ -24,18 +20,7 @@ fun LikeImage(
     padding: Dp
 ) {
     Icon(
-        modifier = modifier
-            .nonEffectclickable {
-                onLike.invoke()
-            }
-            .padding(padding)
-            .size(size),
-        imageVector = if (isLike) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-        contentDescription = ""
-    )
-    /*Image(
-        painter = if (isLike) painterResource(id = R.drawable.heart_fill)
-        else painterResource(id = R.drawable.heart),
+        imageVector = if (isLike) Icons.Filled.Favorite else Icons.Outlined.Favorite,
         contentDescription = "like",
         modifier = modifier
             .size(size)
@@ -43,5 +28,5 @@ fun LikeImage(
             .nonEffectclickable {
                 onLike.invoke()
             }
-    )*/
+    )
 }

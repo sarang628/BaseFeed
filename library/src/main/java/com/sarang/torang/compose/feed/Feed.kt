@@ -131,7 +131,7 @@ fun Feed(
                 modifier = Modifier.layoutId("heart"),
                 isLike = review.isLike,
                 onLike = { review.onLike?.invoke() },
-                size = 27.dp,
+                size = 42.dp,
                 padding = 9.dp
             )
             // 코멘트 아이콘
@@ -154,7 +154,7 @@ fun Feed(
                 isFavorite = review.isFavorite,
                 onFavorite = { review.onFavorite?.invoke() },
                 size = 42.dp,
-                padding = 12.dp
+                padding = 9.dp
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
