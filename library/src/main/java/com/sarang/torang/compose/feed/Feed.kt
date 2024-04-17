@@ -1,6 +1,7 @@
 package com.sarang.torang.compose.feed
 
 import TorangAsyncImage
+import TorangAsyncImage1
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -68,7 +69,7 @@ fun Feed(
 
         ) {
             // 프로필 이미지
-            TorangAsyncImage(
+            TorangAsyncImage1(
                 modifier = Modifier
                     .layoutId("refProfile")
                     .size(32.dp)

@@ -1,6 +1,7 @@
 package com.sarang.torang.compose.feed.internal.components
 
 import TorangAsyncImage
+import TorangAsyncImage1
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -81,7 +82,7 @@ internal fun ImagePagerWithIndicator(
             if (ext.equals(".mp4")) {
                 VideoPlayer(images[page])
             } else {
-                TorangAsyncImage(
+                TorangAsyncImage1(
                     model = images[page],
                     modifier = modifier
                         .size(400.dp)
