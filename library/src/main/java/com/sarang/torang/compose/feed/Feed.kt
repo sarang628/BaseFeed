@@ -9,6 +9,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,18 +89,24 @@ fun Feed(
             // 사용자명
             Text(
                 modifier = Modifier
+                    .widthIn(0.dp, 150.dp)
                     .layoutId("refName")
                     .nonEffectclickable { review.onName?.invoke() },
                 text = review.user.name,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
             // 평점
             AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false)
             // 음식점명
             Text(
                 modifier = Modifier
+                    .widthIn(0.dp, 250.dp)
                     .layoutId("refRestaurantName")
                     .nonEffectclickable { review.onRestaurant?.invoke() },
-                text = review.restaurant.restaurantName
+                text = review.restaurant.restaurantName,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
             // 메뉴
             IconButton(
@@ -327,10 +335,10 @@ fun PreViewFeed() {
             review = data.copy(
                 user =
                 data.user.copy(
-                    name = "Gemini",
+                    name = "GeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGemini",
                     profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
                 ),
-                restaurant = data.restaurant.copy(restaurantName = "YourFineDining"),
+                restaurant = data.restaurant.copy(restaurantName = "YourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDining"),
                 likeAmount = 10,
                 isLike = false,
                 isFavorite = false,
