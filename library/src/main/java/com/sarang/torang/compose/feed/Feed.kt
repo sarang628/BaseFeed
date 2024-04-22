@@ -92,7 +92,7 @@ fun Feed(
                 text = review.user.name,
             )
             // 평점
-            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true)
+            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false)
             // 음식점명
             Text(
                 modifier = Modifier
