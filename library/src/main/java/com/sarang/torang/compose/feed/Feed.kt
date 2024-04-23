@@ -1,11 +1,11 @@
 package com.sarang.torang.compose.feed
 
-import TorangAsyncImage
 import TorangAsyncImage1
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -21,6 +21,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -38,8 +42,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.sarang.torang.compose.component.AndroidViewRatingBar
 import com.sarang.torang.R
+import com.sarang.torang.compose.component.AndroidViewRatingBar
+import com.sarang.torang.compose.feed.internal.components.AnimationLikeImage
 import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentImage
 import com.sarang.torang.compose.feed.internal.components.ExpandableText
@@ -48,6 +53,7 @@ import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicato
 import com.sarang.torang.compose.feed.internal.components.LikeImage
 import com.sarang.torang.compose.feed.internal.components.PagerIndicator
 import com.sarang.torang.compose.feed.internal.components.ShareImage
+import com.sarang.torang.compose.feed.internal.components.UnLikeImage
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.formatedDate
@@ -64,6 +70,8 @@ fun Feed(
     progressTintColor: Color? = null
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
+    var isAnimationLike by remember { mutableStateOf(false) }
+    var isLike by remember { mutableStateOf(review.isLike) }
     Column {
         ConstraintLayout(
             modifier = Modifier
@@ -98,7 +106,13 @@ fun Feed(
                 maxLines = 1
             )
             // 평점
-            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
+            AndroidViewRatingBar(
+                Modifier.layoutId("ratingBar"),
+                review.rating,
+                isSmall = true,
+                changable = false,
+                progressTintColor = progressTintColor
+            )
             // 음식점명
             Text(
                 modifier = Modifier
@@ -136,14 +150,41 @@ fun Feed(
                 count = review.reviewImages.size
             )
 
-            // 좋아요 아이콘
-            LikeImage(
-                modifier = Modifier.layoutId("heart"),
-                isLike = review.isLike,
-                onLike = { review.onLike?.invoke() },
-                size = 42.dp,
-                padding = 9.dp
-            )
+            Box(
+                modifier = Modifier
+                    .layoutId("heart")
+                    .size(42.dp)
+            ) {
+                if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
+                    LikeImage(
+                        onLike = {
+                            review.onLike?.invoke()
+                            isLike = false
+                            isAnimationLike = false
+                        },
+                        size = 42.dp,
+                        padding = 9.dp
+                    )
+                } else if (isAnimationLike) {
+                    AnimationLikeImage(
+                        onLike = {},
+                        size = 42.dp,
+                        padding = 9.dp,
+                        onFinishAnimation = {
+                            isLike = true
+                            review.onLike?.invoke()
+                        }
+                    )
+                } else {
+                    UnLikeImage(
+                        onLike = {
+                            isAnimationLike = true
+                        },
+                        size = 42.dp,
+                        padding = 9.dp
+                    )
+                }
+            }
             // 코멘트 아이콘
             CommentImage(
                 modifier = Modifier.layoutId("comment"),

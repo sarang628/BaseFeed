@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -118,7 +119,8 @@ class MainActivity : ComponentActivity() {
                                 onBottom = {
                                     Toast.makeText(context, "onBottom", Toast.LENGTH_SHORT).show()
                                 },
-                                feedsUiState = feedsUiState
+                                feedsUiState = feedsUiState,
+                                progressTintColor = Color(0xffe6cc00)
                             )
                         }
                         FeedRepositoryTest(feedRepository = feedRepository)
