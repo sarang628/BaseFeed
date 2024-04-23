@@ -60,7 +60,8 @@ import com.sarang.torang.data.basefeed.testReviewData
 @Composable
 fun Feed(
     review: Review,
-    isZooming: ((Boolean) -> Unit)? = null
+    isZooming: ((Boolean) -> Unit)? = null,
+    progressTintColor: Color? = null
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
     Column {
@@ -97,7 +98,7 @@ fun Feed(
                 maxLines = 1
             )
             // 평점
-            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false)
+            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
             // 음식점명
             Text(
                 modifier = Modifier

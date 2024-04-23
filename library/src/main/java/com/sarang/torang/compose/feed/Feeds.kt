@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.sarang.torang.compose.feed.internal.EmptyFeed
 import com.sarang.torang.compose.feed.internal.FeedShimmer
@@ -21,7 +22,8 @@ fun Feeds(
     onRefresh: (() -> Unit),
     onBottom: () -> Unit,
     isRefreshing: Boolean,
-    feedsUiState: FeedsUiState
+    feedsUiState: FeedsUiState,
+    progressTintColor: Color? = null
 ) {
     var scrollEnabled by remember { mutableStateOf(true) }
 
@@ -45,7 +47,6 @@ fun Feeds(
         }
 
         is FeedsUiState.Success -> {
-            Log.d("_Feeds","render")
             RefreshAndBottomDetectionLazyColunm(
                 // pull to refresh와 하단 감지 적용 LazyColunm
                 count = feedsUiState.reviews.size,
@@ -55,7 +56,8 @@ fun Feeds(
                         review = feedsUiState.reviews[it],
                         isZooming = {
                             scrollEnabled = !it
-                        }
+                        },
+                        progressTintColor = progressTintColor
                     )
                 },
                 onRefresh = onRefresh,
