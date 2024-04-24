@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -67,7 +68,8 @@ import com.sarang.torang.data.basefeed.testReviewData
 fun Feed(
     review: Review,
     isZooming: ((Boolean) -> Unit)? = null,
-    progressTintColor: Color? = null
+    progressTintColor: Color? = null,
+    favoriteColor : Color? = null
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
     var isAnimationLike by remember { mutableStateOf(false) }
@@ -207,7 +209,8 @@ fun Feed(
                 isFavorite = review.isFavorite,
                 onFavorite = { review.onFavorite?.invoke() },
                 size = 42.dp,
-                padding = 11.dp
+                padding = 11.dp,
+                color = favoriteColor ?: MaterialTheme.colorScheme.primary
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
