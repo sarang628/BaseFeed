@@ -114,15 +114,17 @@ fun Feed(
                 progressTintColor = progressTintColor
             )
             // 음식점명
-            Text(
-                modifier = Modifier
-                    .widthIn(0.dp, 250.dp)
-                    .layoutId("refRestaurantName")
-                    .nonEffectclickable { review.onRestaurant?.invoke() },
-                text = review.restaurant.restaurantName,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
+            if(review.restaurant.restaurantName.isNotEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .widthIn(0.dp, 250.dp)
+                        .layoutId("refRestaurantName")
+                        .nonEffectclickable { review.onRestaurant?.invoke() },
+                    text = review.restaurant.restaurantName,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+            }
             // 메뉴
             IconButton(
                 modifier = Modifier.layoutId("menu"),
@@ -163,13 +165,13 @@ fun Feed(
                             isAnimationLike = false
                         },
                         size = 42.dp,
-                        padding = 9.dp
+                        padding = 8.5.dp
                     )
                 } else if (isAnimationLike) {
                     AnimationLikeImage(
                         onLike = {},
                         size = 42.dp,
-                        padding = 9.dp,
+                        padding = 8.5.dp,
                         onFinishAnimation = {
                             isLike = true
                             review.onLike?.invoke()
@@ -181,7 +183,7 @@ fun Feed(
                             isAnimationLike = true
                         },
                         size = 42.dp,
-                        padding = 9.dp
+                        padding = 8.5.dp
                     )
                 }
             }
@@ -205,7 +207,7 @@ fun Feed(
                 isFavorite = review.isFavorite,
                 onFavorite = { review.onFavorite?.invoke() },
                 size = 42.dp,
-                padding = 9.dp
+                padding = 11.dp
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
@@ -380,7 +382,8 @@ fun PreViewFeed() {
                     name = "GeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGeminiGemini",
                     profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
                 ),
-                restaurant = data.restaurant.copy(restaurantName = "YourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDining"),
+                //restaurant = data.restaurant.copy(restaurantName = "YourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDining"),
+                restaurant = data.restaurant.copy(restaurantName = ""),
                 likeAmount = 10,
                 isLike = false,
                 isFavorite = false,

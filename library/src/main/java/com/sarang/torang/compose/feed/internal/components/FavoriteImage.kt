@@ -9,9 +9,12 @@ import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
@@ -21,8 +24,9 @@ fun FavoriteImage(
 ) {
     Icon(
         //TODO:: 별모양 outline도 검정색으로 나오는 원인 찾기
-        imageVector = if (isFavorite) Icons.Default.Star else Icons.Outlined.Face,
+        painter = if (isFavorite) painterResource(id = R.drawable.star_filled) else painterResource(id = R.drawable.star),
         contentDescription = "favorite",
+        tint = if (isFavorite) Color(0xffe5de00) else Color.Black,
         modifier = modifier
             .size(size)
             .padding(padding)

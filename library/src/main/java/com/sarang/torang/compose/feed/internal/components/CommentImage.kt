@@ -11,16 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
-fun CommentImage(modifier: Modifier, onComment: () -> Unit, size : Dp,
-                 padding : Dp
+fun CommentImage(
+    modifier: Modifier, onComment: () -> Unit, size: Dp,
+    padding: Dp
 ) {
-    Icon(imageVector = Icons.Outlined.MailOutline,
+    Icon(painter = painterResource(id = R.drawable.comment),
         contentDescription = "comment",
         modifier = modifier
             .size(size)
@@ -29,4 +31,10 @@ fun CommentImage(modifier: Modifier, onComment: () -> Unit, size : Dp,
             .nonEffectclickable {
                 onComment.invoke()
             })
+}
+
+@Preview
+@Composable
+fun PreviewCommentImage() {
+    CommentImage(modifier = Modifier, onComment = { /*TODO*/ }, size = 50.dp, padding = 0.dp)
 }

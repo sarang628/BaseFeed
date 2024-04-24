@@ -10,16 +10,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
-fun ShareImage(modifier: Modifier, onShare: () -> Unit, size : Dp,
-               padding : Dp
+fun ShareImage(
+    modifier: Modifier = Modifier, onShare: () -> Unit, size: Dp,
+    padding: Dp
 ) {
-    Icon(imageVector = Icons.Default.Share,
+    Icon(painter = painterResource(id = R.drawable.share),
         contentDescription = "share",
         modifier = modifier
             .layoutId("share")
@@ -28,4 +30,10 @@ fun ShareImage(modifier: Modifier, onShare: () -> Unit, size : Dp,
             .nonEffectclickable {
                 onShare.invoke()
             })
+}
+
+@Preview
+@Composable
+fun PreviewShareImage() {
+    ShareImage(onShare = { /*TODO*/ }, size = 50.dp, padding = 0.dp)
 }
