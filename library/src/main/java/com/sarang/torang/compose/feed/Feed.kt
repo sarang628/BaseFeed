@@ -1,6 +1,7 @@
 package com.sarang.torang.compose.feed
 
 import TorangAsyncImage1
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -371,7 +372,6 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
     }
 }
-
 
 @Preview
 @Composable

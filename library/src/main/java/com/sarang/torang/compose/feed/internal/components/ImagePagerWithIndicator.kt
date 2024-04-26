@@ -113,7 +113,7 @@ fun PagerIndicator(
     count: Int,
     pagerState: PagerState
 ) {
-    if (count > 0)
+    if (count > 1)
         Row(
             modifier = modifier,
             horizontalArrangement = Arrangement.Center,

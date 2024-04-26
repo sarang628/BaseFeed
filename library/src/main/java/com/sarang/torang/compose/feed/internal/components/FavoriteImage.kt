@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,7 +29,7 @@ fun FavoriteImage(
         //TODO:: 별모양 outline도 검정색으로 나오는 원인 찾기
         painter = if (isFavorite) painterResource(id = R.drawable.star_filled) else painterResource(id = R.drawable.star),
         contentDescription = "favorite",
-        tint = if (isFavorite) color else Color.Black,
+        tint = if (isFavorite) color else LocalContentColor.current,
         modifier = modifier
             .size(size)
             .padding(padding)
