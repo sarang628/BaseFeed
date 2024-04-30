@@ -317,6 +317,7 @@ fun feedCommentsConstraint(): ConstraintSet {
             top.linkTo(refProfile.bottom, margin = 8.dp)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
+            width = Dimension.fillToConstraints
         }
 
         constrain(heart) {

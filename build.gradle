@@ -23,7 +23,7 @@ ext {
     navigationModuleVersion = 'd98f57435d'
     commonWidgetVersion = '0806afba55'
     commonImageLoaderVersion = '0a203f5085'
-    bottomDetectLazyColunmVersion = 'a0b883f789'
+    bottomDetectLazyColunmVersion = 'c69cd0813c'
     MUI3ScrollToRefreshVersion = 'dd57844809'
     torangRepositoryVersion = 'ba032f80ca'
     composeBomVersion = '2024.04.00'

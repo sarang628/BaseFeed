@@ -1,6 +1,9 @@
 package com.sarang.torang.compose.feed.internal.components
 
 import androidx.compose.foundation.layout.Arrangement
+ import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.dp
@@ -16,6 +19,8 @@ internal fun RefreshAndBottomDetectionLazyColunm(
     onRefresh: () -> Unit,
     onBottom: () -> Unit,
     userScrollEnabled: Boolean = true,
+    position: Int? = null,
+    scrollState : LazyListState = rememberLazyListState(),
     itemCompose: @Composable (Int) -> Unit,
     contents: @Composable (() -> Unit)? = null
 ) {
@@ -41,7 +46,8 @@ internal fun RefreshAndBottomDetectionLazyColunm(
             onBottom = { onBottom.invoke() },
             composable = { itemCompose.invoke(it) },
             userScrollEnabled = userScrollEnabled,
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            scrollState = rememberLazyListState()
         )
         contents?.invoke()
     }
