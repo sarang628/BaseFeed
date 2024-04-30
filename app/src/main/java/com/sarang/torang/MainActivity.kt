@@ -1,6 +1,7 @@
 package com.sarang.torang
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,9 +10,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,6 +60,17 @@ class MainActivity : ComponentActivity() {
             var feedsUiState: FeedsUiState by remember { mutableStateOf(FeedsUiState.Loading) }
             val list by feedRepository.feeds.collectAsState(initial = arrayListOf()) // repository로 부터 feed 리스트 가져옴
             val context = LocalContext.current
+            var position by remember { mutableStateOf("0") }
+            val listState = rememberLazyListState()
+
+            LaunchedEffect(key1 = position) {
+                try {
+                    basefeedLog("${position}")
+                    listState.animateScrollToItem(Integer.parseInt(position))
+                } catch (e: Exception) {
+
+                }
+            }
 
             LaunchedEffect(key1 = list, block = {
                 feedsUiState = FeedsUiState.Loading
@@ -100,14 +114,17 @@ class MainActivity : ComponentActivity() {
             TorangTheme {
                 val context = LocalContext.current
                 val height = LocalConfiguration.current.screenHeightDp
+
                 Surface(
                     Modifier
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
                 ) {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
+                        OutlinedTextField(value = position, onValueChange = { position = it })
                         Box(modifier = Modifier.height(height.dp - 30.dp)) {
                             Feeds(
+                                listState = listState,
                                 isRefreshing = isRefreshing,
                                 onRefresh = {
                                     coroutine.launch {

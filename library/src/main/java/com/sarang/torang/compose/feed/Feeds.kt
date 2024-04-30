@@ -21,9 +21,8 @@ fun Feeds(
     onBottom: () -> Unit,
     isRefreshing: Boolean,
     feedsUiState: FeedsUiState,
-    scrollState: LazyListState = rememberLazyListState(),
+    listState: LazyListState = rememberLazyListState(),
     progressTintColor: Color? = null,
-    position: Int? = null
 ) {
     var scrollEnabled by remember { mutableStateOf(true) }
 
@@ -40,7 +39,7 @@ fun Feeds(
                 itemCompose = {},
                 onRefresh = onRefresh,
                 isRefreshing = isRefreshing,
-                scrollState = scrollState,
+                listState = listState,
                 userScrollEnabled = scrollEnabled
             ) {
                 EmptyFeed()
@@ -63,7 +62,8 @@ fun Feeds(
                 },
                 onRefresh = onRefresh,
                 isRefreshing = isRefreshing,
-                userScrollEnabled = scrollEnabled
+                userScrollEnabled = scrollEnabled,
+                listState = listState
             )
         }
 

@@ -19,14 +19,10 @@ internal fun RefreshAndBottomDetectionLazyColunm(
     onRefresh: () -> Unit,
     onBottom: () -> Unit,
     userScrollEnabled: Boolean = true,
-    position: Int? = null,
-    scrollState : LazyListState = rememberLazyListState(),
+    listState : LazyListState = rememberLazyListState(),
     itemCompose: @Composable (Int) -> Unit,
     contents: @Composable (() -> Unit)? = null
 ) {
-
-    //val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
-
     val state = rememberPullToRefreshState()
     LaunchedEffect(key1 = isRefreshing, block = {
         if (isRefreshing) {
@@ -47,7 +43,7 @@ internal fun RefreshAndBottomDetectionLazyColunm(
             composable = { itemCompose.invoke(it) },
             userScrollEnabled = userScrollEnabled,
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            scrollState = rememberLazyListState()
+            listState = listState
         )
         contents?.invoke()
     }
