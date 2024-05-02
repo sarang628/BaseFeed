@@ -2,7 +2,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sarang.torang.compose.feed.Feeds
-import com.sarang.torang.uistate.FeedsUiState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
