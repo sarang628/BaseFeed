@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -75,6 +76,7 @@ fun Feed(
         String,
         Dp?,
         Dp?,
+        ContentScale?,
     ) -> Unit,
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -101,7 +103,8 @@ fun Feed(
                     .clip(RoundedCornerShape(20.dp)),
                 review.user.profilePictureUrl,
                 20.dp,
-                20.dp
+                20.dp,
+                ContentScale.Crop
             )
             // 사용자명
             Text(
@@ -399,7 +402,7 @@ fun PreViewFeed() {
                 isFavorite = false,
                 createDate = "2022-10-10 10:10:10"
             ),
-            image = { _, _, _, _ ->
+            image = { _, _, _, _, _ ->
             }
         )
     }

@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -60,6 +61,7 @@ internal fun ImagePagerWithIndicator(
         String,
         Dp?,
         Dp?,
+        ContentScale?,
     ) -> Unit,
 ) {
     var scrollEnable by remember { mutableStateOf(true) }
@@ -85,7 +87,8 @@ internal fun ImagePagerWithIndicator(
                         },
                     images[page],
                     progressSize,
-                    errorIconSize
+                    errorIconSize,
+                    ContentScale.Crop
                 )
             }
         }
@@ -147,7 +150,7 @@ fun PreViewItemFeedMid() {
 //                "",
 //                ""
             ),
-            image = { _, _, _, _ -> },
+            image = { _, _, _, _, _ -> },
             onImage = {}
         )
     }
