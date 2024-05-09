@@ -1,7 +1,5 @@
 package com.sarang.torang.compose.feed
 
-import TorangAsyncImage1
-import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -39,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -70,7 +69,13 @@ fun Feed(
     review: Review,
     isZooming: ((Boolean) -> Unit)? = null,
     progressTintColor: Color? = null,
-    favoriteColor : Color? = null
+    favoriteColor: Color? = null,
+    image: @Composable (
+        Modifier,
+        String,
+        Dp?,
+        Dp?,
+    ) -> Unit,
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
     var isAnimationLike by remember { mutableStateOf(false) }
@@ -83,8 +88,8 @@ fun Feed(
 
         ) {
             // 프로필 이미지
-            TorangAsyncImage1(
-                modifier = Modifier
+            image.invoke(
+                Modifier
                     .layoutId("refProfile")
                     .size(32.dp)
                     .nonEffectclickable { review.onProfile?.invoke() }
@@ -94,9 +99,9 @@ fun Feed(
                         shape = RoundedCornerShape(20.dp)
                     )
                     .clip(RoundedCornerShape(20.dp)),
-                model = review.user.profilePictureUrl,
-                progressSize = 20.dp,
-                errorIconSize = 20.dp
+                review.user.profilePictureUrl,
+                20.dp,
+                20.dp
             )
             // 사용자명
             Text(
@@ -117,7 +122,7 @@ fun Feed(
                 progressTintColor = progressTintColor
             )
             // 음식점명
-            if(review.restaurant.restaurantName.isNotEmpty()) {
+            if (review.restaurant.restaurantName.isNotEmpty()) {
                 Text(
                     modifier = Modifier
                         .widthIn(0.dp, 250.dp)
@@ -145,7 +150,8 @@ fun Feed(
                     images = review.reviewImages,
                     onImage = { review.onImage?.invoke(it) },
                     isZooming = isZooming,
-                    pagerState = pagerState
+                    pagerState = pagerState,
+                    image = image
                 )
             }
 
@@ -392,7 +398,9 @@ fun PreViewFeed() {
                 isLike = false,
                 isFavorite = false,
                 createDate = "2022-10-10 10:10:10"
-            )
+            ),
+            image = { _, _, _, _ ->
+            }
         )
     }
 }

@@ -1,8 +1,5 @@
 package com.sarang.torang.compose.feed.internal.components
 
-import TorangAsyncImage
-import TorangAsyncImage1
-import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -14,21 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,19 +35,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.fromUri
-import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.SimpleExoPlayer
 import androidx.media3.ui.PlayerView
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.compose.feed.internal.util.pinchZoom
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.AbstractMap.SimpleEntry
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -69,7 +54,13 @@ internal fun ImagePagerWithIndicator(
     progressSize: Dp = 30.dp,           // 이미지 로드 프로그래스 크기
     errorIconSize: Dp = 30.dp,          // 이미지 로드 에러 아이콘 크기
     isZooming: ((Boolean) -> Unit)? = null,
-    showIndicator: Boolean = false
+    showIndicator: Boolean = false,
+    image: @Composable (
+        Modifier,
+        String,
+        Dp?,
+        Dp?,
+    ) -> Unit,
 ) {
     var scrollEnable by remember { mutableStateOf(true) }
     Column(modifier = modifier) {
@@ -84,17 +75,17 @@ internal fun ImagePagerWithIndicator(
             if (ext.equals(".mp4")) {
                 VideoPlayer(images[page])
             } else {
-                TorangAsyncImage1(
-                    model = images[page],
-                    modifier = modifier
+                image.invoke(
+                    modifier
                         .fillMaxSize()
                         .nonEffectclickable(onClick = { onImage.invoke(page) })
                         .pinchZoom {
                             scrollEnable = !it
                             isZooming?.invoke(it)
                         },
-                    progressSize = progressSize,
-                    errorIconSize = errorIconSize
+                    images[page],
+                    progressSize,
+                    errorIconSize
                 )
             }
         }
@@ -113,7 +104,7 @@ internal fun ImagePagerWithIndicator(
 fun PagerIndicator(
     modifier: Modifier = Modifier,
     count: Int,
-    pagerState: PagerState
+    pagerState: PagerState,
 ) {
     if (count > 1)
         Row(
@@ -156,7 +147,8 @@ fun PreViewItemFeedMid() {
 //                "",
 //                ""
             ),
-            onImage = {},
+            image = { _, _, _, _ -> },
+            onImage = {}
         )
     }
 }
@@ -177,7 +169,8 @@ fun PreviewVideoView() {
     )
 }
 
-@androidx.annotation.OptIn(UnstableApi::class) @Composable
+@androidx.annotation.OptIn(UnstableApi::class)
+@Composable
 fun VideoPlayer(videoUrl: String) {
     val context = LocalContext.current
     var player = ExoPlayer.Builder(context).build()
@@ -215,7 +208,7 @@ fun VideoPlayer(videoUrl: String) {
     })
 
     // 앱이 백그라운드로 갈 때 ExoPlayer를 정지합니다.
-    ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
+    /*ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
         fun onBackground() {
             player.playWhenReady = false
@@ -225,5 +218,5 @@ fun VideoPlayer(videoUrl: String) {
         fun onForeground() {
             player.playWhenReady = isPlaying
         }
-    })
+    })*/
 }

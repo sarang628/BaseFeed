@@ -1,15 +1,20 @@
 package com.sarang.torang
 
+import TorangAsyncImage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -23,11 +28,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.samples.apps.sunflower.ui.TorangTheme
+import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.compose.feed.PreViewFeed
+import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.di.basefeed.review
+import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sarang.torang.ui.theme.ThemePreviews
 import com.sryang.torang_repository.repository.FeedRepository
 import com.sryang.torang_repository.repository.FeedRepositoryTest
@@ -43,9 +55,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Displaying edge-to-edge
-        //WindowCompat.setDecorFitsSystemWindows(window, false)
-
         setContent {
             var position by remember { mutableStateOf("0") }
             val listState = rememberLazyListState()
@@ -59,6 +68,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
+            val list by feedRepository.feeds.collectAsState(initial = ArrayList())
+
             TorangTheme {
                 val context = LocalContext.current
                 val height = LocalConfiguration.current.screenHeightDp
@@ -71,6 +82,14 @@ class MainActivity : ComponentActivity() {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         OutlinedTextField(value = position, onValueChange = { position = it })
                         Box(modifier = Modifier.height(height.dp - 30.dp)) {
+                            LazyColumn {
+                                items(list.size) {
+                                    Feed(
+                                        review = list[it].review { },
+                                        image = provideTorangAsyncImage()
+                                    )
+                                }
+                            }
                         }
                         FeedRepositoryTest(feedRepository = feedRepository)
                     }
