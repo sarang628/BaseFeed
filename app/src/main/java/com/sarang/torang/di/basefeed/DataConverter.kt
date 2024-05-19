@@ -14,8 +14,7 @@ fun ReviewAndImageEntity.review(
     onFavorite: (() -> Unit)? = null,
     onMenu: (() -> Unit)? = null,
     onName: (() -> Unit)? = null,
-    onRestaurant: (() -> Unit)? = null,
-    onImage: ((Int) -> Unit)? = null,
+    onRestaurant: (() -> Unit)? = null
 ): Review {
     return Review(
         reviewId = this.review.reviewId,
@@ -42,7 +41,6 @@ fun ReviewAndImageEntity.review(
         onName = onName,
         onMenu = onMenu,
         onLike = onLike,
-        onImage = onImage,
         onFavorite = onFavorite,
         onComment = onComment,
         createDate = this.review.createDate

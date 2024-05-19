@@ -71,6 +71,7 @@ fun Feed(
     isZooming: ((Boolean) -> Unit)? = null,
     progressTintColor: Color? = null,
     favoriteColor: Color? = null,
+    onImage: ((Int) -> Unit)? = null,
     image: @Composable (
         Modifier,
         String,
@@ -151,7 +152,7 @@ fun Feed(
                 ImagePagerWithIndicator(
                     modifier = Modifier.layoutId("reviewImages"),
                     images = review.reviewImages,
-                    onImage = { review.onImage?.invoke(it) },
+                    onImage = { onImage?.invoke(it) },
                     isZooming = isZooming,
                     pagerState = pagerState,
                     image = image

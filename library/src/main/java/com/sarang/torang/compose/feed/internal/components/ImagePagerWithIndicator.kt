@@ -73,7 +73,6 @@ internal fun ImagePagerWithIndicator(
         ) { page ->
 
             val ext = images[page].substring(images[page].lastIndexOf("."))
-            Log.d("__sryang", ext)
             if (ext.equals(".mp4")) {
                 VideoPlayer(images[page])
             } else {
