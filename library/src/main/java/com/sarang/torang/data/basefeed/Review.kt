@@ -15,15 +15,7 @@ data class Review(
     val commentAmount: Int,
     val isLike: Boolean,
     val isFavorite: Boolean,
-    val createDate: String,
-    val onProfile: (() -> Unit)? = null,
-    val onLike: (() -> Unit)? = null,
-    val onComment: (() -> Unit)? = null,
-    val onShare: (() -> Unit)? = null,
-    val onFavorite: (() -> Unit)? = null,
-    val onMenu: (() -> Unit)? = null,
-    val onName: (() -> Unit)? = null,
-    val onRestaurant: (() -> Unit)? = null
+    val createDate: String
 )
 
 val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -81,14 +73,6 @@ fun testReviewData(): Review {
         isLike = false,
         isFavorite = false,
         likeAmount = 100,
-        onComment = {},
-        onFavorite = { },
-        onLike = {},
-        onMenu = {},
-        onName = {},
-        onProfile = {},
-        onRestaurant = {},
-        onShare = {},
         createDate = ""
     )
 }

@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.feed
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -72,13 +73,15 @@ fun Feed(
     progressTintColor: Color? = null,
     favoriteColor: Color? = null,
     onImage: ((Int) -> Unit)? = null,
-    image: @Composable (
-        Modifier,
-        String,
-        Dp?,
-        Dp?,
-        ContentScale?,
-    ) -> Unit,
+    onProfile: (() -> Unit)? = null,
+    onLike: (() -> Unit)? = null,
+    onComment: (() -> Unit)? = null,
+    onShare: (() -> Unit)? = null,
+    onFavorite: (() -> Unit)? = null,
+    onMenu: (() -> Unit)? = null,
+    onName: (() -> Unit)? = null,
+    onRestaurant: (() -> Unit)? = null,
+    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
     var isAnimationLike by remember { mutableStateOf(false) }
@@ -95,7 +98,10 @@ fun Feed(
                 Modifier
                     .layoutId("refProfile")
                     .size(32.dp)
-                    .nonEffectclickable { review.onProfile?.invoke() }
+                    .nonEffectclickable {
+                        Log.w("__Feed", "onProfile is null")
+                        onProfile?.invoke()
+                    }
                     .border(
                         width = 0.5.dp,
                         color = Color.LightGray,
@@ -112,7 +118,10 @@ fun Feed(
                 modifier = Modifier
                     .widthIn(0.dp, 150.dp)
                     .layoutId("refName")
-                    .nonEffectclickable { review.onName?.invoke() },
+                    .nonEffectclickable {
+                        Log.w("__Feed", "onName is null")
+                        onName?.invoke()
+                    },
                 text = review.user.name,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
@@ -131,7 +140,10 @@ fun Feed(
                     modifier = Modifier
                         .widthIn(0.dp, 250.dp)
                         .layoutId("refRestaurantName")
-                        .nonEffectclickable { review.onRestaurant?.invoke() },
+                        .nonEffectclickable {
+                            Log.w("__Feed", "onRestaurant is null")
+                            onRestaurant?.invoke()
+                        },
                     text = review.restaurant.restaurantName,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
@@ -140,7 +152,10 @@ fun Feed(
             // 메뉴
             IconButton(
                 modifier = Modifier.layoutId("menu"),
-                onClick = { review.onMenu?.invoke() }
+                onClick = {
+                    Log.w("__Feed", "onMenu is null")
+                    onMenu?.invoke()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert, contentDescription = "menu",
@@ -173,7 +188,8 @@ fun Feed(
                 if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
                     LikeImage(
                         onLike = {
-                            review.onLike?.invoke()
+                            Log.w("__Feed", "onLike is null")
+                            onLike?.invoke()
                             isLike = false
                             isAnimationLike = false
                         },
@@ -187,7 +203,8 @@ fun Feed(
                         padding = 8.5.dp,
                         onFinishAnimation = {
                             isLike = true
-                            review.onLike?.invoke()
+                            Log.w("__Feed", "onLike is null")
+                            onLike?.invoke()
                         }
                     )
                 } else {
@@ -203,14 +220,20 @@ fun Feed(
             // 코멘트 아이콘
             CommentImage(
                 modifier = Modifier.layoutId("comment"),
-                onComment = { review.onComment?.invoke() },
+                onComment = {
+                    Log.w("__Feed", "onComment is null")
+                    onComment?.invoke()
+                },
                 size = 42.dp,
                 padding = 9.dp
             )
             // 공유 아이콘
             ShareImage(
                 modifier = Modifier.layoutId("share"),
-                onShare = { review.onShare?.invoke() },
+                onShare = {
+                    Log.w("__Feed", "onShare is null")
+                    onShare?.invoke()
+                },
                 size = 42.dp,
                 padding = 9.dp
             )
@@ -218,7 +241,10 @@ fun Feed(
             FavoriteImage(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
-                onFavorite = { review.onFavorite?.invoke() },
+                onFavorite = {
+                    Log.w("__Feed", "onShare is null")
+                    onFavorite?.invoke()
+                },
                 size = 42.dp,
                 padding = 11.dp,
                 color = favoriteColor ?: MaterialTheme.colorScheme.primary

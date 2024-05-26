@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.compose.feed.PreViewFeed
-import com.sarang.torang.di.basefeed.review
+import com.sarang.torang.di.basefeed.toReview
 import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sarang.torang.ui.theme.ThemePreviews
 import com.sryang.torang_repository.repository.FeedRepository
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                             LazyColumn {
                                 items(list.size) {
                                     Feed(
-                                        review = list[it].review { },
+                                        review = list[it].toReview(),
                                         image = provideTorangAsyncImage()
                                     )
                                 }
