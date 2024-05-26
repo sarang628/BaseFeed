@@ -99,7 +99,8 @@ fun Feed(
                     .layoutId("refProfile")
                     .size(32.dp)
                     .nonEffectclickable {
-                        Log.w("__Feed", "onProfile is null")
+                        if (onProfile == null)
+                            Log.w("__Feed", "onProfile is null")
                         onProfile?.invoke()
                     }
                     .border(
@@ -119,7 +120,8 @@ fun Feed(
                     .widthIn(0.dp, 150.dp)
                     .layoutId("refName")
                     .nonEffectclickable {
-                        Log.w("__Feed", "onName is null")
+                        if (onName == null)
+                            Log.w("__Feed", "onName is null")
                         onName?.invoke()
                     },
                 text = review.user.name,
@@ -141,7 +143,8 @@ fun Feed(
                         .widthIn(0.dp, 250.dp)
                         .layoutId("refRestaurantName")
                         .nonEffectclickable {
-                            Log.w("__Feed", "onRestaurant is null")
+                            if (onRestaurant == null)
+                                Log.w("__Feed", "onRestaurant is null")
                             onRestaurant?.invoke()
                         },
                     text = review.restaurant.restaurantName,
@@ -153,7 +156,8 @@ fun Feed(
             IconButton(
                 modifier = Modifier.layoutId("menu"),
                 onClick = {
-                    Log.w("__Feed", "onMenu is null")
+                    if (onMenu == null)
+                        Log.w("__Feed", "onMenu is null")
                     onMenu?.invoke()
                 }
             ) {
@@ -188,7 +192,8 @@ fun Feed(
                 if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
                     LikeImage(
                         onLike = {
-                            Log.w("__Feed", "onLike is null")
+                            if (onLike == null)
+                                Log.w("__Feed", "onLike is null")
                             onLike?.invoke()
                             isLike = false
                             isAnimationLike = false
@@ -203,7 +208,8 @@ fun Feed(
                         padding = 8.5.dp,
                         onFinishAnimation = {
                             isLike = true
-                            Log.w("__Feed", "onLike is null")
+                            if (onLike == null)
+                                Log.w("__Feed", "onLike is null")
                             onLike?.invoke()
                         }
                     )
@@ -221,7 +227,8 @@ fun Feed(
             CommentImage(
                 modifier = Modifier.layoutId("comment"),
                 onComment = {
-                    Log.w("__Feed", "onComment is null")
+                    if (onComment == null)
+                        Log.w("__Feed", "onComment is null")
                     onComment?.invoke()
                 },
                 size = 42.dp,
@@ -231,7 +238,8 @@ fun Feed(
             ShareImage(
                 modifier = Modifier.layoutId("share"),
                 onShare = {
-                    Log.w("__Feed", "onShare is null")
+                    if (onShare == null)
+                        Log.w("__Feed", "onShare is null")
                     onShare?.invoke()
                 },
                 size = 42.dp,
@@ -242,7 +250,8 @@ fun Feed(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
                 onFavorite = {
-                    Log.w("__Feed", "onShare is null")
+                    if (onShare == null)
+                        Log.w("__Feed", "onShare is null")
                     onFavorite?.invoke()
                 },
                 size = 42.dp,
