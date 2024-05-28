@@ -69,18 +69,18 @@ import com.sarang.torang.data.basefeed.testReviewData
 @Composable
 fun Feed(
     review: Review,
-    isZooming: ((Boolean) -> Unit)? = null,
-    progressTintColor: Color? = null,
-    favoriteColor: Color? = null,
-    onImage: ((Int) -> Unit)? = null,
-    onProfile: (() -> Unit)? = null,
-    onLike: (() -> Unit)? = null,
-    onComment: (() -> Unit)? = null,
-    onShare: (() -> Unit)? = null,
-    onFavorite: (() -> Unit)? = null,
-    onMenu: (() -> Unit)? = null,
-    onName: (() -> Unit)? = null,
-    onRestaurant: (() -> Unit)? = null,
+    isZooming: ((Boolean) -> Unit),
+    progressTintColor: Color = Color(0xffe6cc00),
+    favoriteColor: Color = Color(0xffe6cc00),
+    onImage: ((Int) -> Unit),
+    onProfile: (() -> Unit),
+    onLike: (() -> Unit),
+    onComment: (() -> Unit),
+    onShare: (() -> Unit),
+    onFavorite: (() -> Unit),
+    onMenu: (() -> Unit),
+    onName: (() -> Unit),
+    onRestaurant: (() -> Unit),
     image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -98,11 +98,7 @@ fun Feed(
                 Modifier
                     .layoutId("refProfile")
                     .size(32.dp)
-                    .nonEffectclickable {
-                        if (onProfile == null)
-                            Log.w("__Feed", "onProfile is null")
-                        onProfile?.invoke()
-                    }
+                    .nonEffectclickable(onProfile)
                     .border(
                         width = 0.5.dp,
                         color = Color.LightGray,
@@ -119,11 +115,7 @@ fun Feed(
                 modifier = Modifier
                     .widthIn(0.dp, 150.dp)
                     .layoutId("refName")
-                    .nonEffectclickable {
-                        if (onName == null)
-                            Log.w("__Feed", "onName is null")
-                        onName?.invoke()
-                    },
+                    .nonEffectclickable(onName),
                 text = review.user.name,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
@@ -142,11 +134,7 @@ fun Feed(
                     modifier = Modifier
                         .widthIn(0.dp, 250.dp)
                         .layoutId("refRestaurantName")
-                        .nonEffectclickable {
-                            if (onRestaurant == null)
-                                Log.w("__Feed", "onRestaurant is null")
-                            onRestaurant?.invoke()
-                        },
+                        .nonEffectclickable(onRestaurant),
                     text = review.restaurant.restaurantName,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
@@ -155,11 +143,7 @@ fun Feed(
             // 메뉴
             IconButton(
                 modifier = Modifier.layoutId("menu"),
-                onClick = {
-                    if (onMenu == null)
-                        Log.w("__Feed", "onMenu is null")
-                    onMenu?.invoke()
-                }
+                onClick = onMenu
             ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert, contentDescription = "menu",
@@ -171,7 +155,7 @@ fun Feed(
                 ImagePagerWithIndicator(
                     modifier = Modifier.layoutId("reviewImages"),
                     images = review.reviewImages,
-                    onImage = { onImage?.invoke(it) },
+                    onImage = onImage,
                     isZooming = isZooming,
                     pagerState = pagerState,
                     image = image
@@ -192,9 +176,7 @@ fun Feed(
                 if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
                     LikeImage(
                         onLike = {
-                            if (onLike == null)
-                                Log.w("__Feed", "onLike is null")
-                            onLike?.invoke()
+                            onLike.invoke()
                             isLike = false
                             isAnimationLike = false
                         },
@@ -208,9 +190,7 @@ fun Feed(
                         padding = 8.5.dp,
                         onFinishAnimation = {
                             isLike = true
-                            if (onLike == null)
-                                Log.w("__Feed", "onLike is null")
-                            onLike?.invoke()
+                            onLike.invoke()
                         }
                     )
                 } else {
@@ -226,22 +206,14 @@ fun Feed(
             // 코멘트 아이콘
             CommentImage(
                 modifier = Modifier.layoutId("comment"),
-                onComment = {
-                    if (onComment == null)
-                        Log.w("__Feed", "onComment is null")
-                    onComment?.invoke()
-                },
+                onComment = onComment,
                 size = 42.dp,
                 padding = 9.dp
             )
             // 공유 아이콘
             ShareImage(
                 modifier = Modifier.layoutId("share"),
-                onShare = {
-                    if (onShare == null)
-                        Log.w("__Feed", "onShare is null")
-                    onShare?.invoke()
-                },
+                onShare = onShare,
                 size = 42.dp,
                 padding = 9.dp
             )
@@ -249,11 +221,7 @@ fun Feed(
             FavoriteImage(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
-                onFavorite = {
-                    if (onFavorite == null)
-                        Log.w("__Feed", "onFavorite is null")
-                    onFavorite?.invoke()
-                },
+                onFavorite = onFavorite,
                 size = 42.dp,
                 padding = 11.dp,
                 color = favoriteColor ?: MaterialTheme.colorScheme.primary
@@ -424,7 +392,8 @@ fun feedCommentsConstraint(): ConstraintSet {
 fun PreViewFeed() {
     val data = testReviewData()
     Column(Modifier.verticalScroll(rememberScrollState())) {
-        Feed(/* Preview */
+        Feed(
+            /* Preview */
             review = data.copy(
                 user =
                 data.user.copy(
@@ -439,7 +408,16 @@ fun PreViewFeed() {
                 createDate = "2022-10-10 10:10:10"
             ),
             image = { _, _, _, _, _ ->
-            }
+            },
+            onImage = {},
+            onMenu = {}, onProfile = {},
+            onLike = {},
+            onComment = {},
+            onShare = {},
+            onFavorite = {},
+            onName = {},
+            isZooming = { },
+            onRestaurant = {}
         )
     }
 }
