@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -261,7 +262,9 @@ fun Feed(
             // 코멘트 갯수
             if (review.commentAmount > 0) {
                 Text(
-                    modifier = Modifier.layoutId("commentCount"),
+                    modifier = Modifier
+                        .layoutId("commentCount")
+                        .clickable { onComment.invoke() },
                     text = stringResource(id = R.string.comments, review.commentAmount),
                     color = Color.Gray,
                     fontWeight = W500,
