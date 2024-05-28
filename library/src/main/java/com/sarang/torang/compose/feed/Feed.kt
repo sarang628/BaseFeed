@@ -250,8 +250,8 @@ fun Feed(
                 modifier = Modifier.layoutId("favorite"),
                 isFavorite = review.isFavorite,
                 onFavorite = {
-                    if (onShare == null)
-                        Log.w("__Feed", "onShare is null")
+                    if (onFavorite == null)
+                        Log.w("__Feed", "onFavorite is null")
                     onFavorite?.invoke()
                 },
                 size = 42.dp,
