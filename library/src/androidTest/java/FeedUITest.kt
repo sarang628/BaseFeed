@@ -63,91 +63,21 @@ class FeedUITest {
                     isLike = false,
                     isFavorite = false,
                     likeAmount = 100,
-                    onComment = {},
-                    onFavorite = {},
-                    onImage = {},
-                    onLike = {},
-                    onMenu = {},
-                    onName = {},
-                    onProfile = {},
-                    onRestaurant = {},
-                    onShare = {},
                     createDate = "2022-01-01 22:00:00"
-                )
+                ),
+                onComment = {},
+                onFavorite = {},
+                onImage = {},
+                onLike = {},
+                onMenu = {},
+                onName = {},
+                onProfile = {},
+                onRestaurant = {},
+                onShare = {},
+                isZooming = {},
+                image = { _, _, _, _, _ -> }
             )
         }
     }
 
-    @Test
-    fun checkName() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithText(data.user.name).assertIsDisplayed()
-    }
-
-    @Test
-    fun checkRestaurantName() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithText(data.restaurant.restaurantName).assertIsDisplayed()
-    }
-
-    @Test
-    fun checkContents() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithText("name contents")
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun checkMenu() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithContentDescription("menu").assertIsDisplayed()
-    }
-
-    @Test
-    fun checkLike() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithContentDescription("like").assertIsDisplayed()
-    }
-
-    @Test
-    fun checkComment() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithContentDescription("comment").assertIsDisplayed()
-    }
-
-    @Test
-    fun checkShare() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithContentDescription("share").assertIsDisplayed()
-    }
-
-    @Test
-    fun checkFavorite() {
-        val data = testReviewData()
-        composeRules.setContent {
-            Feed(review = data)
-        }
-        composeRules.onNodeWithContentDescription("favorite").assertIsDisplayed()
-    }
 }

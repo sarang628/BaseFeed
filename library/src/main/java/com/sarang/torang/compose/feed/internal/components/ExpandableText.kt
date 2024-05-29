@@ -22,8 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 
-const val TAG = "_ExpandableText"
-
 val ExpandableTextColor: Color @Composable get() = if (isSystemInDarkTheme()) Color.White else Color.Black
 val SeeMoreAndLessColor: Color @Composable get() = if (isSystemInDarkTheme()) Color.LightGray else Color.Gray
 
@@ -31,7 +29,8 @@ val SeeMoreAndLessColor: Color @Composable get() = if (isSystemInDarkTheme()) Co
 fun ExpandableText(
     modifier: Modifier = Modifier,
     nickName: String? = null,
-    text: String
+    text: String,
+    onClickNickName: () -> Unit,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val textLayoutResultState = remember { mutableStateOf<TextLayoutResult?>(null) }
@@ -84,12 +83,34 @@ fun ExpandableText(
                             fontWeight = FontWeight.Bold
                         )
                     ) {
-                        append(
-                            adjustedText.substring(0, nickName?.length ?: 0)
-                        )
+                        try {
+                            append(
+                                adjustedText.substring(0, nickName?.length ?: 0)
+                            )
+                        } catch (e: Exception) {
+                            Log.e(
+                                "__ExpandableText",
+                                "Exception : ${e.message} adjustedTextLength : ${adjustedText.length} nickNameLength : ${nickName?.length}"
+                            )
+                        }
                     }
                     withStyle(SpanStyle(color = expandableTextColor)) {
-                        append(adjustedText.substring(nickName?.length ?: 0, adjustedText.length))
+                        try {
+                            append(
+                                adjustedText.substring(0, nickName?.length ?: 0)
+                            )
+                            append(
+                                adjustedText.substring(
+                                    nickName?.length ?: 0,
+                                    adjustedText.length
+                                )
+                            )
+                        } catch (e: Exception) {
+                            Log.e(
+                                "__ExpandableText",
+                                "Exception : ${e.message} adjustedTextLength : ${adjustedText.length} nickNameLength : ${nickName?.length}"
+                            )
+                        }
                         append("...")
                     }
                     pushStringAnnotation(tag = "show_more_tag", annotation = "")
@@ -115,7 +136,7 @@ fun ExpandableText(
             text = textWithMoreLess,
             style = TextStyle(color = Color.DarkGray, fontSize = 15.sp),
             onClick = { offset ->
-                Log.d(TAG, "offset : ${offset}")
+                Log.d("__ExpandableText", "offset : ${offset}")
                 textWithMoreLess.getStringAnnotations(
                     tag = "link_tag",
                     start = offset,
@@ -123,6 +144,12 @@ fun ExpandableText(
                 ).firstOrNull()?.let { stringAnnotation ->
                     uriHandler.openUri(stringAnnotation.item)
                 }
+
+                if (offset < (nickName?.length ?: 0)) {
+                    onClickNickName.invoke()
+                    Log.d("ExpandableText", "onClickNickName")
+                }
+
                 if (isClickable) {
                     textWithMoreLess.getStringAnnotations(
                         tag = "show_more_tag",
@@ -164,6 +191,7 @@ fun PreviewExpandableText() {
                 "sssssssssssssssssssssssssss" +
                 "ttttttttttttttttttttttttttt" +
                 "uuuuuuuuuuuuuuuuuuuuuuuuuuu" +
-                "vvvvvvvvvvvvvvvvvvvvvvvvvvv"
+                "vvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        onClickNickName = {}
     )
 }

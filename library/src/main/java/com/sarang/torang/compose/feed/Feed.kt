@@ -229,18 +229,15 @@ fun Feed(
             )
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
-                val annotatedString = buildAnnotatedString {
-                    append("I have read")
-                    withStyle(style = SpanStyle(Color.Blue)) {
-                        append(" Terms and Condition")
-                    }
-                }
                 Column(
                     modifier = Modifier.layoutId("contents"),
                 ) {
                     ExpandableText(
                         nickName = review.user.name,
-                        text = "${review.contents}"
+                        text = "${review.contents}",
+                        onClickNickName = {
+                            onProfile.invoke()
+                        }
                     )
                 }
             }
