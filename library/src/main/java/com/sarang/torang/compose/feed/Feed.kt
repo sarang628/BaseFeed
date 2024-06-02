@@ -82,6 +82,7 @@ fun Feed(
     onMenu: (() -> Unit),
     onName: (() -> Unit),
     onRestaurant: (() -> Unit),
+    onLikes: (() -> Unit),
     image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
 ) {
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -245,7 +246,7 @@ fun Feed(
             // 좋아요 갯수
             if (review.likeAmount > 0) {
                 Text(
-                    modifier = Modifier.layoutId("likeCount"),
+                    modifier = Modifier.layoutId("likeCount").clickable { onLikes.invoke() },
                     text = stringResource(id = R.string.like, review.likeAmount),
                     color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                     fontWeight = FontWeight.Bold
@@ -417,7 +418,8 @@ fun PreViewFeed() {
             onFavorite = {},
             onName = {},
             isZooming = { },
-            onRestaurant = {}
+            onRestaurant = {},
+            onLikes = {}
         )
     }
 }

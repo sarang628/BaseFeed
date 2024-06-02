@@ -86,7 +86,8 @@ class MainActivity : ComponentActivity() {
                                         onFavorite = {},
                                         onName = {},
                                         isZooming = {},
-                                        onRestaurant = {}
+                                        onRestaurant = {},
+                                        onLikes = {}
                                     )
                                 }
                             }
