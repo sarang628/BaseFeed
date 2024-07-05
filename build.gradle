@@ -26,5 +26,4 @@ ext {
     bottomDetectLazyColunmVersion = '2486834b10'
     MUI3ScrollToRefreshVersion = 'dd57844809'
     torangRepositoryVersion = 'ba032f80ca'
-    composeBomVersion = '2024.04.00'
 }
