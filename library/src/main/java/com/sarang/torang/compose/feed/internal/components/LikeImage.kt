@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -39,8 +40,9 @@ fun LikeImage(modifier: Modifier, isLike: Boolean, onLike: () -> Unit) {
     Box(
         modifier = modifier
     ) {
-        if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
+        if (isLike1) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
             LikeImage(
+                modifier = Modifier.testTag("btnLike"),
                 onLike = {
                     onLike.invoke()
                     isLike1 = false
@@ -56,19 +58,30 @@ fun LikeImage(modifier: Modifier, isLike: Boolean, onLike: () -> Unit) {
                 padding = 8.5.dp,
                 onFinishAnimation = {
                     isLike1 = true
-                    onLike.invoke()
                 }
             )
         } else {
             UnLikeImage(
+                modifier = Modifier.testTag("btnUnLike"),
                 onLike = {
                     isAnimationLike = true
+                    onLike.invoke()
                 },
                 size = 42.dp,
                 padding = 8.5.dp
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewLikeImage1() {
+    LikeImage(
+        modifier = Modifier,
+        isLike = false,
+        onLike = { /*TODO*/ }
+    )
 }
 
 @Composable

@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +56,21 @@ import com.sarang.torang.data.basefeed.testReviewData
 
 /**
  * Feed 항목
+ * @param review 리뷰 데이터
+ * @param isZooming pinch zoom 여부
+ * @param progressTintColor ratingBar 색
+ * @param favoriteColor 즐겨찾기 색
+ * @param onImage 이미지 클릭
+ * @param onProfile 프로필 클릭
+ * @param onLike 좋아요 클릭
+ * @param onComment 코멘트 클릭
+ * @param onShare 공유 클릭
+ * @param onFavorite 즐겨찾기 클릭
+ * @param onMenu 메뉴 클릭
+ * @param onName 사용자명 클릭
+ * @param onRestaurant 음식점명 클릭
+ * @param onLikes 좋아요 클릭
+ * @param imageLoadCompose 공통 이미지 compose
  */
 @Composable
 fun Feed(
@@ -80,21 +96,21 @@ fun Feed(
         ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), constraintSet = feedCommentsConstraint())
         {
             // 프로필 이미지
-            imageLoadCompose.invoke(Modifier.layoutId("refProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop)
+            imageLoadCompose.invoke(Modifier.layoutId("refProfile").testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop)
 
             // 사용자명
-            Text(modifier = Modifier.widthIn(0.dp, 150.dp).layoutId("refName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
+            Text(modifier = Modifier.widthIn(0.dp, 150.dp).layoutId("refName").testTag("txtName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
 
             // 평점
             AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
 
             // 음식점명
             if (review.restaurant.restaurantName.isNotEmpty()) {
-                Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
+                Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").testTag("txtRestaurant").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
             }
 
             // 메뉴
-            IconButton(modifier = Modifier.layoutId("menu"), onClick = onMenu) {
+            IconButton(modifier = Modifier.layoutId("menu").testTag("btnMenu"), onClick = onMenu) {
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
             }
 
@@ -108,13 +124,13 @@ fun Feed(
             LikeImage(modifier = Modifier.layoutId("heart").size(42.dp), isLike = review.isLike, onLike = onLike)
 
             // 코멘트 아이콘
-            CommentImage(modifier = Modifier.layoutId("comment"), onComment = onComment, size = 42.dp, padding = 9.dp)
+            CommentImage(modifier = Modifier.layoutId("comment").testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
 
             // 공유 아이콘
-            ShareImage(modifier = Modifier.layoutId("share"), onShare = onShare, size = 42.dp, padding = 9.dp)
+            ShareImage(modifier = Modifier.layoutId("share").testTag("btnShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
 
             // 즐겨찾기 아이콘
-            FavoriteImage(modifier = Modifier.layoutId("favorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
+            FavoriteImage(modifier = Modifier.layoutId("favorite").testTag("btnFavorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
 
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
@@ -123,7 +139,7 @@ fun Feed(
 
             // 좋아요 갯수
             if (review.likeAmount > 0) {
-                Text(modifier = Modifier.layoutId("likeCount").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
+                Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
             }
 
             // 코멘트

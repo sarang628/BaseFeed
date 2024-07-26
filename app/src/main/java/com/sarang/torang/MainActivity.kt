@@ -1,6 +1,7 @@
 package com.sarang.torang
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -80,13 +81,15 @@ class MainActivity : ComponentActivity() {
                                         imageLoadCompose = provideTorangAsyncImage(),
                                         onImage = {},
                                         onMenu = {}, onProfile = {},
-                                        onLike = {},
+                                        onLike = {
+                                            Log.d("__MainActivity", "onLike: $it")
+                                        },
                                         onComment = {},
                                         onShare = {},
                                         onFavorite = {},
                                         onName = {},
                                         isZooming = {},
-                                          onRestaurant = {},
+                                        onRestaurant = {},
                                         onLikes = {}
                                     )
                                 }
