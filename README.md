@@ -1,10 +1,10 @@
 # BaseFeed Module
 
-메인 화면, 프로필 화면 등 다양한 화면에서 사용할 수 있는 공통 컴포넌트 모듈로 제공
+메인 화면, 프로필 화면 등 다양한 화면에서 사용할 수 있는 피드 UI
 
 ## Feature
 
-- Layered architecture
+- Jetpack Compose
 - Dependency injection with Hilt
 - Compose ConstraintLayout
 - Localization

@@ -32,6 +32,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     /** hilt */
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation 'androidx.lifecycle:lifecycle-process:2.8.4'
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0" // hiltViewModel
 

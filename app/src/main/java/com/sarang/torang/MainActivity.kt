@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                                 items(list.size) {
                                     Feed(
                                         review = list[it].toReview(),
-                                        image = provideTorangAsyncImage(),
+                                        imageLoadCompose = provideTorangAsyncImage(),
                                         onImage = {},
                                         onMenu = {}, onProfile = {},
                                         onLike = {},
@@ -86,7 +86,7 @@ class MainActivity : ComponentActivity() {
                                         onFavorite = {},
                                         onName = {},
                                         isZooming = {},
-                                        onRestaurant = {},
+                                          onRestaurant = {},
                                         onLikes = {}
                                     )
                                 }

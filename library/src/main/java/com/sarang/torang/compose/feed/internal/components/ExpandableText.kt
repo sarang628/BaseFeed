@@ -3,6 +3,7 @@ package com.sarang.torang.compose.feed.internal.components
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 val ExpandableTextColor: Color @Composable get() = if (isSystemInDarkTheme()) Color.White else Color.Black
@@ -131,43 +133,47 @@ fun ExpandableText(
     val uriHandler = LocalUriHandler.current
 
     //Composable container
-    SelectionContainer(modifier = modifier) {
-        ClickableText(
-            text = textWithMoreLess,
-            style = TextStyle(color = Color.DarkGray, fontSize = 15.sp),
-            onClick = { offset ->
-                Log.d("__ExpandableText", "offset : ${offset}")
-                textWithMoreLess.getStringAnnotations(
-                    tag = "link_tag",
-                    start = offset,
-                    end = offset
-                ).firstOrNull()?.let { stringAnnotation ->
-                    uriHandler.openUri(stringAnnotation.item)
-                }
-
-                if (offset < (nickName?.length ?: 0)) {
-                    onClickNickName.invoke()
-                    Log.d("ExpandableText", "onClickNickName")
-                }
-
-                if (isClickable) {
+    Box(modifier = modifier)
+    {
+        SelectionContainer {
+            ClickableText(
+                text = textWithMoreLess,
+                style = TextStyle(color = Color.DarkGray, fontSize = 15.sp),
+                onClick = { offset ->
+                    Log.d("__ExpandableText", "offset : ${offset}")
                     textWithMoreLess.getStringAnnotations(
-                        tag = "show_more_tag",
+                        tag = "link_tag",
                         start = offset,
                         end = offset
-                    ).firstOrNull()?.let {
-                        isExpanded = !isExpanded
+                    ).firstOrNull()?.let { stringAnnotation ->
+                        uriHandler.openUri(stringAnnotation.item)
                     }
-                }
-            },
-            maxLines = if (isExpanded) Int.MAX_VALUE else 3,
-            onTextLayout = { textLayoutResultState.value = it },
-            modifier = modifier
-                .animateContentSize()
-        )
+
+                    if (offset < (nickName?.length ?: 0)) {
+                        onClickNickName.invoke()
+                        Log.d("ExpandableText", "onClickNickName")
+                    }
+
+                    if (isClickable) {
+                        textWithMoreLess.getStringAnnotations(
+                            tag = "show_more_tag",
+                            start = offset,
+                            end = offset
+                        ).firstOrNull()?.let {
+                            isExpanded = !isExpanded
+                        }
+                    }
+                },
+                maxLines = if (isExpanded) Int.MAX_VALUE else 3,
+                onTextLayout = { textLayoutResultState.value = it },
+                modifier = modifier
+                    .animateContentSize()
+            )
+        }
     }
 }
 
+@Preview
 @Composable
 fun PreviewExpandableText() {
     ExpandableText(

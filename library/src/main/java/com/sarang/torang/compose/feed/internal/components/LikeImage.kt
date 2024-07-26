@@ -7,15 +7,13 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,7 +31,48 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import kotlinx.coroutines.delay
 
 @Composable
-fun UnLikeImage(
+fun LikeImage(modifier: Modifier, isLike: Boolean, onLike: () -> Unit) {
+
+    var isAnimationLike by remember { mutableStateOf(false) }
+    var isLike1 by remember { mutableStateOf(isLike) }
+
+    Box(
+        modifier = modifier
+    ) {
+        if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
+            LikeImage(
+                onLike = {
+                    onLike.invoke()
+                    isLike1 = false
+                    isAnimationLike = false
+                },
+                size = 42.dp,
+                padding = 8.5.dp
+            )
+        } else if (isAnimationLike) {
+            AnimationLikeImage(
+                onLike = {},
+                size = 42.dp,
+                padding = 8.5.dp,
+                onFinishAnimation = {
+                    isLike1 = true
+                    onLike.invoke()
+                }
+            )
+        } else {
+            UnLikeImage(
+                onLike = {
+                    isAnimationLike = true
+                },
+                size = 42.dp,
+                padding = 8.5.dp
+            )
+        }
+    }
+}
+
+@Composable
+private fun UnLikeImage(
     modifier: Modifier = Modifier,
     onLike: () -> Unit,
     size: Dp,
@@ -52,7 +91,7 @@ fun UnLikeImage(
 }
 
 @Composable
-fun LikeImage(
+private fun LikeImage(
     modifier: Modifier = Modifier,
     onLike: () -> Unit,
     size: Dp,
@@ -72,12 +111,12 @@ fun LikeImage(
 }
 
 @Composable
-fun AnimationLikeImage(
+private fun AnimationLikeImage(
     modifier: Modifier = Modifier,
     onLike: () -> Unit,
     size: Dp,
     padding: Dp,
-    onFinishAnimation: (() -> Unit)? = null
+    onFinishAnimation: (() -> Unit)? = null,
 ) {
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = "") {

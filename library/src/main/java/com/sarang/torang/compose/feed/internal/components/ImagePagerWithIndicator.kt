@@ -1,6 +1,6 @@
 package com.sarang.torang.compose.feed.internal.components
 
-import android.util.Log
+import androidx.annotation.OptIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +36,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.media3.common.MediaItem.fromUri
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -45,7 +46,7 @@ import com.sarang.torang.compose.feed.internal.util.pinchZoom
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(UnstableApi::class)
 @Composable
 internal fun ImagePagerWithIndicator(
     modifier: Modifier = Modifier,
@@ -73,8 +74,8 @@ internal fun ImagePagerWithIndicator(
         ) { page ->
 
             val ext = images[page].substring(images[page].lastIndexOf("."))
-            if (ext.equals(".mp4")) {
-                VideoPlayer(images[page])
+            if (ext == ".mp4") {
+                VideoPlayer(images[page], null)
             } else {
                 image.invoke(
                     modifier
@@ -90,18 +91,18 @@ internal fun ImagePagerWithIndicator(
                     ContentScale.Crop
                 )
             }
+//        }
+            if (showIndicator)
+                PagerIndicator(
+                    modifier = Modifier.fillMaxSize(),
+                    pagerState = pagerState,
+                    count = images.size
+                )
         }
-        if (showIndicator)
-            PagerIndicator(
-                modifier = Modifier.fillMaxSize(),
-                pagerState = pagerState,
-                count = images.size
-            )
     }
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PagerIndicator(
     modifier: Modifier = Modifier,
@@ -129,53 +130,39 @@ fun PagerIndicator(
         }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
-fun PreViewItemFeedMid() {
-    Column(
-        Modifier
-            .fillMaxSize()
-    ) {
-        ImagePagerWithIndicator(
-            /*Preview*/
-            images = arrayListOf(
-//                "https://www.naver.com",
-                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
-                "http://sarang628.iptime.org:89/8.png",
-                "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
-                "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
-//                "",
-//                ""
-            ),
-            image = { _, _, _, _, _ -> },
-            onImage = {}
-        )
-    }
+fun PreViewImagePagerWithIndicator() {
+    ImagePagerWithIndicator(/*Preview*/
+        images = arrayListOf(
+            "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "http://sarang628.iptime.org:89/8.png",
+            "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
+            "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
+        ),
+        image = { _, _, _, _, _ -> },
+        onImage = {}
+    )
 }
 
-@Preview
-@Composable
-fun test() {
 
-}
-
-@androidx.annotation.OptIn(UnstableApi::class)
+@OptIn(UnstableApi::class)
 @Preview
 @Composable
 fun PreviewVideoView() {
 //    VideoPlayer(player, videoUrl = "https://samplelib.com/lib/preview/mp4/sample-5s.mp4")
+//    val context = LocalContext.current
+//    var player = ExoPlayer.Builder(context).build()
     VideoPlayer(
-        videoUrl = "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png"
+        videoUrl = "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+        player = null
     )
 }
 
-@androidx.annotation.OptIn(UnstableApi::class)
+@OptIn(UnstableApi::class)
 @Composable
-fun VideoPlayer(videoUrl: String) {
-    val context = LocalContext.current
-    var player = ExoPlayer.Builder(context).build()
+fun VideoPlayer(videoUrl: String, player: ExoPlayer?) {
     var isPlaying by remember { mutableStateOf(false) }
     val coroutine = rememberCoroutineScope()
 
@@ -199,26 +186,26 @@ fun VideoPlayer(videoUrl: String) {
 
     // 비디오를 로드하고 재생합니다.
     val mediaItem = fromUri(videoUrl)
-    player.setMediaItem(mediaItem)
-    player.playWhenReady = true
-    player.prepare()
+    player?.setMediaItem(mediaItem)
+    player?.playWhenReady = true
+    player?.prepare()
     LaunchedEffect(key1 = "", block = {
         coroutine.launch {
             delay(10)
-            player.play()
+            player?.play()
         }
     })
 
     // 앱이 백그라운드로 갈 때 ExoPlayer를 정지합니다.
-    /*ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
+    ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
         fun onBackground() {
-            player.playWhenReady = false
+            player?.playWhenReady = false
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
         fun onForeground() {
-            player.playWhenReady = isPlaying
+            player?.playWhenReady = isPlaying
         }
-    })*/
+    })
 }

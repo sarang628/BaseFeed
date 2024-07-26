@@ -23,11 +23,13 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 fun FavoriteImage(
     modifier: Modifier, isFavorite: Boolean, onFavorite: () -> Unit, size: Dp,
     padding: Dp,
-    color: Color = MaterialTheme.colorScheme.primary
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Icon(
         //TODO:: 별모양 outline도 검정색으로 나오는 원인 찾기
-        painter = if (isFavorite) painterResource(id = R.drawable.star_filled) else painterResource(id = R.drawable.star),
+        painter = if (isFavorite) painterResource(id = R.drawable.star_filled) else painterResource(
+            id = R.drawable.star
+        ),
         contentDescription = "favorite",
         tint = if (isFavorite) color else LocalContentColor.current,
         modifier = modifier
@@ -44,6 +46,18 @@ fun PreviewFavoriteImage() {
     FavoriteImage(
         modifier = Modifier,
         isFavorite = false,
+        onFavorite = { /*TODO*/ },
+        size = 50.dp,
+        padding = 5.dp
+    )
+}
+
+@Preview
+@Composable
+fun PreviewFavoriteImage1() {
+    FavoriteImage(
+        modifier = Modifier,
+        isFavorite = true,
         onFavorite = { /*TODO*/ },
         size = 50.dp,
         padding = 5.dp

@@ -1,15 +1,11 @@
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.Restaurant
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.User
-import com.sarang.torang.data.basefeed.testReviewData
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -75,7 +71,7 @@ class FeedUITest {
                 onRestaurant = {},
                 onShare = {},
                 isZooming = {},
-                image = { _, _, _, _, _ -> }
+                imageLoadCompose = { _, _, _, _, _ -> }
             )
         }
     }

@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.data.basefeed.Comment
 
@@ -27,4 +28,17 @@ fun Comment(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewComment() {
+    Comment(
+        comments = listOf(
+            Comment("1", "aa"),
+            Comment("2", "bb"),
+            Comment("3", "cc"),
+            Comment("4", "dd"),
+        )
+    )
 }
