@@ -43,7 +43,6 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.component.AndroidViewRatingBar
 import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentImage
-import com.sarang.torang.compose.feed.internal.components.ExpandableText
 import com.sarang.torang.compose.feed.internal.components.FavoriteImage
 import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
 import com.sarang.torang.compose.feed.internal.components.LikeImage
@@ -53,6 +52,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.formatedDate
 import com.sarang.torang.data.basefeed.testReviewData
+import com.sryang.library.ExpandableText
 
 /**
  * Feed 항목
@@ -106,7 +106,7 @@ fun Feed(
 
             // 음식점명
             if (review.restaurant.restaurantName.isNotEmpty()) {
-                Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").testTag("txtRestaurant").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
+                Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
             }
 
             // 메뉴
@@ -134,7 +134,7 @@ fun Feed(
 
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
-               ExpandableText(modifier = Modifier.layoutId("contents"),nickName = review.user.name, text = "${review.contents}", onClickNickName = { onProfile.invoke() })
+               ExpandableText(modifier = Modifier.layoutId("contents").testTag("txtContents"),nickName = review.user.name, text = "${review.contents}", onClickNickName = { onProfile.invoke() })
             }
 
             // 좋아요 갯수
@@ -151,7 +151,7 @@ fun Feed(
             }
 
             // 날짜
-            Text(modifier = Modifier.layoutId("date"), text = review.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
+            Text(modifier = Modifier.layoutId("date").testTag("txtDate"), text = review.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
         }
     }
     // @formatter:on
@@ -273,7 +273,7 @@ fun PreViewFeed() {
             review = data.copy(
                 user =
                 data.user.copy(
-                    name = "GeminiGeminiGeminiGemini",
+                    name = "namenamenamenamename",
                     profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
                 ),
                 //restaurant = data.restaurant.copy(restaurantName = "YourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDining"),

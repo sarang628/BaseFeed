@@ -1,9 +1,14 @@
 package com.sarang.torang.compose.feed.internal.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -77,11 +82,14 @@ fun LikeImage(modifier: Modifier, isLike: Boolean, onLike: () -> Unit) {
 @Preview
 @Composable
 fun PreviewLikeImage1() {
-    LikeImage(
-        modifier = Modifier,
-        isLike = false,
-        onLike = { /*TODO*/ }
-    )
+    Box(modifier = Modifier.size(50.dp))
+    {
+        LikeImage(
+            modifier = Modifier.size(50.dp),
+            isLike = false,
+            onLike = { /*TODO*/ }
+        )
+    }
 }
 
 @Composable
@@ -138,20 +146,22 @@ private fun AnimationLikeImage(
         delay(200)
         onFinishAnimation?.invoke()
     }
-    val density = LocalDensity.current
     AnimatedVisibility(
         visible = visible,
-        enter = slideInVertically {
-            // Slide in from 40 dp from the top.
-            with(density) { -40.dp.roundToPx() }
-        } + expandVertically(
-            // Expand from the top.
-            expandFrom = Alignment.Top
+        enter =
+        scaleIn(
+            initialScale = 0.1f,
+            animationSpec = tween(durationMillis = 300)
         ) + fadeIn(
-            // Fade in with the initial alpha of 0.3f.
-            initialAlpha = 0.3f
+            initialAlpha = 0.3f,
+            animationSpec = tween(durationMillis = 300)
         ),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut()
+        exit = scaleOut(
+            targetScale = 1.5f,
+            animationSpec = tween(durationMillis = 300)
+        ) + fadeOut(
+            animationSpec = tween(durationMillis = 300)
+        )
     ) {
         Icon(
             imageVector = Icons.Default.Favorite,

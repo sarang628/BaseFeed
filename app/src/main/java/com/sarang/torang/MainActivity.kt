@@ -107,8 +107,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun test() {
     TorangTheme {
-        val context = LocalContext.current
-        val height = LocalConfiguration.current.screenHeightDp
         Surface(
             Modifier
                 .fillMaxSize()
@@ -118,3 +116,4 @@ fun test() {
         }
     }
 }
+

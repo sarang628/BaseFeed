@@ -15,15 +15,19 @@ data class Review(
     val commentAmount: Int,
     val isLike: Boolean,
     val isFavorite: Boolean,
-    val createDate: String
+    val createDate: String,
 )
 
 val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 val sdf1 = SimpleDateFormat("MMM dd, YYYY")
 fun Review.formatedDate(): String {
+    return createDate.formatedDate()
+}
+
+fun String.formatedDate(): String {
     var result = ""
     try {
-        result = sdf1.format(sdf.parse(createDate))
+        result = sdf1.format(sdf.parse(this))
     } catch (e: Exception) {
         Log.e("_Review", e.toString())
     } finally {
