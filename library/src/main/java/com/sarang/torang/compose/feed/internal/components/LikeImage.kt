@@ -1,6 +1,7 @@
 package com.sarang.torang.compose.feed.internal.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandIn
 import androidx.compose.animation.expandVertically
@@ -12,13 +13,21 @@ import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,6 +37,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -85,7 +96,9 @@ fun PreviewLikeImage1() {
     Box(modifier = Modifier.size(50.dp))
     {
         LikeImage(
-            modifier = Modifier.size(50.dp),
+            modifier = Modifier
+                .size(50.dp)
+                .padding(5.dp),
             isLike = false,
             onLike = { /*TODO*/ }
         )
@@ -139,42 +152,31 @@ private fun AnimationLikeImage(
     padding: Dp,
     onFinishAnimation: (() -> Unit)? = null,
 ) {
-    var visible by remember { mutableStateOf(false) }
-    LaunchedEffect(key1 = "") {
-        delay(0)
-        visible = true
-        delay(200)
+    val scale = remember { Animatable(0.5f) }
+    LaunchedEffect(Unit) {
+        scale.animateTo(
+            targetValue = 1.3f,
+            animationSpec = tween(durationMillis = 150)
+        )
+        scale.animateTo(
+            targetValue = 1.0f,
+            animationSpec = tween(durationMillis = 150)
+        )
         onFinishAnimation?.invoke()
     }
-    AnimatedVisibility(
-        visible = visible,
-        enter =
-        scaleIn(
-            initialScale = 0.1f,
-            animationSpec = tween(durationMillis = 300)
-        ) + fadeIn(
-            initialAlpha = 0.3f,
-            animationSpec = tween(durationMillis = 300)
-        ),
-        exit = scaleOut(
-            targetScale = 1.5f,
-            animationSpec = tween(durationMillis = 300)
-        ) + fadeOut(
-            animationSpec = tween(durationMillis = 300)
-        )
-    ) {
-        Icon(
-            imageVector = Icons.Default.Favorite,
-            contentDescription = "like",
-            tint = Color.Red,
-            modifier = modifier
-                .size(size)
-                .padding(padding)
-                .nonEffectclickable {
-                    onLike.invoke()
-                }
-        )
-    }
+
+    Icon(
+        imageVector = Icons.Default.Favorite,
+        contentDescription = "like",
+        tint = Color.Red,
+        modifier = modifier
+            .size(size)
+            .padding(padding)
+            .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
+            .nonEffectclickable {
+                onLike.invoke()
+            }
+    )
 }
 
 @Preview
@@ -207,5 +209,76 @@ fun PreviewAnimationLikeImage() {
         onLike = { /*TODO*/ },
         size = 50.dp,
         padding = 5.dp
+    )
+}
+
+
+@Preview
+@Composable
+fun AnimatedVisibilityExample() {
+    var visible by remember { mutableStateOf(true) }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { visible = !visible }) {
+            Text("Toggle Visibility")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AnimatedVisibility(
+            visible = visible,
+            enter = scaleIn(
+                initialScale = 0.5f,
+                animationSpec = tween(durationMillis = 300)
+            ) + scaleIn(
+                initialScale = 1.5f,
+                animationSpec = tween(durationMillis = 300, delayMillis = 300)
+            ) + fadeIn(
+                initialAlpha = 0.3f,
+                animationSpec = tween(durationMillis = 600)
+            ),
+            exit = scaleOut(
+                targetScale = 0.3f,
+                animationSpec = tween(durationMillis = 300)
+            ) + fadeOut(
+                animationSpec = tween(durationMillis = 300)
+            )
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(Color.Red)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun BoxWithScaleAnimation() {
+    val scale = remember { Animatable(0.5f) }
+
+    LaunchedEffect(Unit) {
+        delay(100)
+        scale.animateTo(
+            targetValue = 1.5f,
+            animationSpec = tween(durationMillis = 300)
+        )
+        delay(10)  // Optional delay for smoother transition
+        scale.animateTo(
+            targetValue = 0.5f,
+            animationSpec = tween(durationMillis = 300)
+        )
+    }
+
+    Box(
+        modifier = Modifier
+            .size(100.dp)
+            .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
+            .background(Color.Red)
     )
 }

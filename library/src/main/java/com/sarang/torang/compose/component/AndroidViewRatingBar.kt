@@ -91,7 +91,7 @@ fun PreviewAndroidViewRatingBar() {
         Modifier,
         3.5f,
         isSmall = false,
-        changable = false,
+        changable = true,
         progressTintColor = Color.Yellow
     )
 }
