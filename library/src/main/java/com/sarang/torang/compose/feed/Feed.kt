@@ -102,57 +102,57 @@ fun Feed(
             Text(modifier = Modifier.widthIn(0.dp, 150.dp).layoutId("refName").testTag("txtName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
 
             // 평점
-//            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
+            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
 
             // 음식점명
-//            if (review.restaurant.restaurantName.isNotEmpty()) {
-//                Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
-//            }
+            if (review.restaurant.restaurantName.isNotEmpty()) {
+                Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
+            }
 
             // 메뉴
-//            IconButton(modifier = Modifier.layoutId("menu").testTag("btnMenu"), onClick = onMenu) {
-//                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
-//            }
+            IconButton(modifier = Modifier.layoutId("menu").testTag("btnMenu"), onClick = onMenu) {
+                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
+            }
 
             // 이미지 페이저
-//            if (review.reviewImages.isNotEmpty()) {
-//                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, isZooming = isZooming, pagerState = pagerState, image = imageLoadCompose)
-//            }
+            if (review.reviewImages.isNotEmpty()) {
+                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, isZooming = isZooming, pagerState = pagerState, image = imageLoadCompose)
+            }
 
-//            PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)
+            PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)
 
             // 좋아요 아이콘
-//            LikeImage(modifier = Modifier.layoutId("heart").size(42.dp), isLike = review.isLike, onLike = onLike)
+            LikeImage(modifier = Modifier.layoutId("heart").size(42.dp), isLike = review.isLike, onLike = onLike)
 
             // 코멘트 아이콘
-//            CommentImage(modifier = Modifier.layoutId("comment").testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
+            CommentImage(modifier = Modifier.layoutId("comment").testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
 
             // 공유 아이콘
-//            ShareImage(modifier = Modifier.layoutId("share").testTag("btnShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
+            ShareImage(modifier = Modifier.layoutId("share").testTag("btnShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
 
             // 즐겨찾기 아이콘
-//            FavoriteImage(modifier = Modifier.layoutId("favorite").testTag("btnFavorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
+            FavoriteImage(modifier = Modifier.layoutId("favorite").testTag("btnFavorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
 
             // 리뷰 내용
-//            if (review.contents.isNotEmpty()) {
-//               ExpandableText(modifier = Modifier.layoutId("contents").testTag("txtContents"),nickName = review.user.name, text = "${review.contents}", onClickNickName = { onProfile.invoke() })
-//            }
+            if (review.contents.isNotEmpty()) {
+               ExpandableText(modifier = Modifier.layoutId("contents").testTag("txtContents"),nickName = review.user.name, text = "${review.contents}", onClickNickName = { onProfile.invoke() })
+            }
 
             // 좋아요 갯수
-//            if (review.likeAmount > 0) {
-//                Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
-//            }
+            if (review.likeAmount > 0) {
+                Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
+            }
 
             // 코멘트
-//            Comment(Modifier.layoutId("comments"), review.comments)
+            Comment(Modifier.layoutId("comments"), review.comments)
 
             // 코멘트 갯수
-//            if (review.commentAmount > 0) {
-//                Text(modifier = Modifier.layoutId("commentCount").clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, review.commentAmount), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
-//            }
+            if (review.commentAmount > 0) {
+                Text(modifier = Modifier.layoutId("commentCount").clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, review.commentAmount), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
+            }
 
             // 날짜
-//            Text(modifier = Modifier.layoutId("date").testTag("txtDate"), text = review.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
+            Text(modifier = Modifier.layoutId("date").testTag("txtDate"), text = review.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
         }
     }
     // @formatter:on
@@ -188,80 +188,80 @@ fun feedCommentsConstraint(): ConstraintSet {
             bottom.linkTo(restaurantName.top)
             start.linkTo(profile.end, margin = 8.dp)
         }
-//        constrain(restaurantName) {
-//            top.linkTo(refName.bottom)
-//            bottom.linkTo(profile.bottom)
-//            start.linkTo(profile.end, margin = 8.dp)
-//        }
-//        constrain(menu) {
-//            top.linkTo(parent.top)
-//            bottom.linkTo(profile.bottom)
-//            end.linkTo(parent.end)
-//        }
-//        constrain(ratingBar) {
-//            start.linkTo(refName.end, margin = 3.dp)
-//            top.linkTo(refName.top)
-//            bottom.linkTo(refName.bottom)
-//        }
-//
-//        constrain(images) {
-//            top.linkTo(barrier)
-//            start.linkTo(parent.start)
-//            end.linkTo(parent.end)
-//            width = Dimension.fillToConstraints
-//        }
-//
-//        constrain(heart) {
-//            top.linkTo(images.bottom)
-//            start.linkTo(parent.start, margin = 6.dp)
-//        }
-//
-//        constrain(comment) {
-//            top.linkTo(heart.top)
-//            start.linkTo(heart.end)
-//        }
-//
-//        constrain(share) {
-//            top.linkTo(heart.top)
-//            start.linkTo(comment.end)
-//        }
-//
-//        constrain(favorite) {
-//            top.linkTo(heart.top)
-//            end.linkTo(parent.end)
-//        }
-//
-//        constrain(contents) {
-//            top.linkTo(likeCount.bottom)
-//            start.linkTo(heart.start)
-//            end.linkTo(favorite.end)
-//            width = Dimension.fillToConstraints
-//        }
-//        constrain(likeCount) {
-//            top.linkTo(heart.bottom)
-//            start.linkTo(heart.start)
-//        }
-//        constrain(comments) {
-//            top.linkTo(contents.bottom, 3.dp)
-//            start.linkTo(heart.start)
-//            end.linkTo(favorite.end)
-//            width = Dimension.fillToConstraints
-//        }
-//        constrain(date) {
-//            top.linkTo(commentCount.bottom)
-//            start.linkTo(heart.start)
-//        }
-//        constrain(commentCount) {
-//            start.linkTo(heart.start)
-//            top.linkTo(comments.bottom)
-//        }
-//        constrain(indicator) {
-//            top.linkTo(heart.top)
-//            bottom.linkTo(heart.bottom)
-//            start.linkTo(parent.start)
-//            end.linkTo(parent.end)
-//            height = Dimension.fillToConstraints
-//        }
+        constrain(restaurantName) {
+            top.linkTo(refName.bottom)
+            bottom.linkTo(profile.bottom)
+            start.linkTo(profile.end, margin = 8.dp)
+        }
+        constrain(menu) {
+            top.linkTo(parent.top)
+            bottom.linkTo(profile.bottom)
+            end.linkTo(parent.end)
+        }
+        constrain(ratingBar) {
+            start.linkTo(refName.end, margin = 3.dp)
+            top.linkTo(refName.top)
+            bottom.linkTo(refName.bottom)
+        }
+
+        constrain(images) {
+            top.linkTo(barrier)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            width = Dimension.fillToConstraints
+        }
+
+        constrain(heart) {
+            top.linkTo(images.bottom)
+            start.linkTo(parent.start, margin = 6.dp)
+        }
+
+        constrain(comment) {
+            top.linkTo(heart.top)
+            start.linkTo(heart.end)
+        }
+
+        constrain(share) {
+            top.linkTo(heart.top)
+            start.linkTo(comment.end)
+        }
+
+        constrain(favorite) {
+            top.linkTo(heart.top)
+            end.linkTo(parent.end)
+        }
+
+        constrain(contents) {
+            top.linkTo(likeCount.bottom)
+            start.linkTo(heart.start)
+            end.linkTo(favorite.end)
+            width = Dimension.fillToConstraints
+        }
+        constrain(likeCount) {
+            top.linkTo(heart.bottom)
+            start.linkTo(heart.start)
+        }
+        constrain(comments) {
+            top.linkTo(contents.bottom, 3.dp)
+            start.linkTo(heart.start)
+            end.linkTo(favorite.end)
+            width = Dimension.fillToConstraints
+        }
+        constrain(date) {
+            top.linkTo(commentCount.bottom)
+            start.linkTo(heart.start)
+        }
+        constrain(commentCount) {
+            start.linkTo(heart.start)
+            top.linkTo(comments.bottom)
+        }
+        constrain(indicator) {
+            top.linkTo(heart.top)
+            bottom.linkTo(heart.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            height = Dimension.fillToConstraints
+        }
     }
 }
 
