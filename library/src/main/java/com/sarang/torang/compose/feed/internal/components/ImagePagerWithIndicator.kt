@@ -1,5 +1,7 @@
 package com.sarang.torang.compose.feed.internal.components
 
+import android.net.Uri
+import android.util.Log
 import androidx.annotation.OptIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -38,6 +41,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.fromUri
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -75,8 +79,9 @@ internal fun ImagePagerWithIndicator(
         ) { page ->
 
             val ext = images[page].substring(images[page].lastIndexOf("."))
-            if (ext == ".mp4") {
-                VideoPlayer(images[page], null)
+            if (ext == ".m3u8") {
+                //VideoPlayer(images[page], null)
+                VideoPlayer1(images[page])
             } else {
                 image.invoke(
                     modifier
@@ -210,4 +215,56 @@ fun VideoPlayer(videoUrl: String, player: ExoPlayer?) {
             player?.playWhenReady = isPlaying
         }
     })
+}
+@OptIn(UnstableApi::class)
+@Composable
+fun VideoPlayer1(videoUrl: String, /*player: ExoPlayer?*/) {
+    Log.d("__sryang", "VideoPlayer1: $videoUrl")
+    val context = LocalContext.current
+    val exoPlayer = remember {
+        ExoPlayer.Builder(context).build().apply {
+            val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
+            setMediaItem(mediaItem)
+            prepare()
+            playWhenReady = true
+        }
+    }
+
+    DisposableEffect(
+        AndroidView(
+            factory = {
+                PlayerView(context).apply {
+                    player = exoPlayer
+                }
+            }, modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+        )
+    ) {
+        onDispose { exoPlayer.release() }
+    }
+}
+
+@Composable
+fun VideoPlayerScreen2(videoUrl: String) {
+    Log.d("TAG", "VideoPlayerScreen2: ")
+    val context = LocalContext.current
+    val exoPlayer = remember {
+        ExoPlayer.Builder(context).build().apply {
+            val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
+            setMediaItem(mediaItem)
+            prepare()
+            playWhenReady = true
+        }
+    }
+
+    DisposableEffect(
+        AndroidView(factory = {
+            PlayerView(context).apply {
+                player = exoPlayer
+            }
+        }, modifier = Modifier.fillMaxSize())
+    ) {
+        onDispose { exoPlayer.release() }
+    }
 }

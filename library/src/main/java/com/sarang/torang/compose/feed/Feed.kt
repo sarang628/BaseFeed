@@ -205,7 +205,7 @@ fun feedCommentsConstraint(): ConstraintSet {
         }
 
         constrain(images) {
-            top.linkTo(barrier)
+            top.linkTo(barrier, margin = 8.dp)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
             width = Dimension.fillToConstraints
@@ -278,7 +278,7 @@ fun PreViewFeed() {
                     profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
                 ),
                 //restaurant = data.restaurant.copy(restaurantName = "YourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDining"),
-                restaurant = data.restaurant.copy(restaurantName = ""),
+                restaurant = data.restaurant.copy(restaurantName = "restaurants"),
                 likeAmount = 10,
                 isLike = false,
                 isFavorite = false,
