@@ -52,7 +52,6 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.formatedDate
 import com.sarang.torang.data.basefeed.testReviewData
-import com.sryang.library.ExpandableText
 
 /**
  * Feed 항목
@@ -89,6 +88,7 @@ fun Feed(
     onRestaurant: (() -> Unit),
     onLikes: (() -> Unit),
     imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
+    expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit,
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -135,7 +135,7 @@ fun Feed(
 
             // 리뷰 내용
             if (review.contents.isNotEmpty()) {
-               ExpandableText(modifier = Modifier.layoutId("contents").testTag("txtContents"),nickName = review.user.name, text = "${review.contents}", onClickNickName = { onProfile.invoke() })
+                expandableText.invoke(Modifier.layoutId("contents").testTag("txtContents"), review.user.name, review.contents, onProfile)
             }
 
             // 좋아요 갯수
@@ -301,7 +301,10 @@ fun PreViewFeed() {
             onName = {},
             isZooming = {},
             onRestaurant = {},
-            onLikes = {}
+            onLikes = {},
+            expandableText = { _, _, _, _ ->
+
+            }
         )
     }
 }

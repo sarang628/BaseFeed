@@ -128,4 +128,5 @@ dependencies {
     implementation(libs.torangRepository)
     implementation(libs.theme)
     implementation(libs.commonImageLoader)
+    implementation("com.github.sarang628:ExpandableText:547e79fc42")
 }

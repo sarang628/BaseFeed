@@ -24,8 +24,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feed
@@ -35,6 +37,7 @@ import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sarang.torang.repository.FeedRepository
 import com.sarang.torang.repository.FeedRepositoryTest
 import com.sarang.torang.ui.theme.ThemePreviews
+import com.sryang.library.ExpandableText
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -90,7 +93,15 @@ class MainActivity : ComponentActivity() {
                                         onName = {},
                                         isZooming = {},
                                         onRestaurant = {},
-                                        onLikes = {}
+                                        onLikes = {},
+                                        expandableText = { modifier, nickName, text, onProfile ->
+                                            ExpandableText(
+                                                modifier = modifier,
+                                                nickName = nickName,
+                                                text = text,
+                                                onClickNickName = onProfile
+                                            )
+                                        }
                                     )
                                 }
                             }
