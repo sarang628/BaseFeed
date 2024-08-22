@@ -1,6 +1,3 @@
-[submodule "app/src/main/java/com/example/basefeed/di/repository"]
-	path = app/src/main/java/com/example/basefeed/di/repository
-	url = https://github.com/sarang628/repository.git
-[submodule "app/src/main/java/com/example/basefeed/di/torangcomposepack"]
-	path = app/src/main/java/com/example/basefeed/di/torangcomposepack
-	url = https://github.com/sarang628/torangcomposepack.git
+[submodule "gradle/TorangToml"]
+	path = gradle/TorangToml
+	url = https://github.com/sarang628/TorangToml.git
