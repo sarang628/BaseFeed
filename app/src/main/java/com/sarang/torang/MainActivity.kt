@@ -32,9 +32,9 @@ import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.compose.feed.PreViewFeed
 import com.sarang.torang.di.basefeed.toReview
 import com.sarang.torang.di.image.provideTorangAsyncImage
+import com.sarang.torang.repository.FeedRepository
+import com.sarang.torang.repository.FeedRepositoryTest
 import com.sarang.torang.ui.theme.ThemePreviews
-import com.sryang.torang_repository.repository.FeedRepository
-import com.sryang.torang_repository.repository.FeedRepositoryTest
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

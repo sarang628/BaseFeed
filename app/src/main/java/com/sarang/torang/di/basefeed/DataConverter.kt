@@ -4,7 +4,7 @@ import com.sarang.torang.BuildConfig
 import com.sarang.torang.data.basefeed.Restaurant
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.User
-import com.sryang.torang_repository.data.entity.ReviewAndImageEntity
+import com.sarang.torang.data.entity.ReviewAndImageEntity
 
 fun ReviewAndImageEntity.toReview(): Review {
     return Review(
@@ -16,8 +16,8 @@ fun ReviewAndImageEntity.toReview(): Review {
             userId = this.review.userId
         ),
         restaurant = Restaurant(
-            restaurantId = this.review.restaurantId,
-            restaurantName = this.review.restaurantName
+            restaurantId = this.review.restaurantId ?: 0,
+            restaurantName = this.review.restaurantName ?: ""
         ),
         rating = this.review.rating,
         likeAmount = this.review.likeAmount,
