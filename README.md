@@ -110,3 +110,6 @@ sealed interface FeedsUiState {
 ## 화면
 
 <img src="./screenshot/demonstrate.gif" alt="image" width="300" height="auto">
+
+## Update
+gradle.build.kts 로 변경
