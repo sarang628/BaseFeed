@@ -3,16 +3,10 @@ package com.sarang.torang.compose.feed.internal.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandIn
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,9 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -48,7 +40,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import kotlinx.coroutines.delay
 
 @Composable
-fun LikeImage(modifier: Modifier, isLike: Boolean, onLike: () -> Unit) {
+fun LikeImage(modifier: Modifier, isLike: Boolean, onLike: () -> Unit, animation: Boolean = true) {
 
     var isAnimationLike by remember { mutableStateOf(false) }
     var isLike1 by remember { mutableStateOf(isLike) }
@@ -80,8 +72,10 @@ fun LikeImage(modifier: Modifier, isLike: Boolean, onLike: () -> Unit) {
             UnLikeImage(
                 modifier = Modifier.testTag("btnUnLike"),
                 onLike = {
-                    isAnimationLike = true
                     onLike.invoke()
+                    if (animation) {
+                        isAnimationLike = true
+                    }
                 },
                 size = 42.dp,
                 padding = 8.5.dp

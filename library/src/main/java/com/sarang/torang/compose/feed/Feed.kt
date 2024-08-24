@@ -89,6 +89,7 @@ fun Feed(
     onLikes: (() -> Unit),
     imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
     expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit,
+    isLogin: Boolean = false,
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -122,7 +123,7 @@ fun Feed(
             PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)
 
             // 좋아요 아이콘
-            LikeImage(modifier = Modifier.layoutId("heart").size(42.dp), isLike = review.isLike, onLike = onLike)
+            LikeImage(modifier = Modifier.layoutId("heart").size(42.dp), isLike = review.isLike, onLike = onLike, animation = isLogin)
 
             // 코멘트 아이콘
             CommentImage(modifier = Modifier.layoutId("comment").testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
