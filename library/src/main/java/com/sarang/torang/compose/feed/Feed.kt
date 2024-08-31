@@ -91,6 +91,7 @@ fun Feed(
     expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit,
     isLogin: Boolean = false,
     videoPlayer: @Composable (String) -> Unit,
+    imageHeight : Dp = 400.dp,
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -118,7 +119,7 @@ fun Feed(
 
             // 이미지 페이저
             if (review.reviewImages.isNotEmpty()) {
-                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, isZooming = isZooming, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer)
+                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, isZooming = isZooming, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight)
             }
 
             PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)

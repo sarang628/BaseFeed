@@ -48,11 +48,12 @@ internal fun ImagePagerWithIndicator(
         Dp?,
         ContentScale?,
     ) -> Unit,
+    height: Dp = 400.dp,
 ) {
     var scrollEnable by remember { mutableStateOf(true) }
     Column(modifier = modifier) {
         HorizontalPager(
-            modifier = Modifier.height(400.dp),
+            modifier = Modifier.height(height),
             state = pagerState,
             userScrollEnabled = scrollEnable
         ) { page ->
