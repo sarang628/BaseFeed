@@ -1,6 +1,5 @@
 package com.sarang.torang.compose.feed.internal.util
 
-import android.util.Log
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.calculatePan

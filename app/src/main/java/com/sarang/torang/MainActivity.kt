@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,10 +27,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.compose.feed.PreViewFeed
+import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
 import com.sarang.torang.di.basefeed.toReview
 import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sarang.torang.repository.FeedRepository
@@ -54,7 +58,6 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(key1 = position) {
                 try {
-                    basefeedLog("${position}")
                     listState.animateScrollToItem(Integer.parseInt(position))
                 } catch (e: Exception) {
 
@@ -131,4 +134,27 @@ fun test() {
             PreViewFeed()
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreViewImagePagerWithIndicator() {
+    ImagePagerWithIndicator(/*Preview*/
+        images = arrayListOf(
+            "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "http://sarang628.iptime.org:89/8.png",
+            "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
+            "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
+        ),
+        image = { modifier, _, _, _, _ ->
+            Image(
+                modifier = modifier,
+                painter = painterResource(id = R.drawable.default_profile_icon),
+                contentDescription = "",
+            )
+        },
+        onImage = {},
+        videoPlayer = {}
+    )
 }

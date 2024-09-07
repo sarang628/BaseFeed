@@ -70,6 +70,12 @@ import com.sarang.torang.data.basefeed.testReviewData
  * @param onRestaurant 음식점명 클릭
  * @param onLikes 좋아요 클릭
  * @param imageLoadCompose 공통 이미지 compose
+ * @param expandableText 공통 펼쳐보기 compose
+ * @param isLogin 로그인 여부
+ * @param videoPlayer 비디오 플레이어
+ * @param imageHeight 이미지 높이
+ * @param onPressed 터치 시작
+ * @param onReleased 터치 끝
  */
 @Composable
 fun Feed(
@@ -91,7 +97,9 @@ fun Feed(
     expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit,
     isLogin: Boolean = false,
     videoPlayer: @Composable (String) -> Unit,
-    imageHeight : Dp = 400.dp,
+    imageHeight: Dp = 400.dp,
+    onPressed: () -> Unit = {},
+    onReleased: () -> Unit = {},
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -119,7 +127,7 @@ fun Feed(
 
             // 이미지 페이저
             if (review.reviewImages.isNotEmpty()) {
-                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, isZooming = isZooming, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight)
+                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, isZooming = isZooming, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased)
             }
 
             PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)

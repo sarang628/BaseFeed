@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.feed.internal.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,8 +33,10 @@ import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.compose.feed.internal.util.pinchZoom
 
+private val TAG = "__ImagePagerWithIndicator"
+
 @Composable
-internal fun ImagePagerWithIndicator(
+fun ImagePagerWithIndicator(
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState { images.size },
     images: List<String>,                 // 이미지 리스트
@@ -49,11 +54,33 @@ internal fun ImagePagerWithIndicator(
         ContentScale?,
     ) -> Unit,
     height: Dp = 400.dp,
+    onPressed: () -> Unit = {},
+    onReleased: () -> Unit = {},
 ) {
     var scrollEnable by remember { mutableStateOf(true) }
     Column(modifier = modifier) {
         HorizontalPager(
-            modifier = Modifier.height(height),
+            modifier = Modifier
+                .height(height)
+                .pointerInput(PointerEventType.Press) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            // handle pointer event
+                            if (event.type == PointerEventType.Press)
+                                onPressed.invoke()
+                        }
+                    }
+                }
+                .pointerInput(PointerEventType.Release) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            if (event.type == PointerEventType.Release)
+                                onReleased.invoke()
+                        }
+                    }
+                },
             state = pagerState,
             userScrollEnabled = scrollEnable
         ) { page ->
@@ -116,7 +143,7 @@ fun PagerIndicator(
         }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PreViewImagePagerWithIndicator() {
     ImagePagerWithIndicator(/*Preview*/
