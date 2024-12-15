@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.feed
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +22,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -52,6 +55,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.formatedDate
 import com.sarang.torang.data.basefeed.testReviewData
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
  * Feed 항목
@@ -76,6 +80,7 @@ import com.sarang.torang.data.basefeed.testReviewData
  * @param imageHeight 이미지 높이
  * @param onPressed 터치 시작
  * @param onReleased 터치 끝
+ * @param onPage 페이지 콜백 Int: 현재 페이지, Boolean: 첫번째 페이지 여부, Boolean: 마지막 페이지 여부
  */
 @Composable
 fun Feed(
@@ -100,9 +105,20 @@ fun Feed(
     imageHeight: Dp = 400.dp,
     onPressed: () -> Unit = {},
     onReleased: () -> Unit = {},
+    onPage: (Int, Boolean, Boolean) -> Unit = { _, _, _ -> }
 ) {
+    val TAG = "__Feed"
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow{pagerState.currentPage}
+            .distinctUntilChanged() // 중복된 값 방지
+            .collect{
+                onPage.invoke(it, it == 0, it == review.reviewImages.size - 1)
+            }
+    }
+
     Column {
         ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), constraintSet = feedCommentsConstraint())
         {

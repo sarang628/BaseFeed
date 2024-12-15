@@ -46,6 +46,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private val TAG = "__MainActivity"
+
     @Inject
     lateinit var feedRepository: FeedRepository
 
@@ -109,6 +111,12 @@ class MainActivity : ComponentActivity() {
                                                 isPlaying = true,
                                                 onClick = {},
                                                 onPlay = {})
+                                        },
+                                        onPage = { page, isFirst, isLast ->
+                                            Log.d(
+                                                TAG,
+                                                "page: $page, isFirst: $isFirst, isLast: $isLast"
+                                            )
                                         }
                                     )
                                 }
