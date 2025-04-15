@@ -1,7 +1,6 @@
 package com.sarang.torang
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -10,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -25,28 +26,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.feed.Feed
-import com.sarang.torang.compose.feed.PreViewFeed
+import com.sarang.torang.compose.feed.PreviewFeed
 import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
+import com.sarang.torang.di.image.ZoomState
 import com.sarang.torang.di.basefeed.toReview
 import com.sarang.torang.di.image.provideTorangAsyncImage
+import com.sarang.torang.di.image.provideZoomableTorangAsyncImage
 import com.sarang.torang.repository.FeedRepository
 import com.sarang.torang.repository.FeedRepositoryTest
 import com.sarang.torang.ui.theme.ThemePreviews
 import com.sryang.library.ExpandableText
+import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val TAG = "__MainActivity"
+    private val tag = "__MainActivity"
 
     @Inject
     lateinit var feedRepository: FeedRepository
@@ -57,6 +63,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             var position by remember { mutableStateOf("0") }
             val listState = rememberLazyListState()
+            val zoomStateForOnlyOutsideImage = remember { ZoomState() }
+            val list by feedRepository.feeds.collectAsState(initial = ArrayList())
 
             LaunchedEffect(key1 = position) {
                 try {
@@ -66,10 +74,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            val list by feedRepository.feeds.collectAsState(initial = ArrayList())
-
             TorangTheme {
-                val context = LocalContext.current
                 val height = LocalConfiguration.current.screenHeightDp
 
                 Surface(
@@ -84,19 +89,22 @@ class MainActivity : ComponentActivity() {
                                 items(list.size) {
                                     Feed(
                                         review = list[it].toReview(),
-                                        imageLoadCompose = provideTorangAsyncImage(),
-                                        onImage = {},
-                                        onMenu = {}, onProfile = {},
-                                        onLike = {
-                                            Log.d("__MainActivity", "onLike: $it")
-                                        },
-                                        onComment = {},
-                                        onShare = {},
-                                        onFavorite = {},
-                                        onName = {},
-                                        isZooming = {},
-                                        onRestaurant = {},
-                                        onLikes = {},
+                                        //imageLoadCompose = provideTorangAsyncImage(),
+                                        imageLoadCompose = provideZoomableTorangAsyncImage(
+                                            onZoomState = {
+                                                zoomStateForOnlyOutsideImage.isZooming.value =
+                                                    it.isZooming.value
+                                                zoomStateForOnlyOutsideImage.scale.value =
+                                                    it.scale.value
+                                                zoomStateForOnlyOutsideImage.offsetX.value =
+                                                    it.offsetX.value
+                                                zoomStateForOnlyOutsideImage.offsetY.value =
+                                                    it.offsetY.value
+                                                zoomStateForOnlyOutsideImage.url.value =
+                                                    it.url.value
+                                                zoomStateForOnlyOutsideImage.bounds.value =
+                                                    it.bounds.value
+                                            }),
                                         expandableText = { modifier, nickName, text, onProfile ->
                                             ExpandableText(
                                                 modifier = modifier,
@@ -111,13 +119,42 @@ class MainActivity : ComponentActivity() {
                                                 isPlaying = true,
                                                 onClick = {},
                                                 onPlay = {})
-                                        },
-                                        onPage = { page, isFirst, isLast ->
-                                            Log.d(
-                                                TAG,
-                                                "page: $page, isFirst: $isFirst, isLast: $isLast"
-                                            )
                                         }
+                                    )
+                                }
+                            }
+
+                            if (zoomStateForOnlyOutsideImage.isZooming.value) {
+                                Box(
+                                    Modifier
+                                        .fillMaxSize()
+                                        .background(Color.Black.copy(alpha = 0.20f))
+                                ) {
+                                    val offsetX = with(LocalDensity.current) {
+                                        zoomStateForOnlyOutsideImage.bounds.value?.left?.toDp()
+                                            ?: 0.dp
+                                    }
+                                    val offsetY = with(LocalDensity.current) {
+                                        zoomStateForOnlyOutsideImage.bounds.value?.top?.toDp()
+                                            ?: 0.dp
+                                    }
+
+                                    provideTorangAsyncImage().invoke(
+                                        Modifier
+                                            .offset(offsetX, offsetY)
+                                            .size(400.dp)
+                                            .graphicsLayer {
+                                                scaleX = zoomStateForOnlyOutsideImage.scale.value
+                                                scaleY = zoomStateForOnlyOutsideImage.scale.value
+                                                translationX =
+                                                    zoomStateForOnlyOutsideImage.offsetX.value
+                                                translationY =
+                                                    zoomStateForOnlyOutsideImage.offsetY.value
+                                            },
+                                        zoomStateForOnlyOutsideImage.url.value,
+                                        30.dp,
+                                        30.dp,
+                                        ContentScale.Crop
                                     )
                                 }
                             }
@@ -132,14 +169,14 @@ class MainActivity : ComponentActivity() {
 
 @ThemePreviews
 @Composable
-fun test() {
+fun PreviewFeed1() {
     TorangTheme {
         Surface(
             Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            PreViewFeed()
+            PreviewFeed()
         }
     }
 }

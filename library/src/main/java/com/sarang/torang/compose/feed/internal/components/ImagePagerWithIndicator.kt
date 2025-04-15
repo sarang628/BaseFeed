@@ -1,6 +1,5 @@
 package com.sarang.torang.compose.feed.internal.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,94 +22,73 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
-import com.sarang.torang.compose.feed.internal.util.pinchZoom
 
-private val TAG = "__ImagePagerWithIndicator"
-
+/**
+ * ImagePager 와 Indicator
+ * @param modifier modifier
+ * @param pagerState pagerState
+ * @param images 이미지 리스트
+ * @param onImage 이미지 클릭 이벤트
+ * @param showIndicator indicator 표시 여부
+ * @param videoPlayer video player compose
+ * @param image image compose
+ * @param height height
+ * @param onPressed onPressed
+ * @param onReleased onReleased
+ * @param zoomState 이미지 zoom 상태
+ */
 @Composable
 fun ImagePagerWithIndicator(
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState { images.size },
-    images: List<String>,                 // 이미지 리스트
-    onImage: (Int) -> Unit,             // 이미지 클릭 이벤트
-    progressSize: Dp = 30.dp,           // 이미지 로드 프로그래스 크기
-    errorIconSize: Dp = 30.dp,          // 이미지 로드 에러 아이콘 크기
-    isZooming: ((Boolean) -> Unit)? = null,
+    images: List<String>,
+    onImage: (Int) -> Unit,
     showIndicator: Boolean = false,
     videoPlayer: @Composable (String) -> Unit,
     image: @Composable (
-        Modifier,
-        String,
-        Dp?,
-        Dp?,
-        ContentScale?,
+        Modifier, String, Dp?, Dp?, ContentScale?,
     ) -> Unit,
     height: Dp = 400.dp,
     onPressed: () -> Unit = {},
-    onReleased: () -> Unit = {},
+    onReleased: () -> Unit = {}
 ) {
     var scrollEnable by remember { mutableStateOf(true) }
-    Column(modifier = modifier) {
-        HorizontalPager(
-            modifier = Modifier
-                .height(height)
-                .pointerInput(PointerEventType.Press) {
-                    awaitPointerEventScope {
-                        while (true) {
-                            val event = awaitPointerEvent()
-                            // handle pointer event
-                            if (event.type == PointerEventType.Press)
-                                onPressed.invoke()
-                        }
-                    }
-                }
-                .pointerInput(PointerEventType.Release) {
-                    awaitPointerEventScope {
-                        while (true) {
-                            val event = awaitPointerEvent()
-                            if (event.type == PointerEventType.Release)
-                                onReleased.invoke()
-                        }
-                    }
-                },
-            state = pagerState,
-            userScrollEnabled = scrollEnable
-        ) { page ->
+    Box(modifier = modifier)
+    {
+        Column(modifier = modifier) {
+            HorizontalPager(
+                modifier = Modifier
+                    .height(height),
+                state = pagerState,
+                userScrollEnabled = scrollEnable
+            ) { page ->
 
-            val ext = images[page].substring(images[page].lastIndexOf("."))
-            if (ext == ".m3u8") {
-                videoPlayer.invoke(images[page])
-            } else {
-                image.invoke(
-                    modifier
-                        .testTag("imgReview")
-                        .fillMaxSize()
-                        .nonEffectclickable(onClick = { onImage.invoke(page) })
-                        .pinchZoom {
-                            scrollEnable = !it
-                            isZooming?.invoke(it)
-                        },
-                    images[page],
-                    progressSize,
-                    errorIconSize,
-                    ContentScale.Crop
-                )
+                val ext = images[page].substring(images[page].lastIndexOf("."))
+                if (ext == ".m3u8") {
+                    videoPlayer.invoke(images[page])
+                } else {
+                    image.invoke(
+                        modifier
+                            .testTag("imgReview")
+                            .fillMaxSize()
+                            .nonEffectclickable(onClick = { onImage.invoke(page) }),
+                        images[page], null, null, ContentScale.Crop
+                    )
+                }
+
+                if (showIndicator)
+                    PagerIndicator(
+                        modifier = Modifier.fillMaxSize(),
+                        pagerState = pagerState,
+                        count = images.size
+                    )
             }
-//        }
-            if (showIndicator)
-                PagerIndicator(
-                    modifier = Modifier.fillMaxSize(),
-                    pagerState = pagerState,
-                    count = images.size
-                )
         }
     }
 }

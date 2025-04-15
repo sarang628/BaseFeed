@@ -44,7 +44,6 @@ android {
 dependencies {
     // HILT
     implementation(libs.hilt)
-    implementation(libs.lifecycle.process)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.nav.compose) // hiltViewModel
 

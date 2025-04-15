@@ -2,9 +2,9 @@ package com.sarang.torang
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import com.google.samples.apps.sunflower.ui.TorangTheme
-import com.sarang.torang.compose.feed.PreViewFeed
+import com.sarang.torang.compose.feed.PreviewFeed
 import com.sarang.torang.ui.theme.ThemePreviews
+import com.sryang.torang.ui.TorangTheme
 
 
 @ThemePreviews
@@ -12,7 +12,7 @@ import com.sarang.torang.ui.theme.ThemePreviews
 fun PreviewFeed() {
     TorangTheme {
         Surface {
-            PreViewFeed()
+            PreviewFeed()
         }
     }
 }

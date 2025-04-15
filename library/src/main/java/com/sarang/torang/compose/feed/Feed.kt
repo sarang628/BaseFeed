@@ -84,30 +84,30 @@ import kotlinx.coroutines.flow.distinctUntilChanged
  */
 @Composable
 fun Feed(
+    tag: String = "__Feed",
     review: Review,
-    isZooming: ((Boolean) -> Unit),
+    isZooming: ((Boolean) -> Unit) = {},
     progressTintColor: Color = Color(0xffe6cc00),
     favoriteColor: Color = Color(0xffe6cc00),
-    onImage: ((Int) -> Unit),
-    onProfile: (() -> Unit),
-    onLike: (() -> Unit),
-    onComment: (() -> Unit),
-    onShare: (() -> Unit),
-    onFavorite: (() -> Unit),
-    onMenu: (() -> Unit),
-    onName: (() -> Unit),
-    onRestaurant: (() -> Unit),
-    onLikes: (() -> Unit),
+    onImage: ((Int) -> Unit) = { Log.w(tag, "onImage callback is not set") },
+    onProfile: (() -> Unit) = { Log.w(tag, "onProfile callback is not set") },
+    onLike: (() -> Unit) = { Log.w(tag, "onLike callback is not set") },
+    onComment: (() -> Unit) = { Log.w(tag, "onComment callback is not set") },
+    onShare: (() -> Unit) = { Log.w(tag, "onShare callback is not set") },
+    onFavorite: (() -> Unit) = { Log.w(tag, "onFavorite callback is not set") },
+    onMenu: (() -> Unit) = { Log.w(tag, "onMenu callback is not set") },
+    onName: (() -> Unit) = { Log.w(tag, "onName callback is not set") },
+    onRestaurant: (() -> Unit) = { Log.w(tag, "onRestaurant callback is not set") },
+    onLikes: (() -> Unit) = { Log.w(tag, "onLikes callback is not set") },
     imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
-    expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit,
+    expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit = { _, _, _, _ -> },
     isLogin: Boolean = false,
-    videoPlayer: @Composable (String) -> Unit,
+    videoPlayer: @Composable (String) -> Unit = {},
     imageHeight: Dp = 400.dp,
     onPressed: () -> Unit = {},
     onReleased: () -> Unit = {},
     onPage: (Int, Boolean, Boolean) -> Unit = { _, _, _ -> }
 ) {
-    val TAG = "__Feed"
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
 
@@ -125,25 +125,22 @@ fun Feed(
             // 프로필 이미지
             imageLoadCompose.invoke(Modifier.layoutId("refProfile").testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop)
 
-            // 사용자명
+            // 사용자 명
             Text(modifier = Modifier.widthIn(0.dp, 150.dp).layoutId("refName").testTag("txtName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
 
             // 평점
             AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
 
-            // 음식점명
-            if (review.restaurant.restaurantName.isNotEmpty()) {
+            if (review.restaurant.restaurantName.isNotEmpty()) { // 음식점 명
                 Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
             }
 
-            // 메뉴
-            IconButton(modifier = Modifier.layoutId("menu").testTag("btnMenu"), onClick = onMenu) {
+            IconButton(modifier = Modifier.layoutId("menu").testTag("btnMenu"), onClick = onMenu) { // 메뉴
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
             }
 
-            // 이미지 페이저
-            if (review.reviewImages.isNotEmpty()) {
-                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, isZooming = isZooming, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased)
+            if (review.reviewImages.isNotEmpty()) { // 이미지 페이저
+                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased)
             }
 
             PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)
@@ -160,21 +157,18 @@ fun Feed(
             // 즐겨찾기 아이콘
             FavoriteImage(modifier = Modifier.layoutId("favorite").testTag("btnFavorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
 
-            // 리뷰 내용
-            if (review.contents.isNotEmpty()) {
+            if (review.contents.isNotEmpty()) { // 리뷰 내용
                 expandableText.invoke(Modifier.layoutId("contents").testTag("txtContents"), review.user.name, review.contents, onProfile)
             }
 
-            // 좋아요 갯수
-            if (review.likeAmount > 0) {
+            if (review.likeAmount > 0) { // 좋아요 갯수
                 Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
             }
 
             // 코멘트
             Comment(Modifier.layoutId("comments"), review.comments)
 
-            // 코멘트 갯수
-            if (review.commentAmount > 0) {
+            if (review.commentAmount > 0) { // 코멘트 갯수
                 Text(modifier = Modifier.layoutId("commentCount").clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, review.commentAmount), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
             }
 
@@ -294,16 +288,17 @@ fun feedCommentsConstraint(): ConstraintSet {
 
 @Preview(showBackground = true)
 @Composable
-fun PreViewFeed() {
+fun PreviewFeed() {
     val data = testReviewData()
     Column(Modifier.verticalScroll(rememberScrollState())) {
-        Feed(/* Preview */
+        Feed(
+            /* Preview */
             review = data.copy(
                 user =
-                data.user.copy(
-                    name = "namenamenamenamename",
-                    profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
-                ),
+                    data.user.copy(
+                        name = "namenamenamenamename",
+                        profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
+                    ),
                 //restaurant = data.restaurant.copy(restaurantName = "YourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDining"),
                 restaurant = data.restaurant.copy(restaurantName = "restaurants"),
                 likeAmount = 10,
@@ -317,24 +312,15 @@ fun PreViewFeed() {
                     painter = painterResource(id = R.drawable.default_profile_icon),
                     contentDescription = "",
                 )
-            },
-            onImage = {},
-            onMenu = {},
-            onProfile = {},
-            onLike = {},
-            onComment = {},
-            onShare = {},
-            onFavorite = {},
-            onName = {},
-            isZooming = {},
-            onRestaurant = {},
-            onLikes = {},
-            expandableText = { _, _, _, _ ->
-
-            },
-            videoPlayer = {
-
             }
         )
     }
 }
+
+data class ZoomSnapshot<A, B, C, D, E>(
+    val a: A,
+    val b: B,
+    val c: C,
+    val d: D,
+    val e: E
+)

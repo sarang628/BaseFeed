@@ -61,7 +61,7 @@ android {
 dependencies {
     /** HILT */
     implementation(libs.hilt)
-    implementation(libs.media3.common)
+    //implementation(libs.media3.common)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.nav.compose) // hiltViewModel
 
