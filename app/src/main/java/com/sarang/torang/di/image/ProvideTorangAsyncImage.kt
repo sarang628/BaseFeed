@@ -14,7 +14,6 @@ import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.sarang.torang.compose.feed.ZoomSnapshot
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 fun provideTorangAsyncImage(): @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit =
