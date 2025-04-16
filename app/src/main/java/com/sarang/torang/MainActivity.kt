@@ -192,7 +192,7 @@ fun PreViewImagePagerWithIndicator() {
             "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
-        image = { modifier, _, _, _, _ ->
+        image = { modifier, _, _, _, _, _ ->
             Image(
                 modifier = modifier,
                 painter = painterResource(id = R.drawable.default_profile_icon),

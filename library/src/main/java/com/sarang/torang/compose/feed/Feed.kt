@@ -99,7 +99,7 @@ fun Feed(
     onName: (() -> Unit) = { Log.w(tag, "onName callback is not set") },
     onRestaurant: (() -> Unit) = { Log.w(tag, "onRestaurant callback is not set") },
     onLikes: (() -> Unit) = { Log.w(tag, "onLikes callback is not set") },
-    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
+    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit,
     expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit = { _, _, _, _ -> },
     isLogin: Boolean = false,
     videoPlayer: @Composable (String) -> Unit = {},
@@ -123,7 +123,7 @@ fun Feed(
         ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), constraintSet = feedCommentsConstraint())
         {
             // 프로필 이미지
-            imageLoadCompose.invoke(Modifier.layoutId("refProfile").testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop)
+            imageLoadCompose.invoke(Modifier.layoutId("refProfile").testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
 
             // 사용자 명
             Text(modifier = Modifier.widthIn(0.dp, 150.dp).layoutId("refName").testTag("txtName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
@@ -306,7 +306,7 @@ fun PreviewFeed() {
                 isFavorite = false,
                 createDate = "2022-10-10 10:10:10",
             ),
-            imageLoadCompose = { modifier, _, w, h, _ ->
+            imageLoadCompose = { modifier, _, w, h, _, _ ->
                 Image(
                     modifier = modifier,
                     painter = painterResource(id = R.drawable.default_profile_icon),
