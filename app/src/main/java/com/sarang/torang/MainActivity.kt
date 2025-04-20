@@ -119,7 +119,8 @@ class MainActivity : ComponentActivity() {
                                                 isPlaying = true,
                                                 onClick = {},
                                                 onPlay = {})
-                                        }
+                                        },
+                                        pageScrollAble = false
                                     )
                                 }
                             }

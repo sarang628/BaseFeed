@@ -23,6 +23,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -106,7 +110,8 @@ fun Feed(
     imageHeight: Dp = 400.dp,
     onPressed: () -> Unit = {},
     onReleased: () -> Unit = {},
-    onPage: (Int, Boolean, Boolean) -> Unit = { _, _, _ -> }
+    onPage: (Int, Boolean, Boolean) -> Unit = { _, _, _ -> },
+    pageScrollAble : Boolean = true
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -140,7 +145,7 @@ fun Feed(
             }
 
             if (review.reviewImages.isNotEmpty()) { // 이미지 페이저
-                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased)
+                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
             }
 
             PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)

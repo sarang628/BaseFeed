@@ -56,9 +56,9 @@ fun ImagePagerWithIndicator(
     ) -> Unit,
     height: Dp = 400.dp,
     onPressed: () -> Unit = {},
-    onReleased: () -> Unit = {}
+    onReleased: () -> Unit = {},
+    scrollEnable: Boolean = true
 ) {
-    var scrollEnable by remember { mutableStateOf(true) }
     Box(modifier = modifier)
     {
         Column(modifier = modifier) {
