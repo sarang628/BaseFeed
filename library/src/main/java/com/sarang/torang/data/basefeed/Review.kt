@@ -15,8 +15,12 @@ data class Review(
     val commentAmount: Int,
     val isLike: Boolean,
     val isFavorite: Boolean,
-    val createDate: String,
-)
+    val createDate: String
+){
+    companion object {
+        fun empty() : Review = Review(user = User.empty(), restaurant = Restaurant.empty(), reviewId = 0, rating = 0f, reviewImages = listOf(), contents = "", comments = null, likeAmount = 0, commentAmount = 0, isLike = false, isFavorite = false, createDate = "")
+    }
+}
 
 val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 val sdf1 = SimpleDateFormat("MMM dd, YYYY")

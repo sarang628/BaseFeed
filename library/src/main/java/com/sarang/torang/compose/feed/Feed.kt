@@ -103,7 +103,7 @@ fun Feed(
     onName: (() -> Unit) = { Log.w(tag, "onName callback is not set") },
     onRestaurant: (() -> Unit) = { Log.w(tag, "onRestaurant callback is not set") },
     onLikes: (() -> Unit) = { Log.w(tag, "onLikes callback is not set") },
-    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit,
+    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit = { _, _, _, _, _, _ -> },
     expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit = { _, _, _, _ -> },
     isLogin: Boolean = false,
     videoPlayer: @Composable (String) -> Unit = {},
@@ -320,4 +320,10 @@ fun PreviewFeed() {
             }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewEmptyFeed(){
+    Feed(review = Review.empty())
 }
