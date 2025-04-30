@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -57,6 +58,7 @@ import com.sarang.torang.compose.feed.internal.components.PagerIndicator
 import com.sarang.torang.compose.feed.internal.components.ShareImage
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Review
+import com.sarang.torang.data.basefeed.User
 import com.sarang.torang.data.basefeed.formatedDate
 import com.sarang.torang.data.basefeed.testReviewData
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -111,7 +113,7 @@ fun Feed(
     onPressed: () -> Unit = {},
     onReleased: () -> Unit = {},
     onPage: (Int, Boolean, Boolean) -> Unit = { _, _, _ -> },
-    pageScrollAble : Boolean = true
+    pageScrollAble: Boolean = true
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -124,171 +126,83 @@ fun Feed(
             }
     }
 
-    Column {
-        ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), constraintSet = feedCommentsConstraint())
-        {
+    Column(modifier = Modifier.fillMaxWidth())
+    {
+
+        ConstraintLayout(Modifier.layoutId("refName").fillMaxWidth()){
+            val (imgProfile, name, ratingBar, restaurantName, menu) = createRefs()
+
             // 프로필 이미지
-            imageLoadCompose.invoke(Modifier.layoutId("refProfile").testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
+            imageLoadCompose.invoke(Modifier.constrainAs(imgProfile){
+
+            }.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
 
             // 사용자 명
-            Text(modifier = Modifier.widthIn(0.dp, 150.dp).layoutId("refName").testTag("txtName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
+            Text(modifier = Modifier.constrainAs(name){
+                start.linkTo(imgProfile.end, 4.dp)
+            }.widthIn(0.dp, 150.dp).testTag("txtName").layoutId("txtName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
 
             // 평점
-            AndroidViewRatingBar(Modifier.layoutId("ratingBar"), review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
+            AndroidViewRatingBar(Modifier.constrainAs(ref = ratingBar){
+                start.linkTo(name.end)
+            }, review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
 
             if (review.restaurant.restaurantName.isNotEmpty()) { // 음식점 명
-                Text(modifier = Modifier.widthIn(0.dp, 250.dp).layoutId("refRestaurantName").testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
+                Text(modifier = Modifier.widthIn(0.dp, 250.dp)
+                    .constrainAs(restaurantName){ top.linkTo(name.bottom); start.linkTo(imgProfile.end, 4.dp) }
+                    .testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
             }
 
-            IconButton(modifier = Modifier.layoutId("menu").testTag("btnMenu"), onClick = onMenu) { // 메뉴
+            IconButton(modifier = Modifier
+                .constrainAs(menu){ end.linkTo(parent.end) }
+                .testTag("btnMenu"), onClick = onMenu) { // 메뉴
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
             }
+        }
 
-            if (review.reviewImages.isNotEmpty()) { // 이미지 페이저
-                ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
-            }
+        if (review.reviewImages.isNotEmpty()) { // 이미지 페이저
+            ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
+        }
 
-            PagerIndicator(modifier = Modifier.layoutId("indicator"), pagerState = pagerState, count = review.reviewImages.size)
+        ConstraintLayout(Modifier.layoutId("heart").fillMaxWidth()) {
+            val (imgLike, imgComment, imgShare, indicator, imgFavorite) = createRefs()
 
             // 좋아요 아이콘
-            LikeImage(modifier = Modifier.layoutId("heart").size(42.dp), isLike = review.isLike, onLike = onLike, animation = isLogin)
+            LikeImage(modifier = Modifier.size(42.dp).constrainAs(imgLike){}, isLike = review.isLike, onLike = onLike, animation = isLogin)
 
             // 코멘트 아이콘
-            CommentImage(modifier = Modifier.layoutId("comment").testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
+            CommentImage(modifier = Modifier.constrainAs(imgComment){start.linkTo(imgLike.end)}.testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
 
             // 공유 아이콘
-            ShareImage(modifier = Modifier.layoutId("share").testTag("btnShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
+            ShareImage(modifier = Modifier.constrainAs(imgShare){ start.linkTo(imgComment.end) }.testTag("btnShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
+
+            PagerIndicator(modifier = Modifier.constrainAs(indicator) {
+                start.linkTo(parent.start); end.linkTo(parent.end); top.linkTo(parent.top); bottom.linkTo(parent.bottom)
+            }.fillMaxWidth(), pagerState = pagerState, count = review.reviewImages.size)
 
             // 즐겨찾기 아이콘
-            FavoriteImage(modifier = Modifier.layoutId("favorite").testTag("btnFavorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
-
-            if (review.contents.isNotEmpty()) { // 리뷰 내용
-                expandableText.invoke(Modifier.layoutId("contents").testTag("txtContents"), review.user.name, review.contents, onProfile)
-            }
-
-            if (review.likeAmount > 0) { // 좋아요 갯수
-                Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
-            }
-
-            // 코멘트
-            Comment(Modifier.layoutId("comments"), review.comments)
-
-            if (review.commentAmount > 0) { // 코멘트 갯수
-                Text(modifier = Modifier.layoutId("commentCount").clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, review.commentAmount), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
-            }
-
-            // 날짜
-            Text(modifier = Modifier.layoutId("date").testTag("txtDate"), text = review.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
+            FavoriteImage(modifier = Modifier.constrainAs(imgFavorite){ end.linkTo(parent.end) }.testTag("btnFavorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
         }
+
+        if (review.contents.isNotEmpty()) { // 리뷰 내용
+            expandableText.invoke(Modifier.layoutId("contents").testTag("txtContents"), review.user.name, review.contents, onProfile)
+        }
+
+        if (review.likeAmount > 0) { // 좋아요 갯수
+            Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
+        }
+
+        // 코멘트
+        Comment(Modifier.layoutId("comments"), review.comments)
+
+        if (review.commentAmount > 0) { // 코멘트 갯수
+            Text(modifier = Modifier.layoutId("commentCount").clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, review.commentAmount), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
+        }
+
+        // 날짜
+        Text(modifier = Modifier.layoutId("date").testTag("txtDate"), text = review.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
     }
     // @formatter:on
-}
-
-fun feedCommentsConstraint(): ConstraintSet {
-    return ConstraintSet {
-        val contents = createRefFor("contents")
-        val comments = createRefFor("comments")
-        val likeCount = createRefFor("likeCount")
-        val commentCount = createRefFor("commentCount")
-        val heart = createRefFor("heart")
-        val comment = createRefFor("comment")
-        val share = createRefFor("share")
-        val favorite = createRefFor("favorite")
-        val images = createRefFor("reviewImages")
-        val profile = createRefFor("refProfile")
-        val refName = createRefFor("refName")
-        val restaurantName = createRefFor("refRestaurantName")
-        val menu = createRefFor("menu")
-        val ratingBar = createRefFor("ratingBar")
-        val indicator = createRefFor("indicator")
-        val date = createRefFor("date")
-
-        val barrier = createBottomBarrier(profile, refName, ratingBar, menu)
-
-        constrain(profile) {
-            top.linkTo(parent.top)
-            start.linkTo(parent.start, margin = 12.dp)
-        }
-        constrain(refName) {
-            top.linkTo(parent.top)
-            bottom.linkTo(restaurantName.top)
-            start.linkTo(profile.end, margin = 8.dp)
-        }
-        constrain(restaurantName) {
-            top.linkTo(refName.bottom)
-            bottom.linkTo(profile.bottom)
-            start.linkTo(profile.end, margin = 8.dp)
-        }
-        constrain(menu) {
-            top.linkTo(parent.top)
-            bottom.linkTo(profile.bottom)
-            end.linkTo(parent.end)
-        }
-        constrain(ratingBar) {
-            start.linkTo(refName.end, margin = 3.dp)
-            top.linkTo(refName.top)
-            bottom.linkTo(refName.bottom)
-        }
-
-        constrain(images) {
-            top.linkTo(barrier, margin = 8.dp)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            width = Dimension.fillToConstraints
-        }
-
-        constrain(heart) {
-            top.linkTo(images.bottom)
-            start.linkTo(parent.start, margin = 6.dp)
-        }
-
-        constrain(comment) {
-            top.linkTo(heart.top)
-            start.linkTo(heart.end)
-        }
-
-        constrain(share) {
-            top.linkTo(heart.top)
-            start.linkTo(comment.end)
-        }
-
-        constrain(favorite) {
-            top.linkTo(heart.top)
-            end.linkTo(parent.end)
-        }
-
-        constrain(contents) {
-            top.linkTo(likeCount.bottom)
-            start.linkTo(heart.start)
-            end.linkTo(favorite.end)
-            width = Dimension.fillToConstraints
-        }
-        constrain(likeCount) {
-            top.linkTo(heart.bottom)
-            start.linkTo(heart.start)
-        }
-        constrain(comments) {
-            top.linkTo(contents.bottom, 3.dp)
-            start.linkTo(heart.start)
-            end.linkTo(favorite.end)
-            width = Dimension.fillToConstraints
-        }
-        constrain(date) {
-            top.linkTo(commentCount.bottom)
-            start.linkTo(heart.start)
-        }
-        constrain(commentCount) {
-            start.linkTo(heart.start)
-            top.linkTo(comments.bottom)
-        }
-        constrain(indicator) {
-            top.linkTo(heart.top)
-            bottom.linkTo(heart.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            height = Dimension.fillToConstraints
-        }
-    }
 }
 
 @Preview(showBackground = true)
@@ -324,6 +238,16 @@ fun PreviewFeed() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewEmptyFeed(){
-    Feed(review = Review.empty())
+fun PreviewEmptyFeed() {
+//    Feed(review = Review.empty())
+    Feed(
+        review = Review.empty().copy(
+            user = User.empty().copy(
+                name = "sryang",
+                profilePictureUrl = "http://sarang628.iptime.org:89/profile_images/9/2024-08-15/11_29_36_270.jpg"
+            ),
+            rating = 4.0f,
+            reviewImages = listOf("http://sarang628.iptime.org:89/review_images/1/217/2024-08-24/05_17_33_823.jpg"),
+            contents = "abc"
+        ), imageLoadCompose = { _, _, _, _, _, _ -> })
 }
