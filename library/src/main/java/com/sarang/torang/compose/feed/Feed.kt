@@ -134,22 +134,22 @@ fun Feed(
 
             // 프로필 이미지
             imageLoadCompose.invoke(Modifier.constrainAs(imgProfile){
-
+                top.linkTo(parent.top); bottom.linkTo(parent.bottom)
             }.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), review.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
 
             // 사용자 명
             Text(modifier = Modifier.constrainAs(name){
-                start.linkTo(imgProfile.end, 4.dp)
+                start.linkTo(imgProfile.end, 4.dp); top.linkTo(imgProfile.top); bottom.linkTo(restaurantName.top)
             }.widthIn(0.dp, 150.dp).testTag("txtName").layoutId("txtName").nonEffectclickable(onName), text = review.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1)
 
             // 평점
             AndroidViewRatingBar(Modifier.constrainAs(ref = ratingBar){
-                start.linkTo(name.end)
+                start.linkTo(name.end); top.linkTo(name.top); bottom.linkTo(name.bottom)
             }, review.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
 
             if (review.restaurant.restaurantName.isNotEmpty()) { // 음식점 명
                 Text(modifier = Modifier.widthIn(0.dp, 250.dp)
-                    .constrainAs(restaurantName){ top.linkTo(name.bottom); start.linkTo(imgProfile.end, 4.dp) }
+                    .constrainAs(restaurantName){ top.linkTo(name.bottom); bottom.linkTo(imgProfile.bottom); start.linkTo(imgProfile.end, 4.dp) }
                     .testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = review.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1)
             }
 
