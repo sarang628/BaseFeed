@@ -129,7 +129,7 @@ dependencies {
     implementation(libs.torangRepository)
     implementation(libs.theme)
     implementation(libs.commonImageLoader)
-    implementation("com.github.sarang628:ExpandableText:547e79fc42")
+    implementation(libs.expandableText)
     implementation("androidx.media3:media3-session:1.2.1")
     implementation("androidx.media3:media3-exoplayer:1.2.1")
     implementation("androidx.media3:media3-ui:1.2.1")
