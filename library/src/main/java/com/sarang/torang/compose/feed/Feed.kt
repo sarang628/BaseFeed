@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,6 +39,8 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,6 +48,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -106,7 +110,12 @@ fun Feed(
     onName: (() -> Unit) = { Log.w(tag, "onName callback is not set") },
     onRestaurant: (() -> Unit) = { Log.w(tag, "onRestaurant callback is not set") },
     onLikes: (() -> Unit) = { Log.w(tag, "onLikes callback is not set") },
-    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit = { _, _, _, _, _, _ -> Log.w(tag, "imageLoadCompose doesn't set") },
+    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit = { _, _, _, _, _, _ ->
+        Log.w(
+            tag,
+            "imageLoadCompose doesn't set"
+        )
+    },
     expandableText: @Composable (Modifier, String, String, () -> Unit) -> Unit = { _, _, _, _ -> },
     isLogin: Boolean = false,
     videoPlayer: @Composable (String) -> Unit = {},
@@ -115,7 +124,7 @@ fun Feed(
     onReleased: () -> Unit = {},
     onPage: (Int, Boolean, Boolean) -> Unit = { _, _, _ -> },
     pageScrollAble: Boolean = true,
-    topInImage : Boolean = true
+    topInImage: Boolean = true
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { review.reviewImages.size }
@@ -187,49 +196,105 @@ fun Feed(
     // @formatter:on
 }
 
-@Preview
 @Composable
 fun FeedTop(
     progressTintColor: Color = Color(0xffe6cc00),
     tag: String = "__FeedTop",
-    rating : Float = 0f,
-    restaurantName1 : String = "",
-    profilePictureUrl : String = "",
-    name1 : String = "",
+    rating: Float = 0f,
+    restaurantName1: String = "",
+    profilePictureUrl: String = "",
+    name1: String = "",
     onProfile: (() -> Unit) = { Log.w(tag, "onProfile callback is not set") },
     onRestaurant: (() -> Unit) = { Log.w(tag, "onRestaurant callback is not set") },
     onName: (() -> Unit) = { Log.w(tag, "onName callback is not set") },
     onMenu: (() -> Unit) = { Log.w(tag, "onMenu callback is not set") },
-    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit = { _, _, _, _, _, _ -> Log.w(tag, "imageLoadCompose doesn't set") },
-){
-    ConstraintLayout(Modifier.fillMaxWidth().padding(horizontal = 8.dp)){
+    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit = { _, _, _, _, _, _ ->
+        Log.w(
+            tag,
+            "imageLoadCompose doesn't set"
+        )
+    },
+) {
+    ConstraintLayout(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+    ) {
         val (imgProfile, name, ratingBar, restaurantName, menu) = createRefs()
 
+        createVerticalChain(name, restaurantName, chainStyle = ChainStyle.Packed)
+
         // 프로필 이미지
-        imageLoadCompose.invoke(Modifier.constrainAs(imgProfile){
-            top.linkTo(parent.top); bottom.linkTo(parent.bottom)
-        }.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
+        imageLoadCompose.invoke(
+            Modifier
+                .constrainAs(imgProfile) {
+                    top.linkTo(parent.top); bottom.linkTo(parent.bottom)
+                }
+                .testTag("imgProfile")
+                .size(32.dp)
+                .nonEffectclickable(onProfile)
+                .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(20.dp)),
+            profilePictureUrl,
+            20.dp,
+            20.dp,
+            ContentScale.Crop,
+            null
+        )
 
         // 사용자 명
-        Text(modifier = Modifier.constrainAs(name){
-            start.linkTo(imgProfile.end, 4.dp); top.linkTo(imgProfile.top); bottom.linkTo(restaurantName.top)
-        }.widthIn(0.dp, 150.dp).testTag("txtName").layoutId("txtName").nonEffectclickable(onName), text = name1, overflow = TextOverflow.Ellipsis, maxLines = 1)
+        Text(
+            modifier = Modifier
+                .constrainAs(name) {
+                    start.linkTo(imgProfile.end, 4.dp); top.linkTo(imgProfile.top); bottom.linkTo(
+                    restaurantName.top
+                )
+                }
+                .widthIn(0.dp, 150.dp)
+                .testTag("txtName")
+                .layoutId("txtName")
+                .nonEffectclickable(onName),
+            text = name1,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
+            color = Color.White,
+            style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
+        )
 
         // 평점
-        AndroidViewRatingBar(Modifier.constrainAs(ref = ratingBar){
-            start.linkTo(name.end); top.linkTo(name.top); bottom.linkTo(name.bottom)
+        AndroidViewRatingBar(Modifier.constrainAs(ref = ratingBar) {
+            start.linkTo(name.end, 4.dp); top.linkTo(name.top); bottom.linkTo(name.bottom)
         }, rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
 
         if (restaurantName1.isNotEmpty()) { // 음식점 명
-            Text(modifier = Modifier.widthIn(0.dp, 250.dp)
-                .constrainAs(restaurantName){ top.linkTo(name.bottom); bottom.linkTo(imgProfile.bottom); start.linkTo(imgProfile.end, 4.dp) }
-                .testTag("txtRestaurantName").nonEffectclickable(onRestaurant), text = restaurantName1, overflow = TextOverflow.Ellipsis, maxLines = 1)
+            Text(
+                modifier = Modifier.widthIn(0.dp, 250.dp)
+                    .constrainAs(restaurantName) {
+                        top.linkTo(name.bottom); bottom.linkTo(imgProfile.bottom); start.linkTo(
+                        imgProfile.end,
+                        4.dp
+                    )
+                    }
+                    .testTag("txtRestaurantName")
+                    .nonEffectclickable(onRestaurant),
+                text = restaurantName1,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                color = Color.White,
+                style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
+                )
         }
 
-        IconButton(modifier = Modifier
-            .constrainAs(menu){ end.linkTo(parent.end) }
-            .testTag("btnMenu"), onClick = onMenu) { // 메뉴
-            Icon(imageVector = Icons.Default.MoreVert, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
+        IconButton(
+            modifier = Modifier
+                .constrainAs(menu) { end.linkTo(parent.end) }
+                .testTag("btnMenu"), onClick = onMenu) { // 메뉴
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                tint = Color.White,
+                contentDescription = "menu",
+                modifier = Modifier.background(Color.Transparent)
+            )
         }
     }
 }
@@ -254,13 +319,28 @@ fun PreviewFeed() {
                 isFavorite = false,
                 createDate = "2022-10-10 10:10:10",
             ),
-            imageLoadCompose = { modifier, _, w, h, _, _ ->
-                Image(
-                    modifier = modifier,
-                    painter = painterResource(id = R.drawable.default_profile_icon),
-                    contentDescription = "",
-                )
-            }
+            imageLoadCompose = imageLoadCompose()
         )
     }
 }
+
+@Preview(showBackground = true, backgroundColor = 0xFF000000)
+@Composable
+fun PreviewFeedTop() {
+    FeedTop(
+        name1 = "name",
+        restaurantName1 = "restaurant",
+        imageLoadCompose = imageLoadCompose(),
+        rating = 3.5f
+    )
+}
+
+fun imageLoadCompose(): @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit =
+    { modifier, _, w, h, _, _ ->
+        Image(
+            modifier = modifier,
+            painter = painterResource(id = R.drawable.default_profile_icon),
+            contentDescription = "",
+        )
+    }
+
