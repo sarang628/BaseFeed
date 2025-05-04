@@ -31,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -152,36 +153,21 @@ fun Feed(
             {
                 ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"), images = review.reviewImages, onImage = onImage, pagerState = pagerState, image = imageLoadCompose, videoPlayer = videoPlayer, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
                 if(topInImage) topCompose()
+                Column(modifier = Modifier.align(Alignment.BottomCenter)) {
+                    if (review.likeAmount > 0) { // 좋아요 갯수
+                        Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
+                    }
+
+                    FeedBottom(pagerState, review.reviewImages.size, onShare, onComment, onFavorite, onLike, isLogin, review.isFavorite, review.isLike, favoriteColor)
+                }
             }
-        }
-
-        ConstraintLayout(Modifier.fillMaxWidth()) {
-            val (imgLike, imgComment, imgShare, indicator, imgFavorite) = createRefs()
-
-            // 좋아요 아이콘
-            LikeImage(modifier = Modifier.size(42.dp).constrainAs(imgLike){}, isLike = review.isLike, onLike = onLike, animation = isLogin)
-
-            // 코멘트 아이콘
-            CommentImage(modifier = Modifier.constrainAs(imgComment){start.linkTo(imgLike.end)}.testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
-
-            // 공유 아이콘
-            ShareImage(modifier = Modifier.constrainAs(imgShare){ start.linkTo(imgComment.end) }.testTag("btnShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
-
-            PagerIndicator(modifier = Modifier.constrainAs(indicator) {
-                start.linkTo(parent.start); end.linkTo(parent.end); top.linkTo(parent.top); bottom.linkTo(parent.bottom)
-            }.fillMaxWidth(), pagerState = pagerState, count = review.reviewImages.size)
-
-            // 즐겨찾기 아이콘
-            FavoriteImage(modifier = Modifier.constrainAs(imgFavorite){ end.linkTo(parent.end) }.testTag("btnFavorite"), isFavorite = review.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
         }
 
         if (review.contents.isNotEmpty()) { // 리뷰 내용
             expandableText.invoke(Modifier.layoutId("contents").testTag("txtContents"), review.user.name, review.contents, onProfile)
         }
 
-        if (review.likeAmount > 0) { // 좋아요 갯수
-            Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, review.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontWeight = FontWeight.Bold)
-        }
+
 
         // 코멘트
         Comment(Modifier.layoutId("comments"), review.comments)
@@ -194,6 +180,41 @@ fun Feed(
         Text(modifier = Modifier.layoutId("date").testTag("txtDate"), text = review.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
     }
     // @formatter:on
+}
+
+@Composable
+fun FeedBottom(pagerState: PagerState, imageSize : Int, onShare: () -> Unit, onComment: () -> Unit, onFavorite: () -> Unit, onLike: () -> Unit, isLogin : Boolean, isFavorite : Boolean, isLike : Boolean, favoriteColor : Color){
+    ConstraintLayout(Modifier.fillMaxWidth()) {
+        val (imgLike, imgComment, imgShare, indicator, imgFavorite) = createRefs()
+
+        // 좋아요 아이콘
+        LikeImage(modifier = Modifier
+            .size(42.dp)
+            .constrainAs(imgLike) {}, isLike = isLike, onLike = onLike, animation = isLogin)
+
+        // 코멘트 아이콘
+        CommentImage(modifier = Modifier
+            .constrainAs(imgComment) { start.linkTo(imgLike.end) }
+            .testTag("btnComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
+
+        // 공유 아이콘
+        ShareImage(modifier = Modifier
+            .constrainAs(imgShare) { start.linkTo(imgComment.end) }
+            .testTag("btnShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
+
+        PagerIndicator(modifier = Modifier
+            .constrainAs(indicator) {
+                start.linkTo(parent.start); end.linkTo(parent.end); top.linkTo(parent.top); bottom.linkTo(
+                parent.bottom
+            )
+            }
+            .fillMaxWidth(), pagerState = pagerState, count = imageSize)
+
+        // 즐겨찾기 아이콘
+        FavoriteImage(modifier = Modifier
+            .constrainAs(imgFavorite) { end.linkTo(parent.end) }
+            .testTag("btnFavorite"), isFavorite = isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
+    }
 }
 
 @Composable
@@ -268,7 +289,8 @@ fun FeedTop(
 
         if (restaurantName1.isNotEmpty()) { // 음식점 명
             Text(
-                modifier = Modifier.widthIn(0.dp, 250.dp)
+                modifier = Modifier
+                    .widthIn(0.dp, 250.dp)
                     .constrainAs(restaurantName) {
                         top.linkTo(name.bottom); bottom.linkTo(imgProfile.bottom); start.linkTo(
                         imgProfile.end,
@@ -333,6 +355,13 @@ fun PreviewFeedTop() {
         imageLoadCompose = imageLoadCompose(),
         rating = 3.5f
     )
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF000000)
+@Composable
+fun PreviewFeedBottom(){
+    val pagerState: PagerState = rememberPagerState { 10 }
+    FeedBottom(pagerState, 10, {}, {}, {}, {}, false, false, false, Color.White)
 }
 
 fun imageLoadCompose(): @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit =

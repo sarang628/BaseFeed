@@ -1,14 +1,11 @@
 package com.sarang.torang.compose.feed.internal.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,14 +20,9 @@ fun CommentImage(
     padding: Dp
 ) {
     Icon(painter = painterResource(id = R.drawable.comment),
+        tint = Color.White,
         contentDescription = "comment",
-        modifier = modifier
-            .size(size)
-            .padding(padding)
-            .layoutId("comment")
-            .nonEffectclickable {
-                onComment.invoke()
-            })
+        modifier = modifier.size(size).padding(padding).layoutId("comment").nonEffectclickable { onComment.invoke() })
 }
 
 @Preview

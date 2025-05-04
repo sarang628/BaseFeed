@@ -114,7 +114,8 @@ private fun UnLikeImage(
             .padding(padding)
             .nonEffectclickable {
                 onLike.invoke()
-            }
+            },
+        tint = Color.White,
     )
 }
 

@@ -31,13 +31,13 @@ fun FavoriteImage(
             id = R.drawable.star
         ),
         contentDescription = "favorite",
-        tint = if (isFavorite) color else LocalContentColor.current,
+        tint = if (isFavorite) color else Color.White,
         modifier = modifier
             .size(size)
             .padding(padding)
             .nonEffectclickable {
                 onFavorite.invoke()
-            })
+            },)
 }
 
 @Preview

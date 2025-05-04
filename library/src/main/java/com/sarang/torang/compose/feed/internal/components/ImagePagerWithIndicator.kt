@@ -108,7 +108,7 @@ fun PagerIndicator(
         ) {
             repeat(count) { iteration ->
                 val color =
-                    if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+                    if (pagerState.currentPage == iteration) Color.White else Color.LightGray
                 Box(
                     modifier = Modifier
                         .padding(2.dp)
