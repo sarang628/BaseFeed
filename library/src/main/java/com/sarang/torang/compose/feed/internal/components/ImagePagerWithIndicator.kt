@@ -50,7 +50,6 @@ fun ImagePagerWithIndicator(
     images: List<String>,
     onImage: (Int) -> Unit,
     showIndicator: Boolean = false,
-    videoPlayer: @Composable (String) -> Unit,
     height: Dp = 400.dp,
     onPressed: () -> Unit = {},
     onReleased: () -> Unit = {},
@@ -68,7 +67,7 @@ fun ImagePagerWithIndicator(
 
                 val ext = images[page].substring(images[page].lastIndexOf("."))
                 if (ext == ".m3u8") {
-                    videoPlayer.invoke(images[page])
+                    LocalVideoPlayerType.current.invoke(images[page])
                 } else {
                     LocalFeedImageLoader.current.invoke(
                         modifier.testTag("imgReview").fillMaxSize().nonEffectclickable(onClick = { onImage.invoke(page) }),
@@ -126,7 +125,6 @@ fun PreViewImagePagerWithIndicator() {
             "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
-        onImage = {},
-        videoPlayer = {}
+        onImage = {}
     )
 }
