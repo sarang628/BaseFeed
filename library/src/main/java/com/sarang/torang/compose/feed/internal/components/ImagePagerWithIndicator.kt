@@ -51,9 +51,6 @@ fun ImagePagerWithIndicator(
     onImage: (Int) -> Unit,
     showIndicator: Boolean = false,
     videoPlayer: @Composable (String) -> Unit,
-    image: @Composable (
-        Modifier, String, Dp?, Dp?, ContentScale?, Dp?
-    ) -> Unit,
     height: Dp = 400.dp,
     onPressed: () -> Unit = {},
     onReleased: () -> Unit = {},
@@ -73,11 +70,8 @@ fun ImagePagerWithIndicator(
                 if (ext == ".m3u8") {
                     videoPlayer.invoke(images[page])
                 } else {
-                    image.invoke(
-                        modifier
-                            .testTag("imgReview")
-                            .fillMaxSize()
-                            .nonEffectclickable(onClick = { onImage.invoke(page) }),
+                    LocalFeedImageLoader.current.invoke(
+                        modifier.testTag("imgReview").fillMaxSize().nonEffectclickable(onClick = { onImage.invoke(page) }),
                         images[page], null, null, ContentScale.Crop, height
                     )
                 }
@@ -132,7 +126,6 @@ fun PreViewImagePagerWithIndicator() {
             "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
-        image = { _, _, _, _, _, _ -> },
         onImage = {},
         videoPlayer = {}
     )

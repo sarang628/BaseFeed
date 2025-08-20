@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -37,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.compose.feed.PreviewFeed
 import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
+import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
+import com.sarang.torang.di.basefeed.CustomFeedImageLoader
 import com.sarang.torang.di.image.ZoomState
 import com.sarang.torang.di.basefeed.toReview
 import com.sarang.torang.di.image.provideTorangAsyncImage
@@ -48,6 +51,7 @@ import com.sryang.library.ExpandableText
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.collections.get
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -61,109 +65,69 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            var position by remember { mutableStateOf("0") }
-            val listState = rememberLazyListState()
-            val zoomStateForOnlyOutsideImage = remember { ZoomState() }
-            val list by feedRepository.feeds.collectAsState(initial = ArrayList())
-
-            LaunchedEffect(key1 = position) {
-                try {
-                    listState.animateScrollToItem(Integer.parseInt(position))
-                } catch (e: Exception) {
-
-                }
-            }
-
             TorangTheme {
-                val height = LocalConfiguration.current.screenHeightDp
-
-                Surface(
-                    Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background)
-                ) {
-                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                        OutlinedTextField(value = position, onValueChange = { position = it })
-                        Box(modifier = Modifier.height(height.dp - 30.dp)) {
-                            LazyColumn {
-                                items(list.size) {
-                                    Feed(
-                                        review = list[it].toReview(),
-                                        //imageLoadCompose = provideTorangAsyncImage(),
-                                        imageLoadCompose = provideZoomableTorangAsyncImage(
-                                            onZoomState = {
-                                                zoomStateForOnlyOutsideImage.isZooming.value =
-                                                    it.isZooming.value
-                                                zoomStateForOnlyOutsideImage.scale.value =
-                                                    it.scale.value
-                                                zoomStateForOnlyOutsideImage.offsetX.value =
-                                                    it.offsetX.value
-                                                zoomStateForOnlyOutsideImage.offsetY.value =
-                                                    it.offsetY.value
-                                                zoomStateForOnlyOutsideImage.url.value =
-                                                    it.url.value
-                                                zoomStateForOnlyOutsideImage.bounds.value =
-                                                    it.bounds.value
-                                            }),
-                                        expandableText = { modifier, nickName, text, onProfile ->
-                                            ExpandableText(
-                                                modifier = modifier,
-                                                nickName = nickName,
-                                                text = text,
-                                                onClickNickName = onProfile
-                                            )
-                                        },
-                                        videoPlayer = {
-                                            VideoPlayerScreen(
-                                                videoUrl = it,
-                                                isPlaying = true,
-                                                onClick = {},
-                                                onPlay = {})
-                                        },
-                                        pageScrollAble = false
-                                    )
-                                }
-                            }
-
-                            if (zoomStateForOnlyOutsideImage.isZooming.value) {
-                                Box(
-                                    Modifier
-                                        .fillMaxSize()
-                                        .background(Color.Black.copy(alpha = 0.20f))
-                                ) {
-                                    val offsetX = with(LocalDensity.current) {
-                                        zoomStateForOnlyOutsideImage.bounds.value?.left?.toDp()
-                                            ?: 0.dp
-                                    }
-                                    val offsetY = with(LocalDensity.current) {
-                                        zoomStateForOnlyOutsideImage.bounds.value?.top?.toDp()
-                                            ?: 0.dp
-                                    }
-
-                                    provideTorangAsyncImage().invoke(
-                                        Modifier
-                                            .offset(offsetX, offsetY)
-                                            .size(400.dp)
-                                            .graphicsLayer {
-                                                scaleX = zoomStateForOnlyOutsideImage.scale.value
-                                                scaleY = zoomStateForOnlyOutsideImage.scale.value
-                                                translationX =
-                                                    zoomStateForOnlyOutsideImage.offsetX.value
-                                                translationY =
-                                                    zoomStateForOnlyOutsideImage.offsetY.value
-                                            },
-                                        zoomStateForOnlyOutsideImage.url.value,
-                                        30.dp,
-                                        30.dp,
-                                        ContentScale.Crop
-                                    )
-                                }
-                            }
-                        }
-                        FeedRepositoryTest(feedRepository = feedRepository)
+                Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+                    CompositionLocalProvider(
+                        LocalFeedImageLoader provides CustomFeedImageLoader
+                    ) {
+                        Test()
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    fun Test(){
+        val zoomStateForOnlyOutsideImage = remember { ZoomState() }
+        val list by feedRepository.feeds.collectAsState(initial = ArrayList())
+        val height = LocalConfiguration.current.screenHeightDp
+        var position by remember { mutableStateOf("0") }
+        val listState = rememberLazyListState()
+
+        LaunchedEffect(key1 = position) {
+            try {
+                listState.animateScrollToItem(Integer.parseInt(position))
+            } catch (e: Exception) {
+
+            }
+        }
+
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            OutlinedTextField(value = position, onValueChange = { position = it })
+            Box(modifier = Modifier.height(height.dp - 30.dp)) {
+                LazyColumn {
+                    items(list.size) {
+                        Feed(
+                            review = list[it].toReview(),
+                            expandableText = { modifier, nickName, text, onProfile -> ExpandableText(modifier = modifier, nickName = nickName, text = text, onClickNickName = onProfile) },
+                            videoPlayer = { VideoPlayerScreen(videoUrl = it, isPlaying = true, onClick = {}, onPlay = {}) },
+                            pageScrollAble = false
+                        )
+                    }
+                }
+
+                if (zoomStateForOnlyOutsideImage.isZooming.value) {
+                    Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.20f))) {
+                        val offsetX = with(LocalDensity.current) { zoomStateForOnlyOutsideImage.bounds.value?.left?.toDp() ?: 0.dp }
+                        val offsetY = with(LocalDensity.current) { zoomStateForOnlyOutsideImage.bounds.value?.top?.toDp() ?: 0.dp }
+                        provideTorangAsyncImage().invoke(
+                            Modifier.offset(offsetX, offsetY).size(400.dp)
+                                .graphicsLayer {
+                                    scaleX = zoomStateForOnlyOutsideImage.scale.value
+                                    scaleY = zoomStateForOnlyOutsideImage.scale.value
+                                    translationX = zoomStateForOnlyOutsideImage.offsetX.value
+                                    translationY = zoomStateForOnlyOutsideImage.offsetY.value
+                                },
+                            zoomStateForOnlyOutsideImage.url.value,
+                            30.dp,
+                            30.dp,
+                            ContentScale.Crop
+                        )
+                    }
+                }
+            }
+            FeedRepositoryTest(feedRepository = feedRepository)
         }
     }
 }
@@ -193,13 +157,6 @@ fun PreViewImagePagerWithIndicator() {
             "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
-        image = { modifier, _, _, _, _, _ ->
-            Image(
-                modifier = modifier,
-                painter = painterResource(id = R.drawable.default_profile_icon),
-                contentDescription = "",
-            )
-        },
         onImage = {},
         videoPlayer = {}
     )
