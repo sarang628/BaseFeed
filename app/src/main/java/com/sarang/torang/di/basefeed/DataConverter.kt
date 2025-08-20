@@ -2,12 +2,12 @@ package com.sarang.torang.di.basefeed
 
 import com.sarang.torang.BuildConfig
 import com.sarang.torang.data.basefeed.Restaurant
-import com.sarang.torang.data.basefeed.Review
+import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.User
 import com.sarang.torang.data.entity.ReviewAndImageEntity
 
-fun ReviewAndImageEntity.toReview(): Review {
-    return Review(
+fun ReviewAndImageEntity.toReview(): FeedItemUiState {
+    return FeedItemUiState(
         reviewId = this.review.reviewId,
         reviewImages = this.images.map { BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl },
         user = User(

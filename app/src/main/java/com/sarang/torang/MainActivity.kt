@@ -3,7 +3,6 @@ package com.sarang.torang
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,26 +31,24 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sarang.torang.compose.feed.Feed
+import com.sarang.torang.compose.feed.FeedItem
 import com.sarang.torang.compose.feed.PreviewFeed
 import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
+import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
+import com.sarang.torang.di.basefeed.CustomExpandableTextType
 import com.sarang.torang.di.basefeed.CustomFeedImageLoader
 import com.sarang.torang.di.image.ZoomState
 import com.sarang.torang.di.basefeed.toReview
 import com.sarang.torang.di.image.provideTorangAsyncImage
-import com.sarang.torang.di.image.provideZoomableTorangAsyncImage
 import com.sarang.torang.repository.FeedRepository
 import com.sarang.torang.repository.FeedRepositoryTest
 import com.sarang.torang.ui.theme.ThemePreviews
-import com.sryang.library.ExpandableText
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.collections.get
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -68,7 +65,8 @@ class MainActivity : ComponentActivity() {
             TorangTheme {
                 Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
                     CompositionLocalProvider(
-                        LocalFeedImageLoader provides CustomFeedImageLoader
+                        LocalFeedImageLoader provides CustomFeedImageLoader,
+                        LocalExpandableTextType provides CustomExpandableTextType
                     ) {
                         Test()
                     }
@@ -98,10 +96,8 @@ class MainActivity : ComponentActivity() {
             Box(modifier = Modifier.height(height.dp - 30.dp)) {
                 LazyColumn {
                     items(list.size) {
-                        Feed(
-                            review = list[it].toReview(),
-                            expandableText = { modifier, nickName, text, onProfile -> ExpandableText(modifier = modifier, nickName = nickName, text = text, onClickNickName = onProfile) },
-                            videoPlayer = { VideoPlayerScreen(videoUrl = it, isPlaying = true, onClick = {}, onPlay = {}) },
+                        FeedItem(
+                            uiState = list[it].toReview(),
                             pageScrollAble = false
                         )
                     }
@@ -157,7 +153,6 @@ fun PreViewImagePagerWithIndicator() {
             "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
-        onImage = {},
-        videoPlayer = {}
+        onImage = {}
     )
 }

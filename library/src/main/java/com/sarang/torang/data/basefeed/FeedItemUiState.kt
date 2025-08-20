@@ -3,7 +3,7 @@ package com.sarang.torang.data.basefeed
 import android.util.Log
 import java.text.SimpleDateFormat
 
-data class Review(
+data class FeedItemUiState(
     val user: User,
     val restaurant: Restaurant,
     val reviewId: Int,
@@ -18,13 +18,13 @@ data class Review(
     val createDate: String
 ){
     companion object {
-        fun empty() : Review = Review(user = User.empty(), restaurant = Restaurant.empty(), reviewId = 0, rating = 0f, reviewImages = listOf(), contents = "", comments = null, likeAmount = 0, commentAmount = 0, isLike = false, isFavorite = false, createDate = "")
+        fun empty() : FeedItemUiState = FeedItemUiState(user = User.empty(), restaurant = Restaurant.empty(), reviewId = 0, rating = 0f, reviewImages = listOf(), contents = "", comments = null, likeAmount = 0, commentAmount = 0, isLike = false, isFavorite = false, createDate = "")
     }
 }
 
 val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 val sdf1 = SimpleDateFormat("MMM dd, YYYY")
-fun Review.formatedDate(): String {
+fun FeedItemUiState.formatedDate(): String {
     return createDate.formatedDate()
 }
 
@@ -40,8 +40,8 @@ fun String.formatedDate(): String {
 }
 
 
-fun testReviewData(): Review {
-    return Review(
+fun testReviewData(): FeedItemUiState {
+    return FeedItemUiState(
         reviewId = 0,
         reviewImages = ArrayList<String>().apply {
             add("https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/phoenix/Kai_03_e0cec566-c290-4b68-8e7d-50ecda61055e.jpg")
@@ -85,8 +85,8 @@ fun testReviewData(): Review {
     )
 }
 
-fun testReviewList(): List<Review> {
-    return ArrayList<Review>().apply {
+fun testReviewList(): List<FeedItemUiState> {
+    return ArrayList<FeedItemUiState>().apply {
         add(testReviewData())
         add(testReviewData())
         add(testReviewData())
