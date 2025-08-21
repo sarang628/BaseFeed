@@ -23,8 +23,8 @@ fun String.formatedDate(): String {
 }
 
 
-fun testReviewData(): FeedItemUiState {
-    return FeedItemUiState(
+val FeedItemUiState.Companion.Sample: FeedItemUiState  get() =
+    FeedItemUiState(
         reviewId = 0,
         reviewImages = ArrayList<String>().apply {
             add("https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/phoenix/Kai_03_e0cec566-c290-4b68-8e7d-50ecda61055e.jpg")
@@ -42,15 +42,15 @@ fun testReviewData(): FeedItemUiState {
         },
         user = User(
             userId = 0,
-            name = "name",
+            name = "peter pan",
             profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg"
         ),
         restaurant = Restaurant(
             restaurantId = 1,
-            restaurantName = "restaurantName",
+            restaurantName = "Gorden Ramsey Burger",
         ),
         rating = 3.5f,
-        contents = "contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents ",
+        contents = "\uD83C\uDF54 Gordon Ramsay’s Burger Review If you’re a burger lover, Gordon Ramsay’s burger is definitely something you want to try! Here’s my take on the iconic burger that combines classic flavors with a twist of Ramsay’s signature flair.",
         comments = ArrayList<Comment>().apply {
 //            add(Comment("author", "comment"))
 //            add(Comment("author", "comment"))
@@ -64,18 +64,17 @@ fun testReviewData(): FeedItemUiState {
         isLike = false,
         isFavorite = false,
         likeAmount = 100,
-        createDate = ""
+        createDate = "2025-08-21 06:17:20"
     )
-}
 
 fun testReviewList(): List<FeedItemUiState> {
     return ArrayList<FeedItemUiState>().apply {
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
+        add(FeedItemUiState.Sample)
+        add(FeedItemUiState.Sample)
+        add(FeedItemUiState.Sample)
+        add(FeedItemUiState.Sample)
+        add(FeedItemUiState.Sample)
+        add(FeedItemUiState.Sample)
+        add(FeedItemUiState.Sample)
     }
 }
