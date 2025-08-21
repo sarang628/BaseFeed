@@ -48,7 +48,6 @@ fun PreviewFeed() {
 
 ### UI layer
 
-UiState
 [FeedItemUiState.kt](./library/src/main/java/com/sarang/torang/data/basefeed/FeedItemUiState.kt)
 
 ## development note
