@@ -1,98 +1,36 @@
 package com.sarang.torang.data.basefeed
 
-import android.util.Log
-import java.text.SimpleDateFormat
-
+/**
+ * https://developer.android.com/topic/architecture/ui-layer#define-ui-state
+ * UI는 사용자에게 보여주는 시각적 표시라면 UI state는 이 정보를 담고 있다.
+ * UI는 사용자가 보는 것 이라면, UI state는 앱이 사용자이 봐야하는 것을 말하는 것이다.
+ * UI는 UIstate의 시각젹 표시이며, UIstate가 변경 시 UI에 즉시 반영 되어야 한다.
+ *
+ * UIstate 만 봐도 어떤 정보들이 화면에 표시되는지 할 수 있어야할 것 같다.
+ *
+ * @param reviewId      리뷰 id
+ * @param user          사용자 정보
+ * @param restaurant    음식점 정보
+ * @param rating        평점
+ * @param reviewImages  리뷰 이미지
+ * @param contents      내용
+ * @param comments      코멘트
+ * @param likeAmount    좋아요 갯수
+ * @param isLike        사용자의 좋아요 여부
+ * @param isFavorite    사용자의 즐겨찾기 여부
+ * @param createDate    생성일
+ */
 data class FeedItemUiState(
-    val user: User,
-    val restaurant: Restaurant,
-    val reviewId: Int,
-    val rating: Float,
-    val reviewImages: List<String> = ArrayList(),
-    val contents: String,
-    val comments: List<Comment>?,
-    val likeAmount: Int,
-    val commentAmount: Int,
-    val isLike: Boolean,
-    val isFavorite: Boolean,
-    val createDate: String
-){
-    companion object {
-        fun empty() : FeedItemUiState = FeedItemUiState(user = User.empty(), restaurant = Restaurant.empty(), reviewId = 0, rating = 0f, reviewImages = listOf(), contents = "", comments = null, likeAmount = 0, commentAmount = 0, isLike = false, isFavorite = false, createDate = "")
-    }
-}
-
-val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-val sdf1 = SimpleDateFormat("MMM dd, YYYY")
-fun FeedItemUiState.formatedDate(): String {
-    return createDate.formatedDate()
-}
-
-fun String.formatedDate(): String {
-    var result = ""
-    try {
-        result = sdf1.format(sdf.parse(this))
-    } catch (e: Exception) {
-        Log.e("_Review", e.toString())
-    } finally {
-        return result
-    }
-}
-
-
-fun testReviewData(): FeedItemUiState {
-    return FeedItemUiState(
-        reviewId = 0,
-        reviewImages = ArrayList<String>().apply {
-            add("https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/phoenix/Kai_03_e0cec566-c290-4b68-8e7d-50ecda61055e.jpg")
-            add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-            add("333/333/2023-06-16/12_52_44_122.jpeg")
-        },
-        user = User(
-            userId = 0,
-            name = "name",
-            profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg"
-        ),
-        restaurant = Restaurant(
-            restaurantId = 1,
-            restaurantName = "restaurantName",
-        ),
-        rating = 3.5f,
-        contents = "contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents contents ",
-        comments = ArrayList<Comment>().apply {
-//            add(Comment("author", "comment"))
-//            add(Comment("author", "comment"))
-//            add(Comment("author", "comment"))
-//            add(Comment("author", "comment"))
-//            add(Comment("author", "comment"))
-//            add(Comment("author", "comment"))
-//            add(Comment("author", "comment"))
-        },
-        commentAmount = 10,
-        isLike = false,
-        isFavorite = false,
-        likeAmount = 100,
-        createDate = ""
-    )
-}
-
-fun testReviewList(): List<FeedItemUiState> {
-    return ArrayList<FeedItemUiState>().apply {
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-        add(testReviewData())
-    }
-}
+    val reviewId        : Int,
+    val user            : User,
+    val restaurant      : Restaurant,
+    val rating          : Float,
+    val reviewImages    : List<String> = ArrayList(),
+    val contents        : String,
+    val comments        : List<Comment>?,
+    val likeAmount      : Int,
+    val commentAmount   : Int,
+    val isLike          : Boolean,
+    val isFavorite      : Boolean,
+    val createDate      : String
+){ companion object }
