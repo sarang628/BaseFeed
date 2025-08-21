@@ -10,47 +10,18 @@
 
 ```
 dependencies {
-	implementation 'com.github.sarang628:BaseFeed:6307ce6df9'
+	implementation 'com.github.sarang628:BaseFeed:{refer to jitpack}'
 }	
 ```
 
 ```
-/**
- * Feed 항목
- * @param review 리뷰 데이터
- * @param isZooming pinch zoom 여부
- * @param progressTintColor ratingBar 색
- * @param favoriteColor 즐겨찾기 색
- * @param onImage 이미지 클릭
- * @param onProfile 프로필 클릭
- * @param onLike 좋아요 클릭
- * @param onComment 코멘트 클릭
- * @param onShare 공유 클릭
- * @param onFavorite 즐겨찾기 클릭
- * @param onMenu 메뉴 클릭
- * @param onName 사용자명 클릭
- * @param onRestaurant 음식점명 클릭
- * @param onLikes 좋아요 클릭
- * @param imageLoadCompose 공통 이미지 compose
- */
+@Preview(showBackground = true, backgroundColor = 0xFFFDFDF6)
 @Composable
-fun Feed(
-    review: Review,
-    isZooming: ((Boolean) -> Unit),
-    progressTintColor: Color = Color(0xffe6cc00),
-    favoriteColor: Color = Color(0xffe6cc00),
-    onImage: ((Int) -> Unit),
-    onProfile: (() -> Unit),
-    onLike: (() -> Unit),
-    onComment: (() -> Unit),
-    onShare: (() -> Unit),
-    onFavorite: (() -> Unit),
-    onMenu: (() -> Unit),
-    onName: (() -> Unit),
-    onRestaurant: (() -> Unit),
-    onLikes: (() -> Unit),
-    imageLoadCompose: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit,
-)
+fun PreviewFeed() {
+    FeedItem(/* Preview */
+        uiState = FeedItemUiState.Sample
+    )
+}
 ```
 
 ## Feature
@@ -73,21 +44,13 @@ fun Feed(
 
 ### UI element
 
-[Feed.kt](./library/src/main/java/com/sarang/torang/compose/feed/Feed.kt)
-[Feeds.kt](./library/src/main/java/com/sarang/torang/compose/feed/Feeds.kt)
+[FeedItem.kt](./library/src/main/java/com/sarang/torang/compose/feed/FeedItem.kt)
 
 ### UI layer
 
 UiState
+[FeedItemUiState.kt](./library/src/main/java/com/sarang/torang/data/basefeed/FeedItemUiState.kt)
 
-```
-sealed interface FeedsUiState {
-    object Loading : FeedsUiState
-    object Empty : FeedsUiState
-    data class Success(val reviews: List<Review>) : FeedsUiState
-    data class Error(val message: String) : FeedsUiState
-}
-```
-
-## Update
-gradle.build.kts 로 변경
+## development note
+- gradle.build.kts 로 변경
+- FeedItem 으로 이름 변경 및 constraint layout 적용 (250821)
