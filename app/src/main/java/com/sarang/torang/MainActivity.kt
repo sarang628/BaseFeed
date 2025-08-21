@@ -132,27 +132,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PreviewFeed1() {
     TorangTheme {
-        Surface(
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-        ) {
+        Surface(Modifier.background(MaterialTheme.colorScheme.background)) {
             PreviewFeed()
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreViewImagePagerWithIndicator() {
-    ImagePagerWithIndicator(/*Preview*/
-        images = arrayListOf(
-            "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            "http://sarang628.iptime.org:89/8.png",
-            "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
-            "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
-        ),
-        onImage = {}
-    )
-}
+
