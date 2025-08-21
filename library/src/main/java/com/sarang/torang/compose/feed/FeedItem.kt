@@ -5,15 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
@@ -41,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.Visibility
 import com.sarang.torang.R
 import com.sarang.torang.compose.component.AndroidViewRatingBar
@@ -54,11 +52,10 @@ import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.PagerIndicator
 import com.sarang.torang.compose.feed.internal.components.ShareImage
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
-import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.FeedItemUiState
+import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.empty
 import com.sarang.torang.data.basefeed.formatedDate
-import com.sarang.torang.data.basefeed.testReviewData
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
@@ -118,6 +115,9 @@ fun FeedItem(
     }
 
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurant.restaurantName.isNotEmpty())) {
+        // 이미지 페이저
+        ImagePagerWithIndicator(modifier = Modifier.
+        layoutId("reviewImages"), images = uiState.reviewImages, onImage = onImage, pagerState = pagerState, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
         // 프로필 이미지
         LocalFeedImageLoader.current.invoke(Modifier.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp))
             .layoutId("imgProfile"), uiState.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
@@ -135,9 +135,6 @@ fun FeedItem(
             .layoutId("menu"), onClick = onMenu) {
             Icon(imageVector = Icons.Default.MoreVert, tint = Color.White, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
         }
-        // 이미지 페이저
-        ImagePagerWithIndicator(modifier = Modifier.
-            layoutId("reviewImages"), images = uiState.reviewImages, onImage = onImage, pagerState = pagerState, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
         // 좋아요 갯수
         Text(modifier = Modifier.
             layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, uiState.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
@@ -193,24 +190,24 @@ fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boole
         val menu = createRefFor("menu")
         val guideline = createBottomBarrier(reviewImages, margin = 4.dp)
 
-        constrain(reviewImages){ top.linkTo(parent.top) }
-        constrain(likeCount){ bottom.linkTo(imgLike.top); start.linkTo(reviewImages.start, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
-        constrain(commentCount){ top.linkTo(guideline); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone}
-        constrain(contents){ top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone }
-        constrain(comments){ top.linkTo(contents.bottom); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone }
-        constrain(date){ top.linkTo(comments.bottom, 8.dp); }
+        constrain(reviewImages) { top.linkTo(parent.top) }
+        constrain(likeCount)    { bottom.linkTo(imgLike.top); start.linkTo(reviewImages.start, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
+        constrain(commentCount) { start.linkTo(parent.start, 4.dp); top.linkTo(guideline); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone}
+        constrain(contents)     { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
+        constrain(comments)     { top.linkTo(contents.bottom); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone }
+        constrain(date)         { start.linkTo(parent.start, 4.dp); top.linkTo(comments.bottom, 8.dp); }
 
-        constrain(imgLike){ start.linkTo(reviewImages.start); bottom.linkTo(reviewImages.bottom); }
-        constrain(imgComment){ start.linkTo(imgLike.end); bottom.linkTo(reviewImages.bottom); }
-        constrain(imgShare){ start.linkTo(imgComment.end); bottom.linkTo(reviewImages.bottom); }
-        constrain(indicator){ start.linkTo(reviewImages.start); end.linkTo(reviewImages.end); top.linkTo(imgLike.top); bottom.linkTo(imgLike.bottom); }
-        constrain(imgFavorite){ end.linkTo(reviewImages.end); bottom.linkTo(reviewImages.bottom) }
+        constrain(imgLike)      { start.linkTo(reviewImages.start); bottom.linkTo(reviewImages.bottom); }
+        constrain(imgComment)   { start.linkTo(imgLike.end); bottom.linkTo(reviewImages.bottom); }
+        constrain(imgShare)     { start.linkTo(imgComment.end); bottom.linkTo(reviewImages.bottom); }
+        constrain(indicator)    { start.linkTo(reviewImages.start); end.linkTo(reviewImages.end); top.linkTo(imgLike.top); bottom.linkTo(imgLike.bottom); }
+        constrain(imgFavorite)  { end.linkTo(reviewImages.end); bottom.linkTo(reviewImages.bottom) }
 
-        constrain(imgProfile){ top.linkTo(reviewImages.top, 4.dp); start.linkTo(reviewImages.start, 4.dp) }
-        constrain(txtName){ start.linkTo(imgProfile.end, 4.dp); top.linkTo(imgProfile.top); bottom.linkTo(restaurantName.top) }
-        constrain(ratingBar){ start.linkTo(txtName.end, 4.dp); top.linkTo(txtName.top); bottom.linkTo(txtName.bottom) }
+        constrain(imgProfile)   { top.linkTo(reviewImages.top, 4.dp); start.linkTo(reviewImages.start, 4.dp) }
+        constrain(txtName)      { start.linkTo(imgProfile.end, 4.dp); top.linkTo(imgProfile.top); bottom.linkTo(restaurantName.top) }
+        constrain(ratingBar)    { start.linkTo(txtName.end, 4.dp); top.linkTo(txtName.top); bottom.linkTo(txtName.bottom) }
         constrain(restaurantName){ top.linkTo(txtName.bottom); bottom.linkTo(imgProfile.bottom); start.linkTo(imgProfile.end, 4.dp) }
-        constrain(menu){ end.linkTo(parent.end) }
+        constrain(menu)         { end.linkTo(parent.end) }
     }
 }
 
@@ -220,28 +217,10 @@ fun rememberFeedItemState(
     return rememberSaveable(saver = DefaultFeedItemState.Saver) { DefaultFeedItemState() }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000)
+@Preview(showBackground = true, backgroundColor = 0xFFFDFDF6)
 @Composable
 fun PreviewFeed() {
-    val data = testReviewData()
-    Column(Modifier.verticalScroll(rememberScrollState())) {
-        FeedItem(
-            /* Preview */
-            uiState = data.copy(
-                user =
-                    data.user.copy(
-                        name = "namenamenamenamename",
-                        profilePictureUrl = "https://wimg.mk.co.kr/news/cms/202304/14/news-p.v1.20230414.15e6ac6d76a84ab398281046dc858116_P1.jpg"
-                    ),
-                //restaurant = data.restaurant.copy(restaurantName = "YourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDiningYourFineDining"),
-                restaurant = data.restaurant.copy(restaurantName = "restaurants"),
-                comments = listOf(Comment("a","comment"),Comment("a","comment"),Comment("a","comment")),
-                likeAmount = 10,
-                isLike = false,
-                isFavorite = false,
-                createDate = "2022-10-10 10:10:10",
-            )
-        )
-    }
+    FeedItem(/* Preview */
+        uiState = FeedItemUiState.Sample
+    )
 }
-
