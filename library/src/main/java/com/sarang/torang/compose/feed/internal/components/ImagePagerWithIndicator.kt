@@ -59,8 +59,7 @@ fun ImagePagerWithIndicator(
     {
         Column(modifier = modifier) {
             HorizontalPager(
-                modifier = Modifier
-                    .height(height),
+                modifier = Modifier.height(height),
                 state = pagerState,
                 userScrollEnabled = scrollEnable
             ) { page ->
@@ -70,7 +69,10 @@ fun ImagePagerWithIndicator(
                     LocalVideoPlayerType.current.invoke(images[page])
                 } else {
                     LocalFeedImageLoader.current.invoke(
-                        modifier.testTag("imgReview").fillMaxSize().nonEffectclickable(onClick = { onImage.invoke(page) }),
+                        modifier
+                            .testTag("imgReview")
+                            .fillMaxSize()
+                            .nonEffectclickable(onClick = { onImage.invoke(page) }),
                         images[page], null, null, ContentScale.Crop, height
                     )
                 }
@@ -88,11 +90,7 @@ fun ImagePagerWithIndicator(
 
 
 @Composable
-fun PagerIndicator(
-    modifier: Modifier = Modifier,
-    count: Int,
-    pagerState: PagerState,
-) {
+fun PagerIndicator(modifier: Modifier = Modifier, count: Int, pagerState: PagerState) {
     if (count > 1)
         Row(
             modifier = modifier,
@@ -108,7 +106,6 @@ fun PagerIndicator(
                         .clip(CircleShape)
                         .background(color)
                         .size(5.dp)
-
                 )
             }
         }
