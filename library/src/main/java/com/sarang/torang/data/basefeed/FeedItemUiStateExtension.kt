@@ -3,7 +3,7 @@ package com.sarang.torang.data.basefeed
 import android.util.Log
 import java.text.SimpleDateFormat
 
-val FeedItemUiState.Companion.empty get() =  FeedItemUiState(user = User.empty(), restaurant = Restaurant.empty(), rating = 0f, reviewImages = listOf(), contents = "", comments = null, likeAmount = 0, commentAmount = 0, isLike = false, isFavorite = false, createDate = "")
+val FeedItemUiState.Companion.empty get() =  FeedItemUiState()
 
 val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 val sdf1 = SimpleDateFormat("MMM dd, YYYY")
@@ -39,14 +39,9 @@ val FeedItemUiState.Companion.Sample: FeedItemUiState  get() =
             add("333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
         },
-        user = User(
-            name = "peter pan",
-            profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg"
-        ),
-        restaurant = Restaurant(
-            restaurantId = 1,
-            restaurantName = "Gorden Ramsey Burger",
-        ),
+        userName = "peter pan",
+        profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
+        restaurantName = "Gorden Ramsey Burger",
         rating = 3.5f,
         contents = "\uD83C\uDF54 Gordon Ramsay’s Burger Review If you’re a burger lover, Gordon Ramsay’s burger is definitely something you want to try! Here’s my take on the iconic burger that combines classic flavors with a twist of Ramsay’s signature flair.",
         comments = ArrayList<Comment>().apply {

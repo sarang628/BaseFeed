@@ -9,7 +9,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.FeedItem
 import com.sarang.torang.data.basefeed.Comment
-import com.sarang.torang.data.basefeed.Restaurant
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.User
 import com.sarang.torang.data.basefeed.formatedDate

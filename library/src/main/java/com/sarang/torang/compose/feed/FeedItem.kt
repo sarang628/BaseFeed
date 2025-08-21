@@ -114,22 +114,22 @@ fun FeedItem(
             .collect{ onPage.invoke(it, it == 0, it == uiState.reviewImages.size - 1) }
     }
 
-    ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurant.restaurantName.isNotEmpty())) {
+    ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
         // 이미지 페이저
         ImagePagerWithIndicator(modifier = Modifier.
         layoutId("reviewImages"), images = uiState.reviewImages, onImage = onImage, pagerState = pagerState, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
         // 프로필 이미지
         LocalFeedImageLoader.current.invoke(Modifier.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp))
-            .layoutId("imgProfile"), uiState.user.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
+            .layoutId("imgProfile"), uiState.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
         // 사용자 명
         Text(modifier = Modifier.widthIn(0.dp, 150.dp).testTag("txtName").nonEffectclickable(onName)
-            .layoutId("txtName"), text = uiState.user.name, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
+            .layoutId("txtName"), text = uiState.userName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
         // 평점
         AndroidViewRatingBar(Modifier
             .layoutId("ratingBar") , rating = uiState.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
         // 음식점 명
         Text(modifier = Modifier.widthIn(0.dp, 250.dp).testTag("txtRestaurantName").nonEffectclickable(onRestaurant)
-            .layoutId("restaurantName"), text = uiState.restaurant.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
+            .layoutId("restaurantName"), text = uiState.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
         // 메뉴 버튼
         IconButton(modifier = Modifier.testTag("btnMenu")
             .layoutId("menu"), onClick = onMenu) {
@@ -140,7 +140,7 @@ fun FeedItem(
             layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, uiState.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
         // 피드 내용
         LocalExpandableTextType.current.invoke(Modifier.
-            layoutId("contents").testTag("txtContents"), uiState.user.name, uiState.contents, onProfile)
+            layoutId("contents").testTag("txtContents"), uiState.userName, uiState.contents, onProfile)
         // 코멘트
         Comment(modifier = Modifier.
             layoutId("comments"), uiState.comments)
