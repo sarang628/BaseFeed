@@ -8,7 +8,6 @@ import com.sarang.torang.data.entity.ReviewAndImageEntity
 
 fun ReviewAndImageEntity.toReview(): FeedItemUiState {
     return FeedItemUiState(
-        reviewId = this.review.reviewId,
         reviewImages = this.images.map { BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl },
         user = User(
             name = this.review.userName,

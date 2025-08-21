@@ -8,7 +8,6 @@ package com.sarang.torang.data.basefeed
  *
  * UIstate 만 봐도 어떤 정보들이 화면에 표시되는지 할 수 있어야할 것 같다.
  *
- * @param reviewId      리뷰 id
  * @param user          사용자 정보
  * @param restaurant    음식점 정보
  * @param rating        평점
@@ -21,7 +20,6 @@ package com.sarang.torang.data.basefeed
  * @param createDate    생성일
  */
 data class FeedItemUiState(
-    val reviewId        : Int,
     val user            : User,
     val restaurant      : Restaurant,
     val rating          : Float,
