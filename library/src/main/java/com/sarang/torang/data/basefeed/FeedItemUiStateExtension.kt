@@ -40,7 +40,6 @@ val FeedItemUiState.Companion.Sample: FeedItemUiState  get() =
             add("333/333/2023-06-16/12_52_44_122.jpeg")
         },
         user = User(
-            userId = 0,
             name = "peter pan",
             profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg"
         ),

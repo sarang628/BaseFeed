@@ -11,8 +11,7 @@ fun ReviewAndImageEntity.toReview(): FeedItemUiState {
         reviewImages = this.images.map { BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl },
         user = User(
             name = this.review.userName,
-            profilePictureUrl = BuildConfig.PROFILE_IMAGE_SERVER_URL + this.review.profilePicUrl,
-            userId = this.review.userId
+            profilePictureUrl = BuildConfig.PROFILE_IMAGE_SERVER_URL + this.review.profilePicUrl
         ),
         restaurant = Restaurant(
             restaurantId = this.review.restaurantId ?: 0,
