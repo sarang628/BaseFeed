@@ -3,10 +3,10 @@
 다양한 화면에서 사용할 수 있는 Feed 모듈
 
 # Preview
-<img src="./screenshot/demonstrate.gif" alt="image" width="300" height="auto">
+<img src="./screenshot/demonstrate.gif" alt="image" width="300" >
 
 ## How to use
-<img src="./screenshot/preview.png" alt="image" width="600" height="auto">
+<img src="./screenshot/preview.png" alt="image" width="300" >
 
 ```
 dependencies {
@@ -27,30 +27,29 @@ fun PreviewFeed() {
 ## Feature
 
 - Jetpack Compose
-- Dependency injection with Hilt
-- Compose ConstraintLayout
-- Localization
-- ExpandableText
-
-## convention
-
-### package
-
-- compose로 구현한 UI는 compose 패키지에 저장
-- uistate는 uistate 패키지에 저장
-  <img src="./screenshot/package.png" alt="image" width="300" height="auto">
+- Android Architecture
+  - UI layer
+    - UI element
+    - UI state
+    - viewmodel (state holder)
 
 ## Architecture
 
-### UI element
-[UIElement](/documents/UIElement.md)
+### UI layer
+
+#### UI element
+피드 항목 ui element. jetpack compose를 사용해 제작<br>
+[UIElement](/documents/UIElement.md)<br>
 [FeedItem.kt](/library/src/main/java/com/sarang/torang/compose/feed/FeedItem.kt)
 
-### UI layer
-[UIState](/documents/UIState.md)
+#### UI state
+ui element에 필요한 데이터. 
+[UIState](/documents/UIState.md)<br>
 [FeedItemUiState.kt](/library/src/main/java/com/sarang/torang/data/basefeed/FeedItemUiState.kt)
 
-[StateHolder](/documents/StateHolder.md)
+#### viewmodel 
+UI state를 생성하고 필요한 로직을 담고 있는 클래스를 state holder라 부른다. 전형적인 구현은 viewmodel이다.<br>
+[StateHolder](/documents/StateHolder.md)<br>
 [FeedListViewModel](app/src/main/java/com/sarang/torang/compose/FeedListViewModel.kt)
 
 ## development note
