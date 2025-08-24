@@ -103,7 +103,7 @@ fun FeedItem(
     onLikes             : () -> Unit      = { Log.w(tag, "onLikes callback is not set") },
     onImage             : (Int) -> Unit   = { Log.w(tag, "onImage callback is not set") },
     isZooming           : (Boolean) -> Unit       = { Log.w(tag, "isZooming callback is not set") },
-    onPage              : (Int, Boolean, Boolean) -> Unit = { _, _, _ -> Log.w(tag, "onProfile callback is not set") }
+    onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
     // @formatter:off
     val pagerState: PagerState = rememberPagerState { uiState.reviewImages.size }

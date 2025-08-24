@@ -43,12 +43,15 @@ fun PreviewFeed() {
 ## Architecture
 
 ### UI element
-
-[FeedItem.kt](./library/src/main/java/com/sarang/torang/compose/feed/FeedItem.kt)
+[UIElement](/documents/UIElement.md)
+[FeedItem.kt](/library/src/main/java/com/sarang/torang/compose/feed/FeedItem.kt)
 
 ### UI layer
+[UIState](/documents/UIState.md)
+[FeedItemUiState.kt](/library/src/main/java/com/sarang/torang/data/basefeed/FeedItemUiState.kt)
 
-[FeedItemUiState.kt](./library/src/main/java/com/sarang/torang/data/basefeed/FeedItemUiState.kt)
+[StateHolder](/documents/StateHolder.md)
+[FeedListViewModel](app/src/main/java/com/sarang/torang/compose/FeedListViewModel.kt)
 
 ## development note
 - gradle.build.kts 로 변경

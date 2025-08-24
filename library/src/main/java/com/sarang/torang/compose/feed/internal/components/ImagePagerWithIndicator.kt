@@ -65,24 +65,14 @@ fun ImagePagerWithIndicator(
             ) { page ->
 
                 val ext = images[page].substring(images[page].lastIndexOf("."))
-                if (ext == ".m3u8") {
-                    LocalVideoPlayerType.current.invoke(images[page])
-                } else {
-                    LocalFeedImageLoader.current.invoke(
-                        modifier
-                            .testTag("imgReview")
-                            .fillMaxSize()
-                            .nonEffectclickable(onClick = { onImage.invoke(page) }),
+                if (ext == ".m3u8") { LocalVideoPlayerType.current.invoke(images[page]) }
+                else { LocalFeedImageLoader.current.invoke(
+                        modifier.testTag("imgReview").fillMaxSize().nonEffectclickable(onClick = { onImage.invoke(page) }),
                         images[page], null, null, ContentScale.Crop, height
                     )
                 }
-
                 if (showIndicator)
-                    PagerIndicator(
-                        modifier = Modifier.fillMaxSize(),
-                        pagerState = pagerState,
-                        count = images.size
-                    )
+                    PagerIndicator(modifier = Modifier.fillMaxSize(), pagerState = pagerState, count = images.size)
             }
         }
     }
