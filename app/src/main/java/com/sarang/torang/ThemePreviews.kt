@@ -1,4 +1,4 @@
-package com.sarang.torang.ui.theme
+package com.sarang.torang
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview
