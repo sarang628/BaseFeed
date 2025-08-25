@@ -17,9 +17,9 @@ UI와 뷰모델 사이 상호작용은 이벤트 입력과 state 출력을 보�
 
 #
 
-ViewModel을 구현하기 전 UI elemets와 UI State가 구현되어있으면 좋겠지만, 순서와 상관없이 ViewModel을<br>
-구현 할 수도 있다고 생각한다.<br>
+ViewModel을 구현하기 전 UI elemets와 UI State가 구현되어 있으면 좋겠지만<br>
+디자인과 기획서가 있다면, 순서 관계 없이 ViewModel을 구현할 수도 있다고 생각한다.<br>
 
-UI element와 View model 사이를 UI State 데이터가 인터페이스 하기 때문에 UI State만 이해하고 있다면 변화에 대해<br>
-어렵지 않게 적응 할 수 있다. 대신 UI State를 보면 쉽게 이해할 수 있게 설계를 해야한다.
-
+UI element와 View model 사이를 UI State가 인터페이스 하기 때문에<br>
+UI State를 이해하고 있다면 기능 추가나 변경에 유연하게 적용할 수 있다.<br>
+대신 UI State를 값들을 명확하 설계 해야 한다.
