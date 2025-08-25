@@ -1,3 +1,4 @@
+```
 [State holders](https://developer.android.com/topic/architecture/ui-layer#state-holders)
 
 UI state를 생성하고 필요한 로직을 담고 있는 클래스를 state holder라 부른다.
@@ -12,4 +13,13 @@ configuration 변경에도 데이터가 생존.
 
 UI와 state 생산자 사이 상호의존을 만드는데는 많은 방법이 있다.
 UI와 뷰모델 사이 상호작용은 이벤트 입력과 state 출력을 보장하는데 대부분 사용할 수 있다.
+```
 
+#
+
+ViewModel을 구현하기 전 UI elemets와 UI State가 구현되어 있으면 좋겠지만<br>
+디자인과 기획서가 있다면, 순서 관계 없이 ViewModel을 구현할 수도 있다고 생각한다.<br>
+
+UI element와 View model 사이를 UI State가 인터페이스 하기 때문에<br>
+UI State를 이해하고 있다면 기능 추가나 변경에 유연하게 적용할 수 있다.<br>
+대신 UI State를 값들을 명확하 설계 해야 한다.
