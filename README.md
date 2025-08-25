@@ -100,3 +100,4 @@ UDF는 '이론'이며<br>
 
 - gradle.build.kts 로 변경
 - FeedItem 으로 이름 변경 및 constraint layout 적용 (250821)
+- FeedItem에 UILayer(UI elements, UI state, Viewmodel) 이론 학습 및 적용 (250825)
