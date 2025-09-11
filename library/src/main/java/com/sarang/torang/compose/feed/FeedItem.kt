@@ -57,7 +57,7 @@ import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.empty
 import com.sarang.torang.data.basefeed.formatedDate
 import kotlinx.coroutines.flow.distinctUntilChanged
-
+// @formatter:off
 /**
  * Feed 항목
  * @param uiState            리뷰 데이터
@@ -82,30 +82,28 @@ import kotlinx.coroutines.flow.distinctUntilChanged
  */
 @Composable
 fun FeedItem(
-    tag                 : String          = "__Feed",
-    uiState             : FeedItemUiState = FeedItemUiState.empty,
-    //feedItemState       : FeedItemState = rememberFeedItemState(),
-    progressTintColor   : Color           = Color(0xffe6cc00),
-    favoriteColor       : Color           = Color(0xffe6cc00),
-    isLogin             : Boolean         = false,
-    pageScrollAble      : Boolean         = true,
-    imageHeight         : Dp              = 400.dp,
-    onPressed           : () -> Unit      = { Log.w(tag, "onPressed callback is not set") },
-    onReleased          : () -> Unit      = { Log.w(tag, "onReleased callback is not set") },
-    onLike              : () -> Unit      = { Log.w(tag, "onLike callback is not set") },
-    onProfile           : () -> Unit      = { Log.w(tag, "onProfile callback is not set") },
-    onComment           : () -> Unit      = { Log.w(tag, "onComment callback is not set") },
-    onShare             : () -> Unit      = { Log.w(tag, "onShare callback is not set") },
-    onMenu              : () -> Unit      = { Log.w(tag, "onMenu callback is not set") },
-    onFavorite          : () -> Unit      = { Log.w(tag, "onFavorite callback is not set") },
-    onName              : () -> Unit      = { Log.w(tag, "onName callback is not set") },
-    onRestaurant        : () -> Unit      = { Log.w(tag, "onRestaurant callback is not set") },
-    onLikes             : () -> Unit      = { Log.w(tag, "onLikes callback is not set") },
-    onImage             : (Int) -> Unit   = { Log.w(tag, "onImage callback is not set") },
-    isZooming           : (Boolean) -> Unit       = { Log.w(tag, "isZooming callback is not set") },
+    tag                 : String                    = "__Feed",
+    uiState             : FeedItemUiState           = FeedItemUiState.empty,
+    progressTintColor   : Color                     = Color(0xffe6cc00),
+    favoriteColor       : Color                     = Color(0xffe6cc00),
+    isLogin             : Boolean                   = false,
+    pageScrollAble      : Boolean                   = true,
+    imageHeight         : Dp                        = 400.dp,
+    onPressed           : () -> Unit                = { Log.w(tag, "onPressed callback is not set") },
+    onReleased          : () -> Unit                = { Log.w(tag, "onReleased callback is not set") },
+    onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
+    onProfile           : () -> Unit                = { Log.w(tag, "onProfile callback is not set") },
+    onComment           : () -> Unit                = { Log.w(tag, "onComment callback is not set") },
+    onShare             : () -> Unit                = { Log.w(tag, "onShare callback is not set") },
+    onMenu              : () -> Unit                = { Log.w(tag, "onMenu callback is not set") },
+    onFavorite          : () -> Unit                = { Log.w(tag, "onFavorite callback is not set") },
+    onName              : () -> Unit                = { Log.w(tag, "onName callback is not set") },
+    onRestaurant        : () -> Unit                = { Log.w(tag, "onRestaurant callback is not set") },
+    onLikes             : () -> Unit                = { Log.w(tag, "onLikes callback is not set") },
+    onImage             : (Int) -> Unit             = { Log.w(tag, "onImage callback is not set") },
+    isZooming           : (Boolean) -> Unit         = { Log.w(tag, "isZooming callback is not set") },
     onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
-    // @formatter:off
     val pagerState: PagerState = rememberPagerState { uiState.reviewImages.size }
 
     LaunchedEffect(pagerState) {
@@ -116,79 +114,76 @@ fun FeedItem(
 
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
         // 이미지 페이저
-        ImagePagerWithIndicator(modifier = Modifier.
-        layoutId("reviewImages"), images = uiState.reviewImages, onImage = onImage, pagerState = pagerState, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
+        ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"),
+            images = uiState.reviewImages, onImage = onImage, pagerState = pagerState, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
         // 프로필 이미지
         LocalFeedImageLoader.current.invoke(Modifier.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp))
             .layoutId("imgProfile"), uiState.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
         // 사용자 명
-        Text(modifier = Modifier.widthIn(0.dp, 150.dp).testTag("txtName").nonEffectclickable(onName)
-            .layoutId("txtName"), text = uiState.userName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
+        Text(modifier = Modifier.layoutId("txtName").widthIn(0.dp, 150.dp).testTag("txtName").nonEffectclickable(onName),
+            text = uiState.userName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
         // 평점
-        AndroidViewRatingBar(Modifier
-            .layoutId("ratingBar") , rating = uiState.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
+        AndroidViewRatingBar(modifier = Modifier.layoutId("ratingBar"),
+            rating = uiState.rating, isSmall = true, changable = false, progressTintColor = progressTintColor)
         // 음식점 명
-        Text(modifier = Modifier.widthIn(0.dp, 250.dp).testTag("txtRestaurantName").nonEffectclickable(onRestaurant)
-            .layoutId("restaurantName"), text = uiState.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
+        Text(modifier = Modifier.layoutId("restaurantName").widthIn(0.dp, 250.dp).testTag("txtRestaurantName").nonEffectclickable(onRestaurant),
+            text = uiState.restaurantName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
         // 메뉴 버튼
-        IconButton(modifier = Modifier.testTag("btnMenu")
-            .layoutId("menu"), onClick = onMenu) {
+        IconButton(modifier = Modifier.layoutId("menu").testTag("btnMenu"),
+            onClick = onMenu) {
             Icon(imageVector = Icons.Default.MoreVert, tint = Color.White, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
         }
         // 좋아요 갯수
-        Text(modifier = Modifier.
-            layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, uiState.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
+        Text(modifier = Modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() },
+            text = stringResource(id = R.string.like, uiState.likeAmount), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
         // 피드 내용
-        LocalExpandableTextType.current.invoke(Modifier.
-            layoutId("contents").testTag("txtContents"), uiState.userName, uiState.contents, onProfile)
+        LocalExpandableTextType.current.invoke(Modifier.layoutId("contents").testTag("txtContents"),
+            uiState.userName, uiState.contents, onProfile)
         // 코멘트
-        Comment(modifier = Modifier.
-            layoutId("comments"), uiState.comments)
+        Comment(modifier = Modifier.layoutId("comments"), uiState.comments)
         // 코멘트 갯수
-        Text(modifier = Modifier.
-            layoutId("commentCount").clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, uiState.commentAmount), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
+        Text(modifier = Modifier.layoutId("commentCount").clickable { onComment.invoke() },
+            text = stringResource(id = R.string.comments, uiState.commentAmount), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
         // 날짜
-        Text(modifier = Modifier.
-            layoutId("date").testTag("txtDate"), text = uiState.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
+        Text(modifier = Modifier.layoutId("date").testTag("txtDate"),
+            text = uiState.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
         // 좋아요 아이콘
-        LikeImage(modifier = Modifier.size(42.dp)
-            .layoutId("imgLike") , isLike = uiState.isLike, onLike = onLike, animation = isLogin)
+        LikeImage(modifier = Modifier.layoutId("imgLike").size(42.dp),
+            isLike = uiState.isLike, onLike = onLike, animation = isLogin)
         // 코멘트 아이콘
-        CommentImage(modifier = Modifier.testTag("btnComment")
-            .layoutId("imgComment"), onComment = onComment, size = 42.dp, padding = 9.dp)
+        CommentImage(modifier = Modifier.layoutId("imgComment").testTag("btnComment"),
+            onComment = onComment, size = 42.dp, padding = 9.dp)
         // 공유 아이콘
-        ShareImage(modifier = Modifier.testTag("btnShare")
-            .layoutId("imgShare"), onShare = onShare, size = 42.dp, padding = 9.dp)
+        ShareImage(modifier = Modifier.layoutId("imgShare").testTag("btnShare"),
+            onShare = onShare, size = 42.dp, padding = 9.dp)
         // 페이지 인디케이터
-        PagerIndicator(modifier = Modifier
-            .layoutId("indicator")
-            .fillMaxWidth(), pagerState = pagerState, count = uiState.reviewImages.size)
+        PagerIndicator(modifier = Modifier.layoutId("indicator").fillMaxWidth(),
+            pagerState = pagerState, count = uiState.reviewImages.size)
         // 즐겨찾기 아이콘
-        FavoriteImage(modifier = Modifier.testTag("btnFavorite")
-            .layoutId("imgFavorite"), isFavorite = uiState.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
+        FavoriteImage(modifier = Modifier.layoutId("imgFavorite").testTag("btnFavorite"),
+            isFavorite = uiState.isFavorite, onFavorite = onFavorite, size = 42.dp, padding = 11.dp, color = favoriteColor)
     }
-    // @formatter:on
 }
 
 fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boolean = false, visibleCommentCount : Boolean = false, visibleRestaurantName : Boolean = false) : ConstraintSet{
     return ConstraintSet{
-        val likeCount = createRefFor("likeCount")
-        val reviewImages = createRefFor("reviewImages")
-        val contents = createRefFor("contents")
-        val comments = createRefFor("comments")
-        val commentCount = createRefFor("commentCount")
-        val date = createRefFor("date")
-        val imgLike = createRefFor("imgLike")
-        val imgComment = createRefFor("imgComment")
-        val imgShare = createRefFor("imgShare")
-        val indicator = createRefFor("indicator")
-        val imgFavorite = createRefFor("imgFavorite")
-        val imgProfile = createRefFor("imgProfile")
-        val txtName = createRefFor("txtName")
-        val ratingBar = createRefFor("ratingBar")
-        val restaurantName = createRefFor("restaurantName")
-        val menu = createRefFor("menu")
-        val guideline = createBottomBarrier(reviewImages, margin = 4.dp)
+        val likeCount       = createRefFor("likeCount")
+        val reviewImages    = createRefFor("reviewImages")
+        val contents        = createRefFor("contents")
+        val comments        = createRefFor("comments")
+        val commentCount    = createRefFor("commentCount")
+        val date            = createRefFor("date")
+        val imgLike         = createRefFor("imgLike")
+        val imgComment      = createRefFor("imgComment")
+        val imgShare        = createRefFor("imgShare")
+        val indicator       = createRefFor("indicator")
+        val imgFavorite     = createRefFor("imgFavorite")
+        val imgProfile      = createRefFor("imgProfile")
+        val txtName         = createRefFor("txtName")
+        val ratingBar       = createRefFor("ratingBar")
+        val restaurantName  = createRefFor("restaurantName")
+        val menu            = createRefFor("menu")
+        val guideline       = createBottomBarrier(reviewImages, margin = 4.dp)
 
         constrain(reviewImages) { top.linkTo(parent.top) }
         constrain(likeCount)    { bottom.linkTo(imgLike.top); start.linkTo(reviewImages.start, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
@@ -224,3 +219,4 @@ fun PreviewFeed() {
         uiState = FeedItemUiState.Sample
     )
 }
+// @formatter:on
