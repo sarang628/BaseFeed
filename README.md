@@ -8,7 +8,7 @@ Feed 항목은 여러 화면에서 필요로 함.<br>
 
 <img src="./screenshot/demonstrate.gif" alt="image" width="300" >
 
-## How to use
+# How to use
 
 <img src="./screenshot/preview.png" alt="image" width="300" >
 
@@ -29,7 +29,7 @@ fun PreviewFeed() {
 }
 ```
 
-## Feature
+# Feature
 
 - Jetpack Compose
 - Android Architecture
@@ -37,6 +37,16 @@ fun PreviewFeed() {
         - UI element
         - UI state
         - viewmodel (state holder)
+
+## Jetpack Compose
+Jetpack Compose는 네이티브 UI 빌드를 위한 안드로이드의 권장 모던 toolkit
+안드로이드 UI 개발을 '단순'하고 '빠르게' 해준다.
+
+### UI element
+
+화면에 표시되는 실제 UI를 만드는 작업. jetpack compose를 사용 했다.<br>
+[UIElement 개발 과정](/documents/UIElement.md)<br>
+[FeedItem.kt](/library/src/main/java/com/sarang/torang/compose/feed/FeedItem.kt)
 
 ## Architecture
 
@@ -55,12 +65,6 @@ UI는 UI element + UI state로 구성<br>
 기존 방식에 이 '데이터 세트'를 적용하면 데이터가 바뀔때마다 모든 elements에 적용해야되서<br>
 render이 매우 느려질 수 있는데, 새로운 아키텍처에서는 데이터가 여러번 호출되도 성능상에<br>
 문제가 되지 않도록 만들었다.
-
-#### UI element
-
-화면에 표시되는 실제 UI를 만드는 작업. jetpack compose를 사용해 제작했다.<br>
-[UIElement 개발 과정](/documents/UIElement.md)<br>
-[FeedItem.kt](/library/src/main/java/com/sarang/torang/compose/feed/FeedItem.kt)
 
 #### UI state
 
