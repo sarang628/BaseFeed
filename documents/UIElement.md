@@ -6,11 +6,11 @@
 
 compose 함수 4개 미리보기 함수 4개 총 8개의 함수가 만들어져 한 파일에 함수와 라인 수가
 
-너무 많아지는 느낌이여서 다른 방법을 사용해보기로 함.
+너무 많아 보여 다른 방법을 시도해 보기로 함.
 
 ## ConstraintLayout 사용
 
-XML ConstraintLayout은 드래그 엔 드롭으로 편리하게 UI를 구현할 수 있었는데
+XML ConstraintLayout은 drag&drop 으로 편리하게 UI를 구현할 수 있었는데
 Compose ConstraintLayout은 그렇지 않다.
 
 Row와 Column을 중첩으로 하더라도 XML의 LinearLayout이나 RelativeLayout을 중첩하면 발생하는

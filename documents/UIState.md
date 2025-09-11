@@ -2,9 +2,9 @@ https://developer.android.com/topic/architecture/ui-layer#define-ui-state
 
 <img scr = ../preview.png width="500">
 
-UI는 사용자에게 보여주는 시각적 표시라면 UI state는 이 정보를 담고 있다.
-UI는 사용자가 보는 것 이라면, UI state는 앱이 사용자이 봐야하는 것을 말하는 것이다.
-UI는 UIstate의 시각젹 표시이며, UIstate가 변경 시 UI에 즉시 반영 되어야 한다.
+UI는 사용자에게 보여주는 시각적 표시라면 UI state는 이 정보를 담고 있다.</br>
+UI는 사용자가 보는 것 이라면, UI state는 앱이 '사용자기 봐야하는 것'을 '말하는 것'이다.</br>
+UI는 UIstate의 시각젹 표시이며, UIstate가 변경 시 UI에 즉시 반영 되어야 한다.</br>
 
 ```
 UIstate 만 봐도 어떤 정보들이 화면에 표시되는지 할 수 있어야할 것 같다.
@@ -21,12 +21,31 @@ UIstate 만 봐도 어떤 정보들이 화면에 표시되는지 할 수 있어�
 
 요구사항 기준으로 샘플 화면과 같은 '디자인'과 '기획서'가 나왔다고 가정한다.
 
-UIState 정의하기.
+### UIState 정의하기.
+'사용자가 봐야하는 것'
+
+```
+/**
+ * @see [/documents/UIState.md]
+ *
+ * @param userName          리뷰 작성자 명
+ * @param profilePictureUrl 프로필 이미지 주소
+ * @param restaurantName    음식점 명
+ * @param rating            평점
+ * @param reviewImages      리뷰 이미지
+ * @param contents          리뷰 내용
+ * @param comments          코멘트
+ * @param likeAmount        좋아요 갯수
+ * @param isLike            나의 좋아요 여부
+ * @param isFavorite        나의 즐겨찾기 여부
+ * @param createDate        생성일
+ */
+```
 
 화면에 보이는 정보를 그대로 데이터로 정의하면 되기 때문에 별로 어려운 작업은 아닌 것 같다.
-변수명에 대한 정의를 잘해야 할 것 같다.
-UIState 생성을 용이하게 하기위해 defalut value를 설정.
-UIState의 빈값, 샘플값, 변환등과 같은 확장 기능에 대해서는 FeedItemUiStateExtension.kt에 따로 정의하였다.
+변수명 정의를 잘해야 할 것 같다.
+UIState 생성의 용이를 위해 defalut value를 설정.
+UIState의 빈값, 샘플값, 변환 등의 확장 기능은 FeedItemUiStateExtension.kt에 정의.
 
 [FeedItemUiState.kt](/library/src/main/java/com/sarang/torang/data/basefeed/FeedItemUiState.kt)
 [FeedItemUiStateExtension.kt](/library/src/main/java/com/sarang/torang/data/basefeed/FeedItemUiStateExtension.kt)
