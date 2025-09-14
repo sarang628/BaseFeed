@@ -32,9 +32,10 @@ fun PreviewFeed() {
 # Feature
 
 - Jetpack Compose
+  - UI element
+  - Tween animation(Like)
 - Android Architecture
     - UI layer
-        - UI element
         - UI state
         - viewmodel (state holder)
 
