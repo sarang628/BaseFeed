@@ -27,5 +27,6 @@ data class FeedItemUiState(
     val commentAmount       : Int           = 0,
     val isLike              : Boolean       = false,
     val isFavorite          : Boolean       = false,
+    val height              : Int           = 400,
     val createDate          : String        = ""
 ){ companion object }

@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
@@ -46,7 +47,7 @@ import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentImage
 import com.sarang.torang.compose.feed.internal.components.FavoriteImage
 import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
-import com.sarang.torang.compose.feed.internal.components.LikeImage
+import com.sarang.torang.compose.feed.internal.components.Like
 import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.PagerIndicator
@@ -88,7 +89,6 @@ fun FeedItem(
     favoriteColor       : Color                     = Color(0xffe6cc00),
     isLogin             : Boolean                   = false,
     pageScrollAble      : Boolean                   = true,
-    imageHeight         : Dp                        = 400.dp,
     onPressed           : () -> Unit                = { Log.w(tag, "onPressed callback is not set") },
     onReleased          : () -> Unit                = { Log.w(tag, "onReleased callback is not set") },
     onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
@@ -105,6 +105,7 @@ fun FeedItem(
     onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
     val pagerState: PagerState = rememberPagerState { uiState.reviewImages.size }
+    val density = LocalDensity.current
 
     LaunchedEffect(pagerState) {
         snapshotFlow{pagerState.currentPage}
@@ -115,7 +116,7 @@ fun FeedItem(
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
         // 이미지 페이저
         ImagePagerWithIndicator(modifier = Modifier.layoutId("reviewImages"),
-            images = uiState.reviewImages, onImage = onImage, pagerState = pagerState, height = imageHeight, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
+            images = uiState.reviewImages, onImage = onImage, pagerState = pagerState, height = with(density) { uiState.height.toDp() }, onPressed = onPressed, onReleased = onReleased, scrollEnable = pageScrollAble)
         // 프로필 이미지
         LocalFeedImageLoader.current.invoke(Modifier.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp))
             .layoutId("imgProfile"), uiState.profilePictureUrl, 20.dp, 20.dp, ContentScale.Crop, null)
@@ -148,7 +149,7 @@ fun FeedItem(
         Text(modifier = Modifier.layoutId("date").testTag("txtDate"),
             text = uiState.formatedDate(), color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
         // 좋아요 아이콘
-        LikeImage(modifier = Modifier.layoutId("imgLike").size(42.dp),
+        Like(modifier = Modifier.layoutId("imgLike").size(42.dp),
             isLike = uiState.isLike, onLike = onLike, animation = isLogin)
         // 코멘트 아이콘
         CommentImage(modifier = Modifier.layoutId("imgComment").testTag("btnComment"),
