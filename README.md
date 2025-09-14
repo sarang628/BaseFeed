@@ -99,8 +99,6 @@ UDF는 '이론'이며<br>
 이를 구현하기위해 코틀린의 Flow나 안드로이드의 LiveData를 사용<br>
 중자재로 ViewModel을 사용해야 UDF이론을 앱에 적용 할 수 있다.
 
-
-
 ## development note
 
 - gradle.build.kts 로 변경
