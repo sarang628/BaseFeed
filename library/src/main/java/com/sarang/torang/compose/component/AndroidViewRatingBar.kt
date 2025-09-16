@@ -12,8 +12,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 internal fun AndroidViewRatingBar(
     modifier: Modifier = Modifier,
     rating: Float,
-    isSmall: Boolean = false,
-    changable: Boolean = true,
+    isSmall: Boolean = true,
+    changable: Boolean = false,
     progressTintColor: Color? = null
 ) {
     // Adds view to Compose

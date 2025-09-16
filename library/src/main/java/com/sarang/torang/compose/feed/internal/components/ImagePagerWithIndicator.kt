@@ -1,11 +1,13 @@
 package com.sarang.torang.compose.feed.internal.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,10 +16,8 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
  * ImagePager 와 Indicator
@@ -39,25 +40,33 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
  * @param videoPlayer video player compose
  * @param image image compose
  * @param height height
- * @param onPressed onPressed
- * @param onReleased onReleased
  * @param zoomState 이미지 zoom 상태
  */
 @Composable
 fun ImagePagerWithIndicator(
     modifier: Modifier = Modifier,
+    tag : String = "__ImagePagerWithIndicator",
     pagerState: PagerState = rememberPagerState { images.size },
     images: List<String>,
     onImage: (Int) -> Unit,
-    showIndicator: Boolean = false,
+    showIndicator: Boolean = true,
     height: Dp = 400.dp,
-    onPressed: () -> Unit = {},
-    onReleased: () -> Unit = {},
-    scrollEnable: Boolean = true
+    scrollEnable: Boolean = true,
+    indicatorBottomPadding : Dp = 12.dp,
+    onPage : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
+
+    val pagerState: PagerState = rememberPagerState { images.size }
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow{pagerState.currentPage}
+            .distinctUntilChanged() // 중복된 값 방지
+            .collect{ onPage.invoke(it, it == 0, it == images.size - 1) }
+    }
+
     Box(modifier = modifier)
     {
-        Column(modifier = modifier) {
+        Box(modifier = modifier) {
             HorizontalPager(
                 modifier = Modifier.height(height),
                 state = pagerState,
@@ -71,19 +80,20 @@ fun ImagePagerWithIndicator(
                         images[page], null, null, ContentScale.Crop, height
                     )
                 }
-                if (showIndicator)
-                    PagerIndicator(modifier = Modifier.fillMaxSize(), pagerState = pagerState, count = images.size)
             }
+            if (showIndicator)
+                PagerIndicator(Modifier.align(Alignment.BottomCenter).padding(bottom = indicatorBottomPadding),pagerState = pagerState, count = images.size)
         }
     }
 }
 
 
+@Preview
 @Composable
-fun PagerIndicator(modifier: Modifier = Modifier, count: Int, pagerState: PagerState) {
+fun PagerIndicator(modifier: Modifier = Modifier, count: Int = 0, pagerState: PagerState = rememberPagerState {count})  {
     if (count > 1)
         Row(
-            modifier = modifier,
+            modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {

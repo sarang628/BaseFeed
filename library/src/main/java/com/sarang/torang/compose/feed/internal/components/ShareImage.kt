@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -15,14 +16,13 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
-fun ShareImage(
-    modifier: Modifier = Modifier, onShare: () -> Unit, size: Dp,
-    padding: Dp
+fun Share(
+    modifier: Modifier = Modifier, onShare: () -> Unit, size: Dp = 42.dp,
+    padding: Dp = 9.dp
 ) {
     Icon(painter = painterResource(id = R.drawable.share),
         contentDescription = "share",
-        modifier = modifier
-            .layoutId("share")
+        modifier = modifier.testTag("btnShare")
             .size(size)
             .padding(padding)
             .nonEffectclickable {
@@ -34,5 +34,5 @@ fun ShareImage(
 @Preview
 @Composable
 fun PreviewShareImage() {
-    ShareImage(onShare = { /*TODO*/ }, size = 50.dp, padding = 0.dp)
+    Share(onShare = { /*TODO*/ }, size = 50.dp, padding = 0.dp)
 }

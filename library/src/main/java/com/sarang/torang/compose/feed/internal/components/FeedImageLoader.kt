@@ -22,3 +22,4 @@ val LocalFeedImageLoader = compositionLocalOf<FeedImageLoader> {
         Image(modifier = modifier, painter = painterResource(R.drawable.sample), contentDescription = "", contentScale = ContentScale.Crop)
     }
 }
+

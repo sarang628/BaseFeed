@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -15,18 +16,18 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
-fun CommentImage(
-    modifier: Modifier, onComment: () -> Unit, size: Dp,
-    padding: Dp
+fun Comment(
+    modifier: Modifier, onComment: () -> Unit, size: Dp = 42.dp,
+    padding: Dp = 9.dp
 ) {
     Icon(painter = painterResource(id = R.drawable.comment),
         tint = Color.White,
         contentDescription = "comment",
-        modifier = modifier.size(size).padding(padding).layoutId("comment").nonEffectclickable { onComment.invoke() })
+        modifier = modifier.testTag("btnComment").size(size).padding(padding).layoutId("comment").nonEffectclickable { onComment.invoke() })
 }
 
 @Preview
 @Composable
 fun PreviewCommentImage() {
-    CommentImage(modifier = Modifier, onComment = { /*TODO*/ }, size = 50.dp, padding = 0.dp)
+    Comment(modifier = Modifier, onComment = { /*TODO*/ }, size = 50.dp, padding = 0.dp)
 }
