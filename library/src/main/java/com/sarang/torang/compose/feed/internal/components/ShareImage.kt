@@ -22,7 +22,7 @@ fun Share(
 ) {
     Icon(painter = painterResource(id = R.drawable.share),
         contentDescription = "share",
-        modifier = modifier.testTag("btnShare")
+        modifier = modifier.layoutId("imgShare").testTag("btnShare")
             .size(size)
             .padding(padding)
             .nonEffectclickable {

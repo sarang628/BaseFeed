@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -64,26 +65,23 @@ fun ImagePagerWithIndicator(
             .collect{ onPage.invoke(it, it == 0, it == images.size - 1) }
     }
 
-    Box(modifier = modifier)
-    {
-        Box(modifier = modifier) {
-            HorizontalPager(
-                modifier = Modifier.height(height),
-                state = pagerState,
-                userScrollEnabled = scrollEnable
-            ) { page ->
+    Box(modifier = modifier.layoutId("reviewImages")) {
+        HorizontalPager(
+            modifier = Modifier.height(height),
+            state = pagerState,
+            userScrollEnabled = scrollEnable
+        ) { page ->
 
-                val ext = images[page].substring(images[page].lastIndexOf("."))
-                if (ext == ".m3u8") { LocalVideoPlayerType.current.invoke(images[page]) }
-                else { LocalFeedImageLoader.current.invoke(
-                        modifier.testTag("imgReview").fillMaxSize().nonEffectclickable(onClick = { onImage.invoke(page) }),
-                        images[page], null, null, ContentScale.Crop, height
-                    )
-                }
+            val ext = images[page].substring(images[page].lastIndexOf("."))
+            if (ext == ".m3u8") { LocalVideoPlayerType.current.invoke(images[page]) }
+            else { LocalFeedImageLoader.current.invoke(
+                    modifier.testTag("imgReview").fillMaxSize().nonEffectclickable(onClick = { onImage.invoke(page) }),
+                    images[page], null, null, ContentScale.Crop, height
+                )
             }
-            if (showIndicator)
-                PagerIndicator(Modifier.align(Alignment.BottomCenter).padding(bottom = indicatorBottomPadding),pagerState = pagerState, count = images.size)
         }
+        if (showIndicator)
+            PagerIndicator(Modifier.align(Alignment.BottomCenter).padding(bottom = indicatorBottomPadding),pagerState = pagerState, count = images.size)
     }
 }
 

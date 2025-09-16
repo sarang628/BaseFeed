@@ -8,8 +8,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -17,9 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -48,14 +44,12 @@ import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicato
 import com.sarang.torang.compose.feed.internal.components.Like
 import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
-import com.sarang.torang.compose.feed.internal.components.PagerIndicator
 import com.sarang.torang.compose.feed.internal.components.Share
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.empty
 import com.sarang.torang.data.basefeed.formatedDate
-import kotlinx.coroutines.flow.distinctUntilChanged
 
 // @formatter:off
 /**
@@ -95,65 +89,65 @@ fun FeedItem(
     onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
-        ImagePagerWithIndicator (modifier = Modifier.layoutId("reviewImages")   , images = uiState.reviewImages, showIndicator = true, onImage = onImage, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble)
-        UserName                (modifier = Modifier.layoutId("txtName")        , userName = uiState.userName, onName = onName)
-        AndroidViewRatingBar    (modifier = Modifier.layoutId("ratingBar")      , rating = uiState.rating, progressTintColor = progressTintColor)
-        RestaurantName          (modifier = Modifier.layoutId("restaurantName") , restaurantNeme = uiState.restaurantName, onRestaurant = onRestaurant)
-        Menu                    (modifier = Modifier.layoutId("menu")           , onMenu = onMenu)
-        LikeCount               (modifier = Modifier.layoutId("likeCount")      , count = uiState.likeAmount, onLikes = onLike)
-        Comment                 (modifier = Modifier.layoutId("comments")       , comments = uiState.comments)
-        CommentCount            (modifier = Modifier.layoutId("commentCount")   , count = uiState.commentAmount, onComment)
-        Date                    (modifier = Modifier.layoutId("date")           , date = uiState.formatedDate())
-        Like                    (modifier = Modifier.layoutId("imgLike")        , isLike = uiState.isLike, onLike = onLike, animation = uiState.isLogin)
-        Comment                 (modifier = Modifier.layoutId("imgComment")     , onComment = onComment)
-        Share                   (modifier = Modifier.layoutId("imgShare")       , onShare = onShare)
-        Favorite                (modifier = Modifier.layoutId("imgFavorite")    , isFavorite = uiState.isFavorite, onFavorite = onFavorite, color = favoriteColor)
-        ProfileImage            (modifier = Modifier.layoutId("imgProfile")     , url = uiState.profilePictureUrl, onProfile = onProfile)
-        Contents                (modifier = Modifier.layoutId("contents")       , userName = uiState.userName, contents = uiState.contents, onProfile = onProfile)
+        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble)
+        UserName                (userName       = uiState.userName          , onName = onName)
+        LikeCount               (count          = uiState.likeAmount        , onLikes = onLike)
+        CommentCount            (count          = uiState.commentAmount     , onComment = onComment)
+        Like                    (isLike         = uiState.isLike            , onLike = onLike, animation = uiState.isLogin)
+        Favorite                (isFavorite     = uiState.isFavorite        , onFavorite = onFavorite, color = favoriteColor)
+        ProfileImage            (url            = uiState.profilePictureUrl , onProfile = onProfile)
+        RestaurantName          (restaurantNeme = uiState.restaurantName    , onRestaurant = onRestaurant)
+        Contents                (userName       = uiState.userName, contents = uiState.contents, onContents = onProfile)
+        AndroidViewRatingBar    (rating         = uiState.rating, progressTintColor = progressTintColor)
+        Comment                 (comments       = uiState.comments)
+        Date                    (date           = uiState.formatedDate())
+        Share                   (onShare = onShare)
+        Comment                 (onComment = onComment)
+        Menu                    (onMenu = onMenu)
     }
 }
 
 @Composable
-fun Contents(modifier : Modifier = Modifier, userName : String = "", contents : String, onProfile : ()->Unit = {}){
-    LocalExpandableTextType.current.invoke(modifier.testTag("txtContents"), userName, contents, onProfile)
+fun Contents(modifier : Modifier = Modifier, userName : String = "", contents : String, onContents : ()->Unit = {}){
+    LocalExpandableTextType.current.invoke(modifier.layoutId("contents").testTag("txtContents"), userName, contents, onContents)
 }
 
 @Composable
-fun ProfileImage(modifier : Modifier, onProfile: () -> Unit = {}, url : String = ""){
-    LocalFeedImageLoader.current.invoke(modifier.testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), url, 20.dp, 20.dp, ContentScale.Crop, null)
+fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
+    LocalFeedImageLoader.current.invoke(modifier.layoutId("imgProfile").testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), url, 20.dp, 20.dp, ContentScale.Crop, null)
 }
 
 @Composable
 fun UserName(modifier : Modifier = Modifier, onName: () -> Unit = {}, userName : String = ""){
-    Text(modifier = modifier.widthIn(0.dp, 150.dp).nonEffectclickable(onName),
+    Text(modifier = modifier.layoutId("txtName").widthIn(0.dp, 150.dp).nonEffectclickable(onName),
         text = userName, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
 }
 
 @Composable
 fun Date(modifier : Modifier = Modifier, date : String = ""){
-    Text(modifier = modifier.testTag("txtDate"), text = date, color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
+    Text(modifier = modifier.layoutId("date").testTag("txtDate"), text = date, color = Color.Gray, fontWeight = W500, fontSize = 12.sp)
 }
 
 @Composable
 fun CommentCount(modifier : Modifier = Modifier, count : Int, onComment : ()->Unit = {}){
-    Text(modifier = modifier.clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, count), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
+    Text(modifier = modifier.layoutId("commentCount").clickable { onComment.invoke() }, text = stringResource(id = R.string.comments, count), color = Color.Gray, fontWeight = W500, fontSize = 14.sp)
 }
 
 @Composable
 fun LikeCount(modifier : Modifier = Modifier, onLikes : ()->Unit = {}, count : Int = 0){
-    Text(modifier = modifier.testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, count), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
+    Text(modifier = modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, count), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
 }
 
 @Composable
 fun Menu(modifier : Modifier = Modifier, onMenu : ()->Unit){
-    IconButton(modifier = modifier.testTag("btnMenu"), onClick = onMenu) {
+    IconButton(modifier = modifier.layoutId("menu").testTag("btnMenu"), onClick = onMenu) {
         Icon(imageVector = Icons.Default.MoreVert, tint = Color.White, contentDescription = "menu", modifier = Modifier.background(Color.Transparent))
     }
 }
 
 @Composable
-fun RestaurantName(modifier : Modifier, onRestaurant : ()->Unit, restaurantNeme : String = ""){
-    Text(modifier = modifier.testTag("txtRestaurantName").widthIn(0.dp, 250.dp).nonEffectclickable(onRestaurant),
+fun RestaurantName(modifier : Modifier = Modifier, onRestaurant : ()->Unit, restaurantNeme : String = ""){
+    Text(modifier = modifier.layoutId("restaurantName").testTag("txtRestaurantName").widthIn(0.dp, 250.dp).nonEffectclickable(onRestaurant),
         text = restaurantNeme, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
 }
 

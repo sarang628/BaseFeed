@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -30,7 +31,7 @@ fun Like(modifier: Modifier = Modifier, isLike: Boolean = false, onLike: () -> U
     var isAnimationLike by remember { mutableStateOf(false) }
     var isLike by remember { mutableStateOf(isLike) }
 
-    Box(modifier = modifier.size(42.dp)) {
+    Box(modifier = modifier.layoutId("imgLike").size(42.dp)) {
         if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
             LikeIcon(modifier = Modifier.testTag("btnLike"), onLike = { onLike.invoke(); isLike = false; isAnimationLike = false }, size = 42.dp, padding = 8.5.dp)
         } else if (isAnimationLike) {

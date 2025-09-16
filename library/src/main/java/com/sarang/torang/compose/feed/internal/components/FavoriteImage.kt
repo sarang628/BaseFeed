@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,7 +18,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
 fun Favorite(
-    modifier: Modifier, isFavorite: Boolean, onFavorite: () -> Unit, size: Dp = 42.dp,
+    modifier: Modifier = Modifier, isFavorite: Boolean, onFavorite: () -> Unit, size: Dp = 42.dp,
     padding: Dp = 11.dp,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
@@ -29,6 +30,7 @@ fun Favorite(
         contentDescription = "favorite",
         tint = if (isFavorite) color else Color.White,
         modifier = modifier
+            .layoutId("imgFavorite")
             .testTag("btnFavorite")
             .size(size)
             .padding(padding)

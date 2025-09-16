@@ -17,13 +17,13 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
 fun Comment(
-    modifier: Modifier, onComment: () -> Unit, size: Dp = 42.dp,
+    modifier: Modifier = Modifier, onComment: () -> Unit, size: Dp = 42.dp,
     padding: Dp = 9.dp
 ) {
     Icon(painter = painterResource(id = R.drawable.comment),
         tint = Color.White,
         contentDescription = "comment",
-        modifier = modifier.testTag("btnComment").size(size).padding(padding).layoutId("comment").nonEffectclickable { onComment.invoke() })
+        modifier = modifier.layoutId("imgComment").testTag("btnComment").size(size).padding(padding).layoutId("comment").nonEffectclickable { onComment.invoke() })
 }
 
 @Preview
