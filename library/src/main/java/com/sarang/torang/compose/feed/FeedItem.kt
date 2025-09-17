@@ -76,34 +76,25 @@ fun FeedItem(
     progressTintColor   : Color                     = Color(0xffe6cc00),
     favoriteColor       : Color                     = Color(0xffe6cc00),
     pageScrollAble      : Boolean                   = true,
-    onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
-    onProfile           : () -> Unit                = { Log.w(tag, "onProfile callback is not set") },
-    onComment           : () -> Unit                = { Log.w(tag, "onComment callback is not set") },
-    onShare             : () -> Unit                = { Log.w(tag, "onShare callback is not set") },
-    onMenu              : () -> Unit                = { Log.w(tag, "onMenu callback is not set") },
-    onFavorite          : () -> Unit                = { Log.w(tag, "onFavorite callback is not set") },
-    onName              : () -> Unit                = { Log.w(tag, "onName callback is not set") },
-    onRestaurant        : () -> Unit                = { Log.w(tag, "onRestaurant callback is not set") },
-    onLikes             : () -> Unit                = { Log.w(tag, "onLikes callback is not set") },
-    onImage             : (Int) -> Unit             = { Log.w(tag, "onImage callback is not set") },
+    feedItemClickEvents : FeedItemClickEvents       = FeedItemClickEvents(tag = tag),
     onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
-        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble)
-        UserName                (userName       = uiState.userName          , onName = onName)
-        LikeCount               (count          = uiState.likeAmount        , onLikes = onLike)
-        CommentCount            (count          = uiState.commentAmount     , onComment = onComment)
-        Like                    (isLike         = uiState.isLike            , onLike = onLike, animation = uiState.isLogin)
-        Favorite                (isFavorite     = uiState.isFavorite        , onFavorite = onFavorite, color = favoriteColor)
-        ProfileImage            (url            = uiState.profilePictureUrl , onProfile = onProfile)
-        RestaurantName          (restaurantNeme = uiState.restaurantName    , onRestaurant = onRestaurant)
-        Contents                (userName       = uiState.userName, contents = uiState.contents, onContents = onProfile)
+        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble)
+        UserName                (userName       = uiState.userName          , onName = feedItemClickEvents.onName)
+        LikeCount               (count          = uiState.likeAmount        , onLikes = feedItemClickEvents.onLike)
+        CommentCount            (count          = uiState.commentAmount     , onComment = feedItemClickEvents.onComment)
+        Like                    (isLike         = uiState.isLike            , onLike = feedItemClickEvents.onLike, animation = uiState.isLogin)
+        Favorite                (isFavorite     = uiState.isFavorite        , onFavorite = feedItemClickEvents.onFavorite, color = favoriteColor)
+        ProfileImage            (url            = uiState.profilePictureUrl , onProfile = feedItemClickEvents.onProfile)
+        RestaurantName          (restaurantNeme = uiState.restaurantName    , onRestaurant = feedItemClickEvents.onRestaurant)
+        Contents                (userName       = uiState.userName, contents = uiState.contents, onContents = feedItemClickEvents.onProfile)
         AndroidViewRatingBar    (rating         = uiState.rating, progressTintColor = progressTintColor)
         Comment                 (comments       = uiState.comments)
         Date                    (date           = uiState.formatedDate())
-        Share                   (onShare = onShare)
-        Comment                 (onComment = onComment)
-        Menu                    (onMenu = onMenu)
+        Share                   (onShare = feedItemClickEvents.onShare)
+        Comment                 (onComment = feedItemClickEvents.onComment)
+        Menu                    (onMenu = feedItemClickEvents.onMenu)
     }
 }
 
@@ -151,7 +142,19 @@ fun RestaurantName(modifier : Modifier = Modifier, onRestaurant : ()->Unit, rest
         text = restaurantNeme, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
 }
 
-
+data class FeedItemClickEvents (
+    val tag                 : String                    = "",
+    val onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
+    val onProfile           : () -> Unit                = { Log.w(tag, "onProfile callback is not set") },
+    val onComment           : () -> Unit                = { Log.w(tag, "onComment callback is not set") },
+    val onShare             : () -> Unit                = { Log.w(tag, "onShare callback is not set") },
+    val onMenu              : () -> Unit                = { Log.w(tag, "onMenu callback is not set") },
+    val onFavorite          : () -> Unit                = { Log.w(tag, "onFavorite callback is not set") },
+    val onName              : () -> Unit                = { Log.w(tag, "onName callback is not set") },
+    val onRestaurant        : () -> Unit                = { Log.w(tag, "onRestaurant callback is not set") },
+    val onLikes             : () -> Unit                = { Log.w(tag, "onLikes callback is not set") },
+    val onImage             : (Int) -> Unit             = { Log.w(tag, "onImage callback is not set") },
+)
 
 fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boolean = false, visibleCommentCount : Boolean = false, visibleRestaurantName : Boolean = false) : ConstraintSet{
     return ConstraintSet{
