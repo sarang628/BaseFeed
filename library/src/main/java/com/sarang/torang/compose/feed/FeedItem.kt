@@ -70,7 +70,7 @@ fun FeedItem(
     onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
-        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble)
+        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble, onPage = onPage)
         UserName                (userName       = uiState.userName          , onName = feedItemClickEvents.onName)
         LikeCount               (count          = uiState.likeAmount        , onLikes = feedItemClickEvents.onLike)
         CommentCount            (count          = uiState.commentAmount     , onComment = feedItemClickEvents.onComment)
