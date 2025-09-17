@@ -57,16 +57,6 @@ import com.sarang.torang.data.basefeed.formatedDate
  * @param uiState            리뷰 데이터
  * @param progressTintColor ratingBar 색
  * @param favoriteColor     즐겨찾기 색
- * @param onImage           이미지 클릭
- * @param onProfile         프로필 클릭
- * @param onLike            좋아요 클릭
- * @param onComment         코멘트 클릭
- * @param onShare           공유 클릭
- * @param onFavorite        즐겨찾기 클릭
- * @param onMenu            메뉴 클릭
- * @param onName            사용자명 클릭
- * @param onRestaurant      음식점명 클릭
- * @param onLikes           좋아요 클릭
  * @param onPage            페이지 콜백 Int: 현재 페이지, Boolean: 첫번째 페이지 여부, Boolean: 마지막 페이지 여부
  */
 @Composable
@@ -142,6 +132,18 @@ fun RestaurantName(modifier : Modifier = Modifier, onRestaurant : ()->Unit, rest
         text = restaurantNeme, overflow = TextOverflow.Ellipsis, maxLines = 1, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
 }
 
+/**
+ * @param onImage           이미지 클릭
+ * @param onProfile         프로필 클릭
+ * @param onLike            좋아요 클릭
+ * @param onComment         코멘트 클릭
+ * @param onShare           공유 클릭
+ * @param onFavorite        즐겨찾기 클릭
+ * @param onMenu            메뉴 클릭
+ * @param onName            사용자명 클릭
+ * @param onRestaurant      음식점명 클릭
+ * @param onLikes           좋아요 클릭
+ */
 data class FeedItemClickEvents (
     val tag                 : String                    = "",
     val onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
