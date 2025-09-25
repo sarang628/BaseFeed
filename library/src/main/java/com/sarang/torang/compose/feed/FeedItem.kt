@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -15,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +43,7 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.component.AndroidViewRatingBar
 import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.Favorite
+import com.sarang.torang.compose.feed.internal.components.FeedImageLoaderData
 import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
 import com.sarang.torang.compose.feed.internal.components.Like
 import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextType
@@ -69,8 +73,11 @@ fun FeedItem(
     feedItemClickEvents : FeedItemClickEvents       = FeedItemClickEvents(tag = tag),
     onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
         ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble, onPage = onPage)
+        Box                     (modifier = Modifier.layoutId("clickBlockBehindProfile").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
+        Box                     (modifier = Modifier.layoutId("clickBlockBehindBottom").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         UserName                (userName       = uiState.userName          , onName = feedItemClickEvents.onName)
         LikeCount               (count          = uiState.likeAmount        , onLikes = feedItemClickEvents.onLike)
         CommentCount            (count          = uiState.commentAmount     , onComment = feedItemClickEvents.onComment)
@@ -95,7 +102,18 @@ fun Contents(modifier : Modifier = Modifier, userName : String = "", contents : 
 
 @Composable
 fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
-    LocalFeedImageLoader.current.invoke(modifier.layoutId("imgProfile").testTag("imgProfile").size(32.dp).nonEffectclickable(onProfile).border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp)).clip(RoundedCornerShape(20.dp)), url, 20.dp, 20.dp, ContentScale.Crop, null)
+    LocalFeedImageLoader.current.invoke(FeedImageLoaderData(
+        modifier = modifier.layoutId("imgProfile")
+            .testTag("imgProfile")
+            .size(32.dp)
+            .nonEffectclickable(onProfile)
+            .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(20.dp)),
+        url = url,
+        progressSize = 20.dp,
+        errorIconSize = 20.dp,
+        contentScale = ContentScale.Crop,
+        50.dp))
 }
 
 @Composable
@@ -145,7 +163,7 @@ fun RestaurantName(modifier : Modifier = Modifier, onRestaurant : ()->Unit, rest
  * @param onLikes           좋아요 클릭
  */
 data class FeedItemClickEvents (
-    val tag                 : String                    = "",
+    val tag                 : String                    = "__FeedItemClickEvents",
     val onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
     val onProfile           : () -> Unit                = { Log.w(tag, "onProfile callback is not set") },
     val onComment           : () -> Unit                = { Log.w(tag, "onComment callback is not set") },
@@ -160,42 +178,47 @@ data class FeedItemClickEvents (
 
 fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boolean = false, visibleCommentCount : Boolean = false, visibleRestaurantName : Boolean = false) : ConstraintSet{
     return ConstraintSet{
-        val likeCount       = createRefFor("likeCount")
-        val reviewImages    = createRefFor("reviewImages")
-        val contents        = createRefFor("contents")
-        val comments        = createRefFor("comments")
-        val commentCount    = createRefFor("commentCount")
-        val date            = createRefFor("date")
-        val imgLike         = createRefFor("imgLike")
-        val imgComment      = createRefFor("imgComment")
-        val imgShare        = createRefFor("imgShare")
-        val indicator       = createRefFor("indicator")
-        val imgFavorite     = createRefFor("imgFavorite")
-        val imgProfile      = createRefFor("imgProfile")
-        val txtName         = createRefFor("txtName")
-        val ratingBar       = createRefFor("ratingBar")
-        val restaurantName  = createRefFor("restaurantName")
-        val menu            = createRefFor("menu")
+        val likeCount               = createRefFor("likeCount")
+        val reviewImages            = createRefFor("reviewImages")
+        val contents                = createRefFor("contents")
+        val comments                = createRefFor("comments")
+        val commentCount            = createRefFor("commentCount")
+        val date                    = createRefFor("date")
+        val imgLike                 = createRefFor("imgLike")
+        val imgComment              = createRefFor("imgComment")
+        val imgShare                = createRefFor("imgShare")
+        val indicator               = createRefFor("indicator")
+        val imgFavorite             = createRefFor("imgFavorite")
+        val imgProfile              = createRefFor("imgProfile")
+        val txtName                 = createRefFor("txtName")
+        val ratingBar               = createRefFor("ratingBar")
+        val restaurantName          = createRefFor("restaurantName")
+        val menu                    = createRefFor("menu")
+        val clickBlockBehindProfile = createRefFor("clickBlockBehindProfile")
+        val clickBlockBehindBottom  = createRefFor("clickBlockBehindBottom")
         val guideline       = createBottomBarrier(reviewImages, margin = 4.dp)
 
-        constrain(reviewImages) { top.linkTo(parent.top) }
-        constrain(likeCount)    { bottom.linkTo(imgLike.top); start.linkTo(reviewImages.start, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
-        constrain(commentCount) { start.linkTo(parent.start, 4.dp); top.linkTo(guideline); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone}
-        constrain(contents)     { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
-        constrain(comments)     { top.linkTo(contents.bottom); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone }
-        constrain(date)         { start.linkTo(parent.start, 4.dp); top.linkTo(comments.bottom, 8.dp); }
+        constrain(reviewImages)     { top.linkTo(parent.top) }
+        constrain(likeCount)        { bottom.linkTo(imgLike.top); start.linkTo(reviewImages.start, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
+        constrain(commentCount)     { start.linkTo(parent.start, 4.dp); top.linkTo(guideline); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone}
+        constrain(contents)         { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
+        constrain(comments)         { top.linkTo(contents.bottom); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone }
+        constrain(date)             { start.linkTo(parent.start, 4.dp); top.linkTo(comments.bottom, 8.dp); }
 
-        constrain(imgLike)      { start.linkTo(reviewImages.start); bottom.linkTo(reviewImages.bottom); }
-        constrain(imgComment)   { start.linkTo(imgLike.end); bottom.linkTo(reviewImages.bottom); }
-        constrain(imgShare)     { start.linkTo(imgComment.end); bottom.linkTo(reviewImages.bottom); }
-        constrain(indicator)    { start.linkTo(reviewImages.start); end.linkTo(reviewImages.end); top.linkTo(imgLike.top); bottom.linkTo(imgLike.bottom); }
-        constrain(imgFavorite)  { end.linkTo(reviewImages.end); bottom.linkTo(reviewImages.bottom) }
+        constrain(imgLike)          { start.linkTo(reviewImages.start); bottom.linkTo(reviewImages.bottom); }
+        constrain(imgComment)       { start.linkTo(imgLike.end); bottom.linkTo(reviewImages.bottom); }
+        constrain(imgShare)         { start.linkTo(imgComment.end); bottom.linkTo(reviewImages.bottom); }
+        constrain(indicator)        { start.linkTo(reviewImages.start); end.linkTo(reviewImages.end); top.linkTo(imgLike.top); bottom.linkTo(imgLike.bottom); }
+        constrain(imgFavorite)      { end.linkTo(reviewImages.end); bottom.linkTo(reviewImages.bottom) }
 
-        constrain(imgProfile)   { top.linkTo(reviewImages.top, 4.dp); start.linkTo(reviewImages.start, 4.dp) }
-        constrain(txtName)      { start.linkTo(imgProfile.end, 4.dp); top.linkTo(imgProfile.top); bottom.linkTo(restaurantName.top) }
-        constrain(ratingBar)    { start.linkTo(txtName.end, 4.dp); top.linkTo(txtName.top); bottom.linkTo(txtName.bottom) }
-        constrain(restaurantName){ top.linkTo(txtName.bottom); bottom.linkTo(imgProfile.bottom); start.linkTo(imgProfile.end, 4.dp) }
-        constrain(menu)         { end.linkTo(parent.end) }
+        constrain(imgProfile)       { top.linkTo(reviewImages.top, 4.dp); start.linkTo(reviewImages.start, 4.dp) }
+        constrain(txtName)          { start.linkTo(imgProfile.end, 4.dp); top.linkTo(imgProfile.top); bottom.linkTo(restaurantName.top) }
+        constrain(ratingBar)        { start.linkTo(txtName.end, 4.dp); top.linkTo(txtName.top); bottom.linkTo(txtName.bottom) }
+        constrain(restaurantName)   { top.linkTo(txtName.bottom); bottom.linkTo(imgProfile.bottom); start.linkTo(imgProfile.end, 4.dp); }
+        constrain(menu)             { end.linkTo(parent.end) }
+
+        constrain(clickBlockBehindProfile)  { start.linkTo(parent.start); end.linkTo(parent.end); top.linkTo(parent.top); bottom.linkTo(menu.bottom); width = Dimension.fillToConstraints; height = Dimension.fillToConstraints }
+        constrain(clickBlockBehindBottom)   { start.linkTo(parent.start); end.linkTo(parent.end); top.linkTo(imgLike.top); bottom.linkTo(reviewImages.bottom); width = Dimension.fillToConstraints; height = Dimension.fillToConstraints }
     }
 }
 

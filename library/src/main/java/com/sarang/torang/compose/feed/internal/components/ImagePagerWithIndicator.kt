@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,16 +44,16 @@ import kotlinx.coroutines.flow.distinctUntilChanged
  */
 @Composable
 fun ImagePagerWithIndicator(
-    modifier: Modifier = Modifier,
-    tag : String = "__ImagePagerWithIndicator",
-    pagerState: PagerState = rememberPagerState { images.size },
-    images: List<String>,
-    onImage: (Int) -> Unit,
-    showIndicator: Boolean = true,
-    height: Dp = 400.dp,
-    scrollEnable: Boolean = true,
-    indicatorBottomPadding : Dp = 12.dp,
-    onPage : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
+    modifier                : Modifier          = Modifier,
+    tag                     : String            = "__ImagePagerWithIndicator",
+    pagerState              : PagerState        = rememberPagerState { images.size },
+    images                  : List<String>      = listOf(),
+    onImage                 : (Int) -> Unit     = { Log.i(tag, "onImage callback is not set page : $it") },
+    showIndicator           : Boolean           = true,
+    height                  : Dp                = 400.dp,
+    scrollEnable            : Boolean           = true,
+    indicatorBottomPadding  : Dp                = 12.dp,
+    onPage : (Int, Boolean, Boolean) -> Unit    = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
 ) {
 
     val pagerState: PagerState = rememberPagerState { images.size }
@@ -71,17 +70,25 @@ fun ImagePagerWithIndicator(
             state = pagerState,
             userScrollEnabled = scrollEnable
         ) { page ->
-
             val ext = images[page].substring(images[page].lastIndexOf("."))
-            if (ext == ".m3u8") { LocalVideoPlayerType.current.invoke(images[page]) }
-            else { LocalFeedImageLoader.current.invoke(
-                    modifier.testTag("imgReview").fillMaxSize().nonEffectclickable(onClick = { onImage.invoke(page) }),
-                    images[page], null, null, ContentScale.Crop, height
+            if (ext == ".m3u8") { LocalVideoPlayerType.current.invoke(images[page]) } else {
+                LocalFeedImageLoader.current.invoke(
+                    FeedImageLoaderData(
+                        modifier = modifier
+                            .testTag("imgReview")
+                            .fillMaxSize()
+                            .nonEffectclickable(onClick = { onImage.invoke(page); }),
+                        url = images[page],
+                        contentScale = ContentScale.Crop,
+                        height = height
+                    )
                 )
             }
         }
         if (showIndicator)
-            PagerIndicator(Modifier.align(Alignment.BottomCenter).padding(bottom = indicatorBottomPadding),pagerState = pagerState, count = images.size)
+            PagerIndicator(Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = indicatorBottomPadding),pagerState = pagerState, count = images.size)
     }
 }
 

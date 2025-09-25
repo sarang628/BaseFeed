@@ -22,7 +22,7 @@ fun FeedList(viewModel: FeedListViewModel = hiltViewModel(), sheetContent: @Comp
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn {
                 items(list.size) {
-                    FeedItem(uiState = list[it], pageScrollAble = false)
+                    FeedItem(uiState = list[it])
                 }
             }
         }

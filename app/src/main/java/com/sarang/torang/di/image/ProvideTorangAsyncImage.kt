@@ -27,8 +27,18 @@ fun provideTorangAsyncImage(): @Composable (Modifier, String, Dp?, Dp?, ContentS
         )
     }
 
-fun provideZoomableTorangAsyncImage(onZoomState: (ZoomState) -> Unit = {}): @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit =
-    { modifier, model, progressSize, errorIconSize, contentScale, height ->
+
+data class ImageLoadData(
+    val modifier: Modifier = Modifier,
+    val url: String? = null,
+    val progressSize: Dp = 50.dp,
+    val errorIconSize: Dp = 50.dp,
+    val contentScale: ContentScale = ContentScale.Fit,
+    val height: Dp? = null
+)
+
+fun provideZoomableTorangAsyncImage(onZoomState: (ZoomState) -> Unit = {}): @Composable (ImageLoadData) -> Unit =
+    { data ->
         val zoomState = remember { ZoomState() }
 
         LaunchedEffect(zoomState) {
@@ -48,11 +58,11 @@ fun provideZoomableTorangAsyncImage(onZoomState: (ZoomState) -> Unit = {}): @Com
         }
 
         TorangAsyncImage(
-            modifier = modifier
+            modifier = data.modifier
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onPress = {
-                            zoomState.url.value = model
+                            zoomState.url.value = data.url ?: ""
                             //onPressed.invoke()
                             tryAwaitRelease()
                             //onReleased.invoke()
@@ -70,9 +80,9 @@ fun provideZoomableTorangAsyncImage(onZoomState: (ZoomState) -> Unit = {}): @Com
                     translationX = zoomState.offsetX.value
                     translationY = zoomState.offsetY.value
                 },
-            model = model,
-            progressSize = progressSize ?: 50.dp,
-            errorIconSize = errorIconSize ?: 50.dp,
-            contentScale = contentScale ?: ContentScale.Fit
+            model = data.url,
+            progressSize = data.progressSize,
+            errorIconSize = data.errorIconSize,
+            contentScale = data.contentScale
         )
     }
