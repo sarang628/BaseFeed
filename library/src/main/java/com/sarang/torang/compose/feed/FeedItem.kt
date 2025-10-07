@@ -50,6 +50,7 @@ import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextTyp
 import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.Share
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.empty
@@ -65,13 +66,13 @@ import com.sarang.torang.data.basefeed.formatedDate
  */
 @Composable
 fun FeedItem(
-    tag                 : String                    = "__Feed",
-    uiState             : FeedItemUiState           = FeedItemUiState.empty,
-    progressTintColor   : Color                     = Color(0xffe6cc00),
-    favoriteColor       : Color                     = Color(0xffe6cc00),
-    pageScrollAble      : Boolean                   = true,
-    feedItemClickEvents : FeedItemClickEvents       = FeedItemClickEvents(tag = tag),
-    onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
+    tag                 : String                        = "__Feed",
+    uiState             : FeedItemUiState               = FeedItemUiState.empty,
+    progressTintColor   : Color                         = Color(0xffe6cc00),
+    favoriteColor       : Color                         = Color(0xffe6cc00),
+    pageScrollAble      : Boolean                       = true,
+    feedItemClickEvents : FeedItemClickEvents           = FeedItemClickEvents(tag = tag),
+    onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: $feedItemPageEvent.page isFirst: $feedItemPageEvent.isFirst isLast: $feedItemPageEvent.isLast") }
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
