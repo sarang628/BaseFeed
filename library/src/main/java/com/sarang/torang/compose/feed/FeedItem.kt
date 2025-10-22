@@ -50,6 +50,7 @@ import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextTyp
 import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.Share
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.empty
@@ -66,6 +67,7 @@ import com.sarang.torang.data.basefeed.formatedDate
 @Composable
 fun FeedItem(
     tag                 : String                        = "__Feed",
+    showLog             : Boolean                       = false,
     uiState             : FeedItemUiState               = FeedItemUiState.empty,
     progressTintColor   : Color                         = Color(0xffe6cc00),
     favoriteColor       : Color                         = Color(0xffe6cc00),
@@ -75,7 +77,7 @@ fun FeedItem(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
-        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble, onPage = onPage)
+        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble, onPage = onPage, showLog = showLog)
         Box                     (modifier = Modifier.layoutId("clickBlockBehindProfile").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         Box                     (modifier = Modifier.layoutId("clickBlockBehindBottom").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         UserName                (userName       = uiState.userName          , onName = feedItemClickEvents.onName)

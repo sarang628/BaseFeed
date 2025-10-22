@@ -35,9 +35,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TorangTheme {
-                Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+                Surface(Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)) {
                     CompositionLocalProvider(
-                        LocalFeedImageLoader provides CustomFeedImageLoader,
+                        LocalFeedImageLoader provides { CustomFeedImageLoader().invoke(it) },
                         LocalExpandableTextType provides CustomExpandableTextType
                     ) {
                         FeedList(showLog = true){
