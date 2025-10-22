@@ -26,7 +26,7 @@ fun FeedList(
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn {
                 items(list.size) {
-                    FeedItem(uiState = list[it], showLog = showLog)
+                    FeedItem(uiState = list[it], showLog = showLog, onPage = {})
                 }
             }
         }

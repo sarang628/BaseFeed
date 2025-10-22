@@ -32,7 +32,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.substring
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -49,6 +51,7 @@ import com.sarang.torang.compose.feed.internal.components.Like
 import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.Share
+import com.sarang.torang.compose.feed.internal.components.d
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
@@ -73,11 +76,20 @@ fun FeedItem(
     favoriteColor       : Color                         = Color(0xffe6cc00),
     pageScrollAble      : Boolean                       = true,
     feedItemClickEvents : FeedItemClickEvents           = FeedItemClickEvents(tag = tag),
-    onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: $feedItemPageEvent.page isFirst: $feedItemPageEvent.isFirst isLast: $feedItemPageEvent.isLast") }
+    onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
-        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble, onPage = onPage, showLog = showLog)
+        showLog.d(tag, "contents : ${uiState.contents.substring(IntRange(0,10))}, height : ${uiState.height}")
+        ImagePagerWithIndicator (
+            images          = uiState.reviewImages,
+            onImage         = feedItemClickEvents.onImage,
+            showIndicator   = true,
+            height          = with(LocalDensity.current) { uiState.height.toDp() },
+            scrollEnable    = pageScrollAble,
+            onPage          = onPage,
+            showLog         = showLog
+        )
         Box                     (modifier = Modifier.layoutId("clickBlockBehindProfile").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         Box                     (modifier = Modifier.layoutId("clickBlockBehindBottom").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         UserName                (userName       = uiState.userName          , onName = feedItemClickEvents.onName)

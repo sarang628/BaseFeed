@@ -60,8 +60,6 @@ fun ImagePagerWithIndicator(
 
     val pagerState: PagerState = rememberPagerState { images.size }
 
-    showLog.d(tag, "height : $height")
-
     LaunchedEffect(pagerState) {
         snapshotFlow{pagerState.currentPage}
             .distinctUntilChanged() // 중복된 값 방지
@@ -70,21 +68,25 @@ fun ImagePagerWithIndicator(
 
     Box(modifier = modifier.layoutId("reviewImages")) {
         HorizontalPager(
-            modifier = Modifier.height(height),
-            state = pagerState,
-            userScrollEnabled = scrollEnable
+            modifier            = Modifier.height(height),
+            state               = pagerState,
+            userScrollEnabled   = scrollEnable
         ) { page ->
             val ext = images[page].substring(images[page].lastIndexOf("."))
-            if (ext == ".m3u8") { LocalVideoPlayerType.current.invoke(images[page]) } else {
-                LocalFeedImageLoader.current.invoke(
+            if (ext == ".m3u8") {
+                LocalVideoPlayerType.current(images[page])
+            }
+            else {
+                showLog.d(tag, "call LocalFeedImageLoader")
+                LocalFeedImageLoader.current(
                     FeedImageLoaderData(
-                        modifier = modifier
+                        url             = images[page],
+                        contentScale    = ContentScale.Crop,
+                        height          = height,
+                        modifier        = modifier
                             .testTag("imgReview")
                             .fillMaxSize()
                             .nonEffectclickable(onClick = { onImage.invoke(page); }),
-                        url = images[page],
-                        contentScale = ContentScale.Crop,
-                        height = height
                     )
                 )
             }
@@ -96,7 +98,7 @@ fun ImagePagerWithIndicator(
     }
 }
 
-private fun Boolean.d(tag: String, msg: String) {
+fun Boolean.d(tag: String, msg: String) {
     if(this)
         Log.d(tag, msg)
 }

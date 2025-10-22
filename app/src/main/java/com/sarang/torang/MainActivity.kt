@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)) {
                     CompositionLocalProvider(
-                        LocalFeedImageLoader provides { CustomFeedImageLoader().invoke(it) },
+                        LocalFeedImageLoader provides { CustomFeedImageLoader(showLog = true).invoke(it) },
                         LocalExpandableTextType provides CustomExpandableTextType
                     ) {
                         FeedList(showLog = true){
