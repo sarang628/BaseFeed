@@ -24,7 +24,7 @@ data class FeedImageLoaderData(
 typealias FeedImageLoader = @Composable (FeedImageLoaderData) -> Unit
 
 val LocalFeedImageLoader = compositionLocalOf<FeedImageLoader> {
-    @Composable { data ->
+    { data ->
         Log.w("__LocalFeedImageLoader", "imageLoadCompose doesn't set")
         Image(
             modifier = data.modifier,

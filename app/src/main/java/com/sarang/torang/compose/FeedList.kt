@@ -15,14 +15,18 @@ import com.sarang.torang.compose.feed.FeedItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FeedList(viewModel: FeedListViewModel = hiltViewModel(), sheetContent: @Composable ColumnScope.() -> Unit) {
+fun FeedList(
+    viewModel: FeedListViewModel = hiltViewModel(),
+    showLog : Boolean = false,
+    sheetContent: @Composable ColumnScope.() -> Unit
+) {
     val list by viewModel.feedUiState.collectAsStateWithLifecycle()
 
     BottomSheetScaffold(sheetContent = sheetContent) {
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn {
                 items(list.size) {
-                    FeedItem(uiState = list[it])
+                    FeedItem(uiState = list[it], showLog = showLog)
                 }
             }
         }

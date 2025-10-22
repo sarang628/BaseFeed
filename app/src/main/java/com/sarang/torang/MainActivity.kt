@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                         LocalFeedImageLoader provides CustomFeedImageLoader,
                         LocalExpandableTextType provides CustomExpandableTextType
                     ) {
-                        FeedList{
+                        FeedList(showLog = true){
                             FeedRepositoryTest(feedRepository = feedRepository)
                         }
                     }

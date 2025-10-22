@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.sarang.torang.compose.feed.d
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -46,6 +47,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 fun ImagePagerWithIndicator(
     modifier                : Modifier          = Modifier,
     tag                     : String            = "__ImagePagerWithIndicator",
+    showLog                 : Boolean           = false,
     pagerState              : PagerState        = rememberPagerState { images.size },
     images                  : List<String>      = listOf(),
     onImage                 : (Int) -> Unit     = { Log.i(tag, "onImage callback is not set page : $it") },
@@ -57,6 +59,8 @@ fun ImagePagerWithIndicator(
 ) {
 
     val pagerState: PagerState = rememberPagerState { images.size }
+
+    showLog.d(tag, "height : $height")
 
     LaunchedEffect(pagerState) {
         snapshotFlow{pagerState.currentPage}

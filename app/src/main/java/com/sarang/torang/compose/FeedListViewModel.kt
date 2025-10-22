@@ -25,6 +25,6 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedListViewModel @Inject constructor(feedRepository: FeedRepository) : ViewModel() {
     val feedUiState: StateFlow<List<FeedItemUiState>> = feedRepository.feeds.map {
-        it.map { feed -> feed.toReview() }
+        it?.map { feed -> feed.toReview() } ?: listOf()
     }.stateIn(scope = viewModelScope, started = SharingStarted.WhileSubscribed(5_000), listOf() )
 }
