@@ -97,7 +97,8 @@ fun ImagePagerWithIndicator(
 }
 
 private fun Boolean.d(tag: String, msg: String) {
-    Log.d(tag, msg)
+    if(this)
+        Log.d(tag, msg)
 }
 
 
