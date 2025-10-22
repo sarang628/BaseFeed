@@ -65,18 +65,17 @@ import com.sarang.torang.data.basefeed.formatedDate
  */
 @Composable
 fun FeedItem(
-    tag                 : String                    = "__Feed",
-    showLog             : Boolean                   = false,
-    uiState             : FeedItemUiState           = FeedItemUiState.empty,
-    progressTintColor   : Color                     = Color(0xffe6cc00),
-    favoriteColor       : Color                     = Color(0xffe6cc00),
-    pageScrollAble      : Boolean                   = true,
-    feedItemClickEvents : FeedItemClickEvents       = FeedItemClickEvents(tag = tag),
-    onPage              : (Int, Boolean, Boolean) -> Unit = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
+    tag                 : String                        = "__Feed",
+    uiState             : FeedItemUiState               = FeedItemUiState.empty,
+    progressTintColor   : Color                         = Color(0xffe6cc00),
+    favoriteColor       : Color                         = Color(0xffe6cc00),
+    pageScrollAble      : Boolean                       = true,
+    feedItemClickEvents : FeedItemClickEvents           = FeedItemClickEvents(tag = tag),
+    onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: $feedItemPageEvent.page isFirst: $feedItemPageEvent.isFirst isLast: $feedItemPageEvent.isLast") }
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
-        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble, onPage = onPage, showLog = showLog)
+        ImagePagerWithIndicator (images         = uiState.reviewImages      , onImage = feedItemClickEvents.onImage, showIndicator = true, height = with(LocalDensity.current) { uiState.height.toDp() }, scrollEnable = pageScrollAble, onPage = onPage)
         Box                     (modifier = Modifier.layoutId("clickBlockBehindProfile").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         Box                     (modifier = Modifier.layoutId("clickBlockBehindBottom").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         UserName                (userName       = uiState.userName          , onName = feedItemClickEvents.onName)
@@ -237,7 +236,3 @@ fun PreviewFeed() {
     )
 }
 // @formatter:on
-
-fun Boolean.d(tag : String, msg : String){
-    if(this) Log.d(tag, msg)
-}

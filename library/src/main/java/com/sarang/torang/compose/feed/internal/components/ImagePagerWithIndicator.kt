@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.d
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
@@ -55,7 +56,7 @@ fun ImagePagerWithIndicator(
     height                  : Dp                = 400.dp,
     scrollEnable            : Boolean           = true,
     indicatorBottomPadding  : Dp                = 12.dp,
-    onPage : (Int, Boolean, Boolean) -> Unit    = { page, isFirst, isLast -> Log.w(tag, "onPage callback is not set page: $page isFirst: $isFirst isLast: $isLast") }
+    onPage : (FeedItemPageEvent) -> Unit    = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
 ) {
 
     val pagerState: PagerState = rememberPagerState { images.size }
@@ -65,7 +66,7 @@ fun ImagePagerWithIndicator(
     LaunchedEffect(pagerState) {
         snapshotFlow{pagerState.currentPage}
             .distinctUntilChanged() // 중복된 값 방지
-            .collect{ onPage.invoke(it, it == 0, it == images.size - 1) }
+            .collect{ onPage.invoke(FeedItemPageEvent(page = it, isFirst = it == 0, isLast = it == images.size - 1))}
     }
 
     Box(modifier = modifier.layoutId("reviewImages")) {
