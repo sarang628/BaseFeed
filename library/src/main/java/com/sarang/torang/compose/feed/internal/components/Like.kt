@@ -31,13 +31,13 @@ fun Like(modifier: Modifier = Modifier, isLike: Boolean = false, onLike: () -> U
     var isAnimationLike by remember { mutableStateOf(false) }
     var isLike by remember { mutableStateOf(isLike) }
 
-    Box(modifier = modifier.layoutId("imgLike").size(42.dp)) {
+    Box(modifier = modifier.layoutId("imgLike")) {
         if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
-            LikeIcon(modifier = Modifier.testTag("btnLike"), onLike = { onLike.invoke(); isLike = false; isAnimationLike = false }, size = 42.dp, padding = 8.5.dp)
+            LikeIcon(modifier = Modifier.testTag("btnLike"), onLike = { onLike.invoke(); isLike = false; isAnimationLike = false }, size = 26.dp, padding = 0.dp)
         } else if (isAnimationLike) {
-            AnimationLikeImage(size = 42.dp, padding = 8.5.dp, onFinishAnimation = { isLike = true })
+            AnimationLikeImage(size = 26.dp, padding = 0.dp, onFinishAnimation = { isLike = true })
         } else {
-            UnLikeIcon(modifier = Modifier.testTag("btnUnLike"), size = 42.dp, padding = 8.5.dp,
+            UnLikeIcon(modifier = Modifier.testTag("btnUnLike"), size = 26.dp, padding = 0.dp,
                 onLike = { onLike.invoke(); if (animation) { isAnimationLike = true } })
         }
     }

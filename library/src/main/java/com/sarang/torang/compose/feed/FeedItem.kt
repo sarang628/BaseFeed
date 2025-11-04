@@ -7,7 +7,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -93,9 +96,7 @@ fun FeedItem(
         Box                     (modifier = Modifier.layoutId("clickBlockBehindProfile").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         Box                     (modifier = Modifier.layoutId("clickBlockBehindBottom").clickable(interactionSource = interactionSource, indication = null, onClick = {}))
         UserName                (userName       = uiState.userName          , onName = feedItemClickEvents.onName)
-        LikeCount               (count          = uiState.likeAmount        , onLikes = feedItemClickEvents.onLike)
         CommentCount            (count          = uiState.commentAmount     , onComment = feedItemClickEvents.onComment)
-        Like                    (isLike         = uiState.isLike            , onLike = feedItemClickEvents.onLike, animation = uiState.isLogin)
         Favorite                (isFavorite     = uiState.isFavorite        , onFavorite = feedItemClickEvents.onFavorite, color = favoriteColor)
         ProfileImage            (url            = uiState.profilePictureUrl , onProfile = feedItemClickEvents.onProfile)
         RestaurantName          (restaurantNeme = uiState.restaurantName    , onRestaurant = feedItemClickEvents.onRestaurant)
@@ -103,9 +104,20 @@ fun FeedItem(
         AndroidViewRatingBar    (rating         = uiState.rating, progressTintColor = progressTintColor)
         Comment                 (comments       = uiState.comments)
         Date                    (date           = uiState.formatedDate())
-        Share                   (onShare = feedItemClickEvents.onShare)
-        Comment                 (onComment = feedItemClickEvents.onComment)
         Menu                    (onMenu = feedItemClickEvents.onMenu)
+
+        Row(Modifier.padding(start = 4.dp).layoutId("imgLike"), verticalAlignment = Alignment.CenterVertically) {
+            Like(
+                isLike      =  uiState.isLike,
+                onLike      = feedItemClickEvents.onLike,
+                animation   = uiState.isLogin)
+            LikeCount(
+                modifier = Modifier.padding(start = 2.dp),
+                count   = uiState.likeAmount        ,
+                onLikes = feedItemClickEvents.onLike)
+            Comment                 (onComment = feedItemClickEvents.onComment)
+            Share                   (onShare = feedItemClickEvents.onShare)
+        }
     }
 }
 
@@ -148,7 +160,7 @@ fun CommentCount(modifier : Modifier = Modifier, count : Int, onComment : ()->Un
 
 @Composable
 fun LikeCount(modifier : Modifier = Modifier, onLikes : ()->Unit = {}, count : Int = 0){
-    Text(modifier = modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = stringResource(id = R.string.like, count), color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
+    Text(modifier = modifier.layoutId("likeCount").testTag("txtLikes").clickable { onLikes.invoke() }, text = "${count}", color = if (isSystemInDarkTheme()) Color.White else Color.White, fontWeight = FontWeight.Bold)
 }
 
 @Composable
@@ -213,7 +225,7 @@ fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boole
         val guideline       = createBottomBarrier(reviewImages, margin = 4.dp)
 
         constrain(reviewImages)     { top.linkTo(parent.top) }
-        constrain(likeCount)        { bottom.linkTo(imgLike.top); start.linkTo(reviewImages.start, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
+        constrain(likeCount)        { bottom.linkTo(imgLike.bottom); top.linkTo(imgLike.top); start.linkTo(imgLike.end, 8.dp); end.linkTo(imgComment.start); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
         constrain(commentCount)     { start.linkTo(parent.start, 4.dp); top.linkTo(guideline); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone}
         constrain(contents)         { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
         constrain(comments)         { top.linkTo(contents.bottom); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone }
