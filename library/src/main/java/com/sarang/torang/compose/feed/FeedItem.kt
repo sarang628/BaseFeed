@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -37,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.substring
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,6 +62,7 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
+import com.sarang.torang.data.basefeed.adjustHeight
 import com.sarang.torang.data.basefeed.empty
 import com.sarang.torang.data.basefeed.formatedDate
 
@@ -88,7 +92,7 @@ fun FeedItem(
             images          = uiState.reviewImages,
             onImage         = feedItemClickEvents.onImage,
             showIndicator   = true,
-            height          = with(LocalDensity.current) { uiState.height.toDp() },
+            height          = uiState.adjustHeight,
             scrollEnable    = pageScrollAble,
             onPage          = onPage,
             showLog         = showLog
@@ -262,3 +266,26 @@ fun PreviewFeed() {
     )
 }
 // @formatter:on
+
+@Preview
+@Composable
+fun CalculateWidth(){
+    val width : Int = with(LocalDensity.current){1024.toDp().roundToPx()}
+    val height : Int = with(LocalDensity.current){824.toDp().roundToPx()}
+    val screenWidthDp : Int = LocalConfiguration.current.screenWidthDp
+    val screenHeightDp : Int = LocalConfiguration.current.screenHeightDp
+
+    Column {
+        Text("${LocalConfiguration.current.screenHeightDp},${LocalConfiguration.current.screenWidthDp}")
+        if(width > height){
+            val scale = 1.5
+            Text("${width}")
+            Text("scale = ${width.coerceAtLeast(screenWidthDp).toFloat() / width.coerceAtMost(screenWidthDp).toFloat()}")
+        }else{
+            Text("scale = ${height.coerceAtLeast(screenHeightDp).toFloat() / width.coerceAtMost(screenHeightDp).toFloat()}")
+        }
+    }
+
+
+
+}

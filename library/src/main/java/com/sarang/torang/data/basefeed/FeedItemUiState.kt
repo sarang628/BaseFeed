@@ -1,5 +1,12 @@
 package com.sarang.torang.data.basefeed
 
+import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+
 /**
  * @see [/documents/UIState.md]
  *
@@ -27,7 +34,28 @@ data class FeedItemUiState(
     val commentAmount       : Int           = 0,
     val isLike              : Boolean       = false,
     val isFavorite          : Boolean       = false,
-    val height              : Int           = 900,
+    val height              : Int           = 600,
+    val width               : Int           = 600,
     val createDate          : String        = "",
     val isLogin             : Boolean       = false
 ){ companion object }
+
+
+val FeedItemUiState.adjustHeight: Dp
+    @Composable get() {
+
+        val density = LocalDensity.current
+
+        val screenWidthPx = with(density) {
+            LocalConfiguration.current.screenWidthDp.dp.roundToPx()
+        }
+
+        // 화면 가로에 맞추는 scale 비율
+        val scale = screenWidthPx.toFloat() / width.toFloat()
+
+        // 스케일링된 높이(px)
+        val newHeightPx = height * scale
+        val newHeightDp = with(density) { newHeightPx.toDp() }
+
+        return newHeightDp
+    }

@@ -52,7 +52,7 @@ fun ImagePagerWithIndicator(
     pagerState              : PagerState        = rememberPagerState { images.size },
     onImage                 : (Int) -> Unit     = { Log.i(tag, "onImage callback is not set page : $it") },
     showIndicator           : Boolean           = true,
-    height                  : Dp                = 400.dp,
+    height                  : Dp                = 300.dp,
     scrollEnable            : Boolean           = true,
     indicatorBottomPadding  : Dp                = 12.dp,
     onPage : (FeedItemPageEvent) -> Unit    = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
@@ -63,7 +63,14 @@ fun ImagePagerWithIndicator(
     LaunchedEffect(pagerState) {
         snapshotFlow{pagerState.currentPage}
             .distinctUntilChanged() // 중복된 값 방지
-            .collect{ onPage.invoke(FeedItemPageEvent(page = it, isFirst = it == 0, isLast = it == images.size - 1))}
+            .collect{ onPage.invoke(
+                FeedItemPageEvent(
+                    page = it,
+                    isFirst = it == 0,
+                    isLast = it == images.size - 1
+                )
+            )
+        }
     }
 
     Box(modifier = modifier.layoutId("reviewImages")) {
