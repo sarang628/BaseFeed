@@ -115,10 +115,11 @@ fun FeedItem(
                 isLike      =  uiState.isLike,
                 onLike      = feedItemClickEvents.onLike,
                 animation   = uiState.isLogin)
-            LikeCount(
-                modifier = Modifier.padding(start = 2.dp),
-                count   = uiState.likeAmount        ,
-                onLikes = feedItemClickEvents.onLike)
+            if(uiState.likeAmount > 0)
+                LikeCount(
+                    modifier = Modifier.padding(start = 2.dp),
+                    count   = uiState.likeAmount        ,
+                    onLikes = feedItemClickEvents.onLike)
             Comment                 (onComment = feedItemClickEvents.onComment)
             Share                   (onShare = feedItemClickEvents.onShare)
         }
