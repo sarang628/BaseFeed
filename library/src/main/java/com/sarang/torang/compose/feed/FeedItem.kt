@@ -6,12 +6,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -110,17 +113,26 @@ fun FeedItem(
         Date                    (date           = uiState.formatedDate())
         Menu                    (onMenu = feedItemClickEvents.onMenu)
 
-        Row(Modifier.padding(start = 4.dp).layoutId("imgLike"), verticalAlignment = Alignment.CenterVertically) {
-            Like(
-                isLike      =  uiState.isLike,
-                onLike      = feedItemClickEvents.onLike,
-                animation   = uiState.isLogin)
-            if(uiState.likeAmount > 0)
-                LikeCount(
-                    modifier = Modifier.padding(start = 2.dp),
-                    count   = uiState.likeAmount        ,
-                    onLikes = feedItemClickEvents.onLike)
+        Row(Modifier.padding(start = 4.dp)
+            .layoutId("imgLike")
+            .padding(bottom = 6.dp)
+            , verticalAlignment = Alignment.CenterVertically
+            )
+        {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Like(
+                    isLike      = uiState.isLike,
+                    onLike      = feedItemClickEvents.onLike,
+                    animation   = uiState.isLogin)
+                if(uiState.likeAmount > 0)
+                    LikeCount(
+                        modifier = Modifier.padding(start = 2.dp),
+                        count   = uiState.likeAmount        ,
+                        onLikes = feedItemClickEvents.onLike)
+            }
+            Spacer(Modifier.width(12.dp))
             Comment                 (onComment = feedItemClickEvents.onComment)
+            Spacer(Modifier.width(12.dp))
             Share                   (onShare = feedItemClickEvents.onShare)
         }
     }
@@ -216,8 +228,6 @@ fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boole
         val commentCount            = createRefFor("commentCount")
         val date                    = createRefFor("date")
         val imgLike                 = createRefFor("imgLike")
-        val imgComment              = createRefFor("imgComment")
-        val imgShare                = createRefFor("imgShare")
         val indicator               = createRefFor("indicator")
         val imgFavorite             = createRefFor("imgFavorite")
         val imgProfile              = createRefFor("imgProfile")
@@ -230,15 +240,13 @@ fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boole
         val guideline       = createBottomBarrier(reviewImages, margin = 4.dp)
 
         constrain(reviewImages)     { top.linkTo(parent.top) }
-        constrain(likeCount)        { bottom.linkTo(imgLike.bottom); top.linkTo(imgLike.top); start.linkTo(imgLike.end, 8.dp); end.linkTo(imgComment.start); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone }
+        constrain(likeCount)        { bottom.linkTo(imgLike.bottom); top.linkTo(imgLike.top); start.linkTo(imgLike.end, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
         constrain(commentCount)     { start.linkTo(parent.start, 4.dp); top.linkTo(guideline); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone}
-        constrain(contents)         { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
+        constrain(contents)         { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; }
         constrain(comments)         { top.linkTo(contents.bottom); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone }
         constrain(date)             { start.linkTo(parent.start, 4.dp); top.linkTo(comments.bottom, 8.dp); }
 
         constrain(imgLike)          { start.linkTo(reviewImages.start); bottom.linkTo(reviewImages.bottom); }
-        constrain(imgComment)       { start.linkTo(imgLike.end); bottom.linkTo(reviewImages.bottom); }
-        constrain(imgShare)         { start.linkTo(imgComment.end); bottom.linkTo(reviewImages.bottom); }
         constrain(indicator)        { start.linkTo(reviewImages.start); end.linkTo(reviewImages.end); top.linkTo(imgLike.top); bottom.linkTo(imgLike.bottom); }
         constrain(imgFavorite)      { end.linkTo(reviewImages.end); bottom.linkTo(reviewImages.bottom) }
 

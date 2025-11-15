@@ -17,8 +17,8 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
 fun Comment(
-    modifier: Modifier = Modifier, onComment: () -> Unit, size: Dp = 42.dp,
-    padding: Dp = 9.dp
+    modifier: Modifier = Modifier, onComment: () -> Unit, size: Dp = 25.dp,
+    padding: Dp = 0.dp
 ) {
     Icon(painter = painterResource(id = R.drawable.comment),
         tint = Color.White,
