@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,10 +39,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.substring
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -70,19 +66,14 @@ import com.sarang.torang.data.basefeed.empty
 import com.sarang.torang.data.basefeed.formatedDate
 
 // @formatter:off
-/**
- * Feed 항목
- * @param uiState            리뷰 데이터
- * @param progressTintColor ratingBar 색
- * @param favoriteColor     즐겨찾기 색
- * @param onPage            페이지 콜백 Int: 현재 페이지, Boolean: 첫번째 페이지 여부, Boolean: 마지막 페이지 여부
+/** Feed 항목
  */
 @Composable
 fun FeedItem(
     tag                 : String                        = "__Feed",
     showLog             : Boolean                       = false,
     uiState             : FeedItemUiState               = FeedItemUiState.empty,
-    progressTintColor   : Color                         = Color(0xffe6cc00),
+    ratingBarTintColor   : Color                        = Color(0xffe6cc00),
     favoriteColor       : Color                         = Color(0xffe6cc00),
     pageScrollAble      : Boolean                       = true,
     feedItemClickEvents : FeedItemClickEvents           = FeedItemClickEvents(tag = tag),
@@ -108,7 +99,7 @@ fun FeedItem(
         ProfileImage            (url            = uiState.profilePictureUrl , onProfile = feedItemClickEvents.onProfile)
         RestaurantName          (restaurantNeme = uiState.restaurantName    , onRestaurant = feedItemClickEvents.onRestaurant)
         Contents                (userName       = uiState.userName, contents = uiState.contents, onContents = feedItemClickEvents.onProfile)
-        AndroidViewRatingBar    (rating         = uiState.rating, progressTintColor = progressTintColor)
+        AndroidViewRatingBar    (rating         = uiState.rating, progressTintColor = ratingBarTintColor)
         Comment                 (comments       = uiState.comments)
         Date                    (date           = uiState.formatedDate())
         Menu                    (onMenu = feedItemClickEvents.onMenu)

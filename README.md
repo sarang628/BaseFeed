@@ -1,8 +1,8 @@
 # BaseFeed Module
 
-Feed 정보를 보여주는 UI<br>
-Feed 항목은 여러 화면에서 필요.<br>
-모듈화로 타 화면 적용 시, 일관성 유지와 쉽게 적용 가능.
+- 음식점 리뷰 정보를 보여주는 UI.
+- Feed 항목은 여러 화면에서 필요.
+- 모듈화로 타 화면 적용 시, 일관성 유지와 쉽게 적용 가능.
 
 # Preview
 
@@ -39,6 +39,10 @@ fun PreviewFeed() {
         - UI state
         - [viewmodel (state holder)](/documents/ViewModel.md)
 
+
+# Review
+- ConstraintLayout은 코드 가독성은 좋게 만들 수 있으나, 수정하기 쉽지 않음. 
+- 하나의 ConstraintLayout에 모든 컴포넌트를 배치하는건 무리한 시도였던 것 같음.
 
 ## development note
 
