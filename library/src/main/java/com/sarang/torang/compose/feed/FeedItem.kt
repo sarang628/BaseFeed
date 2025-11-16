@@ -233,7 +233,7 @@ fun feedItemConstraintSet(visibleLike : Boolean = false, visibieContents : Boole
         constrain(reviewImages)     { top.linkTo(parent.top) }
         constrain(likeCount)        { bottom.linkTo(imgLike.bottom); top.linkTo(imgLike.top); start.linkTo(imgLike.end, 8.dp); visibility = if(visibleLike) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
         constrain(commentCount)     { start.linkTo(parent.start, 4.dp); top.linkTo(guideline); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone}
-        constrain(contents)         { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; }
+        constrain(contents)         { start.linkTo(parent.start, 4.dp); end.linkTo(parent.end, 4.dp); top.linkTo(commentCount.bottom); visibility = if(visibieContents) Visibility.Visible else Visibility.Gone; width = Dimension.fillToConstraints }
         constrain(comments)         { top.linkTo(contents.bottom); visibility = if(visibleCommentCount) Visibility.Visible else Visibility.Gone }
         constrain(date)             { start.linkTo(parent.start, 4.dp); top.linkTo(comments.bottom, 8.dp); }
 
