@@ -81,7 +81,7 @@ fun FeedItem(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     ConstraintLayout(modifier = Modifier.fillMaxWidth(), constraintSet = feedItemConstraintSet(uiState.likeAmount > 0, uiState.contents.isNotEmpty(), uiState.commentAmount > 0, uiState.restaurantName.isNotEmpty())) {
-        showLog.d(tag, "contents : ${uiState.contents.substring(IntRange(0,10))}, height : ${uiState.height}")
+        showLog.d(tag, "contents : ${uiState.contents.substring(IntRange(0,uiState.contents.length.coerceAtMost(10)))}, height : ${uiState.height}")
         ImagePagerWithIndicator (
             images          = uiState.reviewImages,
             onImage         = feedItemClickEvents.onImage,
