@@ -1,14 +1,16 @@
 # BaseFeed Module
 
-- 음식점 리뷰 정보를 보여주는 UI.
-- Feed 항목은 여러 화면에서 필요.
-- 모듈화로 타 화면 적용 시, 일관성 유지와 쉽게 적용 가능.
+- 음식점 리뷰 리스트 항목 UI.
+- 여러 화면에서 필요로 하는 UI.
+- 모듈화로 쉽게 적용 가능하고, 일관성 유지.
 
 # Preview
 
 <img src="./screenshot/demonstrate.gif" alt="image" width="300" >
 
-# How to use
+# Usage
+
+- jitpack 사용
 
 <img src="./screenshot/preview.png" alt="image" width="300" >
 
@@ -29,7 +31,7 @@ fun PreviewFeed() {
 }
 ```
 
-# Feature
+# Development Technology
 
 - [Jetpack Compose](documents/JetPackCompose.md)
   - [UI element](documents/UIElement.md)
@@ -41,8 +43,10 @@ fun PreviewFeed() {
 
 
 # Review
-- ConstraintLayout은 코드 가독성은 좋게 만들 수 있으나, 수정하기 쉽지 않음. 
-- 하나의 ConstraintLayout에 모든 컴포넌트를 배치하는건 무리한 시도였던 것 같음.
+- ConstraintLayout은 코드 가독성(x, 배치)은 좋게 만들 수 있으나, 수정하기 쉽지 않음.
+- composable를 선택하면 preview에 매치되는 항목이 맞지 않아 햇갈렸음.
+- 하나의 ConstraintLayout에 모든 컴포넌트를 배치하는건 무리한 시도였음.
+- Row, Column, Box의 조합으로 UI를 배치하는게 더 쉬웠음.
 
 ## development note
 

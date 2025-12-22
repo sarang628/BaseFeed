@@ -43,50 +43,57 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val navController = rememberNavController()
             TorangTheme {
-                Surface(Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)) {
-                    NavHost(navController, startDestination = "menu"){
-                        composable("menu"){
-                            Column {
-                                Button({navController.navigate("FeedList")}) {
-                                    Text("FeedList")
-                                }
-                                Button({navController.navigate("FeedRepositoryTest")}) {
-                                    Text("FeedRepositoryTest")
-                                }
+                            Surface(Modifier.fillMaxSize()
+                                            .background(MaterialTheme.colorScheme.background))
+                            {
+                                Test()
                             }
                         }
-                        composable("FeedList"){
-                            CompositionLocalProvider(
-                                LocalFeedImageLoader provides { CustomFeedImageLoader(showLog = true).invoke(it) },
-                                LocalExpandableTextType provides CustomExpandableTextType
-                            ) {
-                                FeedList(showLog = true)
-                            }
-                        }
-                        composable("FeedRepositoryTest"){
-                            FeedRepositoryTest(feedRepository = feedRepository,
-                                               feedLoadRepository = feedLoadRepository,
-                                               feedFlowRepository = feedFlowRepository)
-                        }
+                   }
+    }
+
+    @Composable
+    fun Test(){
+        val navController = rememberNavController()
+        NavHost(navController, startDestination = "menu"){
+            composable("menu"){
+                Column {
+                    Button({navController.navigate("FeedList")}) {
+                        Text("FeedList")
+                    }
+                    Button({navController.navigate("FeedRepositoryTest")}) {
+                        Text("FeedRepositoryTest")
                     }
                 }
+            }
+            composable("FeedList"){
+                CompositionLocalProvider(
+                    LocalFeedImageLoader provides { CustomFeedImageLoader(showLog = true).invoke(it) },
+                    LocalExpandableTextType provides CustomExpandableTextType
+                ) {
+                    FeedList(showLog = true)
+                }
+            }
+            composable("FeedRepositoryTest"){
+                FeedRepositoryTest(feedRepository = feedRepository,
+                    feedLoadRepository = feedLoadRepository,
+                    feedFlowRepository = feedFlowRepository)
+            }
+        }
+    }
+
+    @ThemePreviews
+    @Composable
+    fun PreviewFeed1() {
+        TorangTheme {
+            Surface(Modifier.background(MaterialTheme.colorScheme.background)) {
+                PreviewFeed()
             }
         }
     }
 }
 
-@ThemePreviews
-@Composable
-fun PreviewFeed1() {
-    TorangTheme {
-        Surface(Modifier.background(MaterialTheme.colorScheme.background)) {
-            PreviewFeed()
-        }
-    }
-}
+
 
 

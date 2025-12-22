@@ -17,11 +17,12 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
-fun Favorite(
-    modifier: Modifier = Modifier, isFavorite: Boolean, onFavorite: () -> Unit, size: Dp = 42.dp,
-    padding: Dp = 11.dp,
-    color: Color = MaterialTheme.colorScheme.primary,
-) {
+fun Favorite(modifier   : Modifier      = Modifier,
+             isFavorite : Boolean       = false,
+             onFavorite : () -> Unit    = {},
+             size       : Dp            = 42.dp,
+             padding    : Dp            = 11.dp,
+             color      : Color         = MaterialTheme.colorScheme.primary) {
     Icon(
         //TODO:: 별모양 outline도 검정색으로 나오는 원인 찾기
         painter = if (isFavorite) painterResource(id = R.drawable.star_filled) else painterResource(
