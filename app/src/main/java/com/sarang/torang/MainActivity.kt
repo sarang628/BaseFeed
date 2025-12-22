@@ -22,7 +22,9 @@ import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextTyp
 import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
 import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
 import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
-import com.sarang.torang.repository.FeedRepository
+import com.sarang.torang.repository.feed.FeedFlowRepository
+import com.sarang.torang.repository.feed.FeedLoadRepository
+import com.sarang.torang.repository.feed.FeedRepository
 import com.sarang.torang.repository.test.FeedRepositoryTest
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,8 +35,9 @@ class MainActivity : ComponentActivity() {
 
     private val tag = "__MainActivity"
 
-    @Inject
-    lateinit var feedRepository: FeedRepository
+    @Inject lateinit var feedRepository: FeedRepository
+    @Inject lateinit var feedFlowRepository: FeedFlowRepository
+    @Inject lateinit var feedLoadRepository: FeedLoadRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +68,9 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         composable("FeedRepositoryTest"){
-                            FeedRepositoryTest(feedRepository = feedRepository)
+                            FeedRepositoryTest(feedRepository = feedRepository,
+                                               feedLoadRepository = feedLoadRepository,
+                                               feedFlowRepository = feedFlowRepository)
                         }
                     }
                 }

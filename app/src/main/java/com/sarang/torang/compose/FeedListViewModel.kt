@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.di.basefeed_di.toReview
-import com.sarang.torang.repository.FeedRepository
+import com.sarang.torang.repository.feed.FeedLoadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,8 +23,8 @@ import javax.inject.Inject
  * data layer로 부터 feed 리스트를 받고 UIState로 변환하는 기능 적용.
  */
 @HiltViewModel
-class FeedListViewModel @Inject constructor(feedRepository: FeedRepository) : ViewModel() {
-    val feedUiState: StateFlow<List<FeedItemUiState>> = feedRepository.feeds.map {
+class FeedListViewModel @Inject constructor(feedLoadRepository: FeedLoadRepository) : ViewModel() {
+    val feedUiState: StateFlow<List<FeedItemUiState>> = feedLoadRepository.feeds.map {
         it?.map { feed -> feed.toReview() } ?: listOf()
     }.stateIn(scope = viewModelScope, started = SharingStarted.WhileSubscribed(5_000), listOf() )
 }
