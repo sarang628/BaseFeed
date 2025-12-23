@@ -98,12 +98,11 @@ fun Contents(modifier : Modifier = Modifier, userName : String = "", contents : 
 @Composable
 fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
     LocalFeedImageLoader.current.invoke(FeedImageLoaderData(
-        modifier = modifier.layoutId("imgProfile")
-            .testTag("imgProfile")
-            .size(32.dp)
-            .nonEffectclickable(onProfile)
-            .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
-            .clip(RoundedCornerShape(20.dp)),
+        modifier = modifier.testTag("imgProfile")
+                           .size(32.dp)
+                           .nonEffectclickable(onProfile)
+                           .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
+                           .clip(RoundedCornerShape(20.dp)),
         url = url,
         progressSize = 20.dp,
         errorIconSize = 20.dp,

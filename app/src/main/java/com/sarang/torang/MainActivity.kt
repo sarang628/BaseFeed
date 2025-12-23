@@ -34,7 +34,6 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     private val tag = "__MainActivity"
-
     @Inject lateinit var feedRepository: FeedRepository
     @Inject lateinit var feedFlowRepository: FeedFlowRepository
     @Inject lateinit var feedLoadRepository: FeedLoadRepository
@@ -57,6 +56,13 @@ class MainActivity : ComponentActivity() {
     fun Test(){
         val navController = rememberNavController()
         NavHost(navController, startDestination = "menu"){
+            /*** NOTE: Feed Item Test Code ***/
+            composable("FeedList"){
+                CompositionLocalProvider(LocalFeedImageLoader    provides { CustomFeedImageLoader(showLog = true).invoke(it) },
+                                                   LocalExpandableTextType provides CustomExpandableTextType) {
+                    FeedList(showLog = true)
+                }
+            }
             composable("menu"){
                 Column {
                     Button({navController.navigate("FeedList")}) {
@@ -65,14 +71,6 @@ class MainActivity : ComponentActivity() {
                     Button({navController.navigate("FeedRepositoryTest")}) {
                         Text("FeedRepositoryTest")
                     }
-                }
-            }
-            composable("FeedList"){
-                CompositionLocalProvider(
-                    LocalFeedImageLoader provides { CustomFeedImageLoader(showLog = true).invoke(it) },
-                    LocalExpandableTextType provides CustomExpandableTextType
-                ) {
-                    FeedList(showLog = true)
                 }
             }
             composable("FeedRepositoryTest"){

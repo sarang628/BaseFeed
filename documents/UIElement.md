@@ -8,6 +8,11 @@ compose 함수 4개 미리보기 함수 4개 총 8개의 함수가 만들어져 
 
 너무 많아 보여 다른 방법을 시도해 보기로 함.
 
+-> 다시 이 방법으로 돌아옴. ConstraintLayout은 compose에서 구현하기 불편한 점이 있었다.
+ - xml 방식에서는 drag&drop 방식으로 각 UI 요소가 xml에 어디 위치해 있는지 중요하지 않았다.
+ - 컴포즈는 composable drag&drop를 지원하지 않아. UI요소를 일일히 신경쓰며 구현해야하는 불편함이 있었다.
+ - 이는 나중에 UI 수정 등 유지보수 하는데에도 어려움이 있어 기존 방식으로 돌아가기로 결정.
+
 ## ConstraintLayout 사용
 
 XML ConstraintLayout은 drag&drop 으로 편리하게 UI를 구현할 수 있었는데
@@ -26,4 +31,10 @@ ConstraintSet()을 배치 기능만 명확하게 분리할 수도 있다.
 
 <img src = "../screenshot/feeditem_readability.png" width="1000" />
 
-나에게만 읽기 좋아보이는 코드일 수 있다는 함정이 있기때문에 다른 사람들의 의견이 필요하다.
+
+## ProfileTop
+Compose UI를 구현하는 예제로 사용하기 좋은 Composable 이다.
+
+Composable의 주요 특징을 생각해보며 구현했다.
+
+composable의 특징

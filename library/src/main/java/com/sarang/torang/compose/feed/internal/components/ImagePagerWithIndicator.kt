@@ -110,8 +110,6 @@ fun Boolean.d(tag: String, msg: String) {
         Log.d(tag, msg)
 }
 
-
-@Preview
 @Composable
 fun PagerIndicator(modifier: Modifier = Modifier, count: Int = 0, pagerState: PagerState = rememberPagerState {count})  {
     if (count > 1)

@@ -1,6 +1,7 @@
 package com.sarang.torang.compose
 
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,8 +17,8 @@ fun FeedList(
 ) {
     val list by viewModel.feedUiState.collectAsStateWithLifecycle()
     LazyColumn {
-        items(list.size) {
-            FeedItem(uiState = list[it], showLog = showLog, onPage = {})
+        items(list) {
+            FeedItem(uiState = it, showLog = showLog, onPage = {})
         }
     }
 }
