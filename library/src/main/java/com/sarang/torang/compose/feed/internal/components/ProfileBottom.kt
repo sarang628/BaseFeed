@@ -17,27 +17,28 @@ import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemUiState
 
 @Composable
-fun ProfileBottom(modifier : Modifier                       = Modifier,
-                  uiState: FeedItemUiState                  = FeedItemUiState(),
-                  feedItemClickEvents: FeedItemClickEvents  = FeedItemClickEvents(),
-                  favoriteColor: Color                      = MaterialTheme.colorScheme.primary){
+fun ProfileBottom(modifier              : Modifier             = Modifier,
+                  uiState               : FeedItemUiState      = FeedItemUiState(),
+                  feedItemClickEvents   : FeedItemClickEvents  = FeedItemClickEvents(),
+                  favoriteColor         : Color                = MaterialTheme.colorScheme.primary){
     Box(modifier = modifier.fillMaxWidth()){
-        Row(Modifier.align(Alignment.CenterStart), verticalAlignment = Alignment.CenterVertically)
+        Row(modifier            = Modifier.align(Alignment.CenterStart),
+            verticalAlignment   = Alignment.CenterVertically)
         {
-            Spacer(Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Like(isLike      = uiState.isLike,
-                    onLike      = feedItemClickEvents.onLike,
-                    animation   = uiState.isLogin)
+                     onLike      = feedItemClickEvents.onLike,
+                     animation   = uiState.isLogin)
                 if(uiState.likeAmount > 0)
                     LikeCount(modifier = Modifier.padding(start = 2.dp),
-                        count   = uiState.likeAmount        ,
-                        onLikes = feedItemClickEvents.onLike)
+                              count    = uiState.likeAmount        ,
+                              onLikes  = feedItemClickEvents.onLike)
             }
-            Spacer(Modifier.width(12.dp))
-            Comment                 (onComment = feedItemClickEvents.onComment)
-            Spacer(Modifier.width(12.dp))
-            Share                   (onShare = feedItemClickEvents.onShare)
+            Spacer(modifier = Modifier.width(12.dp))
+            Comment(onComment = feedItemClickEvents.onComment)
+            Spacer(modifier = Modifier.width(12.dp))
+            Share(onShare = feedItemClickEvents.onShare)
         }
 
         Favorite(modifier   = Modifier.align(Alignment.CenterEnd),

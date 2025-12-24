@@ -16,10 +16,10 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
-fun Share(
-    modifier: Modifier = Modifier, onShare: () -> Unit, size: Dp = 25.dp,
-    padding: Dp = 0.dp
-) {
+fun Share(modifier  : Modifier      = Modifier,
+          onShare   : () -> Unit    = {},
+          size      : Dp            = 25.dp,
+          padding   : Dp            = 0.dp) {
     Icon(painter = painterResource(id = R.drawable.share),
         contentDescription = "share",
         modifier = modifier.layoutId("imgShare").testTag("btnShare")

@@ -18,8 +18,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.FeedList
 import com.sarang.torang.compose.feed.PreviewFeed
-import com.sarang.torang.compose.feed.internal.components.LocalExpandableTextType
-import com.sarang.torang.compose.feed.internal.components.LocalFeedImageLoader
+import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
+import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
 import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
 import com.sarang.torang.repository.feed.FeedFlowRepository

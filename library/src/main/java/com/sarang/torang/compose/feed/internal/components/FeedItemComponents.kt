@@ -34,6 +34,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sarang.torang.R
+import com.sarang.torang.compose.feed.internal.components.type.FeedImageLoaderData
+import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
+import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.formatedDate
@@ -124,17 +127,20 @@ fun PreviewContent(){
 
 @Composable
 fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
-    LocalFeedImageLoader.current.invoke(FeedImageLoaderData(
-        modifier = modifier.testTag("imgProfile")
-                           .size(32.dp)
-                           .nonEffectclickable(onProfile)
-                           .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
-                           .clip(RoundedCornerShape(20.dp)),
-        url = url,
-        progressSize = 20.dp,
-        errorIconSize = 20.dp,
-        contentScale = ContentScale.Crop,
-        50.dp))
+    LocalFeedImageLoader.current.invoke(
+        FeedImageLoaderData(
+            modifier = modifier.testTag("imgProfile")
+                .size(32.dp)
+                .nonEffectclickable(onProfile)
+                .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(20.dp)),
+            url = url,
+            progressSize = 20.dp,
+            errorIconSize = 20.dp,
+            contentScale = ContentScale.Crop,
+            50.dp
+        )
+    )
 }
 
 

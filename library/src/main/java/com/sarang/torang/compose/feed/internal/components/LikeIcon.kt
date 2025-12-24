@@ -16,14 +16,28 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Preview(widthDp = 145, backgroundColor = 0xFF000000, showBackground = true)
 @Composable
-internal fun LikeIcon(modifier: Modifier = Modifier, onLike: () -> Unit = {}, size: Dp = 50.dp, padding: Dp = 0.dp) {
-    Icon(modifier = modifier.size(size).padding(padding).nonEffectclickable { onLike.invoke() },
-        imageVector = Icons.Default.Favorite, contentDescription = "like", tint = Color.Red)
+internal fun LikeIcon(modifier  : Modifier      = Modifier,
+                      onLike    : () -> Unit    = {},
+                      size      : Dp            = 50.dp,
+                      padding   : Dp            = 0.dp) {
+    Icon(modifier           = modifier.size(size)
+                                      .padding(padding)
+                                      .nonEffectclickable { onLike.invoke() },
+        imageVector         = Icons.Default.Favorite,
+        contentDescription  = "like",
+        tint                = Color.Red)
 }
 
 @Preview(widthDp = 145, backgroundColor = 0xFF000000, showBackground = true)
 @Composable
-internal fun UnLikeIcon(modifier: Modifier = Modifier, onLike: () -> Unit = {}, size: Dp = 50.dp, padding: Dp = 0.dp ) {
-    Icon(modifier = modifier.size(size).padding(padding).nonEffectclickable { onLike.invoke() },
-        imageVector = Icons.Default.FavoriteBorder, contentDescription = "like", tint = Color.White)
+internal fun UnLikeIcon(modifier    : Modifier      = Modifier,
+                        onLike      : () -> Unit    = {},
+                        size        : Dp            = 50.dp,
+                        padding     : Dp            = 0.dp ) {
+    Icon(modifier           = modifier.size(size)
+                                      .padding(padding)
+                                      .nonEffectclickable { onLike.invoke() },
+         imageVector        = Icons.Default.FavoriteBorder,
+         contentDescription = "like",
+         tint               = Color.White)
 }

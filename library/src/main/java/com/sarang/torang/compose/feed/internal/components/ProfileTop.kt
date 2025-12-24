@@ -22,21 +22,21 @@ import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemUiState
 
 @Composable
-fun ProfileTop(modifier             : Modifier = Modifier,
-               uiState              : FeedItemUiState = FeedItemUiState(),
-               feedItemClickEvents  : FeedItemClickEvents = FeedItemClickEvents(),
-               ratingBarTintColor   : Color = MaterialTheme.colorScheme.primary){
+fun ProfileTop(modifier             : Modifier              = Modifier,
+               uiState              : FeedItemUiState       = FeedItemUiState(),
+               feedItemClickEvents  : FeedItemClickEvents   = FeedItemClickEvents(),
+               ratingBarTintColor   : Color                 = MaterialTheme.colorScheme.primary){
     val interactionSource = remember { MutableInteractionSource() }
     Box(modifier.fillMaxWidth()
-        .clickable(interactionSource = interactionSource,
-            indication = null,
-            onClick = {})){
+                .clickable(interactionSource = interactionSource,
+                           indication = null,
+                           onClick = {})){
         Row(Modifier.align(Alignment.CenterStart)) {
-            Spacer          (modifier = Modifier.width(8.dp))
-            ProfileImage    (url = uiState.profilePictureUrl ,
-                onProfile = feedItemClickEvents.onProfile)
-            Spacer          (modifier = Modifier.width(8.dp))
-            Column(verticalArrangement = Arrangement.Center) {
+            Spacer          (modifier   = Modifier.width(8.dp))
+            ProfileImage    (url        = uiState.profilePictureUrl ,
+                             onProfile  = feedItemClickEvents.onProfile)
+            Spacer          (modifier   = Modifier.width(8.dp))
+            Column(verticalArrangement  = Arrangement.Center) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     UserName                (userName = uiState.userName,
                                              onName = feedItemClickEvents.onName)

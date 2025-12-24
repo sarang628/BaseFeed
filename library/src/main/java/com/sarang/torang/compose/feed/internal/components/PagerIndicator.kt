@@ -24,13 +24,14 @@ fun PagerIndicator(modifier     : Modifier      = Modifier,
         horizontalArrangement   = Arrangement.Center,
         verticalAlignment       = Alignment.CenterVertically) {
         repeat(pagerState.pageCount) { iteration ->
-            val color =
-                if (pagerState.currentPage == iteration) Color.White else Color.LightGray
+            val color = if (pagerState.currentPage == iteration)
+                            Color.White
+                        else
+                            Color.LightGray
             Box(modifier = Modifier.padding(2.dp)
                                    .clip(CircleShape)
-                    .background(color)
-                    .size(5.dp)
-            )
+                                   .background(color)
+                                   .size(5.dp))
         }
     }
 }

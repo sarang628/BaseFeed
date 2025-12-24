@@ -1,4 +1,4 @@
-package com.sarang.torang.compose.feed.internal.components
+package com.sarang.torang.compose.feed.internal.components.test
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable

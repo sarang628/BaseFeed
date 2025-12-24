@@ -16,18 +16,25 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
 
 @Composable
-fun Comment(
-    modifier: Modifier = Modifier, onComment: () -> Unit, size: Dp = 25.dp,
-    padding: Dp = 0.dp
-) {
-    Icon(painter = painterResource(id = R.drawable.comment),
-        tint = Color.White,
-        contentDescription = "comment",
-        modifier = modifier.layoutId("imgComment").testTag("btnComment").size(size).padding(padding).layoutId("comment").nonEffectclickable { onComment.invoke() })
+fun Comment(modifier    : Modifier      = Modifier,
+            onComment   : () -> Unit    = {},
+            size        : Dp            = 25.dp,
+            padding     : Dp            = 0.dp) {
+    Icon(painter            = painterResource(id = R.drawable.comment),
+         tint               = Color.White,
+         contentDescription = "comment",
+         modifier           = modifier.testTag("btnComment")
+                                      .size(size)
+                                      .padding(padding)
+                                      .layoutId("comment")
+                                      .nonEffectclickable { onComment.invoke() })
 }
 
 @Preview
 @Composable
 fun PreviewCommentImage() {
-    Comment(modifier = Modifier, onComment = { /*TODO*/ }, size = 50.dp, padding = 0.dp)
+    Comment(modifier    = Modifier,
+            onComment   = { /*TODO*/ },
+            size        = 50.dp,
+            padding     = 0.dp)
 }

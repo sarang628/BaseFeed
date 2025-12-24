@@ -1,4 +1,4 @@
-package com.sarang.torang.compose.feed.internal.components
+package com.sarang.torang.compose.feed.internal.components.type
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
