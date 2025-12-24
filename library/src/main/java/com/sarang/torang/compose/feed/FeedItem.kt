@@ -13,7 +13,7 @@ import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentCount
 import com.sarang.torang.compose.feed.internal.components.Contents
 import com.sarang.torang.compose.feed.internal.components.Date
-import com.sarang.torang.compose.feed.internal.components.ImagePagerWithIndicator
+import com.sarang.torang.compose.feed.internal.components.ImagePager
 import com.sarang.torang.compose.feed.internal.components.ProfileBottom
 import com.sarang.torang.compose.feed.internal.components.ProfileTop
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
@@ -22,7 +22,6 @@ import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.adjustHeight
 import com.sarang.torang.data.basefeed.empty
-import com.sarang.torang.data.basefeed.formatedDate
 
 private const val tag = "__Feed"
 /** Feed 항목*/
@@ -38,22 +37,20 @@ fun FeedItem(
 ) {
     Column {
         Box(Modifier.fillMaxWidth()){
-            ImagePagerWithIndicator (images                 = uiState.reviewImages,
-                                     onImage                = feedItemClickEvents.onImage,
-                                     showIndicator          = true,
-                                     height                 = uiState.adjustHeight,
-                                     scrollEnable           = pageScroll,
-                                     onPage                 = onPage,
-                                     showLog                = showLog)
+            ImagePager    (images                 = uiState.reviewImages,
+                           onImage                = feedItemClickEvents.onImage,
+                           height                 = uiState.adjustHeight,
+                           userScrollEnabled      = pageScroll,
+                           onPage                 = onPage)
 
-            ProfileTop               (uiState               = uiState,
-                                      feedItemClickEvents   = feedItemClickEvents,
-                                      ratingBarTintColor    = ratingBarTintColor)
+            ProfileTop     (uiState               = uiState,
+                            feedItemClickEvents   = feedItemClickEvents,
+                            ratingBarTintColor    = ratingBarTintColor)
 
-            ProfileBottom            (modifier              = Modifier.align(Alignment.BottomStart),
-                                      uiState               = uiState,
-                                      feedItemClickEvents   = feedItemClickEvents,
-                                      favoriteColor         = favoriteColor)
+            ProfileBottom  (modifier              = Modifier.align(Alignment.BottomStart),
+                            uiState               = uiState,
+                            feedItemClickEvents   = feedItemClickEvents,
+                            favoriteColor         = favoriteColor)
         }
         Contents        (userName   = uiState.userName,
                          contents   = uiState.contents,
@@ -61,7 +58,7 @@ fun FeedItem(
         Comment         (comments   = uiState.comments)
         CommentCount    (count      = uiState.commentAmount,
                          onComment  = feedItemClickEvents.onComment)
-        Date            (date       = uiState.formatedDate())
+        Date            (date       = uiState.createDate)
     }
 }
 @Preview(showBackground = true, backgroundColor = 0xFFFDFDF6)

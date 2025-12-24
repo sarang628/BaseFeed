@@ -38,3 +38,23 @@ Compose UI를 구현하는 예제로 사용하기 좋은 Composable 이다.
 Composable의 주요 특징을 생각해보며 구현했다.
 
 composable의 특징
+
+
+UI of an app is what you see on the screen
+
+
+Jetpack Compose is a modern toolkit for building Android UIs. Compose simplifies and accelerates UI development on Android with less code, powerful tools, and intuitive Kotlin capabilities.
+
+- Describes some part of your UI.
+- Doesn't return anything.
+- Takes some input and generates what's shown on the screen.
+
+
+Annotations are means of attaching extra information to code.
+Annotations can take parameters.
+
+Jetpack Compose is built around composable functions.
+Composable functions can accept arguments, which let the app logic describe or modify the UI.
+
+MUST be a noun: DoneButton()
+

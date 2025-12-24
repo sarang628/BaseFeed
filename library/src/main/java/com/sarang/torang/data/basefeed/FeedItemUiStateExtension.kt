@@ -10,9 +10,8 @@ val sdf1 = SimpleDateFormat("MMM dd, YYYY")
 fun FeedItemUiState.formatedDate(): String {
     return createDate.formatedDate()
 }
-
 fun String.formatedDate(): String {
-    var result = ""
+    var result = this
     try {
         result = sdf1.format(sdf.parse(this))
     } catch (e: Exception) {

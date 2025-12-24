@@ -4,6 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,10 +30,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.data.basefeed.Comment
+import com.sarang.torang.data.basefeed.formatedDate
+import kotlin.collections.forEach
 
 @Composable
 fun Menu(modifier : Modifier = Modifier, onMenu : ()->Unit){
@@ -73,13 +82,25 @@ fun CommentCount(modifier : Modifier = Modifier, count : Int, onComment : ()->Un
         fontSize = 14.sp)
 }
 
+@Preview
+@Composable
+fun PreviewCommentCount(){
+    CommentCount(count = 100)
+}
+
 @Composable
 fun Date(modifier : Modifier = Modifier, date : String = ""){
     Text(modifier = modifier.testTag("txtDate"),
-        text = date,
+        text = date.formatedDate(),
         color = Color.Gray,
         fontWeight = W500,
         fontSize = 12.sp)
+}
+
+@Preview
+@Composable
+fun PreviewDate(){
+    Date(date = "2025-12-30 12:00:00")
 }
 
 @Composable
@@ -95,6 +116,12 @@ fun Contents(modifier : Modifier = Modifier, userName : String = "", contents : 
     LocalExpandableTextType.current.invoke(modifier.testTag("txtContents"), userName, contents, onContents)
 }
 
+@Preview
+@Composable
+fun PreviewContent(){
+    Contents(userName = "userName", contents = "contents")
+}
+
 @Composable
 fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
     LocalFeedImageLoader.current.invoke(FeedImageLoaderData(
@@ -108,4 +135,34 @@ fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url
         errorIconSize = 20.dp,
         contentScale = ContentScale.Crop,
         50.dp))
+}
+
+
+@Composable
+fun Comment(
+    modifier: Modifier = Modifier,
+    comments: List<Comment>? = null,
+) {
+    Column(modifier = modifier.layoutId("comments").fillMaxWidth()) {
+        comments?.forEach {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(text = it.author, fontWeight = FontWeight.Bold, color = Color.Gray)
+                Spacer(modifier = Modifier.padding(start = 3.dp))
+                Text(text = it.comment, color = Color.Gray)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewComment() {
+    Comment(
+        comments = listOf(
+            Comment("Tom", "Wow!"),
+            Comment("Jhon", "Nice!"),
+            Comment("Amy", "Delicious!"),
+            Comment("Jane", "Hello!"),
+        )
+    )
 }
