@@ -55,7 +55,6 @@ class FeedUITest {
         composeRules.setContent {
             FeedItem(
                 uiState = FeedItemUiState(
-                    reviewId = 0,
                     reviewImages = ArrayList<String>().apply {
                         add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
                         add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
@@ -69,15 +68,9 @@ class FeedUITest {
                         add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
                         add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
                     },
-                    user = User(
-                        userId = 0,
-                        name = userName,
-                        profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg"
-                    ),
-                    restaurant = Restaurant(
-                        restaurantId = 1,
-                        restaurantName = "restaurantName",
-                    ),
+                    userName = userName,
+                    profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
+                    restaurantName = "restaurantName",
                     rating = rating,
                     contents = contents,
                     comments = ArrayList<Comment>().apply {
@@ -88,40 +81,7 @@ class FeedUITest {
                     isFavorite = false,
                     likeAmount = likeAmount,
                     createDate = createdDate
-                ),
-                onComment = {
-                    onComment = true
-                },
-                onFavorite = {
-                    onFavorite = true
-                },
-                onImage = {
-                    onImage = true
-                },
-                onLike = {
-                    onLike = true
-                },
-                onMenu = {
-                    onMenu = true
-                },
-                onName = {
-                    onName = true
-                },
-                onProfile = {
-                    onProfile = true
-                },
-                onRestaurant = {
-                    onRestaurant = true
-                },
-                onShare = {
-                    onShare = true
-                },
-                isZooming = {
-                    isZooming = true
-                },
-                onLikes = {
-                    onLikes = true
-                }
+                )
             )
         }
     }
