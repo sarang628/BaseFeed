@@ -9,6 +9,10 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -37,13 +41,11 @@ fun ImagePager(
     indicatorBottomPadding  : Dp                = 12.dp,
     onPage                  : (FeedItemPageEvent) -> Unit    = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
 ) {
-
     val pagerState: PagerState = rememberPagerState { images.size }
 
     SetOnPageListener(pagerState = pagerState,
                       imageSize  = images.size,
                       onPage     = onPage)
-
     Box {
         HorizontalPager(modifier            = Modifier.height(height),
                         state               = pagerState,
@@ -66,8 +68,9 @@ fun ImagePager(
             }
         }
         if (showIndicator)
-            PagerIndicator(modifier   = Modifier.align(Alignment.BottomCenter)
-                                                .padding(bottom = indicatorBottomPadding),
+            PagerIndicator(modifier   = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = indicatorBottomPadding),
                            pagerState = pagerState)
     }
 }
@@ -75,6 +78,7 @@ fun ImagePager(
 @Preview(showBackground = true)
 @Composable
 fun PreViewImagePager() {
+    var feedItemPageEvent by remember { mutableStateOf(FeedItemPageEvent(0, false, false)) }
     ImagePager(/*Preview*/
         images = arrayListOf(
             "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
@@ -83,6 +87,10 @@ fun PreViewImagePager() {
             "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
-        onImage = {}
+        onImage = {},
+        onPage = {
+            feedItemPageEvent = it
+        }
     )
+    //Text("$feedItemPageEvent")
 }
