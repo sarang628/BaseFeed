@@ -25,7 +25,7 @@ import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
 import com.sarang.torang.repository.feed.FeedFlowRepository
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sarang.torang.repository.feed.FeedRepository
-import com.sarang.torang.repository.test.FeedRepositoryTest
+import com.sarang.torang.repository.test.feed.FeedRepositoryTest
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

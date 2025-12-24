@@ -56,6 +56,8 @@ fun FeedItem(
                          contents   = uiState.contents,
                          onContents = feedItemClickEvents.onProfile)
         Comment         (comments   = uiState.comments)
+
+        if(uiState.commentAmount > 0)
         CommentCount    (count      = uiState.commentAmount,
                          onComment  = feedItemClickEvents.onComment)
         Date            (date       = uiState.createDate)
