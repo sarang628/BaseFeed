@@ -24,7 +24,7 @@ import com.sarang.torang.compose.feed.internal.components.type.FeedImageLoaderDa
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
 import com.sarang.torang.compose.feed.internal.util.isVideoType
-import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
 
 private const val tag = "__ImagePagerWithIndicator"
@@ -65,7 +65,7 @@ fun ImagePager(
                         modifier = modifier
                             .testTag("imgReview")
                             .fillMaxSize()
-                            .nonEffectclickable(onClick = { onImage.invoke(page); }),
+                            .nonEffectClickable(onClick = { onImage.invoke(page); }),
                     )
                 )
             }

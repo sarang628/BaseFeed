@@ -14,8 +14,8 @@ import com.sarang.torang.compose.feed.internal.components.CommentCount
 import com.sarang.torang.compose.feed.internal.components.Contents
 import com.sarang.torang.compose.feed.internal.components.Date
 import com.sarang.torang.compose.feed.internal.components.ImagePager
-import com.sarang.torang.compose.feed.internal.components.ProfileBottom
-import com.sarang.torang.compose.feed.internal.components.ProfileTop
+import com.sarang.torang.compose.feed.internal.components.FeedBottom
+import com.sarang.torang.compose.feed.internal.components.FeedTop
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
@@ -43,14 +43,20 @@ fun FeedItem(
                            userScrollEnabled      = pageScroll,
                            onPage                 = onPage)
 
-            ProfileTop     (uiState               = uiState,
-                            feedItemClickEvents   = feedItemClickEvents,
-                            ratingBarTintColor    = ratingBarTintColor)
+            FeedTop     (profilePictureUrl      = uiState.profilePictureUrl,
+                         rating                 = uiState.rating,
+                         userName               = uiState.userName,
+                         restaurantName         = uiState.restaurantName,
+                         feedItemClickEvents    = feedItemClickEvents,
+                         ratingBarTintColor     = ratingBarTintColor)
 
-            ProfileBottom  (modifier              = Modifier.align(Alignment.BottomStart),
-                            uiState               = uiState,
-                            feedItemClickEvents   = feedItemClickEvents,
-                            favoriteColor         = favoriteColor)
+            FeedBottom  (modifier              = Modifier.align(Alignment.BottomStart),
+                         isLike                = uiState.isLike,
+                         isLogin               = uiState.isLogin,
+                         isFavorite            = uiState.isFavorite,
+                         likeAmount            = uiState.likeAmount,
+                         feedItemClickEvents   = feedItemClickEvents,
+                         favoriteColor         = favoriteColor)
         }
         Contents        (userName   = uiState.userName,
                          contents   = uiState.contents,

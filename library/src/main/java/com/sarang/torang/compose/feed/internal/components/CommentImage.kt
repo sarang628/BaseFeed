@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
-import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 
 @Composable
 fun Comment(modifier    : Modifier      = Modifier,
@@ -27,7 +27,7 @@ fun Comment(modifier    : Modifier      = Modifier,
                                       .size(size)
                                       .padding(padding)
                                       .layoutId("comment")
-                                      .nonEffectclickable { onComment.invoke() })
+                                      .nonEffectClickable { onComment.invoke() })
 }
 
 @Preview

@@ -34,10 +34,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sarang.torang.R
+import com.sarang.torang.compose.feed.internal.components.type.ExpandableTextData
 import com.sarang.torang.compose.feed.internal.components.type.FeedImageLoaderData
 import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
-import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.formatedDate
 import kotlin.collections.forEach
@@ -56,8 +57,8 @@ fun Menu(modifier : Modifier = Modifier, onMenu : ()->Unit){
 @Composable
 fun RestaurantName(modifier : Modifier = Modifier, onRestaurant : ()->Unit, restaurantNeme : String = ""){
     Text(modifier = modifier.testTag("txtRestaurantName")
-        .widthIn(0.dp, 250.dp)
-        .nonEffectclickable(onRestaurant),
+                            .widthIn(0.dp, 250.dp)
+                            .nonEffectClickable(onRestaurant),
         text = restaurantNeme,
         overflow = TextOverflow.Ellipsis,
         maxLines = 1,
@@ -68,7 +69,7 @@ fun RestaurantName(modifier : Modifier = Modifier, onRestaurant : ()->Unit, rest
 @Composable
 fun UserName(modifier : Modifier = Modifier, onName: () -> Unit = {}, userName : String = ""){
     Text(modifier   = modifier.widthIn(0.dp, 150.dp)
-        .nonEffectclickable(onName),
+                              .nonEffectClickable(onName),
         text       = userName,
         overflow   = TextOverflow.Ellipsis,
         maxLines   = 1,
@@ -115,8 +116,16 @@ fun LikeCount(modifier : Modifier = Modifier, onLikes : ()->Unit = {}, count : I
 }
 
 @Composable
-fun Contents(modifier : Modifier = Modifier, userName : String = "", contents : String, onContents : ()->Unit = {}){
-    LocalExpandableTextType.current.invoke(modifier.testTag("txtContents"), userName, contents, onContents)
+fun Contents(modifier   : Modifier  = Modifier,
+             userName   : String    = "",
+             contents   : String    = "",
+             onContents : ()->Unit  = {}){
+    LocalExpandableTextType.current.invoke(
+        ExpandableTextData(modifier = modifier.testTag("txtContents"),
+                                nickName = userName,
+                                contents = contents,
+                                onNickName = onContents)
+    )
 }
 
 @Preview
@@ -131,7 +140,7 @@ fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url
         FeedImageLoaderData(
             modifier = modifier.testTag("imgProfile")
                 .size(32.dp)
-                .nonEffectclickable(onProfile)
+                .nonEffectClickable(onProfile)
                 .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
                 .clip(RoundedCornerShape(20.dp)),
             url = url,

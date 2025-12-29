@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 
 @Composable
 fun Like(modifier   : Modifier      = Modifier,
@@ -75,7 +75,7 @@ private fun AnimationLikeImage(modifier         : Modifier      = Modifier,
                                       .padding(padding)
                                       .graphicsLayer(scaleX = scale.value,
                                                      scaleY = scale.value)
-                                      .nonEffectclickable { onLike.invoke() },
+                                      .nonEffectClickable { onLike.invoke() },
         imageVector         = Icons.Default.Favorite,
         contentDescription  = "like",
         tint                = Color.Red)

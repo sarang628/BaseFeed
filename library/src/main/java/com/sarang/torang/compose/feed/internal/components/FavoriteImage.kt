@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
-import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 
 @Composable
 fun Favorite(modifier   : Modifier      = Modifier,
@@ -35,7 +35,7 @@ fun Favorite(modifier   : Modifier      = Modifier,
             .testTag("btnFavorite")
             .size(size)
             .padding(padding)
-            .nonEffectclickable {
+            .nonEffectClickable {
                 onFavorite.invoke()
             },)
 }

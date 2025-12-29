@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.R
-import com.sarang.torang.compose.feed.internal.util.nonEffectclickable
+import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 
 @Composable
 fun Share(modifier  : Modifier      = Modifier,
@@ -25,7 +25,7 @@ fun Share(modifier  : Modifier      = Modifier,
         modifier = modifier.layoutId("imgShare").testTag("btnShare")
             .size(size)
             .padding(padding)
-            .nonEffectclickable {
+            .nonEffectClickable {
                 onShare.invoke()
             },
         tint = Color.White)

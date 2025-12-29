@@ -5,10 +5,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 
-typealias ExpandableTextType = @Composable (Modifier, String, String, () -> Unit) -> Unit
+typealias ExpandableTextType = @Composable (ExpandableTextData) -> Unit
+
+data class ExpandableTextData(val modifier      : Modifier  = Modifier,
+                              val nickName      : String    = "",
+                              val contents      : String    = "",
+                              val onNickName    : ()->Unit  = {})
 
 val LocalExpandableTextType = compositionLocalOf<ExpandableTextType> {
-    @Composable { modifier, name, contents, _ ->
-        Text(modifier = modifier, text = "$name $contents")
+    @Composable {
+        Text(modifier   = it.modifier,
+             text       = "${it.nickName} ${it.contents}")
     }
 }

@@ -17,22 +17,25 @@ import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemUiState
 
 @Composable
-fun ProfileBottom(modifier              : Modifier             = Modifier,
-                  uiState               : FeedItemUiState      = FeedItemUiState(),
-                  feedItemClickEvents   : FeedItemClickEvents  = FeedItemClickEvents(),
-                  favoriteColor         : Color                = MaterialTheme.colorScheme.primary){
+fun FeedBottom(modifier              : Modifier             = Modifier,
+               isLike                : Boolean              = false,
+               isLogin               : Boolean              = false,
+               isFavorite            : Boolean              = false,
+               likeAmount            : Int                  = 0,
+               feedItemClickEvents   : FeedItemClickEvents  = FeedItemClickEvents(),
+               favoriteColor         : Color                = MaterialTheme.colorScheme.primary){
     Box(modifier = modifier.fillMaxWidth()){
         Row(modifier            = Modifier.align(Alignment.CenterStart),
             verticalAlignment   = Alignment.CenterVertically)
         {
             Spacer(modifier = Modifier.width(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Like(isLike      = uiState.isLike,
+                Like(isLike      = isLike,
                      onLike      = feedItemClickEvents.onLike,
-                     animation   = uiState.isLogin)
-                if(uiState.likeAmount > 0)
+                     animation   = isLogin)
+                if(likeAmount > 0)
                     LikeCount(modifier = Modifier.padding(start = 2.dp),
-                              count    = uiState.likeAmount        ,
+                              count    = likeAmount        ,
                               onLikes  = feedItemClickEvents.onLike)
             }
             Spacer(modifier = Modifier.width(12.dp))
@@ -42,7 +45,7 @@ fun ProfileBottom(modifier              : Modifier             = Modifier,
         }
 
         Favorite(modifier   = Modifier.align(Alignment.CenterEnd),
-            isFavorite = uiState.isFavorite,
+            isFavorite = isFavorite,
             onFavorite = feedItemClickEvents.onFavorite,
             color      = favoriteColor)
     }
@@ -50,6 +53,6 @@ fun ProfileBottom(modifier              : Modifier             = Modifier,
 
 @Preview(showBackground = true, backgroundColor = 0x111111)
 @Composable
-fun PreviewProfileBottom(){
-    ProfileBottom()
+fun PreviewFeedBottom(){
+    FeedBottom()
 }
