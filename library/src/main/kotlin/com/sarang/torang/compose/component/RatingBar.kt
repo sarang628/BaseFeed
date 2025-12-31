@@ -5,7 +5,9 @@ import android.widget.RatingBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 
@@ -18,7 +20,12 @@ internal fun RatingBar(
     progressTintColor   : Color?    = null
 ) {
     AndroidView(
-        modifier = modifier.layoutId("ratingBar"),
+        modifier = modifier.semantics {
+            progressBarRangeInfo = ProgressBarRangeInfo(
+                current = rating,
+                range = 0f..5f
+            )
+        },
         factory = { context ->
             // Creates view
             if (isSmall) {

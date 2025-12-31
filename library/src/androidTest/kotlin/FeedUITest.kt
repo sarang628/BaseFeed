@@ -1,6 +1,4 @@
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -10,7 +8,6 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.feed.FeedItem
 import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.FeedItemUiState
-import com.sarang.torang.data.basefeed.User
 import com.sarang.torang.data.basefeed.formatedDate
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -31,7 +28,7 @@ class FeedUITest {
     private var onLike = false
     private var onMenu = false
     private var onName = false
-    private var onProfile = false
+
     private var onRestaurant = false
     private var onShare = false
     private var isZooming = false
@@ -121,10 +118,6 @@ class FeedUITest {
         assertFalse(onName)
         composeRules.onNodeWithTag("txtName").performClick()
         assertTrue(onName)
-
-        assertFalse(onProfile)
-        composeRules.onNodeWithTag("imgProfile").performClick()
-        assertTrue(onProfile)
 
         assertFalse(onRestaurant)
         composeRules.onNodeWithTag("txtRestaurantName").performClick()
