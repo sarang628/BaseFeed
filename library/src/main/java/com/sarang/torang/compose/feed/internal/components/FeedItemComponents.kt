@@ -138,16 +138,17 @@ fun PreviewContent(){
 fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
     LocalFeedImageLoader.current.invoke(
         FeedImageLoaderData(
-            modifier = modifier.testTag("imgProfile")
-                .size(32.dp)
-                .nonEffectClickable(onProfile)
-                .border(width = 0.5.dp, color = Color.LightGray, shape = RoundedCornerShape(20.dp))
-                .clip(RoundedCornerShape(20.dp)),
-            url = url,
-            progressSize = 20.dp,
-            errorIconSize = 20.dp,
-            contentScale = ContentScale.Crop,
-            50.dp
+            modifier        = modifier.size(32.dp)
+                                      .nonEffectClickable(onProfile)
+                                      .border(width = 0.5.dp,
+                                              color = Color.LightGray,
+                                              shape = RoundedCornerShape(20.dp))
+                                      .clip(RoundedCornerShape(20.dp)),
+            url             = url,
+            progressSize    = 20.dp,
+            errorIconSize   = 20.dp,
+            contentScale    = ContentScale.Crop,
+            height          = 50.dp
         )
     )
 }

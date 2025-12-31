@@ -47,7 +47,10 @@ fun FeedItem(
                          rating                 = uiState.rating,
                          userName               = uiState.userName,
                          restaurantName         = uiState.restaurantName,
-                         feedItemClickEvents    = feedItemClickEvents,
+                         onName                 = feedItemClickEvents.onName,
+                         onProfile              = feedItemClickEvents.onProfile,
+                         onRestaurant           = feedItemClickEvents.onRestaurant,
+                         onMenu                 = feedItemClickEvents.onMenu,
                          ratingBarTintColor     = ratingBarTintColor)
 
             FeedBottom  (modifier              = Modifier.align(Alignment.BottomStart),
@@ -64,8 +67,8 @@ fun FeedItem(
         Comment         (comments   = uiState.comments)
 
         if(uiState.commentAmount > 0)
-        CommentCount    (count      = uiState.commentAmount,
-                         onComment  = feedItemClickEvents.onComment)
+            CommentCount    (count      = uiState.commentAmount,
+                             onComment  = feedItemClickEvents.onComment)
         Date            (date       = uiState.createDate)
     }
 }
