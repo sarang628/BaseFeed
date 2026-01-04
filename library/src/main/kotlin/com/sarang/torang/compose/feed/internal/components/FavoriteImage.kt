@@ -23,21 +23,15 @@ fun Favorite(modifier   : Modifier      = Modifier,
              size       : Dp            = 42.dp,
              padding    : Dp            = 11.dp,
              color      : Color         = MaterialTheme.colorScheme.primary) {
-    Icon(
-        //TODO:: 별모양 outline도 검정색으로 나오는 원인 찾기
-        painter = if (isFavorite) painterResource(id = R.drawable.star_filled) else painterResource(
-            id = R.drawable.star
-        ),
+    Icon(painter = if (isFavorite) painterResource(id = R.drawable.star_filled)
+                   else painterResource(id = R.drawable.star),
         contentDescription = "favorite",
         tint = if (isFavorite) color else Color.White,
         modifier = modifier
-            .layoutId("imgFavorite")
             .testTag("btnFavorite")
             .size(size)
             .padding(padding)
-            .nonEffectClickable {
-                onFavorite.invoke()
-            },)
+            .nonEffectClickable(onFavorite))
 }
 
 @Preview

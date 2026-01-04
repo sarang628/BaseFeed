@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
             composable("FeedList"){
                 CompositionLocalProvider(LocalFeedImageLoader    provides { CustomFeedImageLoader(showLog = true).invoke(it) },
                                                    LocalExpandableTextType provides CustomExpandableTextType) {
-                    FeedList(showLog = true)
+                    FeedList()
                 }
             }
             composable("menu"){

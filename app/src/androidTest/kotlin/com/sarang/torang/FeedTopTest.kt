@@ -22,6 +22,9 @@ import org.junit.runner.RunWith
 class FeedTopTest {
 
     private var onProfile = false
+    private var onMenu = false
+    private var onName = false
+    private var onRestaurant = false
 
     @get:Rule
     val composeRules = createAndroidComposeRule<ComponentActivity>()
@@ -38,7 +41,10 @@ class FeedTopTest {
                 profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
                 restaurantName = "restaurantName",
                 rating = rating,
-                onProfile = { onProfile = true }
+                onProfile = { onProfile = true },
+                onMenu = { onMenu = true },
+                onName = { onName = true },
+                onRestaurant = { onRestaurant = true }
             )
         }
     }
@@ -46,18 +52,40 @@ class FeedTopTest {
 
     @Test
     fun clickEventTest(){
-        composeRules.onNodeWithTag("txtUserName")
-                    .assertTextEquals(userName)
         Assert.assertFalse(onProfile)
-        composeRules.onNodeWithTag("imgProfile").performClick()
+        composeRules.onNodeWithTag("imgProfile")
+                    .performClick()
         Assert.assertTrue(onProfile)
 
+        Assert.assertFalse(onMenu)
+        composeRules.onNodeWithTag("btnMenu")
+                    .performClick()
+        Assert.assertTrue(onMenu)
+
+        Assert.assertFalse(onName)
+        composeRules.onNodeWithTag("txtUserName")
+            .performClick()
+        Assert.assertTrue(onName)
+
+        Assert.assertFalse(onRestaurant)
+        composeRules.onNodeWithTag("txtRestaurantName")
+            .performClick()
+        Assert.assertTrue(onRestaurant)
+    }
+
+    @Test
+    fun setValueEventTest(){
+
+        composeRules.onNodeWithTag("txtUserName")
+            .assertTextEquals(userName)
+
         composeRules.onNodeWithTag("rbProfile")
-                    .assert(
-                        SemanticsMatcher("Rating is $rating") { node ->
-                            val info = node.config[SemanticsProperties.ProgressBarRangeInfo]
-                            info.current == rating
-                        }
-                    )
+            .assert(
+                SemanticsMatcher("Rating is $rating") { node ->
+                    val info = node.config[SemanticsProperties.ProgressBarRangeInfo]
+                    info.current == rating
+                }
+            )
+
     }
 }

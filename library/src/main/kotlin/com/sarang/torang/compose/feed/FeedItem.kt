@@ -27,7 +27,6 @@ private const val tag = "__Feed"
 /** Feed 항목*/
 @Composable
 fun FeedItem(
-    showLog             : Boolean                       = false,
     uiState             : FeedItemUiState               = FeedItemUiState.empty,
     ratingBarTintColor  : Color                         = Color(0xffe6cc00),
     favoriteColor       : Color                         = Color(0xffe6cc00),
@@ -37,11 +36,11 @@ fun FeedItem(
 ) {
     Column {
         Box(Modifier.fillMaxWidth()){
-            ImagePager    (images                 = uiState.reviewImages,
-                           onImage                = feedItemClickEvents.onImage,
-                           height                 = uiState.adjustHeight,
-                           userScrollEnabled      = pageScroll,
-                           onPage                 = onPage)
+            ImagePager  (images                 = uiState.reviewImages,
+                         onImage                = feedItemClickEvents.onImage,
+                         height                 = uiState.adjustHeight,
+                         userScrollEnabled      = pageScroll,
+                         onPage                 = onPage)
 
             FeedTop     (profilePictureUrl      = uiState.profilePictureUrl,
                          rating                 = uiState.rating,
@@ -53,18 +52,18 @@ fun FeedItem(
                          onMenu                 = feedItemClickEvents.onMenu,
                          ratingBarTintColor     = ratingBarTintColor)
 
-            FeedBottom  (modifier              = Modifier.align(Alignment.BottomStart),
-                         isLike                = uiState.isLike,
-                         isLogin               = uiState.isLogin,
-                         isFavorite            = uiState.isFavorite,
-                         likeAmount            = uiState.likeAmount,
-                         feedItemClickEvents   = feedItemClickEvents,
-                         favoriteColor         = favoriteColor)
+            FeedBottom  (modifier               = Modifier.align(Alignment.BottomStart),
+                         isLike                 = uiState.isLike,
+                         isLogin                = uiState.isLogin,
+                         isFavorite             = uiState.isFavorite,
+                         likeAmount             = uiState.likeAmount,
+                         feedItemClickEvents    = feedItemClickEvents,
+                         favoriteColor          = favoriteColor)
         }
-        Contents        (userName   = uiState.userName,
-                         contents   = uiState.contents,
-                         onContents = feedItemClickEvents.onProfile)
-        Comment         (comments   = uiState.comments)
+        Contents   (userName   = uiState.userName,
+                    contents   = uiState.contents,
+                    onContents = feedItemClickEvents.onProfile)
+        Comment    (comments   = uiState.comments)
 
         if(uiState.commentAmount > 0)
             CommentCount    (count      = uiState.commentAmount,

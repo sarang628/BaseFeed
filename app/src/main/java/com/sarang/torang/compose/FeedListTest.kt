@@ -12,13 +12,12 @@ import com.sarang.torang.compose.feed.FeedItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedList(
-    viewModel: FeedListViewModel = hiltViewModel(),
-    showLog : Boolean = false,
+    viewModel: FeedListViewModel = hiltViewModel()
 ) {
     val list by viewModel.feedUiState.collectAsStateWithLifecycle()
     LazyColumn {
         items(list) {
-            FeedItem(uiState = it, showLog = showLog, onPage = {})
+            FeedItem(uiState = it, onPage = {})
         }
     }
 }

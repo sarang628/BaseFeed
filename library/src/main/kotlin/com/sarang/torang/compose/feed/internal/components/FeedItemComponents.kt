@@ -16,6 +16,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -43,38 +45,57 @@ import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.formatedDate
 import kotlin.collections.forEach
 
+@Preview
 @Composable
-fun Menu(modifier : Modifier = Modifier, onMenu : ()->Unit){
-    IconButton(modifier = modifier.testTag("btnMenu"),
-        onClick = onMenu) {
-        Icon(imageVector = Icons.Default.MoreVert,
-            tint = Color.White,
-            contentDescription = "menu",
-            modifier = Modifier.background(Color.Transparent))
+fun Menu(modifier   : Modifier = Modifier,
+         onMenu     : ()->Unit = {}){
+    IconButton(modifier = modifier,
+               onClick  = onMenu) {
+        Icon(imageVector        = Icons.Default.MoreVert,
+             tint               = Color.White,
+             contentDescription = "menu",
+             modifier           = Modifier.background(Color.Transparent))
     }
 }
 
 @Composable
-fun RestaurantName(modifier : Modifier = Modifier, onRestaurant : ()->Unit, restaurantNeme : String = ""){
-    Text(modifier = modifier.testTag("txtRestaurantName")
-                            .widthIn(0.dp, 250.dp)
-                            .nonEffectClickable(onRestaurant),
-        text = restaurantNeme,
-        overflow = TextOverflow.Ellipsis,
-        maxLines = 1,
-        color = Color.White,
-        style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
+fun RestaurantName(modifier         : Modifier  = Modifier,
+                   onRestaurant     : ()->Unit  = {},
+                   restaurantName   : String    = ""){
+    Text(modifier   = modifier.widthIn(0.dp, 250.dp)
+                              .nonEffectClickable(onRestaurant),
+         text       = restaurantName,
+         overflow   = TextOverflow.Ellipsis,
+         maxLines   = 1,
+         color      = Color.White,
+         style      = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
+    )
+}
+
+@Preview
+@Composable
+fun PreviewRestaurantName(){
+    val restaurantName = "restaurantName restaurantName restaurantName restaurantName"
+    Column {
+        RestaurantName(restaurantName = restaurantName)
+        Text(text = restaurantName,
+             color = Color.White,
+             maxLines = 1,
+             //style      = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
+        )
+    }
+
 }
 
 @Composable
 fun UserName(modifier : Modifier = Modifier, onName: () -> Unit = {}, userName : String = ""){
     Text(modifier   = modifier.widthIn(0.dp, 150.dp)
                               .nonEffectClickable(onName),
-        text       = userName,
-        overflow   = TextOverflow.Ellipsis,
-        maxLines   = 1,
-        color      = Color.White,
-        style      = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
+        text        = userName,
+        overflow    = TextOverflow.Ellipsis,
+        maxLines    = 1,
+        color       = Color.White,
+        style       = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
 }
 
 @Composable
@@ -131,7 +152,9 @@ fun Contents(modifier   : Modifier  = Modifier,
 @Preview
 @Composable
 fun PreviewContent(){
-    Contents(userName = "userName", contents = "contents")
+    Surface(color = MaterialTheme.colorScheme.background) {
+        Contents(userName = "userName", contents = "contents")
+    }
 }
 
 @Composable

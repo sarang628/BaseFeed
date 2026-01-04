@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -18,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.component.RatingBar
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 
+/**
+ *
+ */
 @Composable
 fun FeedTop(modifier             : Modifier    = Modifier,
             profilePictureUrl    : String      = "",
@@ -30,21 +34,22 @@ fun FeedTop(modifier             : Modifier    = Modifier,
             onMenu               : () -> Unit  = {},
             ratingBarTintColor   : Color       = MaterialTheme.colorScheme.primary){
     Box(modifier = modifier.fillMaxWidth()
-                           .nonEffectClickable()){
-        Row(modifier = Modifier.align(Alignment.CenterStart)) {
-            Spacer          (modifier   = Modifier.width(8.dp))
+                           .nonEffectClickable() // prevent click behind empty space
+    ){
+        Row(modifier = Modifier.align(Alignment.CenterStart)
+                               .padding(start = 8.dp)) {
             ProfileImage    (modifier   = Modifier.testTag("imgProfile"),
                              url        = profilePictureUrl,
                              onProfile  = onProfile)
             Spacer          (modifier   = Modifier.width(8.dp))
             Column(verticalArrangement  = Arrangement.Center) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    UserName  (modifier = Modifier.testTag("txtUserName"),
-                               userName = userName,
-                               onName   = onName)
-                    Spacer    (modifier = Modifier.width(4.dp))
-                    RatingBar (modifier = Modifier.testTag("rbProfile"),
-                               rating   = rating,
+                    UserName  (modifier          = Modifier.testTag("txtUserName"),
+                               userName          = userName,
+                               onName            = onName)
+                    Spacer    (modifier          = Modifier.width(4.dp))
+                    RatingBar (modifier          = Modifier.testTag("rbProfile"),
+                               rating            = rating,
                                progressTintColor = ratingBarTintColor)
                 }
                 RestaurantName(modifier         = Modifier.testTag("txtRestaurantName"),
@@ -52,7 +57,8 @@ fun FeedTop(modifier             : Modifier    = Modifier,
                                onRestaurant     = onRestaurant)
             }
         }
-        Menu(modifier   = Modifier.align(alignment = Alignment.CenterEnd),
+        Menu(modifier   = Modifier.align(alignment = Alignment.CenterEnd)
+                                  .testTag("btnMenu"),
              onMenu     = onMenu)
     }
 }

@@ -1,25 +1,22 @@
 # BaseFeed Module
 
-- 음식점 리뷰 리스트 항목 UI.
-- 여러 화면에서 필요로 하는 UI.
-- 모듈화로 쉽게 적용 가능하고, 일관성 유지.
+- 여러 화면에서 필요로 하는 음식점 리뷰 '리스트 항목' UI.
+- 모듈화로 일관성 있게 적용 가능.
 
 # Preview
 
-<img src="./screenshot/demonstrate.gif" alt="image" width="300" >
+<img src="./screenshot/preview.png" alt="image" width="300" >
 
 # Usage
 
 - jitpack 사용
-
-<img src="./screenshot/preview.png" alt="image" width="300" >
+- [jitpack 최신 버전 확인](https://jitpack.io/#sarang628/BaseFeed)
 
 ```
 dependencies {
 	implementation 'com.github.sarang628:BaseFeed:{refer to jitpack}'
 }	
 ```
-[jitpack 최신 버전 확인](https://jitpack.io/#sarang628/BaseFeed)
 
 ```
 @Preview(showBackground = true, backgroundColor = 0xFFFDFDF6)
@@ -34,13 +31,15 @@ fun PreviewFeed() {
 # Development Technology
 
 - [Jetpack Compose](documents/JetPackCompose.md)
-  - [UI element](documents/UIElement.md)
+  - UI element
   - Tween animation(Like)
 - Android Architecture
     - [UI layer](/documents/UILayer.md)
         - UI state
         - [viewmodel (state holder)](/documents/ViewModel.md)
 
+# FeedItem UI 개발
+[보기](documents/UIElement.md)
 
 # Review
 - ConstraintLayout은 코드 가독성(x, 배치)은 좋게 만들 수 있으나, 수정하기 쉽지 않음.
