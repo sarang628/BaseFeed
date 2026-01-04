@@ -24,11 +24,11 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
                likeAmount            : Int                  = 0,
                feedItemClickEvents   : FeedItemClickEvents  = FeedItemClickEvents(),
                favoriteColor         : Color                = MaterialTheme.colorScheme.primary){
-    Box(modifier = modifier.fillMaxWidth()){
+    Box(modifier = modifier.fillMaxWidth()
+                           .padding(all = 8.dp)){
         Row(modifier            = Modifier.align(Alignment.CenterStart),
             verticalAlignment   = Alignment.CenterVertically)
         {
-            Spacer(modifier = Modifier.width(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Like(isLike      = isLike,
                      onLike      = feedItemClickEvents.onLike,
@@ -45,9 +45,9 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
         }
 
         Favorite(modifier   = Modifier.align(Alignment.CenterEnd),
-            isFavorite = isFavorite,
-            onFavorite = feedItemClickEvents.onFavorite,
-            color      = favoriteColor)
+                 isFavorite = isFavorite,
+                 onFavorite = feedItemClickEvents.onFavorite,
+                 color      = favoriteColor)
     }
 }
 

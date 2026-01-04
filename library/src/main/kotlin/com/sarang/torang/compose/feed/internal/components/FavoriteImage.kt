@@ -20,8 +20,8 @@ import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 fun Favorite(modifier   : Modifier      = Modifier,
              isFavorite : Boolean       = false,
              onFavorite : () -> Unit    = {},
-             size       : Dp            = 42.dp,
-             padding    : Dp            = 11.dp,
+             size       : Dp            = 22.dp,
+             padding    : Dp            = 0.dp,
              color      : Color         = MaterialTheme.colorScheme.primary) {
     Icon(painter = if (isFavorite) painterResource(id = R.drawable.star_filled)
                    else painterResource(id = R.drawable.star),
