@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Modifier.nonEffectClickable(onClick: () -> Unit): Modifier {
+fun Modifier.nonEffectClickable(onClick: () -> Unit = {}): Modifier {
     val interactionSource = remember { MutableInteractionSource() }
     return this.clickable(
         interactionSource = interactionSource,
