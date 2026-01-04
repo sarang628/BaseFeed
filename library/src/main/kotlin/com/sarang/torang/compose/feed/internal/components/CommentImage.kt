@@ -23,10 +23,8 @@ fun Comment(modifier    : Modifier      = Modifier,
     Icon(painter            = painterResource(id = R.drawable.comment),
          tint               = Color.White,
          contentDescription = "comment",
-         modifier           = modifier.testTag("btnComment")
-                                      .size(size)
+         modifier           = modifier.size(size)
                                       .padding(padding)
-                                      .layoutId("comment")
                                       .nonEffectClickable { onComment.invoke() })
 }
 

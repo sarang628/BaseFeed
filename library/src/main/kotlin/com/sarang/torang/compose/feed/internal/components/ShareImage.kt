@@ -20,15 +20,12 @@ fun Share(modifier  : Modifier      = Modifier,
           onShare   : () -> Unit    = {},
           size      : Dp            = 25.dp,
           padding   : Dp            = 0.dp) {
-    Icon(painter = painterResource(id = R.drawable.share),
-        contentDescription = "share",
-        modifier = modifier.layoutId("imgShare").testTag("btnShare")
-            .size(size)
-            .padding(padding)
-            .nonEffectClickable {
-                onShare.invoke()
-            },
-        tint = Color.White)
+    Icon(painter            = painterResource(id = R.drawable.share),
+         contentDescription = "share",
+         modifier           = modifier.size(size)
+                                      .padding(padding)
+                                      .nonEffectClickable (onShare ),
+         tint               = Color.White)
 }
 
 @Preview

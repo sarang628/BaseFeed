@@ -34,9 +34,9 @@ fun Like(modifier   : Modifier      = Modifier,
     var isAnimationLike by remember { mutableStateOf(false) }
     var isLike by remember { mutableStateOf(isLike) }
 
-    Box(modifier = modifier.layoutId("imgLike")) {
+    Box(modifier = modifier) {
         if (isLike) { //서버에서 받았을 경우 + 좋아요 애니메이션 후
-            LikeIcon(modifier   = Modifier.testTag("btnLike"),
+            LikeIcon(modifier   = Modifier,
                      onLike     = { onLike.invoke()
                                     isLike = false
                                     isAnimationLike = false },

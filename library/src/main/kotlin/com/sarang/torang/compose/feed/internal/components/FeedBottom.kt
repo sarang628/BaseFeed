@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
-import com.sarang.torang.data.basefeed.FeedItemUiState
 
 @Composable
 fun FeedBottom(modifier              : Modifier             = Modifier,
@@ -30,7 +30,8 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
             verticalAlignment   = Alignment.CenterVertically)
         {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Like(isLike      = isLike,
+                Like(modifier    = Modifier.testTag("btnLike"),
+                     isLike      = isLike,
                      onLike      = feedItemClickEvents.onLike,
                      animation   = isLogin)
                 if(likeAmount > 0)
@@ -39,9 +40,11 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
                               onLikes  = feedItemClickEvents.onLike)
             }
             Spacer(modifier = Modifier.width(12.dp))
-            Comment(onComment = feedItemClickEvents.onComment)
+            Comment(modifier  = Modifier.testTag("btnComment"),
+                    onComment = feedItemClickEvents.onComment)
             Spacer(modifier = Modifier.width(12.dp))
-            Share(onShare = feedItemClickEvents.onShare)
+            Share(modifier = Modifier.testTag("btnShare"),
+                  onShare  = feedItemClickEvents.onShare)
         }
 
         Favorite(modifier   = Modifier.align(Alignment.CenterEnd),
