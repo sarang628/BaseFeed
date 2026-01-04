@@ -29,9 +29,9 @@ fun FeedTop(modifier             : Modifier    = Modifier,
             onRestaurant         : () -> Unit  = {},
             onMenu               : () -> Unit  = {},
             ratingBarTintColor   : Color       = MaterialTheme.colorScheme.primary){
-    Box(modifier.fillMaxWidth()
-                .nonEffectClickable({})){
-        Row(Modifier.align(Alignment.CenterStart)) {
+    Box(modifier = modifier.fillMaxWidth()
+                           .nonEffectClickable()){
+        Row(modifier = Modifier.align(Alignment.CenterStart)) {
             Spacer          (modifier   = Modifier.width(8.dp))
             ProfileImage    (modifier   = Modifier.testTag("imgProfile"),
                              url        = profilePictureUrl,
@@ -47,8 +47,9 @@ fun FeedTop(modifier             : Modifier    = Modifier,
                                rating   = rating,
                                progressTintColor = ratingBarTintColor)
                 }
-                RestaurantName(restaurantNeme = restaurantName,
-                               onRestaurant = onRestaurant)
+                RestaurantName(modifier         = Modifier.testTag("txtRestaurantName"),
+                               restaurantName   = restaurantName,
+                               onRestaurant     = onRestaurant)
             }
         }
         Menu(modifier   = Modifier.align(alignment = Alignment.CenterEnd),
@@ -60,6 +61,6 @@ fun FeedTop(modifier             : Modifier    = Modifier,
 @Composable
 fun PreviewFeedTop(){
     FeedTop(userName          = "userName userName userName userName userName userName userName userName userName userName userName ",
-            rating            = 3.0f,
+            rating            = 4.5f,
             restaurantName    = "restaurantName restaurantName restaurantName restaurantName restaurantName")
 }
