@@ -26,8 +26,9 @@ import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerT
 import com.sarang.torang.compose.feed.internal.util.isVideoType
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
+import kotlin.random.Random
 
-private const val tag = "__ImagePagerWithIndicator"
+private const val tag = "__ImagePager"
 /**
  * @param images 이미지 리스트
  * @param onImage 이미지 클릭 이벤트
@@ -58,14 +59,12 @@ fun ImagePager(
             }
             else {
                 LocalFeedImageLoader.current(
-                    FeedImageLoaderData(
-                        url = images[page],
-                        contentScale = ContentScale.Crop,
-                        height = height,
-                        modifier = modifier
-                            .testTag("imgReview")
-                            .fillMaxSize()
-                            .nonEffectClickable(onClick = { onImage.invoke(page); }),
+                    FeedImageLoaderData(url            = images[page],
+                                             contentScale   = ContentScale.Crop,
+                                             height         = height,
+                                             modifier       = modifier.testTag("imgReview")
+                                                                      .fillMaxSize()
+                                                                      .nonEffectClickable(onClick = { onImage.invoke(page) })
                     )
                 )
             }
@@ -91,6 +90,7 @@ fun PreViewImagePager() {
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
         onImage = {},
+        height = (100 * Random.nextInt(1, 3)).dp,
         onPage = {
             feedItemPageEvent = it
         }

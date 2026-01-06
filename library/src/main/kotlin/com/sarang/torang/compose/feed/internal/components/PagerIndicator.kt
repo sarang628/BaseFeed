@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PagerIndicator(modifier     : Modifier      = Modifier,
                    pagerState   : PagerState    = rememberPagerState { 0 })  {
-    Row(modifier                = modifier.fillMaxWidth(),
+    Row(modifier                = modifier,
         horizontalArrangement   = Arrangement.Center,
         verticalAlignment       = Alignment.CenterVertically) {
         repeat(pagerState.pageCount) { iteration ->

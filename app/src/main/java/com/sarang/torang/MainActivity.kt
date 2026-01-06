@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.FeedList
 import com.sarang.torang.compose.feed.PreviewFeed
+import com.sarang.torang.compose.feed.internal.components.PreViewImagePager
 import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
@@ -77,6 +79,19 @@ class MainActivity : ComponentActivity() {
                 FeedRepositoryTest(feedRepository = feedRepository,
                     feedLoadRepository = feedLoadRepository,
                     feedFlowRepository = feedFlowRepository)
+            }
+
+            composable("ImagePagerScrollTest"){
+                ImagePagerScrollTest()
+            }
+        }
+    }
+
+    @Composable
+    fun ImagePagerScrollTest(){
+        LazyColumn {
+            items(100){
+                PreViewImagePager()
             }
         }
     }
