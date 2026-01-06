@@ -13,9 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import com.sarang.torang.compose.component.RatingBar
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 
@@ -33,34 +36,61 @@ fun FeedTop(modifier             : Modifier    = Modifier,
             onRestaurant         : () -> Unit  = {},
             onMenu               : () -> Unit  = {},
             ratingBarTintColor   : Color       = MaterialTheme.colorScheme.primary){
-    Box(modifier = modifier.fillMaxWidth()
-                           .nonEffectClickable() // prevent click behind empty space
-    ){
-        Row(modifier = Modifier.align(Alignment.CenterStart)
-                               .padding(start = 8.dp)) {
-            ProfileImage    (modifier   = Modifier.testTag("imgProfile"),
+    ConstraintLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+                .nonEffectClickable(),
+            constraintSet = ConstraintSet {
+                val imgProfile = createRefFor("imgProfile")
+                val userName = createRefFor("userName")
+                val btnMenu = createRefFor("btnMenu")
+
+                constrain(imgProfile){
+                    start.linkTo(parent.start, margin = 4.dp)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
+
+                constrain(userName){
+                    start.linkTo(imgProfile.end, margin = 2.dp)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
+
+                constrain(btnMenu){
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
+            }
+        ) {
+            ProfileImage    (modifier   = Modifier.testTag("imgProfile")
+                                                  .layoutId("imgProfile"),
                              url        = profilePictureUrl,
                              onProfile  = onProfile)
-            Spacer          (modifier   = Modifier.width(8.dp))
-            Column(verticalArrangement  = Arrangement.Center) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    UserName  (modifier          = Modifier.testTag("txtUserName"),
-                               userName          = userName,
-                               onName            = onName)
-                    Spacer    (modifier          = Modifier.width(4.dp))
-                    RatingBar (modifier          = Modifier.testTag("rbProfile"),
-                               rating            = rating,
-                               progressTintColor = ratingBarTintColor)
+
+            Row(modifier = Modifier.layoutId("userName")) {
+                Column(modifier = Modifier.layoutId("userName"),
+                    verticalArrangement  = Arrangement.Center) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        UserName  (modifier          = Modifier.testTag("txtUserName"),
+                            userName          = userName,
+                            onName            = onName)
+                        Spacer    (modifier          = Modifier.width(4.dp))
+                        RatingBar (modifier          = Modifier.testTag("rbProfile"),
+                            rating            = rating,
+                            progressTintColor = ratingBarTintColor)
+                    }
+                    RestaurantName(modifier         = Modifier.testTag("txtRestaurantName"),
+                        restaurantName   = restaurantName,
+                        onRestaurant     = onRestaurant)
                 }
-                RestaurantName(modifier         = Modifier.testTag("txtRestaurantName"),
-                               restaurantName   = restaurantName,
-                               onRestaurant     = onRestaurant)
             }
+
+            Menu(modifier   = Modifier.layoutId("btnMenu")
+                                      .testTag("btnMenu"),
+                onMenu     = onMenu)
         }
-        Menu(modifier   = Modifier.align(alignment = Alignment.CenterEnd)
-                                  .testTag("btnMenu"),
-             onMenu     = onMenu)
-    }
 }
 
 @Preview(showBackground = true, backgroundColor = 0x111111)

@@ -58,7 +58,7 @@ fun Like(modifier   : Modifier      = Modifier,
     }
 }
 
-@Preview(widthDp = 300, backgroundColor = 0xFF000000, showBackground = true)
+@Preview(widthDp = 100, heightDp = 100, backgroundColor = 0xFF000000, showBackground = true)
 @Composable
 private fun AnimationLikeImage(modifier         : Modifier      = Modifier,
                                onLike           : () -> Unit    = {},
@@ -81,7 +81,7 @@ private fun AnimationLikeImage(modifier         : Modifier      = Modifier,
         tint                = Color.Red)
 }
 
-@Preview(widthDp = 300, backgroundColor = 0xFF000000, showBackground = true)
+@Preview(widthDp = 100, heightDp = 100, backgroundColor = 0xFF000000, showBackground = true)
 @Composable
 fun PreviewLike(){
     var isLike : Boolean  by remember { mutableStateOf(false) }

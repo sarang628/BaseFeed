@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,9 +44,8 @@ import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoa
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.formatedDate
-import kotlin.collections.forEach
 
-@Preview
+@Preview(showBackground = true, backgroundColor = 0x000000)
 @Composable
 fun Menu(modifier   : Modifier = Modifier,
          onMenu     : ()->Unit = {}){
@@ -157,23 +157,27 @@ fun PreviewContent(){
     }
 }
 
+@Preview
 @Composable
 fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
-    LocalFeedImageLoader.current.invoke(
-        FeedImageLoaderData(
-            modifier        = modifier.size(32.dp)
-                                      .nonEffectClickable(onProfile)
-                                      .border(width = 0.5.dp,
-                                              color = Color.LightGray,
-                                              shape = RoundedCornerShape(20.dp))
-                                      .clip(RoundedCornerShape(20.dp)),
-            url             = url,
-            progressSize    = 20.dp,
-            errorIconSize   = 20.dp,
-            contentScale    = ContentScale.Crop,
-            height          = 50.dp
+    Box(modifier = modifier.size(40.dp)) {
+        LocalFeedImageLoader.current.invoke(
+            FeedImageLoaderData(
+                modifier        = Modifier.size(40.dp)
+                                          .padding(6.dp)
+                                          .nonEffectClickable(onProfile)
+                                          .border(width = 0.5.dp,
+                                                  color = Color.LightGray,
+                                                  shape = RoundedCornerShape(20.dp))
+                                          .clip(RoundedCornerShape(20.dp)),
+                url             = url,
+                progressSize    = 20.dp,
+                errorIconSize   = 20.dp,
+                contentScale    = ContentScale.Crop,
+                height          = 40.dp
+            )
         )
-    )
+    }
 }
 
 

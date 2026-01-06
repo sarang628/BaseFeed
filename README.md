@@ -39,7 +39,7 @@ fun PreviewFeed() {
         - [viewmodel (state holder)](/documents/ViewModel.md)
 
 # FeedItem UI 개발
-[보기](documents/UIElement.md)
+[보기](documents/FeedItem.md)
 
 # Review
 - ConstraintLayout은 코드 가독성(x, 배치)은 좋게 만들 수 있으나, 수정하기 쉽지 않음.

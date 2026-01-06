@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
 
 @Composable
@@ -25,10 +26,9 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
                feedItemClickEvents   : FeedItemClickEvents  = FeedItemClickEvents(),
                favoriteColor         : Color                = MaterialTheme.colorScheme.primary){
     Box(modifier = modifier.fillMaxWidth()
-                           .padding(all = 8.dp)){
+                           .nonEffectClickable()){
         Row(modifier            = Modifier.align(Alignment.CenterStart),
-            verticalAlignment   = Alignment.CenterVertically)
-        {
+            verticalAlignment   = Alignment.CenterVertically) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Like(modifier    = Modifier.testTag("btnLike"),
                      isLike      = isLike,
