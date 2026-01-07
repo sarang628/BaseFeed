@@ -13,6 +13,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +32,7 @@ import com.sarang.torang.repository.feed.FeedRepository
 import com.sarang.torang.repository.test.feed.FeedRepositoryTest
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,8 +45,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
+            val coroutineScope = rememberCoroutineScope()
+            LaunchedEffect(Unit) {
+                coroutineScope.launch {
+                    feedLoadRepository.setLoadTrigger(true)
+                }
+            }
             TorangTheme {
                             Surface(Modifier.fillMaxSize()
                                             .background(MaterialTheme.colorScheme.background))
