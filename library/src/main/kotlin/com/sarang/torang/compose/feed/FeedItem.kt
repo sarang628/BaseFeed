@@ -1,10 +1,15 @@
 package com.sarang.torang.compose.feed
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,16 +24,15 @@ import com.sarang.torang.compose.feed.internal.components.Comment
 import com.sarang.torang.compose.feed.internal.components.CommentCount
 import com.sarang.torang.compose.feed.internal.components.Contents
 import com.sarang.torang.compose.feed.internal.components.Date
-import com.sarang.torang.compose.feed.internal.components.ImagePager
 import com.sarang.torang.compose.feed.internal.components.FeedBottom
 import com.sarang.torang.compose.feed.internal.components.FeedTop
+import com.sarang.torang.compose.feed.internal.components.ImagePager
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.adjustHeight
 import com.sarang.torang.data.basefeed.empty
-import kotlinx.coroutines.flow.MutableStateFlow
 
 private const val tag = "__Feed"
 /** Feed 항목*/
@@ -38,7 +42,7 @@ fun FeedItem(
     ratingBarTintColor  : Color                         = Color(0xffe6cc00),
     favoriteColor       : Color                         = Color(0xffe6cc00),
     pageScroll          : Boolean                       = true,
-    feedItemClickEvents : FeedItemClickEvents           = FeedItemClickEvents(tag = tag),
+    feedItemClickEvents : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
     onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
 ) {
     Column {
@@ -67,7 +71,10 @@ fun FeedItem(
                          isLogin                = uiState.isLogin,
                          isFavorite             = uiState.isFavorite,
                          likeAmount             = uiState.likeAmount,
-                         feedItemClickEvents    = feedItemClickEvents,
+                         onLike                 = feedItemClickEvents.onLike,
+                         onShare                = feedItemClickEvents.onShare,
+                         onComment              = feedItemClickEvents.onComment,
+                         onFavorite             = feedItemClickEvents.onFavorite,
                          favoriteColor          = favoriteColor)
         }
         Contents   (modifier   = Modifier.padding(start = 4.dp,
@@ -77,7 +84,7 @@ fun FeedItem(
                     contents   = uiState.contents,
                     onContents = feedItemClickEvents.onProfile)
         Comment    (modifier = Modifier.padding(horizontal = 8.dp),
-                    comments   = uiState.comments)
+                    comments = uiState.comments)
 
         if(uiState.commentAmount > 0)
             CommentCount    (modifier   = Modifier.padding(horizontal = 8.dp),
@@ -93,10 +100,23 @@ fun FeedItem(
 @Composable
 fun PreviewFeed() {
     var isLike by remember { mutableStateOf(false) }
-    FeedItem(/* Preview */
-        uiState = FeedItemUiState.Sample.copy(isLike = isLike, isLogin = true),
-        feedItemClickEvents = FeedItemClickEvents(
-            onLike = { isLike = !isLike }
+    var sample : FeedItemUiState by remember { mutableStateOf(FeedItemUiState.Sample) }
+    val feedItemClickEvents = remember { FeedItemClickEvents(onLike = { isLike = !isLike }) }
+    Column {
+        FeedItem(/* Preview */
+            uiState = sample,
+            feedItemClickEvents = feedItemClickEvents
         )
-    )
+
+        Spacer(Modifier.height(4.dp)
+                       .fillMaxWidth()
+                       .background(Color.White))
+
+        TextField(value = sample.userName,
+            onValueChange = {
+                sample = sample.copy(userName = it)
+        }, placeholder = {
+            Text("name")
+        })
+    }
 }

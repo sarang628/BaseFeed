@@ -56,6 +56,7 @@ val FeedItemUiState.Companion.Sample: FeedItemUiState  get() =
         isLike = false,
         isFavorite = false,
         likeAmount = 0,
+        isLogin = true,
         createDate = "2025-08-21 06:17:20"
     )
 

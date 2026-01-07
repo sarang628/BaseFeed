@@ -35,12 +35,12 @@ fun FeedTop(modifier             : Modifier    = Modifier,
             onMenu               : () -> Unit  = {},
             ratingBarTintColor   : Color       = MaterialTheme.colorScheme.primary){
     ConstraintLayout(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .nonEffectClickable(),
             constraintSet = ConstraintSet {
                 val imgProfile = createRefFor("imgProfile")
-                val userName = createRefFor("userName")
+                val containerUserAndRestaurantName = createRefFor("userName")
                 val btnMenu = createRefFor("btnMenu")
 
                 constrain(imgProfile){
@@ -49,7 +49,7 @@ fun FeedTop(modifier             : Modifier    = Modifier,
                     bottom.linkTo(parent.bottom)
                 }
 
-                constrain(userName){
+                constrain(containerUserAndRestaurantName){
                     start.linkTo(imgProfile.end, margin = 2.dp)
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
@@ -89,6 +89,7 @@ fun FeedTop(modifier             : Modifier    = Modifier,
                                       .testTag("btnMenu"),
                 onMenu     = onMenu)
         }
+    
 }
 
 @Preview(showBackground = true, backgroundColor = 0x111111)

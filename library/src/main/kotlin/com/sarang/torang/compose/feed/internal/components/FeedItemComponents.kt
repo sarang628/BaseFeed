@@ -21,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -99,12 +101,14 @@ fun UserName(modifier : Modifier = Modifier, onName: () -> Unit = {}, userName :
 }
 
 @Composable
-fun CommentCount(modifier : Modifier = Modifier, count : Int, onComment : ()->Unit = {}){
-    Text(modifier = modifier.clickable { onComment.invoke() },
-        text = stringResource(id = R.string.comments, count),
-        color = Color.Gray,
-        fontWeight = W500,
-        fontSize = 14.sp)
+fun CommentCount(modifier   : Modifier  = Modifier,
+                 count      : Int       = 0,
+                 onComment  : ()->Unit  = {}){
+    Text(modifier   = modifier.clickable { onComment() },
+         text       = stringResource(id = R.string.comments, count),
+         color      = Color.Gray,
+         fontWeight = W500,
+         fontSize   = 14.sp)
 }
 
 @Preview
@@ -182,16 +186,18 @@ fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url
 
 
 @Composable
-fun Comment(
-    modifier: Modifier = Modifier,
-    comments: List<Comment>? = null,
-) {
-    Column(modifier = modifier.layoutId("comments").fillMaxWidth()) {
-        comments?.forEach {
+fun Comment(modifier : Modifier          = Modifier,
+            comments : List<Comment>    = emptyList()) {
+    Column(modifier = modifier.layoutId("comments")
+                              .fillMaxWidth()) {
+        comments.forEach {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = it.author, fontWeight = FontWeight.Bold, color = Color.Gray)
+                Text(text       = it.author,
+                    fontWeight = FontWeight.Bold,
+                    color      = Color.Gray)
                 Spacer(modifier = Modifier.padding(start = 3.dp))
-                Text(text = it.comment, color = Color.Gray)
+                Text(text   = it.comment,
+                    color  = Color.Gray)
             }
         }
     }
@@ -201,11 +207,11 @@ fun Comment(
 @Composable
 fun PreviewComment() {
     Comment(
-        comments = listOf(
+        /*comments = listOf(
             Comment("Tom", "Wow!"),
             Comment("Jhon", "Nice!"),
             Comment("Amy", "Delicious!"),
             Comment("Jane", "Hello!"),
-        )
+        )*/
     )
 }

@@ -9,3 +9,5 @@ Applications/Android Studio.app/Contents/plugins/java), )
   at android.view.LayoutInflater.inflate(LayoutInflater.java:544)
   at android.view.LayoutInflater.inflate(LayoutInflater.java:433)
 ```
+
+안드로이드 스튜디오 업데이트로 해결.

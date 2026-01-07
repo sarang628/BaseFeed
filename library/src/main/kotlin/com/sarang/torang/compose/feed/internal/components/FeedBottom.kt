@@ -23,7 +23,10 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
                isLogin               : Boolean              = false,
                isFavorite            : Boolean              = false,
                likeAmount            : Int                  = 0,
-               feedItemClickEvents   : FeedItemClickEvents  = FeedItemClickEvents(),
+               onLike                : () -> Unit           = {},
+               onComment             : () -> Unit           = {},
+               onShare               : () -> Unit           = {},
+               onFavorite            : () -> Unit           = {},
                favoriteColor         : Color                = MaterialTheme.colorScheme.primary){
     Box(modifier = modifier.fillMaxWidth()
                            .nonEffectClickable()){
@@ -32,24 +35,24 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Like(modifier    = Modifier.testTag("btnLike"),
                      isLike      = isLike,
-                     onLike      = feedItemClickEvents.onLike,
+                     onLike      = onLike,
                      animation   = isLogin)
                 if(likeAmount > 0)
                     LikeCount(modifier = Modifier.padding(start = 2.dp),
                               count    = likeAmount        ,
-                              onLikes  = feedItemClickEvents.onLike)
+                              onLikes  = onLike)
             }
             Spacer(modifier = Modifier.width(12.dp))
             Comment(modifier  = Modifier.testTag("btnComment"),
-                    onComment = feedItemClickEvents.onComment)
+                    onComment = onComment)
             Spacer(modifier = Modifier.width(12.dp))
             Share(modifier = Modifier.testTag("btnShare"),
-                  onShare  = feedItemClickEvents.onShare)
+                  onShare  = onShare)
         }
 
         Favorite(modifier   = Modifier.align(Alignment.CenterEnd),
                  isFavorite = isFavorite,
-                 onFavorite = feedItemClickEvents.onFavorite,
+                 onFavorite = onFavorite,
                  color      = favoriteColor)
     }
 }

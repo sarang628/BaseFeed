@@ -65,8 +65,10 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Test(){
         val navController = rememberNavController()
-        NavHost(navController, startDestination = "menu"){
-            /*** NOTE: Feed Item Test Code ***/
+        NavHost(navController, startDestination = "FeedTest"){
+            composable("FeedTest") {
+                PreviewFeed()
+            }
             composable("FeedList"){
                 CompositionLocalProvider(LocalFeedImageLoader    provides { CustomFeedImageLoader(showLog = true).invoke(it) },
                                                    LocalExpandableTextType provides CustomExpandableTextType) {
