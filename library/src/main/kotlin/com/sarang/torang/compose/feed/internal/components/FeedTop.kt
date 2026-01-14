@@ -72,22 +72,22 @@ fun FeedTop(modifier             : Modifier    = Modifier,
                     verticalArrangement  = Arrangement.Center) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         UserName  (modifier          = Modifier.testTag("txtUserName"),
-                            userName          = userName,
-                            onName            = onName)
+                                   userName          = userName,
+                                   onName            = onName)
                         Spacer    (modifier          = Modifier.width(4.dp))
                         RatingBar (modifier          = Modifier.testTag("rbProfile"),
-                            rating            = rating,
-                            progressTintColor = ratingBarTintColor)
+                                   rating            = rating,
+                                   progressTintColor = ratingBarTintColor)
                     }
                     RestaurantName(modifier         = Modifier.testTag("txtRestaurantName"),
-                        restaurantName   = restaurantName,
-                        onRestaurant     = onRestaurant)
+                                   restaurantName   = restaurantName,
+                                   onRestaurant     = onRestaurant)
                 }
             }
 
             Menu(modifier   = Modifier.layoutId("btnMenu")
                                       .testTag("btnMenu"),
-                onMenu     = onMenu)
+                 onMenu     = onMenu)
         }
     
 }

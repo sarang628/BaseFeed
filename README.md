@@ -28,7 +28,7 @@ fun PreviewFeed() {
 }
 ```
 
-# Development Technology
+# Tech Stack
 
 - [Jetpack Compose](documents/JetPackCompose.md)
   - UI element

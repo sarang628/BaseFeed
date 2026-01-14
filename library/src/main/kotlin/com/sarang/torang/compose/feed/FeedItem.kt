@@ -53,7 +53,7 @@ fun FeedItem(
                          userScrollEnabled      = pageScroll,
                          onPage                 = onPage)
 
-            FeedTop     (modifier               = Modifier.padding(start = 18.dp, top = 1.dp),
+            FeedTop     (modifier               = Modifier,
                          profilePictureUrl      = uiState.profilePictureUrl,
                          rating                 = uiState.rating,
                          userName               = uiState.userName,
@@ -87,11 +87,11 @@ fun FeedItem(
                     comments = uiState.comments)
 
         if(uiState.commentAmount > 0)
-            CommentCount    (modifier   = Modifier.padding(horizontal = 8.dp),
+            CommentCount    (modifier   = Modifier.padding(horizontal = 4.dp),
                              count      = uiState.commentAmount,
                              onComment  = feedItemClickEvents.onComment)
-        Date            (modifier = Modifier.padding(start = 8.dp,
-                                                     end = 8.dp,
+        Date            (modifier = Modifier.padding(start = 4.dp,
+                                                     end = 4.dp,
                                                      bottom = 4.dp),
                          date     = uiState.createDate)
     }

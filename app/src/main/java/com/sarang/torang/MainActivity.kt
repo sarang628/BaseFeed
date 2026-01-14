@@ -16,6 +16,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -106,7 +107,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @ThemePreviews
+    @PreviewLightDark
     @Composable
     fun PreviewFeed1() {
         TorangTheme {

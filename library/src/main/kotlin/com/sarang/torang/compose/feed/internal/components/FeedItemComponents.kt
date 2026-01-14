@@ -164,7 +164,7 @@ fun PreviewContent(){
 @Preview
 @Composable
 fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url : String = ""){
-    Box(modifier = modifier.size(40.dp)) {
+    Box(modifier = modifier) {
         LocalFeedImageLoader.current.invoke(
             FeedImageLoaderData(
                 modifier        = Modifier.size(40.dp)
