@@ -25,8 +25,10 @@ import com.sarang.torang.compose.feed.PreviewFeed
 import com.sarang.torang.compose.feed.internal.components.PreViewImagePager
 import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
+import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
 import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
 import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
+import com.sarang.torang.di.basefeed_di.CustomVideoPlayerType
 import com.sarang.torang.repository.feed.FeedFlowRepository
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sarang.torang.repository.feed.FeedRepository
@@ -66,13 +68,14 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Test(){
         val navController = rememberNavController()
-        NavHost(navController, startDestination = "FeedTest"){
+        NavHost(navController, startDestination = "menu"){
             composable("FeedTest") {
                 PreviewFeed()
             }
             composable("FeedList"){
                 CompositionLocalProvider(LocalFeedImageLoader    provides { CustomFeedImageLoader(showLog = true).invoke(it) },
-                                                   LocalExpandableTextType provides CustomExpandableTextType) {
+                                                   LocalExpandableTextType provides CustomExpandableTextType,
+                                                   LocalVideoPlayerType provides CustomVideoPlayerType) {
                     FeedList()
                 }
             }
