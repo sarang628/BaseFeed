@@ -1,7 +1,7 @@
 #### viewmodel
 
 UI state를 생성하고 필요한 로직을 담고 있는 클래스를 state holder라 부른다. 전형적인 구현은 viewmodel이다.<br>
-[StateHolder](/documents/StateHolder.md)<br>
+[StateHolder](/documents1/StateHolder.md)<br>
 [FeedListViewModel](app/src/main/java/com/sarang/torang/compose/FeedListViewModel.kt)
 
 
