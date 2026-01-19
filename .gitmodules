@@ -19,3 +19,6 @@
 [submodule "app/src/main/java/com/sarang/torang/di/pinchzoom"]
 	path = app/src/main/java/com/sarang/torang/di/pinchzoom
 	url = https://github.com/sarang628/pinchzoom.git
+[submodule "documents"]
+	path = documents
+	url = https://github.com/sarang628/documents.git
