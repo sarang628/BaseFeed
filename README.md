@@ -30,16 +30,16 @@ fun PreviewFeed() {
 
 # Tech Stack
 
-- [Jetpack Compose](documents1/JetPackCompose.md)
+- [Jetpack Compose](documents/compose/JetPackCompose.md)
   - UI element
   - Tween animation(Like)
 - Android Architecture
-    - [UI layer](/documents1/UILayer.md)
+    - [UI layer](/documents/architecture/UILayer.md)
         - UI state
-        - [viewmodel (state holder)](/documents1/ViewModel.md)
+        - [viewmodel (state holder)](/documents/architecture/ViewModel.md)
 
 # FeedItem UI 개발
-[보기](documents1/FeedItem.md)
+[보기](developement_note/FeedItem.md)
 
 # Review
 - ConstraintLayout은 코드 가독성(x, 배치)은 좋게 만들 수 있으나, 수정하기 쉽지 않음.
