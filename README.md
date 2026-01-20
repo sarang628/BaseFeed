@@ -37,6 +37,7 @@ fun PreviewFeed() {
     - [UI layer](/documents/architecture/UILayer.md)
         - UI state
         - [viewmodel (state holder)](/documents/architecture/ViewModel.md)
+- [Jetpack Compose Performance](/documents/performance/JetpackComposePerformance.md)
 
 # FeedItem UI 개발
 [보기](developement_note/FeedItem.md)
