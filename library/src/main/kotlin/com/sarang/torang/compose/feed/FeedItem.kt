@@ -108,15 +108,13 @@ fun PreviewFeed() {
             feedItemClickEvents = feedItemClickEvents
         )
 
-        Spacer(Modifier.height(4.dp)
+        Spacer(Modifier.height(10.dp)
                        .fillMaxWidth()
                        .background(Color.White))
 
         TextField(value = sample.userName,
-            onValueChange = {
-                sample = sample.copy(userName = it)
-        }, placeholder = {
-            Text("name")
-        })
+                  onValueChange = { sample = sample.copy(userName = it) },
+                  placeholder = { Text("name") },
+                  label = { Text("Name") })
     }
 }
