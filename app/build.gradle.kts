@@ -18,6 +18,17 @@ android {
 
     android.buildFeatures.buildConfig = true
 
+    flavorDimensions += "mode"
+
+    productFlavors {
+        create("prod") {
+            dimension = "mode"
+        }
+        create("profile") {
+            dimension = "mode"
+        }
+    }
+
     buildTypes {
         getByName("debug") {
             buildConfigField("String", "SERVER_URL", "\"http://sarang628.iptime.org\"")
