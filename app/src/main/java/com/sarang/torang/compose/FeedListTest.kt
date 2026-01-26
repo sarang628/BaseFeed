@@ -1,13 +1,21 @@
 package com.sarang.torang.compose
 
+import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sarang.torang.compose.feed.FeedItem
+
+private const val tag = "__FeedList"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -15,9 +23,37 @@ fun FeedList(
     viewModel: FeedListViewModel = hiltViewModel()
 ) {
     val list by viewModel.feedUiState.collectAsStateWithLifecycle()
-    LazyColumn {
-        items(list) {
-            FeedItem(uiState = it, onPage = {})
+    val listState = rememberLazyListState()
+
+    val playingIndex by remember {
+        derivedStateOf {
+            val layoutInfo = listState.layoutInfo
+            val visibleItems = layoutInfo.visibleItemsInfo
+
+            if (visibleItems.isEmpty()) return@derivedStateOf -1
+
+            // 화면에 가장 많이 보이는 아이템
+            visibleItems.maxByOrNull { item ->
+                val visibleHeight =
+                    minOf(
+                        item.offset + item.size,
+                        layoutInfo.viewportEndOffset
+                    ) - maxOf(item.offset, layoutInfo.viewportStartOffset)
+
+                visibleHeight
+            }?.index ?: -1
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { playingIndex }.collect {
+            Log.d(tag, "current play index : ${it}")
+        }
+    }
+
+    LazyColumn(state = listState) {
+        itemsIndexed(list) { index, item ->
+            FeedItem(uiState = item, onPage = {}, isPlaying = playingIndex == index)
         }
     }
 }

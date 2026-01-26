@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.internal.components.type.FeedImageLoaderData
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
+import com.sarang.torang.compose.feed.internal.components.type.VideoPlayerTypeData
 import com.sarang.torang.compose.feed.internal.util.isVideoType
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
@@ -43,6 +44,7 @@ fun ImagePager(
     height                  : Dp                = 300.dp,
     userScrollEnabled       : Boolean           = true,
     indicatorBottomPadding  : Dp                = 12.dp,
+    isPlaying               : Boolean           = false,
     onPage                  : (FeedItemPageEvent) -> Unit    = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
 ) {
     val pagerState: PagerState = rememberPagerState { images.size }
@@ -55,7 +57,8 @@ fun ImagePager(
                         state               = pagerState,
                         userScrollEnabled   = userScrollEnabled) { page ->
             if(images[page].isVideoType){
-                LocalVideoPlayerType.current(images[page])
+                LocalVideoPlayerType.current(VideoPlayerTypeData(url        = images[page],
+                                                                      isPlaying  = isPlaying))
             }
             else {
                 LocalFeedImageLoader.current(

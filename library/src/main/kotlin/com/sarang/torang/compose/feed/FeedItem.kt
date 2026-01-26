@@ -39,6 +39,7 @@ private const val tag = "__Feed"
 @Composable
 fun FeedItem(
     uiState             : FeedItemUiState               = FeedItemUiState.empty,
+    isPlaying           : Boolean                       = false,
     ratingBarTintColor  : Color                         = Color(0xffe6cc00),
     favoriteColor       : Color                         = Color(0xffe6cc00),
     pageScroll          : Boolean                       = true,
@@ -51,6 +52,7 @@ fun FeedItem(
                          onImage                = feedItemClickEvents.onImage,
                          height                 = uiState.adjustHeight,
                          userScrollEnabled      = pageScroll,
+                         isPlaying              = isPlaying && uiState.isPlay,
                          onPage                 = onPage)
 
             FeedTop     (modifier               = Modifier,

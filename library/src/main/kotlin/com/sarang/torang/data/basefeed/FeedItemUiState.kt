@@ -37,7 +37,8 @@ data class FeedItemUiState(
     val height              : Int           = 600,
     val width               : Int           = 600,
     val createDate          : String        = "",
-    val isLogin             : Boolean       = false
+    val isLogin             : Boolean       = false,
+    val isPlay              : Boolean       = true
 ){ companion object }
 
 
