@@ -73,9 +73,9 @@ class MainActivity : ComponentActivity() {
                 PreviewFeed()
             }
             composable("FeedList"){
-                CompositionLocalProvider(LocalFeedImageLoader    provides { CustomFeedImageLoader(showLog = true).invoke(it) },
-                                                   LocalExpandableTextType provides CustomExpandableTextType,
-                                                   LocalVideoPlayerType provides CustomVideoPlayerType) {
+                CompositionLocalProvider(LocalFeedImageLoader     provides { CustomFeedImageLoader(showLog = true).invoke(it) },
+                                                   LocalExpandableTextType  provides CustomExpandableTextType,
+                                                   LocalVideoPlayerType     provides CustomVideoPlayerType()) {
                     FeedList()
                 }
             }
