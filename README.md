@@ -30,7 +30,7 @@ fun PreviewFeed() {
 
 # Tech Stack
 
-- [Jetpack Compose](documents/compose/JetPackCompose.md)
+- [Jetpack Compose](documents/compose/1_JetPackCompose.md)
   - UI element
   - Tween animation(Like)
 - Android Architecture
