@@ -4,25 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.FeedList
 import com.sarang.torang.compose.feed.PreviewFeed
-import com.sarang.torang.compose.feed.internal.components.PreViewImagePager
 import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
@@ -56,20 +51,23 @@ class MainActivity : ComponentActivity() {
                 }
             }
             TorangTheme {
-                            Surface(Modifier.fillMaxSize()
-                                            .background(MaterialTheme.colorScheme.background))
-                            {
-                                Test()
-                            }
-                        }
-                   }
+                Surface(Modifier.fillMaxSize()
+                                .background(MaterialTheme.colorScheme.background)) {
+                    BaseTeedTest()
+                }
+            }
+        }
     }
 
+    @Preview
     @Composable
-    fun Test(){
+    fun BaseTeedTest(){
         val navController = rememberNavController()
         NavHost(navController, startDestination = "menu"){
-            composable("FeedTest") {
+            composable("menu"){
+                Menu(navController)
+            }
+            composable("Feed") {
                 PreviewFeed()
             }
             composable("FeedList"){
@@ -79,43 +77,14 @@ class MainActivity : ComponentActivity() {
                     FeedList()
                 }
             }
-            composable("menu"){
-                Column {
-                    Button({navController.navigate("FeedList")}) {
-                        Text("FeedList")
-                    }
-                    Button({navController.navigate("FeedRepositoryTest")}) {
-                        Text("FeedRepositoryTest")
-                    }
-                }
-            }
-            composable("FeedRepositoryTest"){
-                FeedRepositoryTestScreen(feedRepository = feedRepository,
-                    feedLoadRepository = feedLoadRepository,
-                    feedFlowRepository = feedFlowRepository)
+            composable("FeedRepository"){
+                FeedRepositoryTestScreen(feedRepository     = feedRepository,
+                                         feedLoadRepository = feedLoadRepository,
+                                         feedFlowRepository = feedFlowRepository)
             }
 
             composable("ImagePagerScrollTest"){
                 ImagePagerScrollTest()
-            }
-        }
-    }
-
-    @Composable
-    fun ImagePagerScrollTest(){
-        LazyColumn {
-            items(100){
-                PreViewImagePager()
-            }
-        }
-    }
-
-    @PreviewLightDark
-    @Composable
-    fun PreviewFeed1() {
-        TorangTheme {
-            Surface(Modifier.background(MaterialTheme.colorScheme.background)) {
-                PreviewFeed()
             }
         }
     }

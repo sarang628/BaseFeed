@@ -117,6 +117,7 @@ fun PreviewFeed() {
         TextField(value = sample.userName,
                   onValueChange = { sample = sample.copy(userName = it) },
                   placeholder = { Text("name") },
-                  label = { Text("Name") })
+                  label = { Text("Name") },
+                  maxLines = 1)
     }
 }
