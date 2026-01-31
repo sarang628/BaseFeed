@@ -32,7 +32,7 @@ fun PreviewFeed() {
 
 - [Jetpack Compose](documents/compose/1_JetPackCompose.md)
   - UI element
-    - LazyColumn
+    - [LazyColumn](documents/AppLayout/LazyColumn.md)
   - Tween animation(Like)
 - Android Architecture
     - [UI layer](/documents/architecture/UILayer.md)
