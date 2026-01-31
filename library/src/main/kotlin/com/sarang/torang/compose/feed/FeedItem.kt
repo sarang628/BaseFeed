@@ -29,8 +29,10 @@ import com.sarang.torang.compose.feed.internal.components.Date
 import com.sarang.torang.compose.feed.internal.components.FeedBottom
 import com.sarang.torang.compose.feed.internal.components.FeedTop
 import com.sarang.torang.compose.feed.internal.components.ImagePager
+import com.sarang.torang.compose.feed.internal.components.type.ExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.type.FeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.type.FeedImageLoaderData
+import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
 import com.sarang.torang.compose.feed.internal.components.type.VideoPlayerType
@@ -47,6 +49,7 @@ private const val tag = "__Feed"
 @Composable
 fun FeedItem(videoLoader         : VideoPlayerType,
              imageLoader         : FeedImageLoader,
+             expandableText      : ExpandableTextType,
              uiState             : FeedItemUiState               = FeedItemUiState.empty,
              isPlaying           : Boolean                       = false,
              ratingBarTintColor  : Color                         = Color(0xffe6cc00),
@@ -55,7 +58,8 @@ fun FeedItem(videoLoader         : VideoPlayerType,
              feedItemClickEvents : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
              onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }){
     CompositionLocalProvider(LocalVideoPlayerType provides videoLoader,
-                                       LocalFeedImageLoader provides imageLoader) {
+                                       LocalFeedImageLoader provides imageLoader,
+                                       LocalExpandableTextType provides expandableText ) {
         FeedItem(uiState                = uiState,
                  isPlaying              = isPlaying,
                  ratingBarTintColor     = ratingBarTintColor,
