@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -18,12 +17,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.FeedList
 import com.sarang.torang.compose.feed.PreviewFeed
-import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
-import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
-import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
-import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
-import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
-import com.sarang.torang.di.basefeed_di.CustomVideoPlayerType
 import com.sarang.torang.repository.feed.FeedFlowRepository
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sarang.torang.repository.feed.FeedRepository
@@ -71,11 +64,7 @@ class MainActivity : ComponentActivity() {
                 PreviewFeed()
             }
             composable("FeedList"){
-                CompositionLocalProvider(LocalFeedImageLoader     provides { CustomFeedImageLoader(showLog = true).invoke(it) },
-                                                   LocalExpandableTextType  provides CustomExpandableTextType,
-                                                   LocalVideoPlayerType     provides CustomVideoPlayerType()) {
-                    FeedList()
-                }
+                FeedList()
             }
             composable("FeedRepository"){
                 FeedRepositoryTestScreen(feedRepository     = feedRepository,
