@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 rootProject.name = "BaseFeed"
 include(":app")
 include(":library")
+include(":benchmark")
