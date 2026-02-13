@@ -86,6 +86,7 @@ dependencies {
     // Navigation end
 
     implementation(libs.constraintlayout.compose)
+    implementation("androidx.compose.material:material-icons-extended")
 }
 
 afterEvaluate {

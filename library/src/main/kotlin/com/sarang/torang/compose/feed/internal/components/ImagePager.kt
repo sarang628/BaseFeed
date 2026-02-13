@@ -73,9 +73,8 @@ fun ImagePager(
             }
         }
         if (showIndicator)
-            PagerIndicator(modifier   = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = indicatorBottomPadding),
+            PagerIndicator(modifier   = Modifier.align(Alignment.BottomCenter)
+                                                .padding(bottom = indicatorBottomPadding),
                            pagerState = pagerState)
     }
 }
@@ -93,7 +92,7 @@ fun PreViewImagePager() {
             "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
         ),
         onImage = {},
-        height = (100 * Random.nextInt(1, 3)).dp,
+        height = 400.dp,
         onPage = {
             feedItemPageEvent = it
         }

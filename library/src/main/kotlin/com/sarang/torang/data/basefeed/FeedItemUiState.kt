@@ -38,8 +38,14 @@ data class FeedItemUiState(
     val width               : Int           = 600,
     val createDate          : String        = "",
     val isLogin             : Boolean       = false,
-    val isPlay              : Boolean       = true
+    val isPlay              : Boolean       = true,
+    val isVolumeOff         : Boolean       = true
 ){ companion object }
+
+val FeedItemUiState.isVideo: Boolean
+    get() = reviewImages.firstOrNull()
+                        ?.substringAfterLast('.', "")
+                        ?.equals("m3u8", ignoreCase = true) == true
 
 
 val FeedItemUiState.adjustHeight: Dp

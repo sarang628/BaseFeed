@@ -26,4 +26,5 @@ data class FeedItemClickEvents (
     val onRestaurant        : () -> Unit                = { Log.w(tag, "onRestaurant callback is not set") },
     val onLikes             : () -> Unit                = { Log.w(tag, "onLikes callback is not set") },
     val onImage             : (Int) -> Unit             = { Log.w(tag, "onImage callback is not set") },
+    val onVolume            : () -> Unit                = { Log.w(tag, "onVolume callback is not set") },
 )

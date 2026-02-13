@@ -86,8 +86,8 @@ fun FeedList(
         LazyColumn(state = listState) {
             itemsIndexed(list) { index, item ->
                 FeedItem(uiState = item,
-                    onPage = {},
-                    isPlaying = shouldPlay)
+                         onPage = {},
+                         isPlaying = shouldPlay)
             }
         }
     }

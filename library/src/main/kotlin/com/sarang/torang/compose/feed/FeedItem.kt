@@ -42,6 +42,7 @@ import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.adjustHeight
 import com.sarang.torang.data.basefeed.empty
+import com.sarang.torang.data.basefeed.isVideo
 
 private const val tag = "__Feed"
 /** Feed 항목*/
@@ -77,7 +78,7 @@ fun FeedItem(
     favoriteColor       : Color                         = Color(0xffe6cc00),
     pageScroll          : Boolean                       = true,
     feedItemClickEvents : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
-    onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
+    onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
 ) {
     Column {
         Box(Modifier.fillMaxWidth()){
@@ -99,18 +100,20 @@ fun FeedItem(
                          onMenu                 = feedItemClickEvents.onMenu,
                          ratingBarTintColor     = ratingBarTintColor)
 
-            FeedBottom  (modifier               = Modifier
-                .align(Alignment.BottomStart)
-                .padding(vertical = 8.dp, horizontal = 12.dp),
+            FeedBottom  (modifier               = Modifier.align(Alignment.BottomStart)
+                                                          .padding(vertical = 8.dp, horizontal = 12.dp),
                          isLike                 = uiState.isLike,
                          isLogin                = uiState.isLogin,
                          isFavorite             = uiState.isFavorite,
                          likeAmount             = uiState.likeAmount,
+                         isVideo                = uiState.isVideo,
+                         isVolumeOff            = uiState.isVolumeOff,
                          onLike                 = feedItemClickEvents.onLike,
                          onShare                = feedItemClickEvents.onShare,
                          onComment              = feedItemClickEvents.onComment,
                          onFavorite             = feedItemClickEvents.onFavorite,
-                         favoriteColor          = favoriteColor)
+                         favoriteColor          = favoriteColor,
+                         onVolume               = feedItemClickEvents.onVolume)
         }
         Contents   (modifier   = Modifier.padding(start = 4.dp,
                                                   end = 4.dp,
@@ -131,26 +134,9 @@ fun FeedItem(
                          date     = uiState.createDate)
     }
 }
-@Preview(showBackground = true, backgroundColor = 0xFFFDFDF6)
+
+@Preview
 @Composable
-fun PreviewFeed() {
-    var isLike by remember { mutableStateOf(false) }
-    var sample : FeedItemUiState by remember { mutableStateOf(FeedItemUiState.Sample) }
-    val feedItemClickEvents = remember { FeedItemClickEvents(onLike = { isLike = !isLike }) }
-    Column {
-        FeedItem(/* Preview */
-            uiState = sample,
-            feedItemClickEvents = feedItemClickEvents
-        )
-
-        Spacer(Modifier.height(10.dp)
-                       .fillMaxWidth()
-                       .background(Color.White))
-
-        TextField(value = sample.userName,
-                  onValueChange = { sample = sample.copy(userName = it) },
-                  placeholder = { Text("name") },
-                  label = { Text("Name") },
-                  maxLines = 1)
-    }
+fun PreviewFeedItem(){
+    PreviewFeed()
 }

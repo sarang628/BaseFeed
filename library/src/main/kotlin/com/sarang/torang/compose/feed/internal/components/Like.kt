@@ -3,6 +3,7 @@ package com.sarang.torang.compose.feed.internal.components
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -55,6 +56,24 @@ fun Like(modifier   : Modifier      = Modifier,
                                         isAnimationLike = true
                                   })
         }
+    }
+}
+
+@Composable
+fun Like(modifier   : Modifier      = Modifier,
+         isLike     : Boolean       = false,
+         onLike     : () -> Unit    = {},
+         animation  : Boolean       = false,
+         likeAmount : Int           = 0){
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Like(modifier    = modifier,
+             isLike      = isLike,
+             onLike      = onLike,
+             animation   = animation)
+        if(likeAmount > 0)
+            LikeCount(modifier = Modifier.padding(start = 2.dp),
+                      count    = likeAmount        ,
+                      onLikes  = onLike)
     }
 }
 
