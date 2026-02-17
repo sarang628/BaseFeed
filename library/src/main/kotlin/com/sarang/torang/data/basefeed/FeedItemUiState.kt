@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 
 /**
  * @see [/documents/UIState.md]
@@ -23,10 +24,7 @@ import androidx.compose.ui.unit.dp
  * @param createDate        생성일
  */
 data class FeedItemUiState(
-    val userName            : String        = "",
-    val profilePictureUrl   : String        = "",
-    val restaurantName      : String        = "",
-    val rating              : Float         = 0f,
+    val feedTopUiState      : FeedTopUiState = FeedTopUiState(),
     val reviewImages        : List<String>  = emptyList(),
     val contents            : String        = "",
     val comments            : List<Comment> = emptyList(),

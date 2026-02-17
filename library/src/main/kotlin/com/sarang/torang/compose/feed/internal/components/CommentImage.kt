@@ -16,10 +16,10 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 
 @Composable
-fun Comment(modifier    : Modifier      = Modifier,
-            onComment   : () -> Unit    = {},
-            size        : Dp            = 25.dp,
-            padding     : Dp            = 0.dp) {
+fun CommentIcon(modifier    : Modifier      = Modifier,
+                onComment   : () -> Unit    = {},
+                size        : Dp            = 25.dp,
+                padding     : Dp            = 0.dp) {
     Icon(painter            = painterResource(id = R.drawable.comment),
          tint               = Color.White,
          contentDescription = "comment",
@@ -31,8 +31,8 @@ fun Comment(modifier    : Modifier      = Modifier,
 @Preview
 @Composable
 fun PreviewCommentImage() {
-    Comment(modifier    = Modifier,
-            onComment   = { /*TODO*/ },
-            size        = 50.dp,
-            padding     = 0.dp)
+    CommentIcon(modifier    = Modifier,
+                onComment   = { /*TODO*/ },
+                size        = 50.dp,
+                padding     = 0.dp)
 }

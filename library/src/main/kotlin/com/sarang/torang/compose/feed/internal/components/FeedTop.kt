@@ -27,21 +27,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.sarang.torang.compose.component.RatingBar
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
-
-/**
- *
- */
 @Composable
-fun FeedTop(modifier             : Modifier    = Modifier,
-            profilePictureUrl    : String      = "",
-            userName             : String      = "",
-            restaurantName       : String      = "",
-            rating               : Float       = 0.0f,
-            onName               : () -> Unit  = {},
-            onProfile            : () -> Unit  = {},
-            onRestaurant         : () -> Unit  = {},
-            onMenu               : () -> Unit  = {},
-            ratingBarTintColor   : Color       = MaterialTheme.colorScheme.primary){
+fun FeedTop(modifier             : Modifier         = Modifier,
+            feedTopUiState       : FeedTopUiState   = FeedTopUiState(),
+            onName               : () -> Unit       = {},
+            onProfile            : () -> Unit       = {},
+            onRestaurant         : () -> Unit       = {},
+            onMenu               : () -> Unit       = {},
+            ratingBarTintColor   : Color            = MaterialTheme.colorScheme.primary){
     ConstraintLayout(
             modifier = modifier
                 .fillMaxWidth()
@@ -72,7 +65,7 @@ fun FeedTop(modifier             : Modifier    = Modifier,
         ) {
             ProfileImage    (modifier   = Modifier.testTag("imgProfile")
                                                   .layoutId("imgProfile"),
-                             url        = profilePictureUrl,
+                             url        = feedTopUiState.profilePictureUrl,
                              onProfile  = onProfile)
 
             Row(modifier = Modifier.layoutId("userName")) {
@@ -80,15 +73,15 @@ fun FeedTop(modifier             : Modifier    = Modifier,
                     verticalArrangement  = Arrangement.Center) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         UserName  (modifier          = Modifier.testTag("txtUserName"),
-                                   userName          = userName,
+                                   userName          = feedTopUiState.userName,
                                    onName            = onName)
                         Spacer    (modifier          = Modifier.width(4.dp))
                         RatingBar (modifier          = Modifier.testTag("rbProfile"),
-                                   rating            = rating,
+                                   rating            = feedTopUiState.rating,
                                    progressTintColor = ratingBarTintColor)
                     }
                     RestaurantName(modifier         = Modifier.testTag("txtRestaurantName"),
-                                   restaurantName   = restaurantName,
+                                   restaurantName   = feedTopUiState.restaurantName,
                                    onRestaurant     = onRestaurant)
                 }
             }
@@ -107,10 +100,12 @@ fun PreviewFeedTop(){
     var rating : String by remember { mutableStateOf("4.5") }
     var restaurantName : String by remember { mutableStateOf("restaurantName restaurantName restaurantName restaurantName restaurantName") }
 
-    Column() {
-        FeedTop(userName          = userName,
-                rating            = try{ rating.toFloat() }catch(e : Exception) { 0f } ,
-                restaurantName    = restaurantName)
+    Column {
+        FeedTop(feedTopUiState = FeedTopUiState(
+            userName          = userName,
+            rating            = try{ rating.toFloat() }catch(e : Exception) { 0f } ,
+            restaurantName    = restaurantName
+        ))
 
         HorizontalDivider(Modifier.height(10.dp))
 

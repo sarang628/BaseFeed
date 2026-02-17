@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
@@ -36,8 +37,8 @@ fun PreviewFeed() {
             .fillMaxWidth()
             .background(Color.White))
 
-        TextField(value = sample.userName,
-            onValueChange = { sample = sample.copy(userName = it) },
+        TextField(value = sample.feedTopUiState.userName,
+            onValueChange = { sample = sample.copy(feedTopUiState = FeedTopUiState(userName = it)) },
             placeholder = { Text("name") },
             label = { Text("Name") },
             maxLines = 1)

@@ -1,6 +1,8 @@
 package com.sarang.torang.data.basefeed
 
 import android.util.Log
+import com.sarang.torang.compose.feed.internal.components.FeedTop
+import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 import java.text.SimpleDateFormat
 
 val FeedItemUiState.Companion.empty get() =  FeedItemUiState()
@@ -38,10 +40,12 @@ val FeedItemUiState.Companion.Sample: FeedItemUiState  get() =
             add("333/333/2023-06-16/12_52_44_122.jpeg")
             add("333/333/2023-06-16/12_52_44_122.jpeg")
         },
-        userName = "peter pan",
-        profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
-        restaurantName = "Gorden Ramsey Burger",
-        rating = 3.5f,
+        feedTopUiState = FeedTopUiState(
+            userName = "peter pan",
+            profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
+            restaurantName = "Gorden Ramsey Burger",
+            rating = 3.5f,
+        ),
         contents = "\uD83C\uDF54 Gordon Ramsay’s Burger Review If you’re a burger lover, Gordon Ramsay’s burger is definitely something you want to try! Here’s my take on the iconic burger that combines classic flavors with a twist of Ramsay’s signature flair.",
         comments = ArrayList<Comment>().apply {
 //            add(Comment("author", "comment"))

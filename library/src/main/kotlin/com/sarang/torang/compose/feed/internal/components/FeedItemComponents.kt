@@ -101,23 +101,6 @@ fun UserName(modifier : Modifier = Modifier, onName: () -> Unit = {}, userName :
 }
 
 @Composable
-fun CommentCount(modifier   : Modifier  = Modifier,
-                 count      : Int       = 0,
-                 onComment  : ()->Unit  = {}){
-    Text(modifier   = modifier.clickable { onComment() },
-         text       = stringResource(id = R.string.comments, count),
-         color      = Color.Gray,
-         fontWeight = W500,
-         fontSize   = 14.sp)
-}
-
-@Preview
-@Composable
-fun PreviewCommentCount(){
-    CommentCount(count = 100)
-}
-
-@Composable
 fun Date(modifier : Modifier = Modifier, date : String = ""){
     Text(modifier = modifier.testTag("txtDate"),
         text = date.formatedDate(),
@@ -182,36 +165,4 @@ fun ProfileImage(modifier : Modifier = Modifier, onProfile: () -> Unit = {}, url
             )
         )
     }
-}
-
-
-@Composable
-fun Comment(modifier : Modifier          = Modifier,
-            comments : List<Comment>    = emptyList()) {
-    Column(modifier = modifier.layoutId("comments")
-                              .fillMaxWidth()) {
-        comments.forEach {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text       = it.author,
-                    fontWeight = FontWeight.Bold,
-                    color      = Color.Gray)
-                Spacer(modifier = Modifier.padding(start = 3.dp))
-                Text(text   = it.comment,
-                    color  = Color.Gray)
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewComment() {
-    Comment(
-        /*comments = listOf(
-            Comment("Tom", "Wow!"),
-            Comment("Jhon", "Nice!"),
-            Comment("Amy", "Delicious!"),
-            Comment("Jane", "Hello!"),
-        )*/
-    )
 }

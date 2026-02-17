@@ -27,7 +27,6 @@ import com.sarang.torang.compose.feed.internal.components.type.VideoPlayerTypeDa
 import com.sarang.torang.compose.feed.internal.util.isVideoType
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
-import kotlin.random.Random
 
 private const val tag = "__ImagePager"
 /**
@@ -36,7 +35,7 @@ private const val tag = "__ImagePager"
  * @param showIndicator indicator 표시 여부
  */
 @Composable
-fun ImagePager(
+fun FeedMediaPager(
     modifier                : Modifier          = Modifier,
     images                  : List<String>      = listOf(),
     onImage                 : (Int) -> Unit     = { Log.i(tag, "onImage callback is not set page : $it") },
@@ -81,9 +80,9 @@ fun ImagePager(
 
 @Preview(showBackground = true)
 @Composable
-fun PreViewImagePager() {
+fun PreViewFeedMediaPager() {
     var feedItemPageEvent by remember { mutableStateOf(FeedItemPageEvent(0, false, false)) }
-    ImagePager(/*Preview*/
+    FeedMediaPager(/*Preview*/
         images = arrayListOf(
             "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",

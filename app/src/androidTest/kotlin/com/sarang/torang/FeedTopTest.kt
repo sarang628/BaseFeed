@@ -12,6 +12,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.printToLog
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sarang.torang.compose.feed.internal.components.FeedTop
+import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -37,10 +38,12 @@ class FeedTopTest {
     fun init() {
         composeRules.setContent {
             FeedTop(
-                userName = userName,
-                profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
-                restaurantName = "restaurantName",
-                rating = rating,
+                feedTopUiState = FeedTopUiState(
+                    userName = userName,
+                    profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
+                    restaurantName = "restaurantName",
+                    rating = rating,
+                ),
                 onProfile = { onProfile = true },
                 onMenu = { onMenu = true },
                 onName = { onName = true },

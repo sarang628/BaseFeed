@@ -1,6 +1,6 @@
 # BaseFeed Module
 
-- 음식점 리뷰 '리스트 항목' UI.
+- 음식점 리뷰 '리스트 항목(FeedItem)' UI.
 - 모듈화로 일관성 있게 적용 가능.
 
 # Preview
@@ -45,6 +45,7 @@ fun PreviewFeed() {
 [보기](developement_note/FeedItem.md)
 
 # Review
+## ConstraintLayout
 - ConstraintLayout은 코드 가독성(x, 배치)은 좋게 만들 수 있으나, 수정하기 쉽지 않음.
 - composable를 선택하면 preview에 매치되는 항목이 맞지 않아 햇갈렸음.
 - 하나의 ConstraintLayout에 모든 컴포넌트를 배치하는건 무리한 시도였음.

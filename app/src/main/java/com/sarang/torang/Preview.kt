@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.sarang.torang.compose.feed.PreviewFeed
-import com.sarang.torang.compose.feed.internal.components.PreViewImagePager
+import com.sarang.torang.compose.feed.internal.components.PreViewFeedMediaPager
 import com.sryang.torang.ui.TorangTheme
 
 @Preview
@@ -17,7 +17,7 @@ import com.sryang.torang.ui.TorangTheme
 fun ImagePagerScrollTest(){
     LazyColumn {
         items(100){
-            PreViewImagePager()
+            PreViewFeedMediaPager()
         }
     }
 }
