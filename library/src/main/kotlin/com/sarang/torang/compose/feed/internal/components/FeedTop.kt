@@ -27,14 +27,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.sarang.torang.compose.component.RatingBar
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
+import com.sarang.torang.data.basefeed.FeedTopEvents
+
 @Composable
-fun FeedTop(modifier             : Modifier         = Modifier,
-            feedTopUiState       : FeedTopUiState   = FeedTopUiState(),
-            onName               : () -> Unit       = {},
-            onProfile            : () -> Unit       = {},
-            onRestaurant         : () -> Unit       = {},
-            onMenu               : () -> Unit       = {},
-            ratingBarTintColor   : Color            = MaterialTheme.colorScheme.primary){
+fun FeedTop(modifier            : Modifier         = Modifier,
+            uiState             : FeedTopUiState   = FeedTopUiState(),
+            events              : FeedTopEvents    = FeedTopEvents(),
+            ratingBarTintColor  : Color            = MaterialTheme.colorScheme.primary){
     ConstraintLayout(
             modifier = modifier
                 .fillMaxWidth()
@@ -65,30 +64,30 @@ fun FeedTop(modifier             : Modifier         = Modifier,
         ) {
             ProfileImage    (modifier   = Modifier.testTag("imgProfile")
                                                   .layoutId("imgProfile"),
-                             url        = feedTopUiState.profilePictureUrl,
-                             onProfile  = onProfile)
+                             url        = uiState.profilePictureUrl,
+                             onProfile  = events.onProfile)
 
             Row(modifier = Modifier.layoutId("userName")) {
                 Column(modifier = Modifier.layoutId("userName"),
                     verticalArrangement  = Arrangement.Center) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         UserName  (modifier          = Modifier.testTag("txtUserName"),
-                                   userName          = feedTopUiState.userName,
-                                   onName            = onName)
+                                   userName          = uiState.userName,
+                                   onName            = events.onName)
                         Spacer    (modifier          = Modifier.width(4.dp))
                         RatingBar (modifier          = Modifier.testTag("rbProfile"),
-                                   rating            = feedTopUiState.rating,
+                                   rating            = uiState.rating,
                                    progressTintColor = ratingBarTintColor)
                     }
                     RestaurantName(modifier         = Modifier.testTag("txtRestaurantName"),
-                                   restaurantName   = feedTopUiState.restaurantName,
-                                   onRestaurant     = onRestaurant)
+                                   restaurantName   = uiState.restaurantName,
+                                   onRestaurant     = events.onRestaurant)
                 }
             }
 
             Menu(modifier   = Modifier.layoutId("btnMenu")
                                       .testTag("btnMenu"),
-                 onMenu     = onMenu)
+                 onMenu     = events.onMenu)
         }
     
 }
@@ -101,7 +100,7 @@ fun PreviewFeedTop(){
     var restaurantName : String by remember { mutableStateOf("restaurantName restaurantName restaurantName restaurantName restaurantName") }
 
     Column {
-        FeedTop(feedTopUiState = FeedTopUiState(
+        FeedTop(uiState = FeedTopUiState(
             userName          = userName,
             rating            = try{ rating.toFloat() }catch(e : Exception) { 0f } ,
             restaurantName    = restaurantName

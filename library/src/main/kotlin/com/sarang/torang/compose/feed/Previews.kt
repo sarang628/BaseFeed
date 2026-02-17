@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
+import com.sarang.torang.data.basefeed.FeedBottomEvents
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.Sample
@@ -26,11 +27,11 @@ import com.sarang.torang.data.basefeed.Sample
 fun PreviewFeed() {
     var isLike by remember { mutableStateOf(false) }
     var sample : FeedItemUiState by remember { mutableStateOf(FeedItemUiState.Sample) }
-    val feedItemClickEvents = remember { FeedItemClickEvents(onLike = { isLike = !isLike }) }
+    val feedItemClickEvents = remember { FeedItemClickEvents(feedBottomEvents = FeedBottomEvents( onLike = { isLike = !isLike })) }
     Column {
         FeedItem(/* Preview */
             uiState = sample,
-            feedItemClickEvents = feedItemClickEvents
+            events = feedItemClickEvents
         )
 
         Spacer(Modifier.height(10.dp)

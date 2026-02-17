@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.internal.components.Comment
-import com.sarang.torang.compose.feed.internal.components.CommentCount
 import com.sarang.torang.compose.feed.internal.components.Contents
 import com.sarang.torang.compose.feed.internal.components.Date
 import com.sarang.torang.compose.feed.internal.components.FeedBottom
@@ -40,11 +39,11 @@ fun FeedItem(videoLoader         : VideoPlayerType,
              imageLoader         : FeedImageLoader,
              expandableText      : ExpandableTextType,
              uiState             : FeedItemUiState               = FeedItemUiState.empty,
+             events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
              isPlaying           : Boolean                       = false,
              ratingBarTintColor  : Color                         = Color(0xffe6cc00),
              favoriteColor       : Color                         = Color(0xffe6cc00),
              pageScroll          : Boolean                       = true,
-             feedItemClickEvents : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
              onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }){
     CompositionLocalProvider(LocalVideoPlayerType provides videoLoader,
                                        LocalFeedImageLoader provides imageLoader,
@@ -54,7 +53,7 @@ fun FeedItem(videoLoader         : VideoPlayerType,
                  ratingBarColor         = ratingBarTintColor,
                  favoriteColor          = favoriteColor,
                  userScrollEnabled      = pageScroll,
-                 feedItemClickEvents    = feedItemClickEvents,
+                 events                 = events,
                  onPage                 = onPage)
         }
 }
@@ -67,53 +66,42 @@ fun FeedItem(videoLoader         : VideoPlayerType,
 @Composable
 fun FeedItem(
     uiState             : FeedItemUiState               = FeedItemUiState.empty,
+    events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
     isPlaying           : Boolean                       = false,
     ratingBarColor      : Color                         = Color(0xffe6cc00),
     favoriteColor       : Color                         = Color(0xffe6cc00),
     userScrollEnabled   : Boolean                       = true,
-    feedItemClickEvents : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
     onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
 ) {
     Column {
         Box(Modifier.fillMaxWidth()){
             FeedMediaPager (images                 = uiState.reviewImages,
-                            onImage                = feedItemClickEvents.onImage,
+                            onImage                = events.onImage,
                             height                 = uiState.adjustHeight,
                             userScrollEnabled      = userScrollEnabled,
                             isPlaying              = isPlaying && uiState.isPlay,
                             onPage                 = onPage)
 
             FeedTop        (modifier               = Modifier,
-                            feedTopUiState         = uiState.feedTopUiState,
-                            onName                 = feedItemClickEvents.onName,
-                            onProfile              = feedItemClickEvents.onProfile,
-                            onRestaurant           = feedItemClickEvents.onRestaurant,
-                            onMenu                 = feedItemClickEvents.onMenu,
+                            uiState                = uiState.feedTopUiState,
+                            events                 = events.feedTopEvents,
                             ratingBarTintColor     = ratingBarColor)
 
             FeedBottom     (modifier               = Modifier.align(Alignment.BottomStart)
                                                              .padding(vertical = 8.dp, horizontal = 12.dp),
-                            isLike                 = uiState.isLike,
-                            isLogin                = uiState.isLogin,
-                            isFavorite             = uiState.isFavorite,
-                            likeAmount             = uiState.likeAmount,
+                            uiState                = uiState.feedBottomUiState,
+                            events                 = events.feedBottomEvents,
                             isVideo                = uiState.isVideo,
-                            isVolumeOff            = uiState.isVolumeOff,
-                            onLike                 = feedItemClickEvents.onLike,
-                            onShare                = feedItemClickEvents.onShare,
-                            onComment              = feedItemClickEvents.onComment,
-                            onFavorite             = feedItemClickEvents.onFavorite,
-                            favoriteColor          = favoriteColor,
-                            onVolume               = feedItemClickEvents.onVolume)
+                            favoriteColor          = favoriteColor)
         }
         Column(Modifier.padding(all = 4.dp)) {
         Contents   (userName   = uiState.feedTopUiState.userName,
                     contents   = uiState.contents,
-                    onContents = feedItemClickEvents.onProfile)
+                    onContents = events.feedTopEvents.onProfile)
 
         Comment(commentCount    = uiState.commentAmount,
                 comments        = uiState.comments,
-                onComment       = feedItemClickEvents.onComment)
+                onComment       = events.feedBottomEvents.onComment)
 
         Date   (date     = uiState.createDate)
         }

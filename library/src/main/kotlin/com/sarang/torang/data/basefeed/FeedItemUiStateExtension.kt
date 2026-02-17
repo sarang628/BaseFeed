@@ -1,6 +1,7 @@
 package com.sarang.torang.data.basefeed
 
 import android.util.Log
+import com.sarang.torang.compose.feed.internal.components.FeedBottomUiState
 import com.sarang.torang.compose.feed.internal.components.FeedTop
 import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 import java.text.SimpleDateFormat
@@ -57,10 +58,12 @@ val FeedItemUiState.Companion.Sample: FeedItemUiState  get() =
 //            add(Comment("author", "comment"))
         },
         commentAmount = 10,
-        isLike = false,
-        isFavorite = false,
-        likeAmount = 0,
-        isLogin = true,
+        feedBottomUiState = FeedBottomUiState(
+            isLike = false,
+            isFavorite = false,
+            likeAmount = 0,
+            isLogin = true,
+        ),
         createDate = "2025-08-21 06:17:20"
     )
 

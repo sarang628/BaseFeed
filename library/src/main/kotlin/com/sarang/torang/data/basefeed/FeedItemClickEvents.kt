@@ -16,15 +16,25 @@ import android.util.Log
  */
 data class FeedItemClickEvents (
     val tag                 : String                    = "__FeedItemClickEvents",
-    val onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
-    val onProfile           : () -> Unit                = { Log.w(tag, "onProfile callback is not set") },
-    val onComment           : () -> Unit                = { Log.w(tag, "onComment callback is not set") },
-    val onShare             : () -> Unit                = { Log.w(tag, "onShare callback is not set") },
-    val onMenu              : () -> Unit                = { Log.w(tag, "onMenu callback is not set") },
-    val onFavorite          : () -> Unit                = { Log.w(tag, "onFavorite callback is not set") },
-    val onName              : () -> Unit                = { Log.w(tag, "onName callback is not set") },
-    val onRestaurant        : () -> Unit                = { Log.w(tag, "onRestaurant callback is not set") },
     val onLikes             : () -> Unit                = { Log.w(tag, "onLikes callback is not set") },
     val onImage             : (Int) -> Unit             = { Log.w(tag, "onImage callback is not set") },
+    val feedTopEvents       : FeedTopEvents             = FeedTopEvents(),
+    val feedBottomEvents    : FeedBottomEvents          = FeedBottomEvents()
+)
+
+data class FeedTopEvents(
+    val tag                 : String                    = "__FeedTopEvents",
+    val onName              : () -> Unit                = { Log.w(tag, "onName callback is not set") },
+    val onProfile           : () -> Unit                = { Log.w(tag, "onProfile callback is not set") },
+    val onRestaurant        : () -> Unit                = { Log.w(tag, "onRestaurant callback is not set") },
+    val onMenu              : () -> Unit                = { Log.w(tag, "onMenu callback is not set") },
+)
+
+data class FeedBottomEvents(
+    val tag                 : String                    = "__FeedBottomEvents",
+    val onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },
+    val onShare             : () -> Unit                = { Log.w(tag, "onShare callback is not set") },
+    val onComment           : () -> Unit                = { Log.w(tag, "onComment callback is not set") },
+    val onFavorite          : () -> Unit                = { Log.w(tag, "onFavorite callback is not set") },
     val onVolume            : () -> Unit                = { Log.w(tag, "onVolume callback is not set") },
 )

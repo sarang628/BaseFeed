@@ -14,6 +14,7 @@ import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,28 +22,21 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
+import com.sarang.torang.data.basefeed.FeedBottomEvents
 
 @Composable
 fun FeedBottom(modifier              : Modifier             = Modifier,
-               isLike                : Boolean              = false,
-               isLogin               : Boolean              = false,
-               isFavorite            : Boolean              = false,
+               uiState               : FeedBottomUiState    = FeedBottomUiState(),
+               events                : FeedBottomEvents     = remember { FeedBottomEvents() },
                isVideo               : Boolean              = false,
-               isVolumeOff           : Boolean              = false,
-               likeAmount            : Int                  = 0,
-               onLike                : () -> Unit           = {},
-               onComment             : () -> Unit           = {},
-               onShare               : () -> Unit           = {},
-               onFavorite            : () -> Unit           = {},
-               favoriteColor         : Color                = MaterialTheme.colorScheme.primary,
-               onVolume              : () -> Unit           = {}){
+               favoriteColor         : Color                = MaterialTheme.colorScheme.primary, ){
     Column(modifier = modifier.fillMaxWidth()
                            .nonEffectClickable()){
         if(isVideo){
             Box(Modifier.fillMaxWidth()){
-                Volumn(modifier = Modifier.align(Alignment.CenterEnd),
-                       isMute   = isVolumeOff,
-                       onVolume = onVolume)
+                Volume(modifier = Modifier.align(Alignment.CenterEnd),
+                       isMute   = uiState.isVolumeOff,
+                       onVolume = events.onVolume)
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -50,28 +44,28 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
             Row(modifier            = Modifier.align(Alignment.CenterStart),
                 verticalAlignment   = Alignment.CenterVertically) {
                 Like(modifier   = Modifier.testTag("btnLike"),
-                     likeAmount  = likeAmount,
-                     isLike      = isLike,
-                     animation   = isLogin,
-                     onLike      = onLike)
+                     likeAmount  = uiState.likeAmount,
+                     isLike      = uiState.isLike,
+                     animation   = uiState.isLogin,
+                     onLike      = events.onLike)
                 Spacer(modifier = Modifier.width(12.dp))
                 CommentIcon(modifier  = Modifier.testTag("btnComment"),
-                            onComment = onComment)
+                            onComment = events.onComment)
                 Spacer(modifier = Modifier.width(12.dp))
                 Share(modifier = Modifier.testTag("btnShare"),
-                      onShare  = onShare)
+                      onShare  = events.onShare)
             }
 
             Favorite(modifier   = Modifier.align(Alignment.CenterEnd),
-                     isFavorite = isFavorite,
-                     onFavorite = onFavorite,
+                     isFavorite = uiState.isFavorite,
+                     onFavorite = events.onFavorite,
                      color      = favoriteColor)
         }
     }
 }
 
 @Composable
-fun Volumn(modifier : Modifier      = Modifier,
+fun Volume(modifier : Modifier      = Modifier,
            isMute   : Boolean       = false,
            onVolume : () -> Unit    = {}){
     Icon(modifier           = modifier.clickable(enabled = true,
@@ -85,5 +79,8 @@ fun Volumn(modifier : Modifier      = Modifier,
 @Preview(showBackground = true, backgroundColor = 0x111111)
 @Composable
 fun PreviewFeedBottom(){
-    FeedBottom(isVideo = true, isVolumeOff = true)
+    FeedBottom(
+        uiState = FeedBottomUiState(isVolumeOff = true),
+        isVideo = true
+    )
 }

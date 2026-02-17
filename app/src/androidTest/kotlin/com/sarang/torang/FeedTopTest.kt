@@ -5,14 +5,13 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.assertValueEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.printToLog
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sarang.torang.compose.feed.internal.components.FeedTop
 import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
+import com.sarang.torang.data.basefeed.FeedTopEvents
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -38,16 +37,18 @@ class FeedTopTest {
     fun init() {
         composeRules.setContent {
             FeedTop(
-                feedTopUiState = FeedTopUiState(
+                uiState = FeedTopUiState(
                     userName = userName,
                     profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
                     restaurantName = "restaurantName",
                     rating = rating,
                 ),
-                onProfile = { onProfile = true },
-                onMenu = { onMenu = true },
-                onName = { onName = true },
-                onRestaurant = { onRestaurant = true }
+                events = FeedTopEvents(
+                    onProfile = { onProfile = true },
+                    onMenu = { onMenu = true },
+                    onName = { onName = true },
+                    onRestaurant = { onRestaurant = true }
+                ),
             )
         }
     }
