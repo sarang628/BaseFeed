@@ -1,6 +1,5 @@
 package com.sarang.torang.data.basefeed
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity

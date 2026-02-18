@@ -72,8 +72,8 @@ class MainActivity : ComponentActivity() {
                                          feedFlowRepository = feedFlowRepository)
             }
 
-            composable("ImagePagerScrollTest"){
-                ImagePagerScrollTest()
+            composable("FeedMediaPagerTest"){
+                FeedMediaPagerTest(feedLoadRepository = feedLoadRepository)
             }
         }
     }

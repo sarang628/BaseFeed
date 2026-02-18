@@ -27,8 +27,7 @@ import com.sarang.torang.compose.feed.internal.components.type.VideoPlayerTypeDa
 import com.sarang.torang.compose.feed.internal.util.isVideoType
 import com.sarang.torang.compose.feed.internal.util.nonEffectClickable
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
-
-private const val tag = "__ImagePager"
+private const val tag = "__FeedMediaPager"
 /**
  * @param images 이미지 리스트
  * @param onImage 이미지 클릭 이벤트
@@ -51,20 +50,21 @@ fun FeedMediaPager(
     SetOnPageListener(pagerState = pagerState,
                       imageSize  = images.size,
                       onPage     = onPage)
-    Box {
-        HorizontalPager(modifier            = Modifier.height(height),
-                        state               = pagerState,
+
+    Box(modifier = modifier.height(height)) {
+        HorizontalPager(state               = pagerState,
                         userScrollEnabled   = userScrollEnabled) { page ->
             if(images[page].isVideoType){
-                LocalVideoPlayerType.current(VideoPlayerTypeData(url        = images[page],
-                                                                      isPlaying  = isPlaying))
+                LocalVideoPlayerType.current(
+                    VideoPlayerTypeData(url        = images[page],
+                                             isPlaying  = isPlaying))
             }
             else {
                 LocalFeedImageLoader.current(
                     FeedImageLoaderData(url            = images[page],
                                              contentScale   = ContentScale.Crop,
                                              height         = height,
-                                             modifier       = modifier.testTag("imgReview")
+                                             modifier       = Modifier.testTag("imgReview")
                                                                       .fillMaxSize()
                                                                       .nonEffectClickable(onClick = { onImage.invoke(page) })
                     )
@@ -80,21 +80,22 @@ fun FeedMediaPager(
 
 @Preview(showBackground = true)
 @Composable
-fun PreViewFeedMediaPager() {
+fun PreViewFeedMediaPager(
+    images: List<String> = arrayListOf(
+        "http://sarang628.iptime.org:89/review_images/1/4/2025-09-05/10_27_07_806.jpg",
+        "http://sarang628.iptime.org:89/review_images/1/181/2026-01-29/07_37_39_069.jpg",
+        "http://sarang628.iptime.org:89/review_images/1/181/2026-01-29/07_38_04_372.m3u8"
+    )
+) {
     var feedItemPageEvent by remember { mutableStateOf(FeedItemPageEvent(0, false, false)) }
     FeedMediaPager(/*Preview*/
-        images = arrayListOf(
-            "http://sarang628.iptime.org:89/review_images/0/0/2023-06-20/11_15_27_247.png",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            "http://sarang628.iptime.org:89/8.png",
-            "http://sarang628.iptime.org:89/restaurants/1-1.jpeg",
-            "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
-        ),
+        images = images,
         onImage = {},
         height = 400.dp,
         onPage = {
             feedItemPageEvent = it
-        }
+        },
+        isPlaying = true
     )
     //Text("$feedItemPageEvent")
 }

@@ -18,6 +18,11 @@ fun Menu(navController: NavHostController = rememberNavController()) {
         Button({ navController.navigate("FeedList") }) {
             Text("FeedList")
         }
+
+        Button({ navController.navigate("FeedMediaPagerTest") }) {
+            Text("FeedMediaPagerTest")
+        }
+
         Button({ navController.navigate("FeedRepository") }) {
             Text("FeedRepository")
         }

@@ -34,17 +34,25 @@ import com.sarang.torang.data.basefeed.isVideo
 
 private const val tag = "__Feed"
 
+/**
+ * @param uiState           Feed 항목의 UI 상태
+ * @param isPlaying         비디오 플레이 여부
+ * @param userScrollEnabled 사용자 페이지 스크롤 허용 여부
+ * @param videoLoader       비디오 플레이어는 외부에서 구현
+ * @param imageLoader       이미지 로더는 외부에서 구현
+ * @param expandableText    클릭 확장 텍스트는 외부에서 구현
+ */
 @Composable
-fun FeedItem(videoLoader         : VideoPlayerType,
-             imageLoader         : FeedImageLoader,
-             expandableText      : ExpandableTextType,
-             uiState             : FeedItemUiState               = FeedItemUiState.empty,
-             events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
-             isPlaying           : Boolean                       = false,
-             ratingBarTintColor  : Color                         = Color(0xffe6cc00),
-             favoriteColor       : Color                         = Color(0xffe6cc00),
-             pageScroll          : Boolean                       = true,
-             onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }){
+fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiState.empty,
+             events              : FeedItemClickEvents          = remember { FeedItemClickEvents(tag = tag) },
+             isPlaying           : Boolean                      = false,
+             ratingBarTintColor  : Color                        = Color(0xffe6cc00),
+             favoriteColor       : Color                        = Color(0xffe6cc00),
+             userScrollEnabled   : Boolean                      = true,
+             videoLoader         : VideoPlayerType              = {},
+             imageLoader         : FeedImageLoader              = {},
+             expandableText      : ExpandableTextType           = {},
+             onPage              : (FeedItemPageEvent) -> Unit  = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }){
     CompositionLocalProvider(LocalVideoPlayerType provides videoLoader,
                                        LocalFeedImageLoader provides imageLoader,
                                        LocalExpandableTextType provides expandableText ) {
@@ -52,7 +60,7 @@ fun FeedItem(videoLoader         : VideoPlayerType,
                  isPlaying              = isPlaying,
                  ratingBarColor         = ratingBarTintColor,
                  favoriteColor          = favoriteColor,
-                 userScrollEnabled      = pageScroll,
+                 userScrollEnabled      = userScrollEnabled,
                  events                 = events,
                  onPage                 = onPage)
         }
@@ -64,14 +72,13 @@ fun FeedItem(videoLoader         : VideoPlayerType,
  * @param userScrollEnabled 사용자 페이지 스크롤 허용 여부
  */
 @Composable
-fun FeedItem(
-    uiState             : FeedItemUiState               = FeedItemUiState.empty,
-    events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
-    isPlaying           : Boolean                       = false,
-    ratingBarColor      : Color                         = Color(0xffe6cc00),
-    favoriteColor       : Color                         = Color(0xffe6cc00),
-    userScrollEnabled   : Boolean                       = true,
-    onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
+fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiState.empty,
+             events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
+             isPlaying           : Boolean                       = false,
+             ratingBarColor      : Color                         = Color(0xffe6cc00),
+             favoriteColor       : Color                         = Color(0xffe6cc00),
+             userScrollEnabled   : Boolean                       = true,
+             onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
 ) {
     Column {
         Box(Modifier.fillMaxWidth()){
