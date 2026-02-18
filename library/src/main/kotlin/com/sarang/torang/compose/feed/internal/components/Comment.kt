@@ -26,13 +26,13 @@ internal fun Comment(modifier       : Modifier      = Modifier,
                      commentCount   : Int           = 0,
                      comments       : List<Comment> = emptyList(),
                      onComment      : () -> Unit    = {}){
-    Comment    (modifier = modifier,
-                comments = comments)
+    Column(modifier = modifier) {
+        Comment    (comments = comments)
 
-    if(commentCount > 0)
-        CommentCount    (modifier   = Modifier.padding(horizontal = 4.dp),
-                         count      = commentCount,
-                         onComment  = onComment)
+        if(commentCount > 0)
+            CommentCount    (count      = commentCount,
+                             onComment  = onComment)
+    }
 }
 
 
@@ -74,7 +74,8 @@ fun PreviewComment() {
             Comment("Jhon", "Nice!"),
             Comment("Amy", "Delicious!"),
             Comment("Jane", "Hello!"),
-        )
+        ),
+        commentCount = 120
     )
 }
 

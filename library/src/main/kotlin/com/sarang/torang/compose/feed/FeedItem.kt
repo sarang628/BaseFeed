@@ -28,11 +28,12 @@ import com.sarang.torang.compose.feed.internal.components.type.VideoPlayerType
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
+import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.adjustHeight
 import com.sarang.torang.data.basefeed.empty
 import com.sarang.torang.data.basefeed.isVideo
 
-private const val tag = "__Feed"
+private const val tag = "__FeedItem"
 
 /**
  * @param uiState           Feed 항목의 UI 상태
@@ -115,7 +116,7 @@ fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiSta
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PreviewFeedItem(){
     PreviewFeed()

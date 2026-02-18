@@ -10,10 +10,15 @@ import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 
 /**
  * @see [/documents/UIState.md]
+ * @param feedTopUiState    피드 상단 ui state
+ * @param feedTopUiState    피드 하단 ui state
  * @param reviewImages      리뷰 이미지
  * @param contents          리뷰 내용
  * @param comments          코멘트
- * @param createDate        생성일
+ * @param commentAmount     코멘트 전체 갯수
+ * @param height            첫번째 이미지의 높이
+ * @param width             첫번째 이미지의 너비
+ * @param createDate        작성일
  */
 data class FeedItemUiState(
     val feedTopUiState      : FeedTopUiState    = FeedTopUiState(),

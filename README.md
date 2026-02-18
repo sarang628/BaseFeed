@@ -46,10 +46,10 @@ fun PreviewFeed() {
 
 # Review
 ## ConstraintLayout
-- ConstraintLayout은 코드 가독성(x, 배치)은 좋게 만들 수 있으나, 수정하기 쉽지 않음.
-- composable를 선택하면 preview에 매치되는 항목이 맞지 않아 햇갈렸음.
-- 하나의 ConstraintLayout에 모든 컴포넌트를 배치하는건 무리한 시도였음.
-- Row, Column, Box의 조합으로 UI를 배치하는게 더 쉬웠음.
+- 하나의 ConstraintLayout에 모든 컴포넌트를 배치하는건 무리한 시도
+- ConstraintLayout은 코드 가독성은 만족 했지만 수정 어려움
+- preview 항목 선택 시 이동되는 코드가 매치되지 않았음
+- Row, Column, Box의 조합으로 UI를 배치하는게 관리 쉬움
 
 ## development note
 

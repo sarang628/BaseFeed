@@ -34,47 +34,23 @@ fun FeedTop(modifier            : Modifier         = Modifier,
             uiState             : FeedTopUiState   = FeedTopUiState(),
             events              : FeedTopEvents    = FeedTopEvents(),
             ratingBarTintColor  : Color            = MaterialTheme.colorScheme.primary){
-    ConstraintLayout(
-            modifier = modifier
-                .fillMaxWidth()
-                .nonEffectClickable(),
-            constraintSet = ConstraintSet {
-                val imgProfile = createRefFor("imgProfile")
-                val containerUserAndRestaurantName = createRefFor("userName")
-                val btnMenu = createRefFor("btnMenu")
-
-                constrain(imgProfile){
-                    start.linkTo(parent.start, margin = 4.dp)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                }
-
-                constrain(containerUserAndRestaurantName){
-                    start.linkTo(imgProfile.end, margin = 2.dp)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                }
-
-                constrain(btnMenu){
-                    end.linkTo(parent.end)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                }
-            }
-        ) {
+    ConstraintLayout(modifier = modifier.fillMaxWidth()
+                               .nonEffectClickable(),
+                     constraintSet = feedTopConstraintSet()) {
             ProfileImage    (modifier   = Modifier.testTag("imgProfile")
                                                   .layoutId("imgProfile"),
                              url        = uiState.profilePictureUrl,
                              onProfile  = events.onProfile)
 
             Row(modifier = Modifier.layoutId("userName")) {
-                Column(modifier = Modifier.layoutId("userName"),
-                    verticalArrangement  = Arrangement.Center) {
+                Column(verticalArrangement  = Arrangement.Center) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         UserName  (modifier          = Modifier.testTag("txtUserName"),
                                    userName          = uiState.userName,
                                    onName            = events.onName)
+
                         Spacer    (modifier          = Modifier.width(4.dp))
+
                         RatingBar (modifier          = Modifier.testTag("rbProfile"),
                                    rating            = uiState.rating,
                                    progressTintColor = ratingBarTintColor)
@@ -92,11 +68,37 @@ fun FeedTop(modifier            : Modifier         = Modifier,
     
 }
 
+private fun feedTopConstraintSet() : ConstraintSet{
+    return ConstraintSet {
+        val imgProfile = createRefFor("imgProfile")
+        val containerUserAndRestaurantName = createRefFor("userName")
+        val btnMenu = createRefFor("btnMenu")
+
+        constrain(imgProfile){
+            start.linkTo(parent.start, margin = 4.dp)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+
+        constrain(containerUserAndRestaurantName){
+            start.linkTo(imgProfile.end, margin = 2.dp)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+
+        constrain(btnMenu){
+            end.linkTo(parent.end)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+    }
+}
+
 @Preview(showBackground = true, backgroundColor = 0x111111)
 @Composable
 fun PreviewFeedTop(){
     var userName : String by remember { mutableStateOf("userName userName userName userName userName userName userName userName userName userName userName ") }
-    var rating : String by remember { mutableStateOf("4.5") }
+    var rating : String by remember { mutableStateOf("4.0") }
     var restaurantName : String by remember { mutableStateOf("restaurantName restaurantName restaurantName restaurantName restaurantName") }
 
     Column {
@@ -111,7 +113,7 @@ fun PreviewFeedTop(){
         TextField(value         = userName,
                   onValueChange = {userName = it},
                   label         = { Text("userName") })
-        TextField(value         = rating.toString(),
+        TextField(value         = rating,
                   onValueChange = {rating = it},
                   label         = { Text("rating") })
         TextField(value         = restaurantName,

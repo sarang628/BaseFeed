@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
                 Menu(navController)
             }
             composable("Feed") {
-                PreviewFeed()
+                PreviewFeed1()
             }
             composable("FeedList"){
                 FeedList()
