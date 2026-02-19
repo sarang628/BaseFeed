@@ -6,6 +6,8 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.FeedItem
+import com.sarang.torang.compose.feed.internal.components.FeedBottomUiState
+import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 import com.sarang.torang.data.basefeed.Comment
 import com.sarang.torang.data.basefeed.FeedItemUiState
 import com.sarang.torang.data.basefeed.formatedDate
@@ -65,18 +67,22 @@ class FeedUITest {
                         add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
                         add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
                     },
-                    userName = userName,
-                    profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
-                    restaurantName = "restaurantName",
-                    rating = rating,
+                    feedTopUiState = FeedTopUiState(
+                        userName = userName,
+                        profilePictureUrl = "1/2023-09-14/10_44_39_302.jpeg",
+                        restaurantName = "restaurantName",
+                        rating = rating,
+                    ),
                     contents = contents,
                     comments = ArrayList<Comment>().apply {
                         add(Comment("author", "comment"))
                     },
                     commentAmount = 0,
-                    isLike = false,
-                    isFavorite = false,
-                    likeAmount = likeAmount,
+                    feedBottomUiState = FeedBottomUiState(
+                        isLike = false,
+                        isFavorite = false,
+                        likeAmount = likeAmount,
+                    ),
                     createDate = createdDate
                 )
             )

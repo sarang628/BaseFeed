@@ -5,11 +5,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,11 +54,11 @@ internal fun Comment(modifier : Modifier          = Modifier,
         comments.forEach {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(text       = it.author,
-                    fontWeight = FontWeight.Bold,
-                    color      = Color.Gray)
+                     fontWeight = FontWeight.Bold,
+                     color      = Color.Gray)
                 Spacer(modifier = Modifier.padding(start = 3.dp))
                 Text(text   = it.comment,
-                    color  = Color.Gray)
+                     color  = Color.Gray)
             }
         }
     }
@@ -77,6 +87,62 @@ fun PreviewComment() {
         ),
         commentCount = 120
     )
+}
+
+@Preview
+@Composable
+fun PreviewComment1(){
+    var text by remember { mutableStateOf("test") }
+    var name by remember { mutableStateOf("name") }
+    var comment by remember { mutableStateOf("comment") }
+    var comments by remember { mutableStateOf(listOf(
+        Comment("Tom", "Wow!"),
+        Comment("Jhon", "Nice!"),
+        Comment("Amy", "Delicious!"),
+        Comment("Jane", "Hello!"),
+    )) }
+    Column {
+        Comment(
+            comments = comments
+        )
+        HorizontalDivider()
+        Spacer(Modifier.height(8.dp))
+
+        Text(text)
+
+        HorizontalDivider()
+        Spacer(Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = text,
+            onValueChange = { text = it }
+        )
+
+        HorizontalDivider()
+        Spacer(Modifier.height(8.dp))
+
+        Row {
+            OutlinedTextField(
+                modifier = Modifier.weight(1f),
+                value = name,
+                onValueChange = { name = it }
+            )
+            OutlinedTextField(
+                modifier = Modifier.weight(1f),
+                value = comment,
+                onValueChange = { comment = it }
+            )
+            Button(modifier = Modifier.height(55.dp),
+                   onClick = {
+                       comments = comments + Comment(name,comment)
+                   },
+                   shape = RoundedCornerShape(8.dp)) {
+                Text("Add")
+            }
+        }
+    }
+
+
 }
 
 @Preview
