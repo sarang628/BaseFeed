@@ -28,7 +28,6 @@ import com.sarang.torang.compose.feed.internal.components.type.VideoPlayerType
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
 import com.sarang.torang.data.basefeed.FeedItemPageEvent
 import com.sarang.torang.data.basefeed.FeedItemUiState
-import com.sarang.torang.data.basefeed.Sample
 import com.sarang.torang.data.basefeed.adjustHeight
 import com.sarang.torang.data.basefeed.empty
 import com.sarang.torang.data.basefeed.isVideo
@@ -36,18 +35,22 @@ import com.sarang.torang.data.basefeed.isVideo
 private const val tag = "__FeedItem"
 
 /**
- * @param uiState           Feed 항목의 UI 상태
- * @param isPlaying         비디오 플레이 여부
- * @param userScrollEnabled 사용자 페이지 스크롤 허용 여부
- * @param videoLoader       비디오 플레이어는 외부에서 구현
- * @param imageLoader       이미지 로더는 외부에서 구현
- * @param expandableText    클릭 확장 텍스트는 외부에서 구현
+ * @param uiState            Feed 항목의 UI 상태
+ * @param events             Feed element 클릭 이벤트
+ * @param isPlaying          비디오 플레이 여부
+ * @param ratingBarColor     ratingbar 색상
+ * @param favoriteColor      favorite 색상
+ * @param userScrollEnabled  pager 스와이프 스크롤 허용 여부
+ * @param videoLoader        video player 는 외부에서 구현
+ * @param imageLoader        image loader 는 외부에서 구현
+ * @param expandableText     클릭 확장 텍스트는 외부에서 구현
+ * @param onPage             페이지 변경 이벤트
  */
 @Composable
 fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiState.empty,
              events              : FeedItemClickEvents          = remember { FeedItemClickEvents(tag = tag) },
              isPlaying           : Boolean                      = false,
-             ratingBarTintColor  : Color                        = Color(0xffe6cc00),
+             ratingBarColor      : Color                        = Color(0xffe6cc00),
              favoriteColor       : Color                        = Color(0xffe6cc00),
              userScrollEnabled   : Boolean                      = true,
              videoLoader         : VideoPlayerType              = {},
@@ -59,7 +62,7 @@ fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiStat
                                        LocalExpandableTextType provides expandableText ) {
         FeedItem(uiState                = uiState,
                  isPlaying              = isPlaying,
-                 ratingBarColor         = ratingBarTintColor,
+                 ratingBarColor         = ratingBarColor,
                  favoriteColor          = favoriteColor,
                  userScrollEnabled      = userScrollEnabled,
                  events                 = events,
@@ -68,9 +71,13 @@ fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiStat
 }
 
 /**
- * @param uiState Feed 항목의 UI 상태
- * @param isPlaying 비디오 플레이 여부
- * @param userScrollEnabled 사용자 페이지 스크롤 허용 여부
+ * @param uiState            Feed 항목의 UI 상태
+ * @param events             Feed element 클릭 이벤트
+ * @param isPlaying          비디오 플레이 여부
+ * @param ratingBarColor     ratingbar 색상
+ * @param favoriteColor      favorite 색상
+ * @param userScrollEnabled  pager 스와이프 스크롤 허용 여부
+ * @param onPage             페이지 변경 이벤트
  */
 @Composable
 fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiState.empty,

@@ -16,7 +16,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.FeedList
-import com.sarang.torang.compose.feed.PreviewFeed
 import com.sarang.torang.repository.feed.FeedFlowRepository
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sarang.torang.repository.feed.FeedRepository
@@ -46,7 +45,7 @@ class MainActivity : ComponentActivity() {
             TorangTheme {
                 Surface(Modifier.fillMaxSize()
                                 .background(MaterialTheme.colorScheme.background)) {
-                    BaseTeedTest()
+                    BaseFeedTest()
                 }
             }
         }
@@ -54,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
     @Preview
     @Composable
-    fun BaseTeedTest(){
+    fun BaseFeedTest(){
         val navController = rememberNavController()
         NavHost(navController, startDestination = "menu"){
             composable("menu"){

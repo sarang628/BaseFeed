@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
 import com.sarang.torang.data.basefeed.FeedBottomEvents
 import com.sarang.torang.data.basefeed.FeedItemClickEvents
@@ -40,6 +42,10 @@ fun PreviewFeed(feedItemUiState: FeedItemUiState = FeedItemUiState.Sample) {
         Spacer(Modifier.height(10.dp)
             .fillMaxWidth()
             .background(Color.White))
+
+        Text(modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+             text = "Test",
+             fontSize = 18.sp)
 
         TextField(value = sample.feedTopUiState.userName,
                   onValueChange = { sample = sample.copy(feedTopUiState = sample.feedTopUiState.copy(userName = it)) },
