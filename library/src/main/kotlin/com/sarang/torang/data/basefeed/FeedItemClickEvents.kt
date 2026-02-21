@@ -4,14 +4,6 @@ import android.util.Log
 
 /**
  * @param onImage           이미지 클릭
- * @param onProfile         프로필 클릭
- * @param onLike            좋아요 클릭
- * @param onComment         코멘트 클릭
- * @param onShare           공유 클릭
- * @param onFavorite        즐겨찾기 클릭
- * @param onMenu            메뉴 클릭
- * @param onName            사용자명 클릭
- * @param onRestaurant      음식점명 클릭
  * @param onLikes           좋아요 클릭
  */
 data class FeedItemClickEvents (
@@ -22,6 +14,12 @@ data class FeedItemClickEvents (
     val feedBottomEvents    : FeedBottomEvents          = FeedBottomEvents()
 )
 
+/**
+ * @param onName            사용자명 클릭
+ * @param onRestaurant      음식점명 클릭
+ * @param onMenu            메뉴 클릭
+ * @param onProfile         프로필 클릭
+ */
 data class FeedTopEvents(
     val tag                 : String                    = "__FeedTopEvents",
     val onName              : () -> Unit                = { Log.w(tag, "onName callback is not set") },
@@ -30,6 +28,12 @@ data class FeedTopEvents(
     val onMenu              : () -> Unit                = { Log.w(tag, "onMenu callback is not set") },
 )
 
+/**
+ * @param onFavorite        즐겨찾기 클릭
+ * @param onShare           공유 클릭
+ * @param onComment         코멘트 클릭
+ * @param onLike            좋아요 클릭
+ */
 data class FeedBottomEvents(
     val tag                 : String                    = "__FeedBottomEvents",
     val onLike              : () -> Unit                = { Log.w(tag, "onLike callback is not set") },

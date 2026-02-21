@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.sarang.torang.compose.component.RatingBar
@@ -110,12 +111,18 @@ fun PreviewFeedTop(){
 
         HorizontalDivider(Modifier.height(10.dp))
 
+        Text(text = "Test",
+            fontSize = 20.sp,
+            color = Color.White)
+        Spacer(Modifier.height(8.dp))
         TextField(value         = userName,
                   onValueChange = {userName = it},
                   label         = { Text("userName") })
+        Spacer(Modifier.height(8.dp))
         TextField(value         = rating,
                   onValueChange = {rating = it},
                   label         = { Text("rating") })
+        Spacer(Modifier.height(8.dp))
         TextField(value         = restaurantName,
                   onValueChange = {restaurantName = it},
                   label         = { Text("restaurantName") })
