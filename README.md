@@ -1,6 +1,6 @@
 # BaseFeed Module
 
-- 음식점 리뷰 **'리스트 항목(FeedItem)'** UI.
+- 음식점 리뷰 **'리스트 항목([FeedItem](./library/src/main/kotlin/com/sarang/torang/compose/feed/FeedItem.kt))'** UI.
 - **'모듈화'** 로 여러 화면에 **'일관성'** 있게 적용 가능.
 
 # Preview

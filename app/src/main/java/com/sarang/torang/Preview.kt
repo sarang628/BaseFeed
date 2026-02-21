@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.sarang.torang.compose.feed.PreviewFeed
-import com.sarang.torang.compose.feed.internal.components.PreViewFeedMediaPager
+import com.sarang.torang.compose.feed.internal.components.PreViewFeedMediaPagerBox
 import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
 import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
 import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
@@ -39,7 +39,7 @@ fun FeedMediaPagerTest(){
             LocalVideoPlayerType     provides CustomVideoPlayerType()) {
             LazyColumn {
                 items(10){
-                    PreViewFeedMediaPager()
+                    PreViewFeedMediaPagerBox()
                 }
             }
         }
@@ -65,7 +65,7 @@ fun FeedMediaPagerTest(feedLoadRepository: FeedLoadRepository){
             LocalVideoPlayerType     provides CustomVideoPlayerType()) {
             LazyColumn {
                 items(feed){
-                    PreViewFeedMediaPager(it.images.map {
+                    PreViewFeedMediaPagerBox(it.images.map {
                         BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl
                     })
                 }

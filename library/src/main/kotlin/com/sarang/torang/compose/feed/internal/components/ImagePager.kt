@@ -2,6 +2,7 @@ package com.sarang.torang.compose.feed.internal.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,19 +35,19 @@ private const val tag = "__FeedMediaPager"
  * @param showIndicator indicator 표시 여부
  */
 @Composable
-fun FeedMediaPager(
-    modifier                : Modifier          = Modifier,
-    images                  : List<String>      = listOf(),
-    onImage                 : (Int) -> Unit     = { Log.i(tag, "onImage callback is not set page : $it") },
-    showIndicator           : Boolean           = true,
-    height                  : Dp                = 300.dp,
-    userScrollEnabled       : Boolean           = true,
-    indicatorBottomPadding  : Dp                = 12.dp,
-    isPlaying               : Boolean           = false,
-    onPage                  : (FeedItemPageEvent) -> Unit    = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }
+fun FeedMediaPagerBox(
+    modifier                : Modifier                       = Modifier,
+    images                  : List<String>                   = listOf(),
+    pagerState              : PagerState                     = rememberPagerState { images.size },
+    onImage                 : (Int) -> Unit                  = { Log.w(tag, "onImage callback is not set page : $it") },
+    showIndicator           : Boolean                        = true,
+    height                  : Dp                             = 300.dp,
+    userScrollEnabled       : Boolean                        = true,
+    indicatorBottomPadding  : Dp                             = 12.dp,
+    isPlaying               : Boolean                        = false,
+    onPage                  : (FeedItemPageEvent) -> Unit    = { feedItemPageEvent -> Log.w(tag, "onPage callback is not set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") },
+    content                 : @Composable BoxScope.()->Unit = {}
 ) {
-    val pagerState: PagerState = rememberPagerState { images.size }
-
     SetOnPageListener(pagerState = pagerState,
                       imageSize  = images.size,
                       onPage     = onPage)
@@ -75,12 +76,14 @@ fun FeedMediaPager(
             PagerIndicator(modifier   = Modifier.align(Alignment.BottomCenter)
                                                 .padding(bottom = indicatorBottomPadding),
                            pagerState = pagerState)
+
+        content.invoke(this)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreViewFeedMediaPager(
+fun PreViewFeedMediaPagerBox(
     images: List<String> = arrayListOf(
         "http://sarang628.iptime.org:89/review_images/1/4/2025-09-05/10_27_07_806.jpg",
         "http://sarang628.iptime.org:89/review_images/1/181/2026-01-29/07_37_39_069.jpg",
@@ -88,7 +91,7 @@ fun PreViewFeedMediaPager(
     )
 ) {
     var feedItemPageEvent by remember { mutableStateOf(FeedItemPageEvent(0, false, false)) }
-    FeedMediaPager(/*Preview*/
+    FeedMediaPagerBox(/*Preview*/
         images = images,
         onImage = {},
         height = 400.dp,
