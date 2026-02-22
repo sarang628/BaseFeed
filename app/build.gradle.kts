@@ -14,6 +14,14 @@ android {
         targetSdk = rootProject.extra["targetSdk"] as Int
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "com.sarang.torang.CustomTestRunner"
+        defaultConfig{
+            buildConfigField("String", "SERVER_URL", "\"http://sarang628.iptime.org\"")
+            buildConfigField("String", "IMAGE_PORT", "\"89\"")
+            buildConfigField("String", "PROFILE_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/profile_images/\"")
+            buildConfigField("String", "REVIEW_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/review_images/\"")
+            buildConfigField("String", "RESTAURANT_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/restaurant_images/\"")
+            buildConfigField("String", "MENU_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/menu_images/\"")
+        }
     }
 
     android.buildFeatures.buildConfig = true
@@ -30,33 +38,14 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-            buildConfigField("String", "SERVER_URL", "\"http://sarang628.iptime.org\"")
-            buildConfigField("String", "IMAGE_PORT", "\"89\"")
-            buildConfigField("String", "PROFILE_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/profile_images/\"")
-            buildConfigField("String", "REVIEW_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/review_images/\"")
-            buildConfigField("String", "RESTAURANT_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/restaurant_images/\"")
-            buildConfigField("String", "MENU_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/menu_images/\"")
-        }
+        getByName("debug") {}
         create("benchmark") {
-            buildConfigField("String", "SERVER_URL", "\"http://sarang628.iptime.org\"")
-            buildConfigField("String", "IMAGE_PORT", "\"89\"")
-            buildConfigField("String", "PROFILE_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/profile_images/\"")
-            buildConfigField("String", "REVIEW_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/review_images/\"")
-            buildConfigField("String", "RESTAURANT_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/restaurant_images/\"")
-            buildConfigField("String", "MENU_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/menu_images/\"")
             initWith(buildTypes.getByName("release"))
             matchingFallbacks += listOf("release")
             isDebuggable = false
         }
 
         getByName("release") {
-            buildConfigField("String", "SERVER_URL", "\"http://sarang628.iptime.org\"")
-            buildConfigField("String", "IMAGE_PORT", "\"89\"")
-            buildConfigField("String", "PROFILE_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/profile_images/\"")
-            buildConfigField("String", "REVIEW_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/review_images/\"")
-            buildConfigField("String", "RESTAURANT_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/restaurant_images/\"")
-            buildConfigField("String", "MENU_IMAGE_SERVER_URL", "\"http://sarang628.iptime.org:89/menu_images/\"")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("debug")

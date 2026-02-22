@@ -29,6 +29,7 @@ import com.sarang.torang.di.basefeed_di.CustomVideoPlayerType
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sryang.torang.ui.TorangTheme
 import kotlinx.coroutines.flow.stateIn
+import com.sarang.torang.BuildConfig
 
 @Preview
 @Composable
@@ -66,7 +67,7 @@ fun FeedMediaPagerTest(feedLoadRepository: FeedLoadRepository){
             LazyColumn {
                 items(feed){
                     PreViewFeedMediaPagerBox(it.images.map {
-                        BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl
+                        com.sarang.torang.BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl
                     })
                 }
             }
