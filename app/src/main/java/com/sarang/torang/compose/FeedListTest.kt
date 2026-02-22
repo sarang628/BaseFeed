@@ -56,8 +56,10 @@ fun FeedList(
 
     val previousOffset = remember { mutableStateOf(0) } // 초기값 설정
 
-    val scrollVelocity by derivedStateOf {
-        (listState.firstVisibleItemScrollOffset - previousOffset.value).absoluteValue
+    val scrollVelocity by remember {
+        derivedStateOf {
+            (listState.firstVisibleItemScrollOffset - previousOffset.value).absoluteValue
+        }
     }
 
     LaunchedEffect(Unit) {
