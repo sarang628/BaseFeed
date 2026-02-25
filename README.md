@@ -57,3 +57,4 @@ fun PreviewFeed() {
 - gradle.build.kts 로 변경
 - FeedItem 으로 이름 변경 및 constraint layout 적용 (250821)
 - FeedItem에 UILayer(UI elements, UI state, Viewmodel) 이론 학습 및 적용 (250825)
+- FeedTop, Bottom 분리된 파일을 FeedItem 하나의 파일로 합침. FeedList와 Feed 모듈 합칠 준비(260225)
