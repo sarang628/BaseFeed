@@ -16,9 +16,9 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sarang.torang.compose.feed.FeedItem
-import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
-import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
-import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
+import com.sarang.torang.compose.component.type.LocalExpandableTextType
+import com.sarang.torang.compose.component.type.LocalFeedImageLoader
+import com.sarang.torang.compose.component.type.LocalVideoPlayerType
 import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
 import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
 import com.sarang.torang.di.basefeed_di.CustomVideoPlayerType

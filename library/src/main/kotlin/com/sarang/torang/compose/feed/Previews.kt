@@ -20,11 +20,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
-import com.sarang.torang.data.basefeed.FeedBottomEvents
-import com.sarang.torang.data.basefeed.FeedItemClickEvents
-import com.sarang.torang.data.basefeed.FeedItemUiState
-import com.sarang.torang.data.basefeed.Sample
+import com.sarang.torang.compose.feed.data.FeedBottomEvents
+import com.sarang.torang.compose.feed.data.FeedItemClickEvents
+import com.sarang.torang.compose.feed.data.Sample
 
 @Preview(showBackground = true, backgroundColor = 0xFFFDFDF6)
 @Composable
@@ -38,33 +36,5 @@ fun PreviewFeed(feedItemUiState: FeedItemUiState = FeedItemUiState.Sample) {
             uiState = sample,
             events = feedItemClickEvents
         )
-
-        Spacer(Modifier.height(10.dp)
-            .fillMaxWidth()
-            .background(Color.White))
-
-        Text(modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
-             text = "Test",
-             fontSize = 18.sp)
-
-        TextField(value = sample.feedTopUiState.userName,
-                  onValueChange = { sample = sample.copy(feedTopUiState = sample.feedTopUiState.copy(userName = it)) },
-                  placeholder = { Text("name") },
-                  label = { Text("Name") },
-                  maxLines = 1)
-
-        TextField(value = rating,
-                  onValueChange = {
-                      rating = it
-                      try{
-                        sample = sample.copy(feedTopUiState = sample.feedTopUiState.copy(rating = it.toFloat()))
-                      } catch (e : Exception){
-
-                      }
-                                  },
-                  placeholder = {},
-                  label = { Text("Rating") },
-                  keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
-                  maxLines = 1)
     }
 }

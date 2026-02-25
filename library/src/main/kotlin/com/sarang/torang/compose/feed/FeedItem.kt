@@ -1,34 +1,62 @@
 package com.sarang.torang.compose.feed
 
 import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sarang.torang.compose.feed.internal.components.Comment
-import com.sarang.torang.compose.feed.internal.components.Contents
-import com.sarang.torang.compose.feed.internal.components.Date
-import com.sarang.torang.compose.feed.internal.components.FeedBottom
-import com.sarang.torang.compose.feed.internal.components.FeedItemColors
-import com.sarang.torang.compose.feed.internal.components.FeedMediaPagerBox
-import com.sarang.torang.compose.feed.internal.components.FeedTop
-import com.sarang.torang.compose.feed.internal.components.type.ExpandableTextType
-import com.sarang.torang.compose.feed.internal.components.type.FeedImageLoader
-import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
-import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
-import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
-import com.sarang.torang.compose.feed.internal.components.type.VideoPlayerType
-import com.sarang.torang.data.basefeed.FeedItemClickEvents
-import com.sarang.torang.data.basefeed.FeedItemPageEvent
-import com.sarang.torang.data.basefeed.FeedItemUiState
-import com.sarang.torang.data.basefeed.adjustHeight
-import com.sarang.torang.data.basefeed.empty
-import com.sarang.torang.data.basefeed.isVideo
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
+import com.sarang.torang.compose.component.Comment
+import com.sarang.torang.compose.component.CommentIcon
+import com.sarang.torang.compose.component.Contents
+import com.sarang.torang.compose.component.Date
+import com.sarang.torang.compose.component.Favorite
+import com.sarang.torang.compose.component.FeedMediaPagerBox
+import com.sarang.torang.compose.component.Like
+import com.sarang.torang.compose.component.Menu
+import com.sarang.torang.compose.component.ProfileImage
+import com.sarang.torang.compose.component.RatingBar
+import com.sarang.torang.compose.component.RestaurantName
+import com.sarang.torang.compose.component.Share
+import com.sarang.torang.compose.component.UserName
+import com.sarang.torang.compose.component.type.ExpandableTextType
+import com.sarang.torang.compose.component.type.FeedImageLoader
+import com.sarang.torang.compose.component.type.LocalExpandableTextType
+import com.sarang.torang.compose.component.type.LocalFeedImageLoader
+import com.sarang.torang.compose.component.type.LocalVideoPlayerType
+import com.sarang.torang.compose.component.type.VideoPlayerType
+import com.sarang.torang.compose.component.util.nonEffectClickable
+import com.sarang.torang.compose.feed.data.FeedBottomEvents
+import com.sarang.torang.compose.feed.data.FeedItemClickEvents
+import com.sarang.torang.compose.feed.data.FeedItemColors
+import com.sarang.torang.compose.feed.data.FeedItemPageEvent
+import com.sarang.torang.compose.feed.data.FeedTopEvents
+import com.sarang.torang.compose.feed.data.empty
 
 private const val tag = "__FeedItem"
 
@@ -49,7 +77,7 @@ private const val tag = "__FeedItem"
 fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiState.empty,
              events              : FeedItemClickEvents          = remember { FeedItemClickEvents(tag = tag) },
              isPlaying           : Boolean                      = false,
-             colors              : FeedItemColors               = FeedItemColors(),
+             colors              : FeedItemColors = FeedItemColors(),
              userScrollEnabled   : Boolean                      = true,
              videoLoader         : VideoPlayerType              = {},
              imageLoader         : FeedImageLoader              = {},
@@ -81,7 +109,7 @@ fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiStat
 fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiState.empty,
              events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
              isPlaying           : Boolean                       = false,
-             colors              : FeedItemColors                = FeedItemColors(),
+             colors              : FeedItemColors = FeedItemColors(),
              userScrollEnabled   : Boolean                       = true,
              onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
 ) {
@@ -122,4 +150,167 @@ fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiSta
 @Composable
 fun PreviewFeedItem(){
     PreviewFeed()
+}
+
+@Composable
+fun FeedTop(modifier            : Modifier         = Modifier,
+            uiState             : FeedTopUiState   = FeedTopUiState(),
+            events              : FeedTopEvents    = FeedTopEvents(),
+            ratingBarTintColor  : Color            = MaterialTheme.colorScheme.primary){
+    ConstraintLayout(modifier = modifier.fillMaxWidth()
+        .nonEffectClickable(),
+        constraintSet = feedTopConstraintSet()) {
+        ProfileImage(
+            modifier = Modifier.testTag("imgProfile")
+                .layoutId("imgProfile"),
+            url = uiState.profilePictureUrl,
+            onProfile = events.onProfile
+        )
+
+        Row(modifier = Modifier.layoutId("userName")) {
+            Column(verticalArrangement  = Arrangement.Center) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    UserName(
+                        modifier = Modifier.testTag("txtUserName"),
+                        userName = uiState.userName,
+                        onName = events.onName
+                    )
+
+                    Spacer    (modifier          = Modifier.width(4.dp))
+
+                    RatingBar (modifier          = Modifier.testTag("rbProfile"),
+                        rating            = uiState.rating,
+                        progressTintColor = ratingBarTintColor)
+                }
+                RestaurantName(
+                    modifier = Modifier.testTag("txtRestaurantName"),
+                    restaurantName = uiState.restaurantName,
+                    onRestaurant = events.onRestaurant
+                )
+            }
+        }
+
+        Menu(
+            modifier = Modifier.layoutId("btnMenu")
+                .testTag("btnMenu"),
+            onMenu = events.onMenu
+        )
+    }
+
+}
+
+private fun feedTopConstraintSet() : ConstraintSet{
+    return ConstraintSet {
+        val imgProfile = createRefFor("imgProfile")
+        val containerUserAndRestaurantName = createRefFor("userName")
+        val btnMenu = createRefFor("btnMenu")
+
+        constrain(imgProfile){
+            start.linkTo(parent.start, margin = 4.dp)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+
+        constrain(containerUserAndRestaurantName){
+            start.linkTo(imgProfile.end, margin = 2.dp)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+
+        constrain(btnMenu){
+            end.linkTo(parent.end)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0x111111)
+@Composable
+fun PreviewFeedTop(){
+    var userName : String by remember { mutableStateOf("userName userName userName userName userName userName userName userName userName userName userName ") }
+    var rating : String by remember { mutableStateOf("4.0") }
+    var restaurantName : String by remember { mutableStateOf("restaurantName restaurantName restaurantName restaurantName restaurantName") }
+
+    Column {
+        FeedTop(uiState = FeedTopUiState(
+            userName = userName,
+            rating = try {
+                rating.toFloat()
+            } catch (e: Exception) {
+                0f
+            },
+            restaurantName = restaurantName
+        )
+        )
+    }
+}
+
+@Composable
+fun FeedBottom(modifier              : Modifier             = Modifier,
+               uiState               : FeedBottomUiState    = FeedBottomUiState(),
+               events                : FeedBottomEvents     = remember { FeedBottomEvents() },
+               isVideo               : Boolean              = false,
+               favoriteColor         : Color                = MaterialTheme.colorScheme.primary, ){
+    Column(modifier = modifier.fillMaxWidth()
+        .nonEffectClickable()){
+        if(isVideo){
+            Box(Modifier.fillMaxWidth()){
+                Volume(modifier = Modifier.align(Alignment.CenterEnd),
+                    isMute   = uiState.isVolumeOff,
+                    onVolume = events.onVolume)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        Box(Modifier.fillMaxWidth()){
+            Row(modifier            = Modifier.align(Alignment.CenterStart),
+                verticalAlignment   = Alignment.CenterVertically) {
+                Like(
+                    modifier = Modifier.testTag("btnLike"),
+                    likeAmount = uiState.likeAmount,
+                    isLike = uiState.isLike,
+                    animation = uiState.isLogin,
+                    onLike = events.onLike
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                CommentIcon(
+                    modifier = Modifier.testTag("btnComment"),
+                    onComment = events.onComment
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Share(
+                    modifier = Modifier.testTag("btnShare"),
+                    onShare = events.onShare
+                )
+            }
+
+            Favorite(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                isFavorite = uiState.isFavorite,
+                onFavorite = events.onFavorite,
+                color = favoriteColor
+            )
+        }
+    }
+}
+
+@Composable
+fun Volume(modifier : Modifier      = Modifier,
+           isMute   : Boolean       = false,
+           onVolume : () -> Unit    = {}){
+    Icon(modifier           = modifier.clickable(enabled = true,
+        onClick = onVolume),
+        imageVector        = if(isMute) Icons.AutoMirrored.Default.VolumeOff
+        else Icons.AutoMirrored.Default.VolumeUp,
+        contentDescription = null,
+        tint               = Color.White)
+}
+
+@Preview(showBackground = true, backgroundColor = 0x111111)
+@Composable
+fun PreviewFeedBottom(){
+    FeedBottom(
+        uiState = FeedBottomUiState(isVolumeOff = true),
+        isVideo = true
+    )
 }

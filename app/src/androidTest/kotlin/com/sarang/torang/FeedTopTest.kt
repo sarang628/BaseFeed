@@ -9,9 +9,9 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sarang.torang.compose.feed.internal.components.FeedTop
-import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
-import com.sarang.torang.data.basefeed.FeedTopEvents
+import com.sarang.torang.compose.feed.FeedTop
+import com.sarang.torang.compose.feed.FeedTopUiState
+import com.sarang.torang.compose.feed.data.FeedTopEvents
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule

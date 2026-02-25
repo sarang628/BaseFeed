@@ -2,7 +2,7 @@ package com.sarang.torang.compose
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sarang.torang.data.basefeed.FeedItemUiState
+import com.sarang.torang.compose.feed.FeedItemUiState
 import com.sarang.torang.di.basefeed_di.toReview
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

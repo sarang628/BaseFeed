@@ -18,10 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.sarang.torang.compose.feed.PreviewFeed
-import com.sarang.torang.compose.feed.internal.components.PreViewFeedMediaPagerBox
-import com.sarang.torang.compose.feed.internal.components.type.LocalExpandableTextType
-import com.sarang.torang.compose.feed.internal.components.type.LocalFeedImageLoader
-import com.sarang.torang.compose.feed.internal.components.type.LocalVideoPlayerType
+import com.sarang.torang.compose.component.PreViewFeedMediaPagerBox
+import com.sarang.torang.compose.component.type.LocalExpandableTextType
+import com.sarang.torang.compose.component.type.LocalFeedImageLoader
+import com.sarang.torang.compose.component.type.LocalVideoPlayerType
 import com.sarang.torang.data.ReviewAndImage
 import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
 import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
@@ -29,7 +29,6 @@ import com.sarang.torang.di.basefeed_di.CustomVideoPlayerType
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sryang.torang.ui.TorangTheme
 import kotlinx.coroutines.flow.stateIn
-import com.sarang.torang.BuildConfig
 
 @Preview
 @Composable
@@ -67,7 +66,7 @@ fun FeedMediaPagerTest(feedLoadRepository: FeedLoadRepository){
             LazyColumn {
                 items(feed){
                     PreViewFeedMediaPagerBox(it.images.map {
-                        com.sarang.torang.BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl
+                        BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl
                     })
                 }
             }

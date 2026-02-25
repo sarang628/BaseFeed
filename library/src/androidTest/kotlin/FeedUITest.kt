@@ -6,11 +6,11 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sarang.torang.R
 import com.sarang.torang.compose.feed.FeedItem
-import com.sarang.torang.compose.feed.internal.components.FeedBottomUiState
-import com.sarang.torang.compose.feed.internal.components.FeedTopUiState
-import com.sarang.torang.data.basefeed.Comment
-import com.sarang.torang.data.basefeed.FeedItemUiState
-import com.sarang.torang.data.basefeed.formatedDate
+import com.sarang.torang.compose.feed.FeedBottomUiState
+import com.sarang.torang.compose.feed.FeedTopUiState
+import com.sarang.torang.compose.component.data.Comment
+import com.sarang.torang.compose.feed.FeedItemUiState
+import com.sarang.torang.compose.feed.data.formatedDate
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
