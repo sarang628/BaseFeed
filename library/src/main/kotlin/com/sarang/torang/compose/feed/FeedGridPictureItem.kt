@@ -1,16 +1,19 @@
 package com.sarang.torang.compose.feed
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
@@ -24,10 +27,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -36,6 +41,7 @@ import com.sarang.torang.compose.component.CommentIcon
 import com.sarang.torang.compose.component.Contents
 import com.sarang.torang.compose.component.Date
 import com.sarang.torang.compose.component.Favorite
+import com.sarang.torang.compose.component.FeedMedia
 import com.sarang.torang.compose.component.FeedMediaPagerBox
 import com.sarang.torang.compose.component.Like
 import com.sarang.torang.compose.component.Menu
@@ -57,6 +63,7 @@ import com.sarang.torang.compose.feed.data.FeedItemColors
 import com.sarang.torang.compose.feed.data.FeedItemPageEvent
 import com.sarang.torang.compose.feed.data.FeedTopEvents
 import com.sarang.torang.compose.feed.data.empty
+import com.sarang.torang.compose.feed.isVideo
 
 private const val tag = "__FeedItem"
 
@@ -74,7 +81,7 @@ private const val tag = "__FeedItem"
  * @param onPage             페이지 변경 이벤트
  */
 @Composable
-fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiState.empty,
+fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.Companion.empty,
              events              : FeedItemClickEvents          = remember { FeedItemClickEvents(tag = tag) },
              isPlaying           : Boolean                      = false,
              colors              : FeedItemColors = FeedItemColors(),
@@ -106,37 +113,39 @@ fun FeedItem(uiState             : FeedItemUiState              = FeedItemUiStat
  * @param onPage             페이지 변경 이벤트
  */
 @Composable
-fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiState.empty,
-             events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
-             isPlaying           : Boolean                       = false,
-             colors              : FeedItemColors = FeedItemColors(),
-             userScrollEnabled   : Boolean                       = true,
-             onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
+fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.Companion.empty,
+                        events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
+                        isPlaying           : Boolean                       = false,
+                        colors              : FeedItemColors = FeedItemColors(),
+                        userScrollEnabled   : Boolean                       = true,
+                        onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
 ) {
     Column {
-        FeedMediaPagerBox (images                 = uiState.reviewImages,
-                           onImage                = events.onImage,
-                           height                 = uiState.adjustHeight,
-                           userScrollEnabled      = userScrollEnabled,
-                           isPlaying              = isPlaying && uiState.isPlay,
-                           onPage                 = onPage) {
-            FeedTop (modifier               = Modifier,
-                     uiState                = uiState.feedTopUiState,
-                     events                 = events.feedTopEvents,
-                     ratingBarTintColor     = colors.ratingBarColor)
+        FeedGridPictureTop (modifier               = Modifier,
+                            uiState                = uiState.feedTopUiState,
+                            events                 = events.feedTopEvents,
+                            ratingBarTintColor     = colors.ratingBarColor)
 
-            FeedBottom (modifier       = Modifier.align(Alignment.BottomStart)
-                                                 .padding(vertical = 8.dp, horizontal = 12.dp),
+        Column(Modifier.padding(start = 6.dp, end = 6.dp, bottom = 4.dp)) {
+            Contents(
+                userName = uiState.feedTopUiState.userName,
+                contents = uiState.contents,
+                onContents = events.feedTopEvents.onProfile
+            )
+        }
+
+        Spacer(Modifier.height(4.dp))
+
+            GridReviewImage(url = uiState.reviewImages,
+                            isPlaying = isPlaying)
+
+            FeedBottom (modifier       = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
                         uiState        = uiState.feedBottomUiState,
                         events         = events.feedBottomEvents,
                         isVideo        = uiState.isVideo,
-                        favoriteColor  = colors.favoriteColor)
-        }
+                        favoriteColor  = colors.favoriteColor,
+                        iconTint       = Color.Black)
         Column(Modifier.padding(all = 4.dp)) {
-            Contents (userName   = uiState.feedTopUiState.userName,
-                      contents   = uiState.contents,
-                      onContents = events.feedTopEvents.onProfile)
-
             Comment (commentCount    = uiState.commentAmount,
                      comments        = uiState.comments,
                      onComment       = events.feedBottomEvents.onComment)
@@ -146,58 +155,54 @@ fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiSta
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewFeedItem(){
-    PreviewFeed()
-}
 
 @Composable
-fun FeedTop(modifier            : Modifier         = Modifier,
-            uiState             : FeedTopUiState   = FeedTopUiState(),
-            events              : FeedTopEvents    = FeedTopEvents(),
-            ratingBarTintColor  : Color            = MaterialTheme.colorScheme.primary){
-    ConstraintLayout(modifier = modifier.fillMaxWidth()
-        .nonEffectClickable(),
-        constraintSet = feedTopConstraintSet()) {
-        ProfileImage(
-            modifier = Modifier.testTag("imgProfile")
-                .layoutId("imgProfile"),
-            url = uiState.profilePictureUrl,
-            onProfile = events.onProfile
-        )
+fun FeedGridPictureTop(modifier            : Modifier         = Modifier,
+                       uiState             : FeedTopUiState   = FeedTopUiState(),
+                       events              : FeedTopEvents    = FeedTopEvents(),
+                       ratingBarTintColor  : Color            = MaterialTheme.colorScheme.primary){
+    Column {
+            ConstraintLayout(modifier = modifier
+                .fillMaxWidth()
+                .nonEffectClickable(),
+                constraintSet = feedTopConstraintSet()) {
+                ProfileImage(
+                    modifier = Modifier
+                        .testTag("imgProfile")
+                        .layoutId("imgProfile"),
+                    url = uiState.profilePictureUrl,
+                    onProfile = events.onProfile
+                )
 
-        Row(modifier = Modifier.layoutId("userName")) {
-            Column(verticalArrangement  = Arrangement.Center) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    UserName(
-                        modifier = Modifier.testTag("txtUserName"),
-                        userName = uiState.userName,
-                        onName = events.onName
-                    )
-
-                    Spacer    (modifier          = Modifier.width(4.dp))
-
-                    RatingBar (modifier          = Modifier.testTag("rbProfile"),
-                        rating            = uiState.rating,
-                        progressTintColor = ratingBarTintColor)
+                Row(modifier = Modifier.layoutId("userName")) {
+                    Column(verticalArrangement = Arrangement.Center) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            UserName(
+                                modifier = Modifier.testTag("txtUserName"),
+                                userName = uiState.userName,
+                                onName = events.onName,
+                                color = Color.Black
+                            )
+                        }
+                        RatingBar(
+                            modifier = Modifier
+                                .testTag("rbRating")
+                                .layoutId("rbRating"),
+                            rating = uiState.rating,
+                            progressTintColor = ratingBarTintColor
+                        )
+                    }
                 }
-                RestaurantName(
-                    modifier = Modifier.testTag("txtRestaurantName"),
-                    restaurantName = uiState.restaurantName,
-                    onRestaurant = events.onRestaurant
+
+                Menu(
+                    modifier = Modifier
+                        .layoutId("btnMenu")
+                        .testTag("btnMenu"),
+                    onMenu = events.onMenu
                 )
             }
         }
-
-        Menu(
-            modifier = Modifier.layoutId("btnMenu")
-                .testTag("btnMenu"),
-            onMenu = events.onMenu
-        )
     }
-
-}
 
 private fun feedTopConstraintSet() : ConstraintSet{
     return ConstraintSet {
@@ -225,15 +230,15 @@ private fun feedTopConstraintSet() : ConstraintSet{
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0x111111)
+@Preview(showBackground = true)
 @Composable
-fun PreviewFeedTop(){
+fun PreviewFeedGridPictureTop(){
     var userName : String by remember { mutableStateOf("userName userName userName userName userName userName userName userName userName userName userName ") }
     var rating : String by remember { mutableStateOf("4.0") }
     var restaurantName : String by remember { mutableStateOf("restaurantName restaurantName restaurantName restaurantName restaurantName") }
 
     Column {
-        FeedTop(uiState = FeedTopUiState(
+        FeedGridPictureTop(uiState = FeedTopUiState(
             userName = userName,
             rating = try {
                 rating.toFloat()
@@ -246,76 +251,73 @@ fun PreviewFeedTop(){
     }
 }
 
+@Preview
 @Composable
-fun FeedBottom(modifier              : Modifier             = Modifier,
-               uiState               : FeedBottomUiState    = FeedBottomUiState(),
-               events                : FeedBottomEvents     = remember { FeedBottomEvents() },
-               isVideo               : Boolean              = false,
-               favoriteColor         : Color                = MaterialTheme.colorScheme.primary,
-               iconTint              : Color                = Color.White){
-    Column(modifier = modifier.fillMaxWidth()
-        .nonEffectClickable()){
-        if(isVideo){
-            Box(Modifier.fillMaxWidth()){
-                Volume(modifier = Modifier.align(Alignment.CenterEnd),
-                    isMute   = uiState.isVolumeOff,
-                    onVolume = events.onVolume)
+fun GridReviewImage(
+    url           : List<String>  = emptyList(),
+    isPlaying     : Boolean       = false,
+    onImage       : () -> Unit    = {}
+){
+    Column(Modifier
+        .padding(horizontal = 8.dp)
+        .height(250.dp)
+        .clip(RoundedCornerShape(12.dp))) {
+        Row(Modifier.weight(1f)) {
+            url.getOrNull(0)?.let {
+                Box(Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+                    .background(Color.LightGray)){
+                    FeedMedia(url = it,
+                        isPlaying = isPlaying,
+                        onImage = onImage)
             }
-            Spacer(modifier = Modifier.height(8.dp))
         }
-        Box(Modifier.fillMaxWidth()){
-            Row(modifier            = Modifier.align(Alignment.CenterStart),
-                verticalAlignment   = Alignment.CenterVertically) {
-                Like(
-                    modifier = Modifier.testTag("btnLike"),
-                    likeAmount = uiState.likeAmount,
-                    isLike = uiState.isLike,
-                    animation = uiState.isLogin,
-                    onLike = events.onLike,
-                    iconTint = iconTint
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                CommentIcon(
-                    modifier = Modifier.testTag("btnComment"),
-                    onComment = events.onComment,
-                    iconTint = iconTint
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Share(
-                    modifier = Modifier.testTag("btnShare"),
-                    onShare = events.onShare,
-                    iconTint = iconTint
-                )
+            url.getOrNull(1)?.let {
+                Spacer(Modifier.width(8.dp))
+                Box(Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+                    .background(Color.LightGray)){
+                    FeedMedia(url = it,
+                        isPlaying = isPlaying,
+                        onImage = onImage)
+                }
             }
-
-            Favorite(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                isFavorite = uiState.isFavorite,
-                onFavorite = events.onFavorite,
-                color = favoriteColor,
-                iconTint = iconTint
-            )
+        }
+        url.getOrNull(2)?.let {
+            Spacer(Modifier.height(8.dp))
+            Row(Modifier.weight(1f)) {
+                url.getOrNull(2)?.let {
+                    Box(Modifier
+                        .fillMaxSize()
+                        .weight(1f)
+                        .background(Color.LightGray)){
+                        FeedMedia(url = it,
+                            isPlaying = isPlaying,
+                            onImage = onImage)
+                    }
+                }
+                Spacer(Modifier.width(8.dp))
+                url.getOrNull(3)?.let {
+                    Box(Modifier
+                        .fillMaxSize()
+                        .weight(1f)
+                        .background(Color.LightGray)){
+                        FeedMedia(url = it,
+                            isPlaying = isPlaying,
+                            onImage = onImage)
+                    }
+                }
+            }
         }
     }
 }
 
-@Composable
-fun Volume(modifier : Modifier      = Modifier,
-           isMute   : Boolean       = false,
-           onVolume : () -> Unit    = {}){
-    Icon(modifier           = modifier.clickable(enabled = true,
-        onClick = onVolume),
-        imageVector        = if(isMute) Icons.AutoMirrored.Default.VolumeOff
-        else Icons.AutoMirrored.Default.VolumeUp,
-        contentDescription = null,
-        tint               = Color.White)
-}
 
-@Preview(showBackground = true, backgroundColor = 0x111111)
+
+@Preview(showBackground = true)
 @Composable
-fun PreviewFeedBottom(){
-    FeedBottom(
-        uiState = FeedBottomUiState(isVolumeOff = true),
-        isVideo = true
-    )
+fun PreviewFeedGridPictureItem(){
+    FeedGridPictureItem()
 }

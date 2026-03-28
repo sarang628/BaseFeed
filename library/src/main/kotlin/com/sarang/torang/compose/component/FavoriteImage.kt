@@ -21,11 +21,12 @@ fun Favorite(modifier   : Modifier      = Modifier,
              onFavorite : () -> Unit    = {},
              size       : Dp            = 22.dp,
              padding    : Dp            = 0.dp,
-             color      : Color         = MaterialTheme.colorScheme.primary) {
+             color      : Color         = MaterialTheme.colorScheme.primary,
+             iconTint   : Color         = Color.White) {
     Icon(painter = if (isFavorite) painterResource(id = R.drawable.star_filled)
                    else painterResource(id = R.drawable.star),
         contentDescription = "favorite",
-        tint = if (isFavorite) color else Color.White,
+        tint = if (isFavorite) color else iconTint,
         modifier = modifier
             .testTag("btnFavorite")
             .size(size)

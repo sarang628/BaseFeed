@@ -33,7 +33,8 @@ import com.sarang.torang.compose.component.util.nonEffectClickable
 fun Like(modifier   : Modifier      = Modifier,
          isLike     : Boolean       = false,
          onLike     : () -> Unit    = {},
-         animation  : Boolean       = true) {
+         animation  : Boolean       = true,
+         iconTint   : Color         = Color.White) {
 
     var isAnimationLike by remember { mutableStateOf(false) }
     var isLike by remember { mutableStateOf(isLike) }
@@ -63,7 +64,8 @@ fun Like(modifier   : Modifier      = Modifier,
                     onLike.invoke()
                     if (animation)
                         isAnimationLike = true
-                })
+                },
+                iconTint = iconTint)
         }
     }
 }
@@ -73,12 +75,14 @@ fun Like(modifier   : Modifier      = Modifier,
          isLike     : Boolean       = false,
          onLike     : () -> Unit    = {},
          animation  : Boolean       = false,
-         likeAmount : Int           = 0){
+         likeAmount : Int           = 0,
+         iconTint   : Color         = Color.White){
     Row(verticalAlignment = Alignment.CenterVertically) {
         Like(modifier    = modifier,
              isLike      = isLike,
              onLike      = onLike,
-             animation   = animation)
+             animation   = animation,
+             iconTint    = iconTint)
         if(likeAmount > 0)
             LikeCount(
                 modifier = Modifier.padding(start = 2.dp),

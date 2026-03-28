@@ -33,11 +33,12 @@ internal fun LikeIcon(modifier  : Modifier      = Modifier,
 internal fun UnLikeIcon(modifier    : Modifier      = Modifier,
                         onLike      : () -> Unit    = {},
                         size        : Dp            = 50.dp,
-                        padding     : Dp            = 0.dp ) {
+                        padding     : Dp            = 0.dp,
+                        iconTint    : Color         = Color.White) {
     Icon(modifier           = modifier.size(size)
                                       .padding(padding)
                                       .nonEffectClickable { onLike.invoke() },
          imageVector        = Icons.Default.FavoriteBorder,
          contentDescription = "like",
-         tint               = Color.White)
+         tint               = iconTint)
 }

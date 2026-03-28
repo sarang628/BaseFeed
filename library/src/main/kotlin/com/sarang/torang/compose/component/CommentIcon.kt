@@ -17,16 +17,17 @@ import com.sarang.torang.compose.component.util.nonEffectClickable
 fun CommentIcon(modifier    : Modifier      = Modifier,
                 onComment   : () -> Unit    = {},
                 size        : Dp            = 25.dp,
-                padding     : Dp            = 0.dp) {
+                padding     : Dp            = 0.dp,
+                iconTint    : Color         = Color.White) {
     Icon(painter            = painterResource(id = R.drawable.comment),
-         tint               = Color.White,
+         tint               = iconTint,
          contentDescription = "comment",
          modifier           = modifier.size(size)
                                       .padding(padding)
                                       .nonEffectClickable { onComment.invoke() })
 }
 
-@Preview
+@Preview(showBackground = true, backgroundColor = 0xff000000)
 @Composable
 fun PreviewCommentIcon() {
     CommentIcon(modifier    = Modifier,

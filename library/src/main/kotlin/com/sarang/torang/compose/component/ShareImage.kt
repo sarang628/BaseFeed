@@ -17,16 +17,17 @@ import com.sarang.torang.compose.component.util.nonEffectClickable
 fun Share(modifier  : Modifier      = Modifier,
           onShare   : () -> Unit    = {},
           size      : Dp            = 25.dp,
-          padding   : Dp            = 0.dp) {
+          padding   : Dp            = 0.dp,
+          iconTint  : Color         = Color.White) {
     Icon(painter            = painterResource(id = R.drawable.share),
          contentDescription = "share",
          modifier           = modifier.size(size)
                                       .padding(padding)
                                       .nonEffectClickable (onShare ),
-         tint               = Color.White)
+         tint               = iconTint)
 }
 
-@Preview
+@Preview(showBackground = true, backgroundColor = 0xff000000)
 @Composable
 fun PreviewShareImage() {
     Share(onShare = { /*TODO*/ }, size = 50.dp, padding = 0.dp)

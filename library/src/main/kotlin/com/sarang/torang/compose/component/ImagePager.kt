@@ -28,6 +28,8 @@ import com.sarang.torang.compose.component.type.VideoPlayerTypeData
 import com.sarang.torang.compose.component.util.isVideoType
 import com.sarang.torang.compose.component.util.nonEffectClickable
 import com.sarang.torang.compose.feed.data.FeedItemPageEvent
+import kotlin.text.get
+
 private const val tag = "__FeedMediaPager"
 /**
  * @param images 이미지 리스트
@@ -57,22 +59,10 @@ fun FeedMediaPagerBox(
     Box(modifier = modifier.height(height)) {
         HorizontalPager(state               = pagerState,
                         userScrollEnabled   = userScrollEnabled) { page ->
-            if(images[page].isVideoType){
-                LocalVideoPlayerType.current(
-                    VideoPlayerTypeData(url        = images[page],
-                                             isPlaying  = isPlaying))
-            }
-            else {
-                LocalFeedImageLoader.current(
-                    FeedImageLoaderData(url            = images[page],
-                                             contentScale   = ContentScale.Crop,
-                                             height         = height,
-                                             modifier       = Modifier.testTag("imgReview")
-                                                                      .fillMaxSize()
-                                                                      .nonEffectClickable(onClick = { onImage.invoke(page) })
-                    )
-                )
-            }
+            FeedMedia(url = images[page],
+                      isPlaying = isPlaying,
+                      height = height,
+                      onImage = {onImage.invoke(page)})
         }
         if (showIndicator)
             PagerIndicator(
@@ -82,6 +72,30 @@ fun FeedMediaPagerBox(
             )
 
         content.invoke(this)
+    }
+}
+
+
+@Composable
+fun FeedMedia(url           : String,
+              isPlaying     : Boolean       = false,
+              height        : Dp            = 300.dp,
+              onImage       : () -> Unit    = {}){
+    if(url.isVideoType){
+        LocalVideoPlayerType.current(
+            VideoPlayerTypeData(url        = url,
+                isPlaying  = isPlaying))
+    }
+    else {
+        LocalFeedImageLoader.current(
+            FeedImageLoaderData(url            = url,
+                contentScale   = ContentScale.Crop,
+                height         = height,
+                modifier       = Modifier.testTag("imgReview")
+                    .fillMaxSize()
+                    .nonEffectClickable(onClick = { onImage.invoke() })
+            )
+        )
     }
 }
 

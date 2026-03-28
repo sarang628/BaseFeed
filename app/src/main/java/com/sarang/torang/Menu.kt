@@ -19,6 +19,10 @@ fun Menu(navController: NavHostController = rememberNavController()) {
             Text("FeedList")
         }
 
+        Button({ navController.navigate("FeedGridPictureList") }) {
+            Text("FeedGridPictureList")
+        }
+
         Button({ navController.navigate("FeedMediaPagerTest") }) {
             Text("FeedMediaPagerTest")
         }

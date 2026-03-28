@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sarang.torang.compose.FeedGridPictureList
 import com.sarang.torang.compose.FeedList
 import com.sarang.torang.repository.feed.FeedFlowRepository
 import com.sarang.torang.repository.feed.FeedLoadRepository
@@ -64,6 +65,9 @@ class MainActivity : ComponentActivity() {
             }
             composable("FeedList"){
                 FeedList()
+            }
+            composable("FeedGridPictureList"){
+                FeedGridPictureList()
             }
             composable("FeedRepository"){
                 FeedRepositoryTestScreen(feedRepository     = feedRepository,

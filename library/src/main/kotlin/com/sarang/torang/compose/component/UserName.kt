@@ -12,12 +12,16 @@ import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.component.util.nonEffectClickable
 
 @Composable
-internal fun UserName(modifier : Modifier = Modifier, onName: () -> Unit = {}, userName : String = ""){
+internal fun UserName(modifier : Modifier = Modifier,
+                      onName: () -> Unit = {},
+                      userName : String = "",
+                      color : Color = Color.White
+){
     Text(modifier   = modifier.widthIn(0.dp, 150.dp)
         .nonEffectClickable(onName),
         text        = userName,
         overflow    = TextOverflow.Ellipsis,
         maxLines    = 1,
-        color       = Color.White,
+        color       = color,
         style       = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false)))
 }
