@@ -19,6 +19,7 @@ import com.sarang.torang.compose.component.type.LocalExpandableTextType
 import com.sarang.torang.compose.component.type.LocalFeedImageLoader
 import com.sarang.torang.compose.component.type.LocalVideoPlayerType
 import com.sarang.torang.compose.feed.FeedGridPictureItem
+import com.sarang.torang.compose.feed.isVideo
 import com.sarang.torang.di.basefeed_di.CustomExpandableTextType
 import com.sarang.torang.di.basefeed_di.CustomFeedImageLoader
 import com.sarang.torang.di.basefeed_di.CustomVideoPlayerType
@@ -86,7 +87,7 @@ fun FeedGridPictureList(
         LocalExpandableTextType  provides CustomExpandableTextType,
         LocalVideoPlayerType     provides CustomVideoPlayerType()) {
         LazyColumn(state = listState) {
-            itemsIndexed(list) { index, item ->
+            itemsIndexed(list.filter { !it.isVideo }) { index, item ->
                 FeedGridPictureItem(uiState = item,
                                     onPage = {},
                                     isPlaying = shouldPlay)

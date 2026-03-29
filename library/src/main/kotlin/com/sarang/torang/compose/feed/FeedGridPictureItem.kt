@@ -71,15 +71,15 @@ private const val tag = "__FeedGridPictureItem"
  * @param onPage             페이지 변경 이벤트
  */
 @Composable
-fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.Companion.empty,
-             events              : FeedItemClickEvents          = remember { FeedItemClickEvents(tag = tag) },
-             isPlaying           : Boolean                      = false,
-             colors              : FeedItemColors = FeedItemColors(),
-             userScrollEnabled   : Boolean                      = true,
-             videoLoader         : VideoPlayerType              = {},
-             imageLoader         : FeedImageLoader              = {},
-             expandableText      : ExpandableTextType           = {},
-             onPage              : (FeedItemPageEvent) -> Unit  = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }){
+fun FeedGridPictureItem(uiState             : FeedItemUiState              = FeedItemUiState.empty,
+                        events              : FeedItemClickEvents          = remember { FeedItemClickEvents(tag = tag) },
+                        isPlaying           : Boolean                      = false,
+                        colors              : FeedItemColors               = FeedItemColors(),
+                        userScrollEnabled   : Boolean                      = true,
+                        videoLoader         : VideoPlayerType              = {},
+                        imageLoader         : FeedImageLoader              = {},
+                        expandableText      : ExpandableTextType           = {},
+                        onPage              : (FeedItemPageEvent) -> Unit  = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }){
     CompositionLocalProvider(LocalVideoPlayerType provides videoLoader,
                                        LocalFeedImageLoader provides imageLoader,
                                        LocalExpandableTextType provides expandableText ) {
@@ -103,7 +103,7 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.
  * @param onPage             페이지 변경 이벤트
  */
 @Composable
-fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.Companion.empty,
+fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.empty,
                         events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
                         isPlaying           : Boolean                       = false,
                         colors              : FeedItemColors = FeedItemColors(),
