@@ -83,12 +83,12 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState              = Fee
     CompositionLocalProvider(LocalVideoPlayerType provides videoLoader,
                                        LocalFeedImageLoader provides imageLoader,
                                        LocalExpandableTextType provides expandableText ) {
-        FeedItem(uiState                = uiState,
-                 isPlaying              = isPlaying,
-                 colors                 = colors,
-                 userScrollEnabled      = userScrollEnabled,
-                 events                 = events,
-                 onPage                 = onPage)
+        FeedGridPictureItem(uiState                = uiState,
+                            isPlaying              = isPlaying,
+                            colors                 = colors,
+                            userScrollEnabled      = userScrollEnabled,
+                            events                 = events,
+                            onPage                 = onPage)
         }
 }
 
