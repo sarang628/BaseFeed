@@ -132,7 +132,7 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.
             FeedBottom (modifier       = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
                         uiState        = uiState.feedBottomUiState,
                         events         = events.feedBottomEvents,
-                        isVideo        = uiState.isVideo,
+                        isVideo        = false, // column으로 공간 차지하여 강제 false
                         favoriteColor  = colors.favoriteColor,
                         iconTint       = Color.Black)
         Column(Modifier.padding(all = 4.dp)) {

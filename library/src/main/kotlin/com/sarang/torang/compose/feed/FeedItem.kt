@@ -258,8 +258,9 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
         if(isVideo){
             Box(Modifier.fillMaxWidth()){
                 Volume(modifier = Modifier.align(Alignment.CenterEnd),
-                    isMute   = uiState.isVolumeOff,
-                    onVolume = events.onVolume)
+                       isMute   = uiState.isVolumeOff,
+                       onVolume = events.onVolume,
+                       iconTint = iconTint)
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -302,13 +303,14 @@ fun FeedBottom(modifier              : Modifier             = Modifier,
 @Composable
 fun Volume(modifier : Modifier      = Modifier,
            isMute   : Boolean       = false,
-           onVolume : () -> Unit    = {}){
+           onVolume : () -> Unit    = {},
+           iconTint : Color         = Color.White){
     Icon(modifier           = modifier.clickable(enabled = true,
         onClick = onVolume),
         imageVector        = if(isMute) Icons.AutoMirrored.Default.VolumeOff
         else Icons.AutoMirrored.Default.VolumeUp,
         contentDescription = null,
-        tint               = Color.White)
+        tint               = iconTint)
 }
 
 @Preview(showBackground = true, backgroundColor = 0x111111)
