@@ -2,7 +2,6 @@ package com.sarang.torang.compose.feed
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,11 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.VolumeOff
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -31,24 +27,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.sarang.torang.compose.component.Comment
-import com.sarang.torang.compose.component.CommentIcon
 import com.sarang.torang.compose.component.Contents
 import com.sarang.torang.compose.component.Date
-import com.sarang.torang.compose.component.Favorite
 import com.sarang.torang.compose.component.FeedMedia
-import com.sarang.torang.compose.component.FeedMediaPagerBox
-import com.sarang.torang.compose.component.Like
 import com.sarang.torang.compose.component.Menu
 import com.sarang.torang.compose.component.ProfileImage
 import com.sarang.torang.compose.component.RatingBar
-import com.sarang.torang.compose.component.RestaurantName
-import com.sarang.torang.compose.component.Share
 import com.sarang.torang.compose.component.UserName
 import com.sarang.torang.compose.component.type.ExpandableTextType
 import com.sarang.torang.compose.component.type.FeedImageLoader
@@ -57,15 +49,13 @@ import com.sarang.torang.compose.component.type.LocalFeedImageLoader
 import com.sarang.torang.compose.component.type.LocalVideoPlayerType
 import com.sarang.torang.compose.component.type.VideoPlayerType
 import com.sarang.torang.compose.component.util.nonEffectClickable
-import com.sarang.torang.compose.feed.data.FeedBottomEvents
 import com.sarang.torang.compose.feed.data.FeedItemClickEvents
 import com.sarang.torang.compose.feed.data.FeedItemColors
 import com.sarang.torang.compose.feed.data.FeedItemPageEvent
 import com.sarang.torang.compose.feed.data.FeedTopEvents
 import com.sarang.torang.compose.feed.data.empty
-import com.sarang.torang.compose.feed.isVideo
 
-private const val tag = "__FeedItem"
+private const val tag = "__FeedGridPictureItem"
 
 /**
  * 피드 항목
@@ -250,70 +240,60 @@ fun PreviewFeedGridPictureTop(){
         )
     }
 }
-
-@Preview
 @Composable
 fun GridReviewImage(
     url           : List<String>  = emptyList(),
     isPlaying     : Boolean       = false,
     onImage       : () -> Unit    = {}
 ){
+
+
     Column(Modifier
         .padding(horizontal = 8.dp)
         .height(250.dp)
-        .clip(RoundedCornerShape(12.dp))) {
-        Row(Modifier.weight(1f)) {
-            url.getOrNull(0)?.let {
-                Box(Modifier
-                    .fillMaxSize()
-                    .weight(1f)
-                    .background(Color.LightGray)){
-                    FeedMedia(url = it,
-                        isPlaying = isPlaying,
-                        onImage = onImage)
-            }
-        }
-            url.getOrNull(1)?.let {
-                Spacer(Modifier.width(8.dp))
-                Box(Modifier
-                    .fillMaxSize()
-                    .weight(1f)
-                    .background(Color.LightGray)){
-                    FeedMedia(url = it,
-                        isPlaying = isPlaying,
-                        onImage = onImage)
-                }
-            }
-        }
-        url.getOrNull(2)?.let {
-            Spacer(Modifier.height(8.dp))
+        .clip(RoundedCornerShape(12.dp))
+    ) {
+
+        val row = url.take(4).chunked(2)
+
+        var colCount = 0
+        row.forEach { images ->
+            var rowCount = 0
+            if (colCount == 1) Spacer(Modifier.height(8.dp))
             Row(Modifier.weight(1f)) {
-                url.getOrNull(2)?.let {
-                    Box(Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                        .background(Color.LightGray)){
-                        FeedMedia(url = it,
-                            isPlaying = isPlaying,
-                            onImage = onImage)
+                images.forEach { image ->
+                    if(rowCount == 1) Spacer(Modifier.width(8.dp))
+                    Box(Modifier.fillMaxSize()
+                                .weight(1f)){
+                        FeedMedia(url = image,
+                                  isPlaying = isPlaying,
+                                  onImage = onImage)
+
+                        if(url.size > 4 && rowCount == 1 && colCount == 1){
+                            Box(modifier = Modifier.fillMaxSize()
+                                                   .background(Color(0x55000000))){
+                                Text(modifier = Modifier.align(Alignment.Center),
+                                    text = "+${(url.size-4)}",
+                                    fontSize = 30.sp,
+                                    color = Color.White,
+                                    style = TextStyle.Default.copy(textAlign = TextAlign.Center))
+                            }
+                        }
                     }
-                }
-                Spacer(Modifier.width(8.dp))
-                url.getOrNull(3)?.let {
-                    Box(Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                        .background(Color.LightGray)){
-                        FeedMedia(url = it,
-                            isPlaying = isPlaying,
-                            onImage = onImage)
-                    }
+                    rowCount++
                 }
             }
+            colCount++
         }
     }
 }
 
+
+@Preview
+@Composable
+fun PreviewGridReviewImage(){
+    GridReviewImage(url = listOf("a.m3u8"))
+}
 
 
 @Preview(showBackground = true)

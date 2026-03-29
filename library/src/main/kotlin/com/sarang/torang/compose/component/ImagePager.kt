@@ -84,19 +84,25 @@ fun FeedMedia(url           : String,
     if(url.isVideoType){
         LocalVideoPlayerType.current(
             VideoPlayerTypeData(url        = url,
-                isPlaying  = isPlaying))
+                                     isPlaying  = isPlaying))
     }
     else {
         LocalFeedImageLoader.current(
             FeedImageLoaderData(url            = url,
-                contentScale   = ContentScale.Crop,
-                height         = height,
-                modifier       = Modifier.testTag("imgReview")
-                    .fillMaxSize()
-                    .nonEffectClickable(onClick = { onImage.invoke() })
+                                     contentScale   = ContentScale.Crop,
+                                     height         = height,
+                                     modifier       = Modifier.testTag("imgReview")
+                                                              .fillMaxSize()
+                                                              .nonEffectClickable(onClick = { onImage.invoke() })
             )
         )
     }
+}
+
+@Preview
+@Composable
+fun PreviewFeedMedia(){
+    FeedMedia(url = "")
 }
 
 @Preview(showBackground = true)
