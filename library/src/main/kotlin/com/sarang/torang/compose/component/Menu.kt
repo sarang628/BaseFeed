@@ -13,11 +13,12 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(showBackground = true, backgroundColor = 0x000000)
 @Composable
 internal fun Menu(modifier   : Modifier = Modifier,
-         onMenu     : ()->Unit = {}){
+                  onMenu     : ()->Unit = {},
+                  iconTint            : Color            = Color.White){
     IconButton(modifier = modifier,
         onClick  = onMenu) {
         Icon(imageVector        = Icons.Default.MoreVert,
-            tint               = Color.White,
+            tint               = iconTint,
             contentDescription = "menu",
             modifier           = Modifier.background(Color.Transparent))
     }

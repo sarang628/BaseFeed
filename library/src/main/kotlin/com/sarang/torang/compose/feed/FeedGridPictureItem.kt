@@ -114,7 +114,8 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.
         FeedGridPictureTop (modifier               = Modifier,
                             uiState                = uiState.feedTopUiState,
                             events                 = events.feedTopEvents,
-                            ratingBarTintColor     = colors.ratingBarColor)
+                            ratingBarTintColor     = colors.ratingBarColor,
+                            iconTint               = Color.Black)
 
         Column(Modifier.padding(start = 6.dp, end = 6.dp, bottom = 4.dp)) {
             Contents(
@@ -150,7 +151,8 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.
 fun FeedGridPictureTop(modifier            : Modifier         = Modifier,
                        uiState             : FeedTopUiState   = FeedTopUiState(),
                        events              : FeedTopEvents    = FeedTopEvents(),
-                       ratingBarTintColor  : Color            = MaterialTheme.colorScheme.primary){
+                       ratingBarTintColor  : Color            = MaterialTheme.colorScheme.primary,
+                       iconTint            : Color            = Color.White){
     Column {
             ConstraintLayout(modifier = modifier
                 .fillMaxWidth()
@@ -188,7 +190,8 @@ fun FeedGridPictureTop(modifier            : Modifier         = Modifier,
                     modifier = Modifier
                         .layoutId("btnMenu")
                         .testTag("btnMenu"),
-                    onMenu = events.onMenu
+                    onMenu = events.onMenu,
+                    iconTint = iconTint
                 )
             }
         }
