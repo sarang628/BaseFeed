@@ -88,8 +88,7 @@ fun FeedGridPictureList(
         LocalVideoPlayerType     provides CustomVideoPlayerType()) {
         LazyColumn(state = listState) {
             itemsIndexed(list.filter { !it.isVideo }) { index, item ->
-                FeedGridPictureItem(uiState = item,
-                                    onPage = {},
+                FeedGridPictureItem(uiState = item,/*Test*/
                                     isPlaying = shouldPlay)
             }
         }

@@ -39,7 +39,7 @@ private const val tag = "__FeedMediaPager"
 @Composable
 fun FeedMediaPagerBox(
     modifier                : Modifier                       = Modifier,
-    images                  : List<String>                   = listOf(),
+    images                  : List<Pair<Int, String>>        = listOf(),
     pagerState              : PagerState                     = rememberPagerState { images.size },
     onImage                 : (Int) -> Unit                  = { Log.w(tag, "onImage callback is not set page : $it") },
     showIndicator           : Boolean                        = true,
@@ -59,7 +59,7 @@ fun FeedMediaPagerBox(
     Box(modifier = modifier.height(height)) {
         HorizontalPager(state               = pagerState,
                         userScrollEnabled   = userScrollEnabled) { page ->
-            FeedMedia(url = images[page],
+            FeedMedia(url = images[page].second,
                       isPlaying = isPlaying,
                       height = height,
                       onImage = {onImage.invoke(page)})
@@ -108,10 +108,10 @@ fun PreviewFeedMedia(){
 @Preview(showBackground = true)
 @Composable
 fun PreViewFeedMediaPagerBox(
-    images: List<String> = arrayListOf(
-        "http://sarang628.iptime.org:89/review_images/1/4/2025-09-05/10_27_07_806.jpg",
-        "http://sarang628.iptime.org:89/review_images/1/181/2026-01-29/07_37_39_069.jpg",
-        "http://sarang628.iptime.org:89/review_images/1/181/2026-01-29/07_38_04_372.m3u8"
+    images: List<Pair<Int, String>> = arrayListOf(
+        Pair(0,"http://sarang628.iptime.org:89/review_images/1/4/2025-09-05/10_27_07_806.jpg"),
+        Pair(0,"http://sarang628.iptime.org:89/review_images/1/181/2026-01-29/07_37_39_069.jpg"),
+        Pair(0,"http://sarang628.iptime.org:89/review_images/1/181/2026-01-29/07_38_04_372.m3u8")
     )
 ) {
     var feedItemPageEvent by remember { mutableStateOf(FeedItemPageEvent(0, false, false)) }

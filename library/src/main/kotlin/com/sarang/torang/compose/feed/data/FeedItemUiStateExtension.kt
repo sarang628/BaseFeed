@@ -29,19 +29,19 @@ fun String.formatedDate(): String {
 val FeedItemUiState.Companion.Sample: FeedItemUiState
     get() =
         FeedItemUiState(
-            reviewImages = ArrayList<String>().apply {
-                add("https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/phoenix/Kai_03_e0cec566-c290-4b68-8e7d-50ecda61055e.jpg")
-                add("http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
-                add("333/333/2023-06-16/12_52_44_122.jpeg")
+            reviewImages = ArrayList<Pair<Int, String>>().apply {
+                add(Pair(0,"https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/phoenix/Kai_03_e0cec566-c290-4b68-8e7d-50ecda61055e.jpg"))
+                add(Pair(0,"http://sarang628.iptime.org:89/review_images/333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
+                add(Pair(0,"333/333/2023-06-16/12_52_44_122.jpeg"))
             },
             feedTopUiState = FeedTopUiState(
                 userName = "peter pan",

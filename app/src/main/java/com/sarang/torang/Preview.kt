@@ -66,7 +66,7 @@ fun FeedMediaPagerTest(feedLoadRepository: FeedLoadRepository){
             LazyColumn {
                 items(feed){
                     PreViewFeedMediaPagerBox(it.images.map {
-                        BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl
+                        Pair(it.pictureId, BuildConfig.REVIEW_IMAGE_SERVER_URL + it.pictureUrl)
                     })
                 }
             }

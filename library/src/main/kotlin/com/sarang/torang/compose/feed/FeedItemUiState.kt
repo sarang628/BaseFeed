@@ -22,7 +22,7 @@ import com.sarang.torang.compose.component.data.Comment
 data class FeedItemUiState(
     val feedTopUiState      : FeedTopUiState    = FeedTopUiState(),
     val feedBottomUiState   : FeedBottomUiState = FeedBottomUiState(),
-    val reviewImages        : List<String>      = emptyList(),
+    val reviewImages        : List<Pair<Int, String>> = emptyList(),
     val contents            : String            = "",
     val comments            : List<Comment>     = emptyList(),
     val commentAmount       : Int               = 0,
@@ -34,7 +34,7 @@ data class FeedItemUiState(
 
 val FeedItemUiState.isVideo: Boolean
     get() = reviewImages.firstOrNull()
-                        ?.substringAfterLast('.', "")
+                        ?.second?.substringAfterLast('.', "")
                         ?.equals("m3u8", ignoreCase = true) == true
 
 

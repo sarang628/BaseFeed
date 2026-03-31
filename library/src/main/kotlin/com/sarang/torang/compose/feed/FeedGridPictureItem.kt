@@ -78,8 +78,7 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState              = Fee
                         userScrollEnabled   : Boolean                      = true,
                         videoLoader         : VideoPlayerType              = {},
                         imageLoader         : FeedImageLoader              = {},
-                        expandableText      : ExpandableTextType           = {},
-                        onPage              : (FeedItemPageEvent) -> Unit  = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}") }){
+                        expandableText      : ExpandableTextType           = {}){
     CompositionLocalProvider(LocalVideoPlayerType provides videoLoader,
                                        LocalFeedImageLoader provides imageLoader,
                                        LocalExpandableTextType provides expandableText ) {
@@ -87,8 +86,7 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState              = Fee
                             isPlaying              = isPlaying,
                             colors                 = colors,
                             userScrollEnabled      = userScrollEnabled,
-                            events                 = events,
-                            onPage                 = onPage)
+                            events                 = events)
         }
 }
 
@@ -100,16 +98,13 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState              = Fee
  * @param isPlaying          비디오 플레이 여부
  * @param colors             피드 요소 색상 설정
  * @param userScrollEnabled  pager 스와이프 스크롤 허용 여부
- * @param onPage             페이지 변경 이벤트
  */
 @Composable
 fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.empty,
                         events              : FeedItemClickEvents           = remember { FeedItemClickEvents(tag = tag) },
                         isPlaying           : Boolean                       = false,
                         colors              : FeedItemColors = FeedItemColors(),
-                        userScrollEnabled   : Boolean                       = true,
-                        onPage              : (FeedItemPageEvent) -> Unit   = { feedItemPageEvent -> Log.w(tag, "onPage callback isn't set page: ${feedItemPageEvent.page} isFirst: ${feedItemPageEvent.isFirst} isLast: ${feedItemPageEvent.isLast}")},
-) {
+                        userScrollEnabled   : Boolean                       = true) {
     Column {
         FeedGridPictureTop (modifier               = Modifier,
                             uiState                = uiState.feedTopUiState,
@@ -128,7 +123,8 @@ fun FeedGridPictureItem(uiState             : FeedItemUiState = FeedItemUiState.
         Spacer(Modifier.height(4.dp))
 
             GridReviewImage(url = uiState.reviewImages,
-                            isPlaying = isPlaying)
+                            isPlaying = isPlaying,
+                            onImage = events.onImage)
 
             FeedBottom (modifier       = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
                         uiState        = uiState.feedBottomUiState,
@@ -245,9 +241,9 @@ fun PreviewFeedGridPictureTop(){
 }
 @Composable
 fun GridReviewImage(
-    url           : List<String>  = emptyList(),
+    url           : List<Pair<Int, String>>  = emptyList(),
     isPlaying     : Boolean       = false,
-    onImage       : () -> Unit    = {}
+    onImage       : (Int) -> Unit    = {}
 ){
 
 
@@ -266,15 +262,17 @@ fun GridReviewImage(
             Row(Modifier.weight(1f)) {
                 images.forEach { image ->
                     if(rowCount == 1) Spacer(Modifier.width(8.dp))
-                    Box(Modifier.fillMaxSize()
-                                .weight(1f)){
-                        FeedMedia(url = image,
+                    Box(Modifier
+                        .fillMaxSize()
+                        .weight(1f)){
+                        FeedMedia(url = image.second,
                                   isPlaying = isPlaying,
-                                  onImage = onImage)
+                                  onImage = { onImage(image.first) })
 
                         if(url.size > 4 && rowCount == 1 && colCount == 1){
-                            Box(modifier = Modifier.fillMaxSize()
-                                                   .background(Color(0x55000000))){
+                            Box(modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color(0x55000000))){
                                 Text(modifier = Modifier.align(Alignment.Center),
                                     text = "+${(url.size-4)}",
                                     fontSize = 30.sp,
@@ -295,12 +293,12 @@ fun GridReviewImage(
 @Preview
 @Composable
 fun PreviewGridReviewImage(){
-    GridReviewImage(url = listOf("a.m3u8"))
+    GridReviewImage(url = listOf(Pair(0, "a.m3u8")))
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewFeedGridPictureItem(){
-    FeedGridPictureItem()
+    FeedGridPictureItem()/*Preview*/
 }
