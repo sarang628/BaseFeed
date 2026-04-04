@@ -1,11 +1,14 @@
 package com.sarang.torang.compose.feed
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.compose.component.data.Comment
+
+private val tag = "__FeedItemUiState"
 
 /**
  * @see [/documents/UIState.md]
@@ -53,6 +56,8 @@ val FeedItemUiState.adjustHeight: Dp
         // 스케일링된 높이(px)
         val newHeightPx = height * scale
         val newHeightDp = with(density) { newHeightPx.toDp() }
+
+        Log.d(tag, "$newHeightDp")
 
         return newHeightDp
     }

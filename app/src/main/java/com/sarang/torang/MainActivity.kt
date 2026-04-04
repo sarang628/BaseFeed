@@ -46,7 +46,11 @@ class MainActivity : ComponentActivity() {
             TorangTheme {
                 Surface(Modifier.fillMaxSize()
                                 .background(MaterialTheme.colorScheme.background)) {
-                    BaseFeedTest()
+                    BaseFeedTest(
+                        feed = { PreviewFeed1() },
+                        feedList = { FeedList() },
+                        feedGridPictureList = { FeedGridPictureList() }
+                    )
                 }
             }
         }
@@ -54,21 +58,17 @@ class MainActivity : ComponentActivity() {
 
     @Preview
     @Composable
-    fun BaseFeedTest(){
+    fun BaseFeedTest(
+        feed : @Composable () -> Unit = {},
+        feedList : @Composable () -> Unit = {},
+        feedGridPictureList : @Composable () -> Unit = {}
+    ){
         val navController = rememberNavController()
         NavHost(navController, startDestination = "menu"){
-            composable("menu"){
-                Menu(navController)
-            }
-            composable("Feed") {
-                PreviewFeed1()
-            }
-            composable("FeedList"){
-                FeedList()
-            }
-            composable("FeedGridPictureList"){
-                FeedGridPictureList()
-            }
+            composable("menu"){ Menu(navController) }
+            composable("Feed") { feed() }
+            composable("FeedList"){ feedList() }
+            composable("FeedGridPictureList"){ feedGridPictureList() }
             composable("FeedRepository"){
                 FeedRepositoryTestScreen(feedRepository     = feedRepository,
                                          feedLoadRepository = feedLoadRepository,
