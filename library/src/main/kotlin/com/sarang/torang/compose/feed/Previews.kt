@@ -38,3 +38,39 @@ fun PreviewFeed(feedItemUiState: FeedItemUiState = FeedItemUiState.Sample) {
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewFeedItem(){
+    PreviewFeed()
+}
+
+@Preview(showBackground = true, backgroundColor = 0x111111)
+@Composable
+fun PreviewFeedTop(){
+    var userName : String by remember { mutableStateOf("userName userName userName userName userName userName userName userName userName userName userName ") }
+    var rating : String by remember { mutableStateOf("4.0") }
+    var restaurantName : String by remember { mutableStateOf("restaurantName restaurantName restaurantName restaurantName restaurantName") }
+
+    Column {
+        FeedTop(uiState = FeedTopUiState(
+            userName = userName,
+            rating = try {
+                rating.toFloat()
+            } catch (e: Exception) {
+                0f
+            },
+            restaurantName = restaurantName
+        )
+        )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0x111111)
+@Composable
+fun PreviewFeedBottom(){
+    FeedBottom(
+        uiState = FeedBottomUiState(isVolumeOff = true),
+        isVideo = true
+    )
+}

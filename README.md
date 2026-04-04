@@ -43,8 +43,7 @@ fun PreviewFeed() {
   - Performance
     - Stability
 
-# FeedItem UI 개발
-[보기](developement_note/FeedItem.md)
+# [FeedItem UI 개발](developement_note/FeedItem.md)
 
 # Review
 ## ConstraintLayout

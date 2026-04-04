@@ -146,12 +146,6 @@ fun FeedItem(uiState             : FeedItemUiState               = FeedItemUiSta
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewFeedItem(){
-    PreviewFeed()
-}
-
 @Composable
 fun FeedTop(modifier            : Modifier         = Modifier,
             uiState             : FeedTopUiState   = FeedTopUiState(),
@@ -225,27 +219,6 @@ private fun feedTopConstraintSet() : ConstraintSet{
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0x111111)
-@Composable
-fun PreviewFeedTop(){
-    var userName : String by remember { mutableStateOf("userName userName userName userName userName userName userName userName userName userName userName ") }
-    var rating : String by remember { mutableStateOf("4.0") }
-    var restaurantName : String by remember { mutableStateOf("restaurantName restaurantName restaurantName restaurantName restaurantName") }
-
-    Column {
-        FeedTop(uiState = FeedTopUiState(
-            userName = userName,
-            rating = try {
-                rating.toFloat()
-            } catch (e: Exception) {
-                0f
-            },
-            restaurantName = restaurantName
-        )
-        )
-    }
-}
-
 @Composable
 fun FeedBottom(modifier              : Modifier             = Modifier,
                uiState               : FeedBottomUiState    = FeedBottomUiState(),
@@ -311,13 +284,4 @@ fun Volume(modifier : Modifier      = Modifier,
         else Icons.AutoMirrored.Default.VolumeUp,
         contentDescription = null,
         tint               = iconTint)
-}
-
-@Preview(showBackground = true, backgroundColor = 0x111111)
-@Composable
-fun PreviewFeedBottom(){
-    FeedBottom(
-        uiState = FeedBottomUiState(isVolumeOff = true),
-        isVideo = true
-    )
 }

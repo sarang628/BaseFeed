@@ -7,20 +7,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.FeedGridPictureList
 import com.sarang.torang.compose.FeedList
 import com.sarang.torang.repository.feed.FeedFlowRepository
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sarang.torang.repository.feed.FeedRepository
-import com.sarang.torang.repository.test.feed.FeedRepositoryTestScreen
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,37 +40,15 @@ class MainActivity : ComponentActivity() {
             TorangTheme {
                 Surface(Modifier.fillMaxSize()
                                 .background(MaterialTheme.colorScheme.background)) {
-                    BaseFeedTest(
-                        feed = { PreviewFeed1() },
-                        feedList = { FeedList() },
-                        feedGridPictureList = { FeedGridPictureList() }
+                    Navigation(
+                        feedRepository          = feedRepository,
+                        feedLoadRepository      = feedLoadRepository,
+                        feedFlowRepository      = feedFlowRepository,
+                        feed                    = { PreviewFeed1() },
+                        feedList                = { FeedList() },
+                        feedGridPictureList     = { FeedGridPictureList() }
                     )
                 }
-            }
-        }
-    }
-
-    @Preview
-    @Composable
-    fun BaseFeedTest(
-        feed : @Composable () -> Unit = {},
-        feedList : @Composable () -> Unit = {},
-        feedGridPictureList : @Composable () -> Unit = {}
-    ){
-        val navController = rememberNavController()
-        NavHost(navController, startDestination = "menu"){
-            composable("menu"){ Menu(navController) }
-            composable("Feed") { feed() }
-            composable("FeedList"){ feedList() }
-            composable("FeedGridPictureList"){ feedGridPictureList() }
-            composable("FeedRepository"){
-                FeedRepositoryTestScreen(feedRepository     = feedRepository,
-                                         feedLoadRepository = feedLoadRepository,
-                                         feedFlowRepository = feedFlowRepository)
-            }
-
-            composable("FeedMediaPagerTest"){
-                FeedMediaPagerTest(feedLoadRepository = feedLoadRepository)
             }
         }
     }
