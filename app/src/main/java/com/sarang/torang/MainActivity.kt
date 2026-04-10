@@ -12,6 +12,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.sarang.torang.compose.FeedGridPictureList
 import com.sarang.torang.compose.FeedList
+import com.sarang.torang.compose.component.type.FeedImageLoaderData
+import com.sarang.torang.compose.component.type.LocalFeedImageLoader
+import com.sarang.torang.repository.PicturesRepository
 import com.sarang.torang.repository.feed.FeedFlowRepository
 import com.sarang.torang.repository.feed.FeedLoadRepository
 import com.sarang.torang.repository.feed.FeedRepository
@@ -46,7 +49,8 @@ class MainActivity : ComponentActivity() {
                         feedFlowRepository      = feedFlowRepository,
                         feed                    = { PreviewFeed1() },
                         feedList                = { FeedList() },
-                        feedGridPictureList     = { FeedGridPictureList() }
+                        feedGridPictureList     = { FeedGridPictureList() },
+                        imageLoaderTest         = { ImageLoaderTest(feedLoadRepository) }
                     )
                 }
             }

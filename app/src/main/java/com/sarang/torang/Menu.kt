@@ -30,5 +30,9 @@ fun Menu(navController: NavHostController = rememberNavController()) {
         Button({ navController.navigate("FeedRepository") }) {
             Text("FeedRepository")
         }
+
+        Button({ navController.navigate("ImageLoaderTest") }) {
+            Text("ImageLoaderTest")
+        }
     }
 }

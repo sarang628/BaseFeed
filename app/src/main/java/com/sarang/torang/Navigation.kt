@@ -18,7 +18,8 @@ internal fun Navigation(
     feedFlowRepository: FeedFlowRepository,
     feed : @Composable () -> Unit = {},
     feedList : @Composable () -> Unit = {},
-    feedGridPictureList : @Composable () -> Unit = {}
+    feedGridPictureList : @Composable () -> Unit = {},
+    imageLoaderTest : @Composable () -> Unit = {}
 ){
     val navController = rememberNavController()
     NavHost(navController, startDestination = "menu"){
@@ -26,6 +27,7 @@ internal fun Navigation(
         composable("Feed") { feed() }
         composable("FeedList"){ feedList() }
         composable("FeedGridPictureList"){ feedGridPictureList() }
+        composable("ImageLoaderTest") { imageLoaderTest() }
         composable("FeedRepository"){
             FeedRepositoryTestScreen(feedRepository     = feedRepository,
                 feedLoadRepository = feedLoadRepository,
